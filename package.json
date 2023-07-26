@@ -1,5 +1,6 @@
 {
   "name": "saw",
+  "homepage": "https://andychen482.github.io/WAS",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -27,7 +28,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -49,6 +52,7 @@
   },
   "devDependencies": {
     "@types/color-hash": "^1.0.2",
+    "gh-pages": "^5.0.0",
     "tailwindcss": "^3.3.3"
   }
 }

@@ -7,7 +7,7 @@ import Main from "./pages/Main/Main";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Main />} />
+      <Route path="WAS" element={<Main />} />
     </Routes>
   );
 }
