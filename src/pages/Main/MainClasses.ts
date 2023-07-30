@@ -1,6 +1,6 @@
 export const MainClasses = {
   container:
-    "flex flex-col items-start basis-full min-h-screen ml-[4rem] p-4 bg-gray-50 dark:bg-gray-800 transition-colors duration-500",
+    "flex flex-col w-3/4 items-start basis-full min-h-screen ml-[4rem] p-4 bg-gray-50 dark:bg-gray-800 transition-colors duration-500",
   badge:
     "inline-block px-2 py-1 text-xs font-semibold text-white bg-blue-500 rounded-full",
   input:

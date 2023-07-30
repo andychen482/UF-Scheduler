@@ -3,16 +3,11 @@
 }
 
 .courses-handler {
-  width: 25%;
+  width: 50%;
   padding: 1rem;
 }
 
 .course-filter {
   width: 15%;
-  padding: 1rem;
-}
-
-.calendar-ui {
-  width: 60%;
   padding: 1rem;
 }

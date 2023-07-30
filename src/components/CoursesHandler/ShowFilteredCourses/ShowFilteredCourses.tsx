@@ -232,6 +232,9 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                     className={courseCard}
                     onClick={(e) => handleCourseCardClick(e, firstCourse)}
                   >
+                    <div className="text-sm font-normal text-black dark:text-white mx-1 line-clamp-1 overflow-ellipsis overflow-hidden">
+                      {firstCourse.name}
+                    </div>
                     <div className="flex flex-row text-black dark:text-white items-center justify-evenly w-full h-6 p-1 m-0">
                       {firstCourse.termInd !== " " && firstCourse.termInd !== "C" ? (
                         <>
@@ -298,9 +301,6 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                         )}
                       </div>
                     </div>
-                    <div className="text-sm font-normal text-black dark:text-white mx-1 line-clamp-1 overflow-ellipsis overflow-hidden">
-                      {firstCourse.name}
-                    </div>
                   </div>
                 </div>
               </div>
@@ -311,6 +311,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                     ))}
                   </div>
                 )}
+              <hr></hr>
             </React.Fragment>
           );
         })

@@ -10,7 +10,7 @@ const CoursesHandler: React.FC = () => {
   const [likedCourses, setLikedCourses] = useState<Course[]>([]);
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-md p-4 shadow-md transition-shadow duration-300">
+    <div className="w-3/4 bg-white dark:bg-gray-800 rounded-md p-4 shadow-md transition-shadow duration-300">
       <LikedSelectedCourses
         selectedCourses={selectedCourses}
         likedCourses={likedCourses}
