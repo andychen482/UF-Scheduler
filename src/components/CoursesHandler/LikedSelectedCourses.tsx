@@ -3,8 +3,6 @@ import { Course } from "../CourseUI/CourseTypes";
 import ColorHash from "color-hash";
 
 interface LikedSelectedCoursesProps {
-  likedCourses: Course[];
-  setLikedCourses: React.Dispatch<React.SetStateAction<Course[]>>;
   selectedCourses: Course[];
   setSelectedCourses: React.Dispatch<React.SetStateAction<Course[]>>;
 }
@@ -19,8 +17,6 @@ const getHashedColor = (course: Course) => {
 };
 
 const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
-  likedCourses,
-  setLikedCourses,
   selectedCourses,
   setSelectedCourses,
 }) => {
@@ -39,33 +35,10 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
           selectedCourse.name !== course.name
       )
     );
-
-    setLikedCourses((prevLikedCourses) =>
-      prevLikedCourses.filter(
-        (likedCourse) =>
-          likedCourse.code !== course.code || likedCourse.name !== course.name
-      )
-    );
   };
 
   return (
     <>
-      <div className="space-x-2 mb-4 flex flex-wrap">
-        {likedCourses.length > 0 &&
-          likedCourses.map((course: Course, index: number) => (
-            <div
-              key={index}
-              className={`p-4 rounded-md m-2 text-black dark:text-white opacity-60 cursor-pointer sm:w-[18.5rem] w-full h-20 overflow-hidden`}
-              style={getCourseBackgroundColor(course)}
-              onClick={() => handleBadgeClick(course)}
-            >
-              {course.code.replace(/([A-Z]+)/g, "$1 ")}
-              <div className="text-xs line-clamp-2 overflow-ellipsis overflow-hidden">
-                {course.name}
-              </div>
-            </div>
-          ))}
-      </div>
       <div className="space-x-2 mb-4 flex flex-wrap">
         {selectedCourses.length > 0 &&
           selectedCourses.map((course: Course, index: number) => (

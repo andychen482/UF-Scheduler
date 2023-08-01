@@ -69,13 +69,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({ course }) => {
 
   return (
     <div className={`bg-white dark:bg-gray-800 rounded-lg p-4 space-y-2`}>
-      <div
-        className={`${listItem} font-semibold text-gray-800 dark:text-gray-200 mb-1`}
-      >
-        <strong>Term:</strong>{" "}
-        <span className={term}>{course.termInd || "N/A"}</span>
-      </div>
-      <ul className="list-none pl-0">
+      <div className="list-none">
         {course.sections.map((section, index) => (
           <li
             key={index}
@@ -94,7 +88,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({ course }) => {
             No sections found.
           </div>
         )}
-      </ul>
+      </div>
     </div>
   );
 };

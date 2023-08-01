@@ -8,7 +8,7 @@ const Main = () => {
     const { container } = MainClasses;
 
     return (
-      <div className="flex course-display">
+      <div className="flex course-display bg-gray-800">
         <div className={`${container} courses-handler`}>
           <CoursesHandler />
         </div>
