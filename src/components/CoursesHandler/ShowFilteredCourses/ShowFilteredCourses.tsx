@@ -1,5 +1,5 @@
 import React, { useState, useMemo, Suspense } from "react";
-import jsonData from "../../../courses/UF_Jun-30-2023_23_summer_clean.json";
+import jsonData from "../../../courses/UF_Jun-30-2023_23_fall_clean.json";
 import { Course } from "../../CourseUI/CourseTypes";
 import CourseDropdown from "../../CourseUI/CourseDropdown/CourseDropdown";
 import { ShowFilteredCoursesClasses } from "./ShowFilteredCoursesClasses";
