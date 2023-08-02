@@ -17,6 +17,10 @@ body {
   width: 100vw;
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
 @layer components {
   .hoverable-list {
     border-radius: 0.5rem;
