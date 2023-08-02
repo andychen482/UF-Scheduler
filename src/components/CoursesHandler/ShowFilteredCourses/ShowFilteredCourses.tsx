@@ -14,6 +14,7 @@ interface ShowFilteredCoursesProps {
   debouncedSearchTerm: string;
   selectedCourses: Course[];
   setSelectedCourses: React.Dispatch<React.SetStateAction<Course[]>>;
+  setLoaded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const groupByCourseCodeAndName = (courses: Course[]) => {
@@ -31,6 +32,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   debouncedSearchTerm,
   selectedCourses,
   setSelectedCourses,
+  setLoaded,
 }) => {
   const [openCourseCode, setOpenCourseCode] = useState<string[] | null>();
   const [lastClick, setLastClick] = useState(0);
@@ -110,6 +112,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   };
 
   const toggleCourseSelected = (course: Course) => {
+    setLoaded(true);
     const isSelected = selectedCourses.some(
       (selectedCourse) =>
         selectedCourse.code === course.code &&

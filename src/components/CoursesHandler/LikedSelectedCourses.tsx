@@ -6,6 +6,7 @@ import Cookies from "js-cookie"; // Import the js-cookie library
 interface LikedSelectedCoursesProps {
   selectedCourses: Course[];
   setSelectedCourses: React.Dispatch<React.SetStateAction<Course[]>>;
+  setLoaded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const colorHash = new ColorHash({
@@ -20,6 +21,7 @@ const getHashedColor = (course: Course) => {
 const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
   selectedCourses,
   setSelectedCourses,
+  setLoaded,
 }) => {
   const getCourseBackgroundColor = (course: Course) => {
     const hashedColor = getHashedColor(course);
@@ -36,6 +38,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
           selectedCourse.name !== course.name
       )
     );
+    setLoaded(true);
   };
 
   return (

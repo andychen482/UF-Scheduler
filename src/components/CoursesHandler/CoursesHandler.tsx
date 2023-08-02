@@ -8,6 +8,7 @@ import Cookies from "js-cookie"; // Import the js-cookie library
 const CoursesHandler: React.FC = () => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
+  const [hasBeenLoaded, setLoaded ] = useState(false);
 
   // Load selectedCourses from the cookie when the component mounts
   useEffect(() => {
@@ -19,7 +20,7 @@ const CoursesHandler: React.FC = () => {
 
   // Save selectedCourses to the cookie whenever it changes
   useEffect(() => {
-    if (selectedCourses.length > 0) {
+    if ((selectedCourses.length > 0) || hasBeenLoaded){
       localStorage.setItem("selectedCourses", JSON.stringify(selectedCourses));
     }
   }, [selectedCourses]); // Run this effect whenever selectedCourses changes
@@ -29,6 +30,7 @@ const CoursesHandler: React.FC = () => {
       <LikedSelectedCourses
         selectedCourses={selectedCourses}
         setSelectedCourses={setSelectedCourses}
+        setLoaded={setLoaded}
       />
       <CourseSearch
         debouncedSearchTerm={debouncedSearchTerm}
@@ -38,6 +40,7 @@ const CoursesHandler: React.FC = () => {
         debouncedSearchTerm={debouncedSearchTerm}
         selectedCourses={selectedCourses}
         setSelectedCourses={setSelectedCourses}
+        setLoaded={setLoaded}
       />
     </div>
   );
