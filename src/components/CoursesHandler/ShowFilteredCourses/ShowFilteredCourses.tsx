@@ -171,7 +171,9 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
           Object.keys(groupedFilteredCourses).map((key, index) => {
             const courses = groupedFilteredCourses[key];
             const firstCourse = courses[0];
-            const isCourseSelected = selectedCourses.includes(firstCourse);
+            const isCourseSelected = selectedCourses.some(
+              (selectedCourse) =>
+                selectedCourse.code === firstCourse.code && selectedCourse.name === firstCourse.name);
             const isCourseAnimated =
               courseAnimation[`${firstCourse.code}|${firstCourse.name}`] ||
               false;
@@ -263,7 +265,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                   </div>
                 </div>
                 {isOpen && (
-                  <div className="ml-4 opacity-100 visible transition-opacity">
+                  <div className="w-[18rem] sm:w-[20rem] md:w-[24rem] lg:w-[28rem] xl:w-[32rem] opacity-100 visible transition-opacity">
                     {courses.map((course, index) => (
                       <CourseDropdown key={index} course={course} />
                     ))}

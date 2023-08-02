@@ -68,7 +68,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({ course }) => {
   };
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-lg p-4 space-y-2`}>
+    <div className={`bg-gray-400 dark:bg-gray-800 rounded-lg p-4 space-y-2`}>
       <div className="list-none">
         {course.sections.map((section, index) => (
           <li

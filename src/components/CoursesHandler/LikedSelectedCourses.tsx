@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Course } from "../CourseUI/CourseTypes";
 import ColorHash from "color-hash";
+import Cookies from "js-cookie"; // Import the js-cookie library
 
 interface LikedSelectedCoursesProps {
   selectedCourses: Course[];
