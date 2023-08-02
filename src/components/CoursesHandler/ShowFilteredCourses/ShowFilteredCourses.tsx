@@ -206,11 +206,11 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                             {firstCourse.code.replace(/([A-Z]+)/g, "$1 ")}
                           </div>
                         )}
-                        <div className="mr-6 h-6">
+                        <div className="text-sm font-normal text-gray-300 mr-6 h-5">
                           Credits: {" "}
                           {firstCourse.sections[0].credits}
                         </div>
-                        <div className="mx-1 h-7">
+                        <div className="mx-1 h-9">
                           {isCourseSelected ? (
                             <>
                               <PiMinusBold
@@ -233,7 +233,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                             </>
                           )}
                         </div>
-                        <div className="mx-1 h-7">
+                        <div className="mx-1 h-9">
                           {isOpen ? (
                             <PiCaretUpBold
                               className={`${caretUpIcon} ${

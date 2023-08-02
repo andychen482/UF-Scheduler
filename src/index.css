@@ -9,6 +9,14 @@
   padding: 0;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(47 49 54);
+  height: 100vh;
+  width: 100vw;
+}
+
 @layer components {
   .hoverable-list {
     border-radius: 0.5rem;
