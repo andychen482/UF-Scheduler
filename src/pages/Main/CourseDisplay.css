@@ -42,7 +42,7 @@
 .popup {
   position: fixed;
   bottom: 100px;
-  right: 50px;
+  right: 25px;
   background-color: #fff;
   border: 1px solid #ccc;
   padding: 15px;
