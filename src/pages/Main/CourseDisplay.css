@@ -43,6 +43,7 @@
   position: fixed;
   bottom: 100px;
   right: 25px;
+  max-width: calc(100% - 50px); /* Ensure the popup fits within the screen width */
   background-color: #fff;
   border: 1px solid #ccc;
   padding: 15px;
