@@ -19,17 +19,23 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({ course }) => {
         </div> */}
 
         {/* Instructors */}
-        <div className="text-gray-900 dark:text-white">
+        <div className="text-gray-400">
           <strong>Instructors:</strong>{" "}
-          {section.instructors.length > 0
-            ? section.instructors
-                .map((instructor) => instructor.name)
-                .join(", ")
-            : "N/A"}
+          {section.instructors.length > 0 ? (
+            section.instructors.map((instructor) => (
+              <span
+                className="text-gray-900 dark:text-white" // Add the class to change the color of names
+              >
+                {instructor.name}
+              </span>
+            ))
+          ) : (
+            <span className="text-gray-900 dark:text-white">N/A</span>
+          )}
         </div>
 
         {/* Meeting Times */}
-        <div className="text-gray-900 dark:text-white">
+        <div className="text-gray-400 dark:text-white">
           <strong>Meeting Times:</strong>{" "}
           {section.meetTimes.length > 0 ? (
             section.meetTimes.map((meetingTime) => (
@@ -53,7 +59,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({ course }) => {
         </div>
 
         {/* Description */}
-        <div className="text-gray-900 dark:text-white">
+        <div className="text-gray-400 dark:text-white">
           <strong>Description:</strong>
           <div className={`${content} text-gray-900 dark:text-white`}>
             {course.description
@@ -68,14 +74,14 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({ course }) => {
   };
 
   return (
-    <div className={`bg-gray-400 dark:bg-gray-800 rounded-lg p-4 space-y-2`}>
+    <div className={`bg-gray-500 dark:bg-gray-800 rounded-lg p-4 space-y-2`}>
       <div className="list-none">
         {course.sections.map((section, index) => (
           <li
             key={index}
             className={`${listItem} border-t border-gray-400 dark:border-gray-700`}
           >
-            <div className="font-bold text-gray-900 dark:text-white">
+            <div className="font-bold text-gray-400 dark:text-white">
               Section {section.number}:
             </div>
             {renderSectionInformation(section)}
@@ -83,7 +89,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({ course }) => {
         ))}
         {course.sections.length === 0 && (
           <div
-            className={`${listItem} ${content} text-gray-900 dark:text-white`}
+            className={`${listItem} ${content} text-gray-400 dark:text-white`}
           >
             No sections found.
           </div>

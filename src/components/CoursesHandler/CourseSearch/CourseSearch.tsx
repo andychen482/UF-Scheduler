@@ -44,7 +44,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
   return (
     <input
       type="text"
-      placeholder="Search by course code (e.g., XXX 0000)"
+      placeholder="Select your completed classes..."
       value={searchTerm}
       onChange={handleSearchChange}
       autoCorrect="off"
