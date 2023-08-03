@@ -3,18 +3,19 @@ import LikedSelectedCourses from "./LikedSelectedCourses";
 import CourseSearch from "./CourseSearch/CourseSearch";
 import ShowFilteredCourses from "./ShowFilteredCourses/ShowFilteredCourses";
 import { Course } from "../CourseUI/CourseTypes";
-import Cookies from "js-cookie"; // Import the js-cookie library
+import MajorSelect from "./MajorSearch/MajorSearch";
 
 const CoursesHandler: React.FC = () => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [hasBeenLoaded, setLoaded ] = useState(false);
+  const [selectedMajor, setSelectedMajor] = useState<string | null>(null);
 
   // Load selectedCourses from the cookie when the component mounts
   useEffect(() => {
-    const cookieSelectedCourses = localStorage.getItem("selectedCourses");
-    if (cookieSelectedCourses) {
-      setSelectedCourses(JSON.parse(cookieSelectedCourses));
+    const storedSelectedCourses = localStorage.getItem("selectedCourses");
+    if (storedSelectedCourses) {
+      setSelectedCourses(JSON.parse(storedSelectedCourses));
     }
   }, []); // Run this effect only once when the component mounts
 
@@ -23,7 +24,7 @@ const CoursesHandler: React.FC = () => {
     if ((selectedCourses.length > 0) || hasBeenLoaded){
       localStorage.setItem("selectedCourses", JSON.stringify(selectedCourses));
     }
-  }, [selectedCourses]); // Run this effect whenever selectedCourses changes
+  }, [selectedCourses, hasBeenLoaded]); // Run this effect whenever selectedCourses changes
 
   return (
     <div className="bg-gray-700 dark:bg-gray-800 rounded-md p-4 shadow-md transition-shadow duration-300">
@@ -31,6 +32,10 @@ const CoursesHandler: React.FC = () => {
         selectedCourses={selectedCourses}
         setSelectedCourses={setSelectedCourses}
         setLoaded={setLoaded}
+      />
+      <MajorSelect 
+        selectedMajor={selectedMajor}
+        setSelectedMajor={setSelectedMajor}
       />
       <CourseSearch
         debouncedSearchTerm={debouncedSearchTerm}
