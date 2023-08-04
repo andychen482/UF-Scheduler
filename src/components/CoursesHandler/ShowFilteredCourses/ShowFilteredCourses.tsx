@@ -152,10 +152,11 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
       .filter((course: Course) => {
         const { code } = course;
         const coursePrefix = code.match(/[a-zA-Z]+/)?.[0]?.toUpperCase(); // Extract course prefix
+        const jsonAdditionalChars = code.slice(coursePrefix?.length); // Extract additional characters
         return (
           coursePrefix &&
-          coursePrefix.includes(prefix!) &&
-          code.toUpperCase().includes(additionalCharacters)
+          coursePrefix.startsWith(prefix!) &&
+          jsonAdditionalChars.toUpperCase().startsWith(additionalCharacters)
         );
       })
       .sort(
