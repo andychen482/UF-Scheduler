@@ -168,7 +168,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   }, [filteredCourses]);
 
   return (
-    <div className="max-h-[calc(100vh-11.5rem)] overflow-auto mt-3">
+    <div className="max-h-[calc(100vh-11.6rem)] overflow-auto mt-3">
       <Suspense fallback={<div>Loading...</div>}>
         {Object.keys(groupedFilteredCourses).length > 0 ? (
           Object.keys(groupedFilteredCourses).map((key, index) => {

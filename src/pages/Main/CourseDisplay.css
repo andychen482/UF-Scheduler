@@ -16,20 +16,19 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 50px; /* Add width and height to make it a circle */
-  height: 50px; /* Add width and height to make it a circle */
-  border-radius: 50%; /* Make it a circle by setting border-radius to 50% */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   background-color: #4F545C;
 }
 
 .help-button button {
-  /* Adjust padding to center the content in the circle */
   color: white;
   padding: 0;
   width: 100%;
   height: 100%;
   border: none;
-  border-radius: 50%; /* Make the button inside the circle */
+  border-radius: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -43,7 +42,7 @@
   position: fixed;
   bottom: 100px;
   right: 25px;
-  max-width: calc(100% - 50px); /* Ensure the popup fits within the screen width */
+  max-width: calc(100% - 50px);
   background-color: #fff;
   border: 1px solid #ccc;
   padding: 15px;
