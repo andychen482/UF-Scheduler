@@ -63,15 +63,23 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                 style={getCourseBackgroundColor(course)}
                 onClick={() => handleBadgeClick(course)}
               >
-                {course.termInd !== " " && course.termInd !== "C" ? (
-                  <strong>
-                    {course.code.replace(/([A-Z]+)/g, "$1 ")} - {course.termInd}
-                  </strong>
-                ) : (
-                  <strong>{course.code.replace(/([A-Z]+)/g, "$1 ")}</strong>
-                )}
-                <div className="text-sm line-clamp-1 overflow-ellipsis overflow-hidden">
-                  {course.name}
+                {/* Display course code and credits */}
+                <div className="flex justify-between">
+                  <div>
+                    {course.termInd !== " " && course.termInd !== "C" ? (
+                      <strong>
+                        {course.code.replace(/([A-Z]+)/g, "$1 ")} - {course.termInd}
+                      </strong>
+                    ) : (
+                      <strong>{course.code.replace(/([A-Z]+)/g, "$1 ")}</strong>
+                    )}
+                    <div className="text-sm line-clamp-1 overflow-ellipsis overflow-hidden">
+                      {course.name}
+                    </div>
+                  </div>
+                  <div>
+                    <span style={{ whiteSpace: "nowrap" }}>Credits: {" "} {course.sections[0].credits}</span>
+                  </div>
                 </div>
               </div>
             ))}
@@ -81,5 +89,4 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
     </>
   );
 };
-
 export default LikedSelectedCourses;
