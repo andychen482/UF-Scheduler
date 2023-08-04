@@ -78,7 +78,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                     </div>
                   </div>
                   <div>
-                    <span style={{ whiteSpace: "nowrap" }}>Credits: {" "} {course.sections[0].credits}</span>
+                    <span className="text-sm">Credits: {" "} {course.sections[0].credits}</span>
                   </div>
                 </div>
               </div>
