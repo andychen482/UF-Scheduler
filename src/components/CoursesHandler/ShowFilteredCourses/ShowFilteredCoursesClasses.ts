@@ -12,5 +12,5 @@ export const ShowFilteredCoursesClasses = {
   caretUpIcon:
     "cursor-pointer mr-1 mt-2 text-[1.0rem] text-gray-400 dark:text-white hover:opacity-60",
   courseCard:
-    "cursor-pointer bg-gray-600 dark:bg-gray-700 rounded-md p-4 my-2 w-[18rem] sm:w-[20rem] md:w-[24rem] lg:w-[28rem] xl:w-[32rem] shadow-md transition-shadow duration-300",
+    "cursor-pointer bg-gray-600 dark:bg-gray-700 rounded-md p-4 my-2 w-[20rem] sm:w-[20rem] md:w-[24rem] lg:w-[28rem] xl:w-[32rem] shadow-md transition-shadow duration-300",
 };
