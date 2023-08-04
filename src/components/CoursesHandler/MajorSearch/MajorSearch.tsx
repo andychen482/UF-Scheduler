@@ -21,7 +21,7 @@ const MajorSelect: React.FC<MajorSearchProps> = ({ selectedMajor, setSelectedMaj
         value={selectedMajor ? { value: selectedMajor, label: selectedMajor } : null}
         onChange={handleChange}
         placeholder="Select a major..."
-        className="mb-4 text-black bg-gray-200 rounded-md placeholder-gray-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-500 w-[18rem] sm:w-[20rem] md:w-[24rem] lg:w-[28rem] xl:w-[32rem]"
+        className="mb-4 text-black bg-gray-200 rounded-md placeholder-gray-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-500 w-[20rem] sm:w-[20rem] md:w-[24rem] lg:w-[28rem] xl:w-[32rem]"
       />
     </div>
   );

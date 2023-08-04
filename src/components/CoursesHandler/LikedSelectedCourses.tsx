@@ -53,7 +53,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
 
   return (
     <>
-      <div className="mb-4 w-[18rem] sm:w-[20rem] md:w-[24rem] lg:w-[28rem] xl:w-[32rem]">
+      <div className="mb-4 w-[20rem] sm:w-[20rem] md:w-[24rem] lg:w-[28rem] xl:w-[32rem]">
         {selectedCoursesChunks.map((courseChunk: Course[], chunkIndex: number) => (
           <div key={chunkIndex} className="flex mb-4">
             {courseChunk.map((course: Course, index: number) => (

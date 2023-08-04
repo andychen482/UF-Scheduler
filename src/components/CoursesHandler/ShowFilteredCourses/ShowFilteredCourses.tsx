@@ -59,6 +59,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     const currentTime = new Date().getTime();
 
     if (!isButtonClick) {
+      // eslint-disable-next-line
       const isSelected = selectedCourses.some(
         (selectedCourse) =>
           selectedCourse.code === course.code &&
@@ -272,7 +273,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                   </div>
                 </div>
                 {isOpen && (
-                  <div className="w-[18rem] sm:w-[20rem] md:w-[24rem] lg:w-[28rem] xl:w-[32rem] opacity-100 visible transition-opacity">
+                  <div className="w-[20rem] sm:w-[20rem] md:w-[24rem] lg:w-[28rem] xl:w-[32rem] opacity-100 visible transition-opacity">
                     {courses.map((course, index) => (
                       <CourseDropdown key={index} course={course} />
                     ))}
