@@ -53,13 +53,13 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
 
   return (
     <>
-      <div className="mb-4 w-[20rem] sm:w-[20rem] md:w-[24rem] lg:w-[28rem] xl:w-[32rem]">
+      <div className="space-y-2 w-[20rem] sm:w-[20rem] md:w-[24rem] lg:w-[28rem] xl:w-[32rem]">
         {selectedCoursesChunks.map((courseChunk: Course[], chunkIndex: number) => (
-          <div key={chunkIndex} className="flex mb-4">
+          <div key={chunkIndex} className="flex">
             {courseChunk.map((course: Course, index: number) => (
               <div
                 key={index}
-                className={`flex-1 p-4 rounded-md m-2 text-black dark:text-white cursor-pointer sm:w-[18.5rem] w-full h-20 overflow-hidden`}
+                className={`flex-1 p-4 rounded-md mx-2 mb-2 text-black dark:text-white cursor-pointer sm:w-[18.5rem] w-full h-20 overflow-hidden`}
                 style={getCourseBackgroundColor(course)}
                 onClick={() => handleBadgeClick(course)}
               >
@@ -78,7 +78,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                     </div>
                   </div>
                   <div>
-                    <span className="text-sm">Credits: {" "} {course.sections[0].credits}</span>
+                    <span className="text-white font-bold text-sm">{course.sections[0].credits}</span>
                   </div>
                 </div>
               </div>

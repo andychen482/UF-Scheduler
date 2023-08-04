@@ -10,6 +10,7 @@ const CoursesHandler: React.FC = () => {
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [hasBeenLoaded, setLoaded ] = useState(false);
   const [selectedMajor, setSelectedMajor] = useState<string | null>(null);
+  const [ totalCredits, setTotalCredits ] = useState(0);
 
   // Load selectedCourses from the cookie when the component mounts
   useEffect(() => {
@@ -26,6 +27,14 @@ const CoursesHandler: React.FC = () => {
     }
   }, [selectedCourses, hasBeenLoaded]); // Run this effect whenever selectedCourses changes
 
+  useEffect(() => {
+    const sumCredits = selectedCourses.reduce(
+      (totalCredits, course) => totalCredits + course.sections[0].credits,
+      0
+    );
+    setTotalCredits(sumCredits);
+  }, [selectedCourses]);
+
   return (
     <div className="bg-gray-700 dark:bg-gray-800 rounded-md p-4 shadow-md transition-shadow duration-300">
       <LikedSelectedCourses
@@ -33,6 +42,9 @@ const CoursesHandler: React.FC = () => {
         setSelectedCourses={setSelectedCourses}
         setLoaded={setLoaded}
       />
+      <div className="mb-1 text-white">
+        Credits: {totalCredits}
+      </div>
       <MajorSelect 
         selectedMajor={selectedMajor}
         setSelectedMajor={setSelectedMajor}
