@@ -7,7 +7,7 @@ import Main from "./pages/Main/Main";
 function App() {
   return (
     <Routes>
-      <Route path="WAS" element={<Main />} />
+      <Route path="UF-Scheduler" element={<Main />} />
     </Routes>
   );
 }
