@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/WAS/static/css/main.33598f6e.css",
-    "main.js": "/WAS/static/js/main.d5cfc436.js",
-    "static/js/787.6fb27e00.chunk.js": "/WAS/static/js/787.6fb27e00.chunk.js",
-    "index.html": "/WAS/index.html",
-    "main.33598f6e.css.map": "/WAS/static/css/main.33598f6e.css.map",
-    "main.d5cfc436.js.map": "/WAS/static/js/main.d5cfc436.js.map",
-    "787.6fb27e00.chunk.js.map": "/WAS/static/js/787.6fb27e00.chunk.js.map"
+    "main.css": "/UF-Scheduler/static/css/main.33598f6e.css",
+    "main.js": "/UF-Scheduler/static/js/main.d4d598b8.js",
+    "static/js/787.6fb27e00.chunk.js": "/UF-Scheduler/static/js/787.6fb27e00.chunk.js",
+    "index.html": "/UF-Scheduler/index.html",
+    "main.33598f6e.css.map": "/UF-Scheduler/static/css/main.33598f6e.css.map",
+    "main.d4d598b8.js.map": "/UF-Scheduler/static/js/main.d4d598b8.js.map",
+    "787.6fb27e00.chunk.js.map": "/UF-Scheduler/static/js/787.6fb27e00.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.33598f6e.css",
-    "static/js/main.d5cfc436.js"
+    "static/js/main.d4d598b8.js"
   ]
 }
