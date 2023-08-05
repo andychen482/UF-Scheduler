@@ -14,7 +14,7 @@
 }
 
 .help-button {
-  position: fixed;
+  position: absolute;
   bottom: 20px;
   right: 20px;
   width: 50px;
