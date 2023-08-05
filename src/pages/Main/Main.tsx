@@ -18,12 +18,12 @@ const Main = () => {
     setShowPopup(!showPopup);
   };
 
-  const generateGraph = async () => {
+  const generateAList = async () => {
     const selectedCoursesServ = selectedCourses.map((course) => course.code);
     // http://localhost:5000/generate_graph
     // https://ufscheduler.onrender.com/generate_graph
     // const response = await axios.post('http://localhost:5000/generate_graph', {
-    const response = await axios.post('https://ufscheduler.onrender.com/generate_graph', {
+    const response = await axios.post('https://ufscheduler.onrender.com/generate_a_list', {
       selectedMajorServ: selectedMajor,
       selectedCoursesServ: selectedCoursesServ
     });
@@ -32,10 +32,10 @@ const Main = () => {
     setElapsedTime(response.data.time);
   };
 
-  const generateOtherGraph = async () => {
+  const generateAMatrix = async () => {
     const selectedCoursesServ = selectedCourses.map((course) => course.code);
     // const response = await axios.post('http://localhost:5000/generate_other_graph', {
-    const response = await axios.post('https://ufscheduler.onrender.com/generate_other_graph', {
+    const response = await axios.post('https://ufscheduler.onrender.com/generate_a_matrix', {
       selectedMajorServ: selectedMajor,
       selectedCoursesServ: selectedCoursesServ
     });
@@ -85,17 +85,17 @@ const Main = () => {
         <div id="button-stack" className="flex flex-col space-y-5">
           <button
             className="generate-button text-white"
-            onClick={generateGraph}
+            onClick={generateAList}
             disabled={selectedMajor === null}
           >
-            Generate Graph
+            Generate Adjacency List
           </button>
           <button
             className="generate-button text-white"
-            onClick={generateOtherGraph}
+            onClick={generateAMatrix}
             disabled={selectedMajor === null}
           >
-            Generate Other Graph
+            Generate Adjacency Matrix
           </button>
         </div>
         <div className="help-button">
