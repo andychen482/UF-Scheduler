@@ -17,7 +17,7 @@
   display: flex;
   justify-content: space-between;
   position: fixed;
-  bottom: 20px;
+  bottom: 15px;
   width: 100%;
   padding: 0 20px;
   z-index: 999;
@@ -25,12 +25,21 @@
 
 .generate-button {
   border-radius: 8px;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.5rem;
   background-color: #393c42;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
+.generate-button[disabled] {
+  visibility: visible;
+  opacity: 1;
+  background-color: #7c7c7c;
+}
+
 .help-button {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -77,12 +86,6 @@
   opacity: 1;
 }
 
-.generate-button[disabled] {
-  visibility: visible;
-  opacity: 1;
-  background-color: #7c7c7c;
-}
-
 .popup {
   position: fixed;
   bottom: 100px;
@@ -93,6 +96,19 @@
   padding: 15px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.elapsed-time {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #FA4616;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  padding: 5px 10px;
+  border-radius: 4px;
 }
 
 @media (max-width: 700px) {

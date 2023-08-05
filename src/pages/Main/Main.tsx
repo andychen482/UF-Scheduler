@@ -13,6 +13,7 @@ const Main = () => {
   const [selectedMajor, setSelectedMajor] = useState<string | null>(null);
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [elapsedTime, setElapsedTime] = useState("");
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
@@ -21,12 +22,26 @@ const Main = () => {
     const selectedCoursesServ = selectedCourses.map((course) => course.code);
     // http://localhost:5000/generate_graph
     // https://ufscheduler.onrender.com/generate_graph
+    // const response = await axios.post('http://localhost:5000/generate_graph', {
     const response = await axios.post('https://ufscheduler.onrender.com/generate_graph', {
       selectedMajorServ: selectedMajor,
       selectedCoursesServ: selectedCoursesServ
     });
   
     setImage(`data:image/png;base64,${response.data.image}`);
+    setElapsedTime(response.data.time);
+  };
+
+  const generateOtherGraph = async () => {
+    const selectedCoursesServ = selectedCourses.map((course) => course.code);
+    // const response = await axios.post('http://localhost:5000/generate_other_graph', {
+    const response = await axios.post('https://ufscheduler.onrender.com/generate_other_graph', {
+      selectedMajorServ: selectedMajor,
+      selectedCoursesServ: selectedCoursesServ
+    });
+
+    setImage(`data:image/png;base64,${response.data.otherImage}`);
+    setElapsedTime(response.data.otherTime);
   };
 
   useEffect(() => {
@@ -67,13 +82,22 @@ const Main = () => {
         />
       </div>
       <div className="buttons-container">
-        <button
-          className="generate-button text-white"
-          onClick={generateGraph}
-          disabled={selectedMajor === null}
-        >
-          Generate Graph
-        </button>
+        <div id="button-stack" className="flex flex-col space-y-5">
+          <button
+            className="generate-button text-white"
+            onClick={generateGraph}
+            disabled={selectedMajor === null}
+          >
+            Generate Graph
+          </button>
+          <button
+            className="generate-button text-white"
+            onClick={generateOtherGraph}
+            disabled={selectedMajor === null}
+          >
+            Generate Other Graph
+          </button>
+        </div>
         <div className="help-button">
           <button onClick={togglePopup}>?</button>
         </div>
@@ -90,6 +114,7 @@ const Main = () => {
       <div id="display-write">
         {image && <img src={image} alt="Generated Graph" />}
       </div>
+      <div id="elapsed-time" className="elapsed-time">{elapsedTime}{" seconds"}</div>
     </div>
   );
 };
