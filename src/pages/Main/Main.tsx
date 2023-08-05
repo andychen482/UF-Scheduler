@@ -12,6 +12,7 @@ const Main = () => {
   const [image, setImage] = useState('');
   const [selectedMajor, setSelectedMajor] = useState<string | null>(null);
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
+  const [showTooltip, setShowTooltip] = useState(false);
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
@@ -41,6 +42,19 @@ const Main = () => {
     }
   }, [image]);
 
+  useEffect(() => {
+    setShowTooltip(selectedMajor === null);
+  }, [selectedMajor]);
+
+  useEffect(() => {
+    if (showTooltip) {
+      const timeoutId = setTimeout(() => {
+        setShowTooltip(false);
+      }, 2000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [showTooltip]);
 
   return (
     <div className="flex flexImage course-display bg-gray-800">
@@ -59,11 +73,9 @@ const Main = () => {
       >
         Generate Graph
       </button>
-      {selectedMajor === null && (
-        <div className="tooltip-window">
-          Please select a major to enable the button.
-        </div>
-      )}
+      <div className={`tooltip-window ${showTooltip ? "show" : ""}`}>
+        Please select a major to enable the button.
+      </div>
       <div className="help-button">
         <button onClick={togglePopup}>?</button>
       </div>
