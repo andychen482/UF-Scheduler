@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/UF-Scheduler/static/css/main.9028b5d8.css",
+    "main.css": "/UF-Scheduler/static/css/main.d66f263e.css",
     "main.js": "/UF-Scheduler/static/js/main.1b1a1d80.js",
     "static/js/787.6fb27e00.chunk.js": "/UF-Scheduler/static/js/787.6fb27e00.chunk.js",
     "index.html": "/UF-Scheduler/index.html",
-    "main.9028b5d8.css.map": "/UF-Scheduler/static/css/main.9028b5d8.css.map",
+    "main.d66f263e.css.map": "/UF-Scheduler/static/css/main.d66f263e.css.map",
     "main.1b1a1d80.js.map": "/UF-Scheduler/static/js/main.1b1a1d80.js.map",
     "787.6fb27e00.chunk.js.map": "/UF-Scheduler/static/js/787.6fb27e00.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9028b5d8.css",
+    "static/css/main.d66f263e.css",
     "static/js/main.1b1a1d80.js"
   ]
 }
