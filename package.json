@@ -1,7 +1,7 @@
 {
   "name": "saw",
-  "homepage": "https://andychen482.github.io/UF-Scheduler",
-  "version": "0.1.0",
+  "homepage": "https://ufscheduler.com",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
