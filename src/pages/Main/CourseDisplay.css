@@ -52,7 +52,7 @@
 
 .tooltip-window {
   position: absolute;
-  bottom: 20px;
+  bottom: 15%;
   left: 50%;
   transform: translateX(-50%);
   background-color: #333;
