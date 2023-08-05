@@ -13,14 +13,31 @@
   padding: 1rem;
 }
 
-.help-button {
-  position: absolute;
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
   bottom: 20px;
-  right: 20px;
+  width: 100%;
+  padding: 0 20px;
+  z-index: 999;
+}
+
+.generate-button {
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  background-color: #393c42;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.help-button {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   background-color: #4F545C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .help-button button {
@@ -37,17 +54,6 @@
 
 .help-button button:hover {
   background-color: #363c47;
-}
-
-.generate-button {
-  position: absolute;
-  bottom: 20px;
-  left: 20%; 
-  transform: translateX(-50%);
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  background-color: #393c42;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .tooltip-window {

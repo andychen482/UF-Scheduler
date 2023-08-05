@@ -66,18 +66,20 @@ const Main = () => {
           setSelectedMajor={setSelectedMajor}
         />
       </div>
-      <button 
-        className="generate-button text-white" 
-        onClick={generateGraph}
-        disabled={selectedMajor === null}
-      >
-        Generate Graph
-      </button>
+      <div className="buttons-container">
+        <button
+          className="generate-button text-white"
+          onClick={generateGraph}
+          disabled={selectedMajor === null}
+        >
+          Generate Graph
+        </button>
+        <div className="help-button">
+          <button onClick={togglePopup}>?</button>
+        </div>
+      </div>
       <div className={`tooltip-window ${showTooltip ? "show" : ""}`}>
         Please select a major to enable the button.
-      </div>
-      <div className="help-button">
-        <button onClick={togglePopup}>?</button>
       </div>
       {showPopup && (
         <div className="popup">
