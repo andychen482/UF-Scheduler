@@ -5,11 +5,25 @@ import ShowFilteredCourses from "./ShowFilteredCourses/ShowFilteredCourses";
 import { Course } from "../CourseUI/CourseTypes";
 import MajorSelect from "./MajorSearch/MajorSearch";
 
-const CoursesHandler: React.FC = () => {
+interface CoursesHandlerProps {
+  selectedCourses: Course[];
+  setSelectedCourses: React.Dispatch<React.SetStateAction<Course[]>>;
+  selectedMajor: string | null;
+  setSelectedMajor: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+const CoursesHandler: React.FC<CoursesHandlerProps> = (
+  {
+    selectedCourses,
+    setSelectedCourses,
+    selectedMajor,
+    setSelectedMajor
+  }
+) => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
-  const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
+  // const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [hasBeenLoaded, setLoaded ] = useState(false);
-  const [selectedMajor, setSelectedMajor] = useState<string | null>(null);
+  // const [selectedMajor, setSelectedMajor] = useState<string | null>(null);
   const [ totalCredits, setTotalCredits ] = useState(0);
 
   // Load selectedCourses from the cookie when the component mounts

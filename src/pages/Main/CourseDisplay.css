@@ -5,6 +5,7 @@
 .courses-handler {
   width: 50%;
   padding: 1rem;
+  position: relative;
 }
 
 .course-filter {
@@ -36,6 +37,17 @@
 
 .help-button button:hover {
   background-color: #363c47;
+}
+
+.generate-button {
+  position: absolute;
+  bottom: 20px;
+  left: 20%; 
+  transform: translateX(-50%);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  background-color: #393c42;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .popup {
