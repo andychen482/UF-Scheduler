@@ -43,7 +43,7 @@ const Main = () => {
 
 
   return (
-    <div className="flex course-display bg-gray-800">
+    <div className="flex flexImage course-display bg-gray-800">
       <div className={`${container} courses-handler`}>
         <CoursesHandler
           selectedCourses={selectedCourses}
