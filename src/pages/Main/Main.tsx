@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from 'axios';
 import CoursesHandler from "../../components/CoursesHandler/CoursesHandler";
 import "./CourseDisplay.css";
@@ -12,7 +12,6 @@ const Main = () => {
   const [image, setImage] = useState('');
   const [selectedMajor, setSelectedMajor] = useState<string | null>(null);
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
-
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
@@ -29,6 +28,7 @@ const Main = () => {
     setImage(`data:image/png;base64,${response.data.image}`);
   };
 
+
   return (
     <div className="flex course-display bg-gray-800">
       <div className={`${container} courses-handler`}>
@@ -39,7 +39,18 @@ const Main = () => {
           setSelectedMajor={setSelectedMajor}
         />
       </div>
-      <button className="generate-button text-white" onClick={generateGraph}>Generate Graph</button>
+      <button 
+        className="generate-button text-white" 
+        onClick={generateGraph}
+        disabled={selectedMajor === null}
+      >
+        Generate Graph
+      </button>
+      {selectedMajor === null && (
+        <div className="tooltip-window">
+          Please select a major to enable the button.
+        </div>
+      )}
       <div className="help-button">
         <button onClick={togglePopup}>?</button>
       </div>
