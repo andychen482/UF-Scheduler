@@ -32,14 +32,26 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
     if (storedSelectedCourses) {
       setSelectedCourses(JSON.parse(storedSelectedCourses));
     }
-  }, []); // Run this effect only once when the component mounts
-
-  // Save selectedCourses to the cookie whenever it changes
+  }, []); 
+  
   useEffect(() => {
     if ((selectedCourses.length > 0) || hasBeenLoaded){
       localStorage.setItem("selectedCourses", JSON.stringify(selectedCourses));
     }
-  }, [selectedCourses, hasBeenLoaded]); // Run this effect whenever selectedCourses changes
+  }, [selectedCourses, hasBeenLoaded]);
+
+  useEffect(() => {
+    const storedSelectedMajor = localStorage.getItem("selectedMajor");
+    if (storedSelectedMajor) {
+      setSelectedMajor(JSON.parse(storedSelectedMajor));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (selectedMajor){
+      localStorage.setItem("selectedMajor", JSON.stringify(selectedMajor));
+    }
+  }, [selectedMajor]);
 
   useEffect(() => {
     const sumCredits = selectedCourses.reduce(

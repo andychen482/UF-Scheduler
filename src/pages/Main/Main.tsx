@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 import CoursesHandler from "../../components/CoursesHandler/CoursesHandler";
 import "./CourseDisplay.css";
@@ -27,6 +27,19 @@ const Main = () => {
   
     setImage(`data:image/png;base64,${response.data.image}`);
   };
+
+  useEffect(() => {
+    const storedImage = localStorage.getItem("image");
+    if (storedImage) {
+      setImage(storedImage);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (image){
+      localStorage.setItem("image", image);
+    }
+  }, [image]);
 
 
   return (
