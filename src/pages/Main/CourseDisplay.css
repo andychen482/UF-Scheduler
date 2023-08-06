@@ -121,15 +121,14 @@
 
 .elapsed-time {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 0px;
+  right: 0px;
   background-color: #FA4616;
   color: #fff;
   font-size: 12px;
   font-weight: bold;
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   padding: 5px 10px;
-  border-radius: 4px;
 }
 
 @media (max-width: 700px) {
@@ -142,6 +141,18 @@
     height: auto;
     max-height: 100vh;
     padding-bottom: 120px;
+  }
+  .popup {
+    position: fixed;
+    bottom: 90px;
+    right: 25px;
+    max-width: 350px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
   }
 }
 
