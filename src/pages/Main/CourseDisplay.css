@@ -90,7 +90,7 @@
   position: fixed;
   bottom: 100px;
   right: 25px;
-  max-width: calc(100% - 50px);
+  max-width: 400px;
   background-color: #fff;
   border: 1px solid #ccc;
   padding: 15px;
