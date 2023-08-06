@@ -101,7 +101,7 @@ const Main = () => {
         />
       </div>
       <div className="buttons-container">
-      <div id="button-stack" className="flex flex-col space-y-5">
+      <div id="button-stack" className="flex flex-col space-y-2">
           {/* Update the button click event handlers to use the new functions */}
           <button
             className="generate-button text-white"
