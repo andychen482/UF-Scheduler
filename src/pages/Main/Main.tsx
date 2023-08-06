@@ -14,34 +14,51 @@ const Main = () => {
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
   const [elapsedTime, setElapsedTime] = useState("");
+  const [loading, setLoading] = useState(false);
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
 
+  const handleLoading = async (callback: () => Promise<void>) => {
+    try {
+      setLoading(true);
+      await callback();
+    } catch (error) {
+      // Handle any errors here if needed
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const generateAList = async () => {
-    const selectedCoursesServ = selectedCourses.map((course) => course.code);
-    // http://localhost:5000/generate_graph
-    // https://ufscheduler.onrender.com/generate_graph
-    // const response = await axios.post('http://localhost:5000/generate_a_list', {
-    const response = await axios.post('https://ufscheduler.onrender.com/generate_a_list', {
-      selectedMajorServ: selectedMajor,
-      selectedCoursesServ: selectedCoursesServ
+    await handleLoading(async () => {
+      const selectedCoursesServ = selectedCourses.map((course) => course.code);
+      // http://localhost:5000/generate_graph
+      // https://ufscheduler.onrender.com/generate_graph
+      // const response = await axios.post('http://localhost:5000/generate_a_list', {
+      const response = await axios.post('https://ufscheduler.onrender.com/generate_a_list', {
+        selectedMajorServ: selectedMajor,
+        selectedCoursesServ: selectedCoursesServ
+      });
+    
+      setImage(`data:image/png;base64,${response.data.image}`);
+      setElapsedTime(response.data.time);
     });
-  
-    setImage(`data:image/png;base64,${response.data.image}`);
-    setElapsedTime(response.data.time);
   };
 
   const generateAMatrix = async () => {
-    const selectedCoursesServ = selectedCourses.map((course) => course.code);
-    // const response = await axios.post('http://localhost:5000/generate_a_matrix', {
-    const response = await axios.post('https://ufscheduler.onrender.com/generate_a_matrix', {
-      selectedMajorServ: selectedMajor,
-      selectedCoursesServ: selectedCoursesServ
-    });
+    await handleLoading(async () => {
+      const selectedCoursesServ = selectedCourses.map((course) => course.code);
+      // const response = await axios.post('http://localhost:5000/generate_a_matrix', {
+      const response = await axios.post('https://ufscheduler.onrender.com/generate_a_matrix', {
+        selectedMajorServ: selectedMajor,
+        selectedCoursesServ: selectedCoursesServ
+      });
 
-    setImage(`data:image/png;base64,${response.data.otherImage}`);
-    setElapsedTime(response.data.otherTime);
+      setImage(`data:image/png;base64,${response.data.otherImage}`);
+      setElapsedTime(response.data.otherTime);
+    });
   };
 
   useEffect(() => {
@@ -71,6 +88,8 @@ const Main = () => {
     }
   }, [showTooltip]);
 
+
+
   return (
     <div className="flex flexImage course-display bg-gray-800">
       <div className={`${container} courses-handler`}>
@@ -82,18 +101,19 @@ const Main = () => {
         />
       </div>
       <div className="buttons-container">
-        <div id="button-stack" className="flex flex-col space-y-5">
+      <div id="button-stack" className="flex flex-col space-y-5">
+          {/* Update the button click event handlers to use the new functions */}
           <button
             className="generate-button text-white"
-            onClick={generateAList}
-            disabled={selectedMajor === null}
+            onClick={() => handleLoading(generateAList)}
+            disabled={selectedMajor === null || loading}
           >
             Generate Adjacency List A
           </button>
           <button
             className="generate-button text-white"
-            onClick={generateAMatrix}
-            disabled={selectedMajor === null}
+            onClick={() => handleLoading(generateAMatrix)}
+            disabled={selectedMajor === null || loading}
           >
             Generate Adjacency List B
           </button>
@@ -105,6 +125,9 @@ const Main = () => {
       <div className={`tooltip-window ${showTooltip ? "show" : ""}`}>
         Please select a major to enable the button.
       </div>
+      <div className={`loading-window ${loading ? "show" : ""}`}>
+        Loading...
+      </div>
       {showPopup && (
         <div className="popup">
           <p>Enter your selected major and completed classes 
@@ -115,7 +138,9 @@ const Main = () => {
       <div id="display-write">
         {image && <img src={image} alt="Generated Graph" />}
       </div>
-      <div id="elapsed-time" className="elapsed-time">{elapsedTime}{" seconds"}</div>
+      {elapsedTime &&
+      (<div id="elapsed-time" className="elapsed-time">{elapsedTime}{" seconds"}</div>
+      )}
     </div>
   );
 };
