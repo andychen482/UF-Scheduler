@@ -22,7 +22,7 @@ const Main = () => {
     const selectedCoursesServ = selectedCourses.map((course) => course.code);
     // http://localhost:5000/generate_graph
     // https://ufscheduler.onrender.com/generate_graph
-    // const response = await axios.post('http://localhost:5000/generate_graph', {
+    // const response = await axios.post('http://localhost:5000/generate_a_list', {
     const response = await axios.post('https://ufscheduler.onrender.com/generate_a_list', {
       selectedMajorServ: selectedMajor,
       selectedCoursesServ: selectedCoursesServ
@@ -34,7 +34,7 @@ const Main = () => {
 
   const generateAMatrix = async () => {
     const selectedCoursesServ = selectedCourses.map((course) => course.code);
-    // const response = await axios.post('http://localhost:5000/generate_other_graph', {
+    // const response = await axios.post('http://localhost:5000/generate_a_matrix', {
     const response = await axios.post('https://ufscheduler.onrender.com/generate_a_matrix', {
       selectedMajorServ: selectedMajor,
       selectedCoursesServ: selectedCoursesServ
@@ -88,14 +88,14 @@ const Main = () => {
             onClick={generateAList}
             disabled={selectedMajor === null}
           >
-            Generate Adjacency List
+            Generate Adjacency List A
           </button>
           <button
             className="generate-button text-white"
             onClick={generateAMatrix}
             disabled={selectedMajor === null}
           >
-            Generate Adjacency Matrix
+            Generate Adjacency List B
           </button>
         </div>
         <div className="help-button">
@@ -107,8 +107,9 @@ const Main = () => {
       </div>
       {showPopup && (
         <div className="popup">
-          <p>Enter your selected major and completed classes</p>
-          <p>to generate a graph of your suggested course plan</p>
+          <p>Enter your selected major and completed classes 
+          to generate a graph of prerequisite classes.
+          </p>
         </div>
       )}
       <div id="display-write">
