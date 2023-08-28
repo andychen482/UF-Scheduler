@@ -108,15 +108,15 @@ const Main = () => {
             onClick={() => handleLoading(generateAList)}
             disabled={selectedMajor === null || loading}
           >
-            Generate Adjacency List A
+            Generate Prerequisite Visualization
           </button>
-          <button
+          {/* <button
             className="generate-button text-white"
             onClick={() => handleLoading(generateAMatrix)}
             disabled={selectedMajor === null || loading}
           >
             Generate Adjacency List B
-          </button>
+          </button> */}
         </div>
         <div className="help-button">
           <button onClick={togglePopup}>?</button>

@@ -3,6 +3,7 @@ import jsonData from "../../../courses/UF_Jun-30-2023_23_fall_clean.json";
 import { Course } from "../../CourseUI/CourseTypes";
 import CourseDropdown from "../../CourseUI/CourseDropdown/CourseDropdown";
 import { ShowFilteredCoursesClasses } from "./ShowFilteredCoursesClasses";
+import InfiniteScroll from "react-infinite-scroller";
 import {
   PiPlusBold,
   PiMinusBold,
@@ -138,12 +139,16 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     }
   };
 
+  const itemsPerPage = 10;
+  const [hasMore, setHasMore] = useState(true);
+  const [records, setrecords] = useState(itemsPerPage);
 
   const filteredCourses = useMemo(() => {
     const formattedSearchTerm = debouncedSearchTerm
       .replace(/\s/g, "")
       .toUpperCase();
     if (formattedSearchTerm.length === 0) {
+      setrecords(itemsPerPage);
       return []; // Return an empty array if no search term is provided
     }
     const prefix = formattedSearchTerm.match(/[a-zA-Z]+/)?.[0]?.toUpperCase(); // Extract course prefix
@@ -169,11 +174,28 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     return groupByCourseCodeAndName(filteredCourses);
   }, [filteredCourses]);
 
+  const loadMore = () => {
+    if (records === Object.keys(groupedFilteredCourses).length) {
+
+      setHasMore(false);
+    } else {
+      setTimeout(() => {
+        console.log(records);
+        setrecords(records + itemsPerPage);
+      }, 2000);
+    }
+  };
+
   return (
     <div className="max-h-[calc(100vh-11.6rem)] overflow-auto mt-3">
-      <Suspense fallback={<div>Loading...</div>}>
+      <InfiniteScroll
+        pageStart={0}
+        loadMore={loadMore}
+        hasMore={hasMore}
+        useWindow={false}
+      >
         {Object.keys(groupedFilteredCourses).length > 0 ? (
-          Object.keys(groupedFilteredCourses).map((key, index) => {
+          Object.keys(groupedFilteredCourses).slice(0, records).map((key, index) => {
             const courses = groupedFilteredCourses[key];
             const firstCourse = courses[0];
             const isCourseSelected = selectedCourses.some(
@@ -286,7 +308,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
         ) : (
           <div className="text-gray-300">No courses found.</div>
         )}
-      </Suspense>
+      </InfiniteScroll>
     </div>
   );
 }

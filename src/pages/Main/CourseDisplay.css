@@ -20,11 +20,13 @@
   bottom: 15px;
   width: 100%;
   padding: 0 20px;
+  pointer-events: none;
   z-index: 999;
 }
 
 .generate-button {
   border-radius: 8px;
+  pointer-events: auto;
   padding: 0.5rem 0.5rem;
   background-color: #393c42;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
@@ -44,6 +46,7 @@
   height: 50px;
   border-radius: 50%;
   background-color: #4F545C;
+  pointer-events: auto;
   display: flex;
   align-items: center;
   justify-content: center;
