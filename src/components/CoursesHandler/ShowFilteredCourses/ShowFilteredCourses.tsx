@@ -139,7 +139,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     }
   };
 
-  const itemsPerPage = 10;
+  const itemsPerPage = 20;
   const [hasMore, setHasMore] = useState(true);
   const [records, setrecords] = useState(itemsPerPage);
 
