@@ -1,3 +1,21 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgb(47 49 54);
+  color: white;
+  padding: 8px;
+  text-align: right;
+  font-size: large;
+  z-index: 1000; /* Ensure the header is above other content */
+  border-bottom: 0.5px solid #ccc;
+}
+
+.content-wrapper {
+  margin-top: 40px; /* Adjust this margin to avoid content overlap */
+}
+
 .course-display {
   display: flex;
 }
@@ -25,6 +43,10 @@
 }
 
 .generate-button {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   border-radius: 8px;
   pointer-events: auto;
   padding: 0.5rem 0.5rem;
@@ -40,12 +62,12 @@
 
 .help-button {
   position: absolute;
-  bottom: 15px;
+  bottom: 6px;
   right: 15px;
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  background-color: #4F545C;
+  background-color: #393c42;
   pointer-events: auto;
   display: flex;
   align-items: center;
@@ -111,6 +133,7 @@
 }
 
 .popup {
+  transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
   position: fixed;
   bottom: 100px;
   right: 25px;
@@ -120,6 +143,13 @@
   padding: 15px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  visibility: hidden;
+  opacity: 0;
+}
+
+.popup.show {
+  visibility: visible;
+  opacity: 0.9;
 }
 
 .elapsed-time {
@@ -144,6 +174,7 @@
     height: auto;
     max-height: 100vh;
     padding-bottom: 120px;
+    border-top: 0.5px solid #ccc;
   }
   .popup {
     position: fixed;
@@ -164,8 +195,11 @@
   max-width: 100%;
 }
 
-#display-write img {
-  width: 100%;
-  height: auto;
-  max-height: 100vh;
+@media (min-width: 701px) {
+  #display-write img {
+    width: 100%;
+    height: auto;
+    max-height: 100vh;
+    border-left: 0.5px solid #ccc;
+  }
 }

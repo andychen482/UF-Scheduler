@@ -235,7 +235,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   }, [debouncedSearchTerm]);
 
   return (
-    <div className="max-h-[calc(100vh-11.6rem)] overflow-auto mt-3">
+    <div className="max-h-[calc(100vh-20.5rem)] overflow-auto mt-3">
       <InfiniteScroll
         pageStart={0}
         loadMore={loadMore}

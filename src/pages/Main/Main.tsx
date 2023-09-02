@@ -5,6 +5,14 @@ import "./CourseDisplay.css";
 import { MainClasses } from "./MainClasses";
 import { Course } from "../../components/CourseUI/CourseTypes";
 
+const Header = () => {
+  return (
+    <header className="header">
+      <h1>UFScheduler</h1>
+    </header>
+  );
+};
+
 
 const Main = () => {
   const { container } = MainClasses;
@@ -15,9 +23,6 @@ const Main = () => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [elapsedTime, setElapsedTime] = useState("");
   const [loading, setLoading] = useState(false);
-  const togglePopup = () => {
-    setShowPopup(!showPopup);
-  };
 
   const handleLoading = async (callback: () => Promise<void>) => {
     try {
@@ -88,59 +93,69 @@ const Main = () => {
     }
   }, [showTooltip]);
 
+  useEffect(() => {
+    if (showPopup) {
+      const timeoutId = setTimeout(() => {
+        setShowPopup(false);
+      }, 2000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [showPopup]);
+
 
 
   return (
-    <div className="flex flexImage course-display bg-gray-800">
-      <div className={`${container} courses-handler`}>
-        <CoursesHandler
-          selectedCourses={selectedCourses}
-          setSelectedCourses={setSelectedCourses}
-          selectedMajor={selectedMajor}
-          setSelectedMajor={setSelectedMajor}
-        />
-      </div>
-      <div className="buttons-container">
-      <div id="button-stack" className="flex flex-col space-y-2">
-          {/* Update the button click event handlers to use the new functions */}
-          <button
-            className="generate-button text-white"
-            onClick={() => handleLoading(generateAList)}
-            disabled={selectedMajor === null || loading}
-          >
-            Generate Prerequisite Visualization
-          </button>
-          {/* <button
-            className="generate-button text-white"
-            onClick={() => handleLoading(generateAMatrix)}
-            disabled={selectedMajor === null || loading}
-          >
-            Generate Adjacency List B
-          </button> */}
+    <div>
+      <Header />
+      <div className="content-wrapper">
+        <div className="flex flexImage course-display bg-gray-800">
+          <div className={`${container} courses-handler`}>
+            <CoursesHandler
+              selectedCourses={selectedCourses}
+              setSelectedCourses={setSelectedCourses}
+              selectedMajor={selectedMajor}
+              setSelectedMajor={setSelectedMajor}
+            />
+          </div>
+          <div className="buttons-container">
+                <button
+                  className="generate-button text-white"
+                  onClick={() => handleLoading(generateAList)}
+                  disabled={selectedMajor === null || loading}
+                >
+                  Prerequisite Visualizer
+                </button>
+              {/* <button
+                className="generate-button text-white"
+                onClick={() => handleLoading(generateAMatrix)}
+                disabled={selectedMajor === null || loading}
+              >
+                Generate Adjacency List B
+              </button> */}
+            {/* <div className={`help-button ${showPopup ? "show" : ""}`}>
+              <button onClick={() => setShowPopup(true)}>?</button>
+            </div> */}
+          </div>
+          <div className={`tooltip-window ${showTooltip ? "show" : ""}`}>
+            Please select a major to enable the button.
+          </div>
+          <div className={`loading-window ${loading ? "show" : ""}`}>
+            Loading...
+          </div>
+            <div className={`popup ${showPopup ? "show" : ""}`}>
+              <p>Enter your selected major and completed classes 
+              to generate a graph of prerequisite classes.
+              </p>
+            </div>
+          <div id="display-write">
+            {image && <img src={image} alt="Generated Graph" />}
+          </div>
+          {elapsedTime &&
+          (<div id="elapsed-time" className="elapsed-time">{elapsedTime}{" seconds"}</div>
+          )}
         </div>
-        <div className="help-button">
-          <button onClick={togglePopup}>?</button>
-        </div>
       </div>
-      <div className={`tooltip-window ${showTooltip ? "show" : ""}`}>
-        Please select a major to enable the button.
-      </div>
-      <div className={`loading-window ${loading ? "show" : ""}`}>
-        Loading...
-      </div>
-      {showPopup && (
-        <div className="popup">
-          <p>Enter your selected major and completed classes 
-          to generate a graph of prerequisite classes.
-          </p>
-        </div>
-      )}
-      <div id="display-write">
-        {image && <img src={image} alt="Generated Graph" />}
-      </div>
-      {elapsedTime &&
-      (<div id="elapsed-time" className="elapsed-time">{elapsedTime}{" seconds"}</div>
-      )}
     </div>
   );
 };
