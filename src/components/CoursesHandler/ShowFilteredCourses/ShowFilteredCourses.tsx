@@ -1,9 +1,10 @@
-import React, { useState, useMemo, Suspense } from "react";
-import jsonData from "../../../courses/UF_Jun-30-2023_23_fall_clean.json";
+import React, { useState, useMemo, useEffect } from "react";
+// import jsonData from "../../../courses/UF_Jun-30-2023_23_fall_clean.json";
 import { Course } from "../../CourseUI/CourseTypes";
 import CourseDropdown from "../../CourseUI/CourseDropdown/CourseDropdown";
 import { ShowFilteredCoursesClasses } from "./ShowFilteredCoursesClasses";
 import InfiniteScroll from "react-infinite-scroller";
+import axios from 'axios';
 import {
   PiPlusBold,
   PiMinusBold,
@@ -41,6 +42,8 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   const [courseAnimation, setCourseAnimation] = useState<{
     [key: string]: boolean;
   }>({});
+
+  const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
 
 
   const {
@@ -143,48 +146,93 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   const [hasMore, setHasMore] = useState(true);
   const [records, setrecords] = useState(itemsPerPage);
 
-  const filteredCourses = useMemo(() => {
-    const formattedSearchTerm = debouncedSearchTerm
-      .replace(/\s/g, "")
-      .toUpperCase();
-    if (formattedSearchTerm.length === 0) {
-      setrecords(itemsPerPage);
-      return []; // Return an empty array if no search term is provided
-    }
-    const prefix = formattedSearchTerm.match(/[a-zA-Z]+/)?.[0]?.toUpperCase(); // Extract course prefix
-    const additionalCharacters = formattedSearchTerm.slice(prefix?.length); // Extract additional characters
-    return (jsonData as Course[])
-      .filter((course: Course) => {
-        const { code } = course;
-        const coursePrefix = code.match(/[a-zA-Z]+/)?.[0]?.toUpperCase(); // Extract course prefix
-        const jsonAdditionalChars = code.slice(coursePrefix?.length); // Extract additional characters
-        return (
-          coursePrefix &&
-          coursePrefix.startsWith(prefix!) &&
-          jsonAdditionalChars.toUpperCase().startsWith(additionalCharacters)
-        );
-      })
-      .sort(
-        (a: Course, b: Course) =>
-          a.code.localeCompare(b.code) || a.termInd.localeCompare(b.termInd)
-      );
-  }, [debouncedSearchTerm]);
+  // const filteredCourses = useMemo(() => {
+  //   setHasMore(true);
+  //   setrecords(itemsPerPage);
+  //   const formattedSearchTerm = debouncedSearchTerm
+  //     .replace(/\s/g, "")
+  //     .toUpperCase();
+  //   if (formattedSearchTerm.length === 0) {
+  //     return []; // Return an empty array if no search term is provided
+  //   }
+  //   const prefix = formattedSearchTerm.match(/[a-zA-Z]+/)?.[0]?.toUpperCase(); // Extract course prefix
+  //   const additionalCharacters = formattedSearchTerm.slice(prefix?.length); // Extract additional characters
+  //   return (jsonData as Course[])
+  //     .filter((course: Course) => {
+  //       const { code } = course;
+  //       const coursePrefix = code.match(/[a-zA-Z]+/)?.[0]?.toUpperCase(); // Extract course prefix
+  //       const jsonAdditionalChars = code.slice(coursePrefix?.length); // Extract additional characters
+  //       return (
+  //         coursePrefix &&
+  //         coursePrefix.startsWith(prefix!) &&
+  //         jsonAdditionalChars.toUpperCase().startsWith(additionalCharacters)
+  //       );
+  //     })
+  //     .sort(
+  //       (a: Course, b: Course) =>
+  //         a.code.localeCompare(b.code) || a.termInd.localeCompare(b.termInd)
+  //     );
+  // }, [debouncedSearchTerm]);
 
   const groupedFilteredCourses = useMemo(() => {
     return groupByCourseCodeAndName(filteredCourses);
   }, [filteredCourses]);
 
-  const loadMore = () => {
-    if (records === Object.keys(groupedFilteredCourses).length) {
+  // const loadMore = () => {
+  //   if (records >= Object.keys(groupedFilteredCourses).length) {
+  //     setHasMore(false);
+  //   } else {
+  //     setTimeout(() => {
+  //       setrecords(records + itemsPerPage);
+  //     }, 2000);
+  //   }
+  // };
 
-      setHasMore(false);
-    } else {
-      setTimeout(() => {
-        console.log(records);
-        setrecords(records + itemsPerPage);
-      }, 2000);
+  useMemo(() => {
+    setHasMore(true);
+    setrecords(itemsPerPage);
+  }, [debouncedSearchTerm]);
+
+  const loadMore = async () => {
+    try {
+      const response = await axios.post("https://ufscheduler.onrender.com/api/get_courses", {
+        searchTerm: debouncedSearchTerm,
+        itemsPerPage: itemsPerPage,
+        startFrom: records  // start from current record count
+      });
+
+      setFilteredCourses(prevCourses => [...prevCourses, ...response.data]);
+      setrecords(records + itemsPerPage);
+      console.log(records);
+    } catch (error) {
+      console.error("Error loading more data", error);
     }
+    if (records >= 2*itemsPerPage + filteredCourses.length) {
+      setHasMore(false);
+    }
+    console.log("Records:" + records);
+    console.log("Length of results:" + filteredCourses.length);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post("https://ufscheduler.onrender.com/api/get_courses", {
+          searchTerm: debouncedSearchTerm,
+          itemsPerPage: itemsPerPage,
+          startFrom: 0  // assuming you want to paginate from the start when the search term changes
+        });
+
+        setFilteredCourses(response.data);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    }
+    if (debouncedSearchTerm !== "")
+    {
+      fetchData();
+    }
+  }, [debouncedSearchTerm]);
 
   return (
     <div className="max-h-[calc(100vh-11.6rem)] overflow-auto mt-3">
