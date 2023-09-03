@@ -32,7 +32,7 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
     if (storedSelectedCourses) {
       setSelectedCourses(JSON.parse(storedSelectedCourses));
     }
-  }, []); 
+  }, [setSelectedCourses]); 
   
   useEffect(() => {
     if ((selectedCourses.length > 0) || hasBeenLoaded){
@@ -45,7 +45,7 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
     if (storedSelectedMajor) {
       setSelectedMajor(JSON.parse(storedSelectedMajor));
     }
-  }, []);
+  }, [setSelectedMajor]);
 
   useEffect(() => {
     if (selectedMajor){

@@ -21,13 +21,13 @@ const Header = () => {
 const Main = () => {
   const { container } = MainClasses;
   const [showPopup, setShowPopup] = useState(false);
-  const [image, setImage] = useState("");
   const [selectedMajor, setSelectedMajor] = useState<string | null>(null);
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [elapsedTime, setElapsedTime] = useState("");
   const [loading, setLoading] = useState(false);
   const cyContainerRef = useRef(null);
+  const [graphData, setGraphData] = useState<GraphData | null>(null);
+
 
   const handleLoading = async (callback: () => Promise<void>) => {
     try {
@@ -41,9 +41,26 @@ const Main = () => {
     }
   };
 
-  const initializeCytoscape = (graphData: GraphData) => {
-    if (cyContainerRef.current) {
-      const cy = cytoscape({
+  useEffect(() => {
+    const storedGraphData = localStorage.getItem("graphData");
+    if (storedGraphData) {
+      setGraphData(JSON.parse(storedGraphData));
+    }
+  }, [setGraphData])
+  
+  useEffect(() => {
+    if (graphData){
+      localStorage.setItem("graphData", JSON.stringify(graphData));
+    }
+  }, [graphData])
+
+  useEffect(() => {
+    initializeCytoscape();
+  }, [graphData]);
+
+  const initializeCytoscape = () => {
+    if (graphData && cyContainerRef.current) {
+      cytoscape({
         container: cyContainerRef.current,
         elements: [...graphData.nodes, ...graphData.edges],
         style: [
@@ -103,24 +120,14 @@ const Main = () => {
         }
       );
   
-      const graphData = response.data;
-      console.log(graphData);
-      initializeCytoscape(graphData);
+      // const graphData = response.data;
+      // console.log(graphData);
+      // initializeCytoscape(graphData);
+
+      const data: GraphData = response.data;
+      setGraphData(data);
     });
   };
-
-  useEffect(() => {
-    const storedImage = localStorage.getItem("image");
-    if (storedImage) {
-      setImage(storedImage);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (image) {
-      localStorage.setItem("image", image);
-    }
-  }, [image]);
 
   useEffect(() => {
     setShowTooltip(selectedMajor === null);
@@ -186,12 +193,6 @@ const Main = () => {
           <div id="display-write">
             {/* {image && <img src={image} alt="Generated Graph" />} */}
             <div ref={cyContainerRef} id="cytoscape-container" style={{ width: '100%', height: '100%' }}></div>
-            {elapsedTime && (
-            <div id="elapsed-time" className="elapsed-time">
-              {elapsedTime}
-              {" seconds"}
-            </div>
-          )}
           </div>
         </div>
       </div>

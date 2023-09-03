@@ -7,7 +7,7 @@ interface CourseDropdownProps {
 };
 
 const CourseDropdown: React.FC<CourseDropdownProps> = ({ course }) => {
-  const { listItem, content, term } = courseUIClasses;
+  const { listItem, content } = courseUIClasses;
 
   const renderSectionInformation = (section: Section) => {
     return (
