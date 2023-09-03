@@ -88,6 +88,13 @@ const Main = () => {
             }
           },
           {
+            selector: 'node.selected',
+            style: {
+              'background-color': '#FA4616',
+            }
+
+          },
+          {
             selector: 'edge',
             style: {
               'width': 5,
@@ -122,7 +129,7 @@ const Main = () => {
       if (cyRef && cyRef.current) {  // Check if cyRef and cyRef.current are not null
         e.preventDefault();
     
-        const zoomFactor = e.deltaY < 0 ? 1.1 : 1 / 1.1;
+        const zoomFactor = e.deltaY < 0 ? 1.08 : 1 / 1.08;
         const container = cyRef.current.container();
         if (container) {  // Check if container is not null
           const offset = container.getBoundingClientRect();
@@ -209,10 +216,10 @@ const Main = () => {
   const generateAList = async () => {
     await handleLoading(async () => {
       const selectedCoursesServ = selectedCourses.map((course) => course.code);
-      const response = await axios.post(
-        "https://ufscheduler.onrender.com/generate_a_list",
-        {
-        // const response = await axios.post('http://localhost:5000/generate_a_list', {
+      // const response = await axios.post(
+      //   "https://ufscheduler.onrender.com/generate_a_list",
+      //   {
+        const response = await axios.post('http://localhost:5000/generate_a_list', {
           selectedMajorServ: selectedMajor,
           selectedCoursesServ: selectedCoursesServ,
         }
