@@ -25,8 +25,14 @@ const Main = () => {
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
   const [loading, setLoading] = useState(false);
-  const cyContainerRef = useRef(null);
+  const cyContainerRef = useRef<HTMLDivElement | null>(null);
   const [graphData, setGraphData] = useState<GraphData | null>(null);
+  const cyRef = useRef<cytoscape.Core | null>(null);
+
+  const isMobile = () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  };
+  
 
 
   const handleLoading = async (callback: () => Promise<void>) => {
@@ -60,8 +66,10 @@ const Main = () => {
 
   const initializeCytoscape = () => {
     if (graphData && cyContainerRef.current) {
-      cytoscape({
+      const cy = cytoscape({
         container: cyContainerRef.current,
+        userPanningEnabled: false,
+        userZoomingEnabled: true,
         elements: [...graphData.nodes, ...graphData.edges],
         style: [
           {
@@ -92,7 +100,6 @@ const Main = () => {
         ],
         layout: {
           name: 'klay',
-          nodeDimensionsIncludeLabels: true,
           padding: 20,
           klay: {
             direction: 'RIGHT', // Layout flows from left to right
@@ -104,8 +111,100 @@ const Main = () => {
         minZoom: 0.1,  // Set the minimum zoom level. Adjust as needed.
         maxZoom: 3,    // Optional: Set a maximum zoom level if needed.
       });
+      cyRef.current = cy;
     }
   };
+
+  useEffect(() => {
+    let touchCount = 0;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (cyRef && cyRef.current) {  // Check if cyRef and cyRef.current are not null
+        e.preventDefault();
+    
+        const zoomFactor = e.deltaY < 0 ? 1.1 : 1 / 1.1;
+        const container = cyRef.current.container();
+        if (container) {  // Check if container is not null
+          const offset = container.getBoundingClientRect();
+          const pos = {
+            x: e.clientX - offset.left,
+            y: e.clientY - offset.top
+          };
+          const zoomedPosition = {
+            x: (pos.x - cyRef.current.pan().x) / cyRef.current.zoom(),
+            y: (pos.y - cyRef.current.pan().y) / cyRef.current.zoom()
+          };
+    
+          cyRef.current.zoom({
+            level: cyRef.current.zoom() * zoomFactor,
+            position: zoomedPosition
+          });
+        }
+      }
+    };
+
+    const handleMouseDown = (e: MouseEvent) => {
+      if (!isMobile() && cyRef.current) {
+        cyRef.current.userPanningEnabled(true);
+      }
+    };
+    
+    const handleMouseUpOrLeave = (e: MouseEvent) => {
+      if (!isMobile() && cyRef.current) {
+        cyRef.current.userPanningEnabled(false);
+      }
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchCount = e.touches.length;
+    
+      if (isMobile()) {
+        if (touchCount === 2 && cyRef.current) {
+          cyRef.current.userPanningEnabled(true);
+        }
+      } else {
+        if (touchCount === 1 && cyRef.current) {
+          cyRef.current.userPanningEnabled(true);
+        }
+      }
+    };
+    
+    const handleTouchEnd = (e: TouchEvent) => {
+      touchCount = e.touches.length;
+    
+      if (isMobile()) {
+        if (touchCount !== 2 && cyRef.current) {
+          cyRef.current.userPanningEnabled(false);
+        }
+      } else {
+        if (touchCount !== 1 && cyRef.current) {
+          cyRef.current.userPanningEnabled(false);
+        }
+      }
+    };
+    
+  
+    const container = cyContainerRef.current;
+    if (container) {
+      container.addEventListener('touchstart', handleTouchStart);
+      container.addEventListener('touchend', handleTouchEnd);
+      container.addEventListener('mousedown', handleMouseDown);
+      container.addEventListener('mouseup', handleMouseUpOrLeave);
+      container.addEventListener('mouseleave', handleMouseUpOrLeave);
+      container.addEventListener('wheel', handleWheel);
+    }
+  
+    return () => {
+      if (container) {
+        container.removeEventListener('touchstart', handleTouchStart);
+        container.removeEventListener('touchend', handleTouchEnd);
+        container.removeEventListener('mousedown', handleMouseDown);
+        container.removeEventListener('mouseup', handleMouseUpOrLeave);
+        container.removeEventListener('mouseleave', handleMouseUpOrLeave);
+        container.removeEventListener('wheel', handleWheel);
+      }
+    };
+  }, [cyRef]);
 
   const generateAList = async () => {
     await handleLoading(async () => {
