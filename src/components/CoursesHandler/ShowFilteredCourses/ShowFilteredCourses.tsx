@@ -165,15 +165,12 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
 
       setFilteredCourses(prevCourses => [...prevCourses, ...response.data]);
       setrecords(records + itemsPerPage);
-      console.log(records);
     } catch (error) {
       console.error("Error loading more data", error);
     }
     if (records >= 2*itemsPerPage + filteredCourses.length) {
       setHasMore(false);
     }
-    console.log("Records:" + records);
-    console.log("Length of results:" + filteredCourses.length);
   };
 
   useEffect(() => {

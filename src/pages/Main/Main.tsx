@@ -23,6 +23,8 @@ const Main = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedMajor, setSelectedMajor] = useState<string | null>(null);
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [showTooltip, setShowTooltip] = useState(false);
   const [loading, setLoading] = useState(false);
   const cyContainerRef = useRef<HTMLDivElement | null>(null);
@@ -122,6 +124,12 @@ const Main = () => {
         maxZoom: 3,    // Optional: Set a maximum zoom level if needed.
       });
       cyRef.current = cy;
+
+      cy.on('tap', 'node', (event) => {
+        const nodeId = event.target.id();
+        setDebouncedSearchTerm(nodeId.replace("\n", ""));
+        setSearchTerm(nodeId.replace("\n", ""));
+      });
     }
   };
 
@@ -272,6 +280,10 @@ const Main = () => {
               setSelectedCourses={setSelectedCourses}
               selectedMajor={selectedMajor}
               setSelectedMajor={setSelectedMajor}
+              debouncedSearchTerm={debouncedSearchTerm}
+              setDebouncedSearchTerm={setDebouncedSearchTerm}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
             />
           </div>
           <div className="buttons-container">

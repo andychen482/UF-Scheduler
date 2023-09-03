@@ -10,6 +10,10 @@ interface CoursesHandlerProps {
   setSelectedCourses: React.Dispatch<React.SetStateAction<Course[]>>;
   selectedMajor: string | null;
   setSelectedMajor: React.Dispatch<React.SetStateAction<string | null>>;
+  debouncedSearchTerm: string;
+  setDebouncedSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const CoursesHandler: React.FC<CoursesHandlerProps> = (
@@ -17,10 +21,14 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
     selectedCourses,
     setSelectedCourses,
     selectedMajor,
-    setSelectedMajor
+    setSelectedMajor,
+    debouncedSearchTerm,
+    setDebouncedSearchTerm,
+    searchTerm,
+    setSearchTerm,
   }
 ) => {
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  // const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   // const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [hasBeenLoaded, setLoaded ] = useState(false);
   // const [selectedMajor, setSelectedMajor] = useState<string | null>(null);
@@ -54,10 +62,15 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
   }, [selectedMajor]);
 
   useEffect(() => {
-    const sumCredits = selectedCourses.reduce(
-      (totalCredits, course) => totalCredits + course.sections[0].credits,
-      0
-    );
+    const sumCredits = selectedCourses.reduce((totalCredits, course) => {
+      // Check if credits is a number
+      if (typeof course.sections[0].credits === 'number') {
+        return totalCredits + course.sections[0].credits;
+      }
+      // If it's not a number, just return the accumulated total so far
+      return totalCredits;
+    }, 0);
+    
     setTotalCredits(sumCredits);
   }, [selectedCourses]);
 
@@ -78,6 +91,8 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
       <CourseSearch
         debouncedSearchTerm={debouncedSearchTerm}
         setDebouncedSearchTerm={setDebouncedSearchTerm}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
       />
       <ShowFilteredCourses
         debouncedSearchTerm={debouncedSearchTerm}

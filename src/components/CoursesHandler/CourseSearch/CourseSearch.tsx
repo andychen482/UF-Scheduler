@@ -3,13 +3,16 @@ import React, { useState, useRef } from "react";
 interface CourseSearchProps {
   debouncedSearchTerm: string;
   setDebouncedSearchTerm: (searchTerm: string) => void;
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const CourseSearch: React.FC<CourseSearchProps> = ({
   debouncedSearchTerm,
   setDebouncedSearchTerm,
+  searchTerm,
+  setSearchTerm,
 }) => {
-  const [searchTerm, setSearchTerm] = useState("");
   const debounceRef = useRef<NodeJS.Timeout>(); // Store the timeout reference
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
