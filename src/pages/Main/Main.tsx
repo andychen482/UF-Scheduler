@@ -1,9 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import CoursesHandler from "../../components/CoursesHandler/CoursesHandler";
 import "./CourseDisplay.css";
 import { MainClasses } from "./MainClasses";
 import { Course } from "../../components/CourseUI/CourseTypes";
+import cytoscape from 'cytoscape';
+import { GraphData } from '../../components/Cytoscape/cytoscapeTypes';
+import klay from 'cytoscape-klay';
+
+cytoscape.use(klay);
 
 const Header = () => {
   return (
@@ -22,6 +27,7 @@ const Main = () => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [elapsedTime, setElapsedTime] = useState("");
   const [loading, setLoading] = useState(false);
+  const cyContainerRef = useRef(null);
 
   const handleLoading = async (callback: () => Promise<void>) => {
     try {
@@ -35,39 +41,71 @@ const Main = () => {
     }
   };
 
+  const initializeCytoscape = (graphData: GraphData) => {
+    if (cyContainerRef.current) {
+      const cy = cytoscape({
+        container: cyContainerRef.current,
+        elements: [...graphData.nodes, ...graphData.edges],
+        style: [
+          {
+            selector: 'node',
+            style: {
+              'background-color': '#0021A5',
+              'label': 'data(id)',
+              'color': 'white',
+              'text-valign': 'center',
+              'text-halign': 'center',
+              'text-wrap': 'wrap', 
+              'text-max-width': '150px', 
+              'font-size': '30px',
+              'width': '150px',  // Set a fixed width
+              'height': '150px', // Set the same value for height to make it a circle
+            }
+          },
+          {
+            selector: 'edge',
+            style: {
+              'width': 5,
+              'line-color': '#ccc',
+              'target-arrow-color': '#ccc',
+              'target-arrow-shape': 'triangle',
+              'curve-style': 'bezier'
+            }
+          }
+        ],
+        layout: {
+          name: 'klay',
+          nodeDimensionsIncludeLabels: true,
+          padding: 20,
+          klay: {
+            direction: 'RIGHT', // Layout flows from left to right
+            spacing: 80,        // Adjust as needed for spacing between nodes
+            nodeLayering: 'NETWORK_SIMPLEX', // Strategy for node layering
+            edgeRouting: 'ORTHOGONAL', 
+          }
+        } as any,
+        minZoom: 0.22,  // Set the minimum zoom level. Adjust as needed.
+        maxZoom: 3,    // Optional: Set a maximum zoom level if needed.
+        wheelSensitivity: 0.1  // Optional: Adjusts the sensitivity of mousewheel zooming.
+      });
+    }
+  };
+
   const generateAList = async () => {
     await handleLoading(async () => {
       const selectedCoursesServ = selectedCourses.map((course) => course.code);
-      // http://localhost:5000/generate_graph
-      // https://ufscheduler.onrender.com/generate_graph
-      // const response = await axios.post('http://localhost:5000/generate_a_list', {
       const response = await axios.post(
         "https://ufscheduler.onrender.com/generate_a_list",
         {
+        // const response = await axios.post('http://localhost:5000/generate_a_list', {
           selectedMajorServ: selectedMajor,
           selectedCoursesServ: selectedCoursesServ,
         }
       );
-
-      setImage(`data:image/png;base64,${response.data.image}`);
-      setElapsedTime(response.data.time);
-    });
-  };
-
-  const generateAMatrix = async () => {
-    await handleLoading(async () => {
-      const selectedCoursesServ = selectedCourses.map((course) => course.code);
-      // const response = await axios.post('http://localhost:5000/generate_a_matrix', {
-      const response = await axios.post(
-        "https://ufscheduler.onrender.com/generate_a_matrix",
-        {
-          selectedMajorServ: selectedMajor,
-          selectedCoursesServ: selectedCoursesServ,
-        }
-      );
-
-      setImage(`data:image/png;base64,${response.data.otherImage}`);
-      setElapsedTime(response.data.otherTime);
+  
+      const graphData = response.data;
+      console.log(graphData);
+      initializeCytoscape(graphData);
     });
   };
 
@@ -129,13 +167,6 @@ const Main = () => {
             >
               Prerequisite Visualizer
             </button>
-            {/* <button
-                className="generate-button text-white"
-                onClick={() => handleLoading(generateAMatrix)}
-                disabled={selectedMajor === null || loading}
-              >
-                Generate Adjacency List B
-              </button> */}
             {/* <div className={`help-button ${showPopup ? "show" : ""}`}>
               <button onClick={() => setShowPopup(true)}>?</button>
             </div> */}
@@ -153,7 +184,8 @@ const Main = () => {
             </p>
           </div>
           <div id="display-write">
-            {image && <img src={image} alt="Generated Graph" />}
+            {/* {image && <img src={image} alt="Generated Graph" />} */}
+            <div ref={cyContainerRef} id="cytoscape-container" style={{ width: '100%', height: '100%' }}></div>
             {elapsedTime && (
             <div id="elapsed-time" className="elapsed-time">
               {elapsedTime}

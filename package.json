@@ -15,7 +15,9 @@
     "axios": "^1.4.0",
     "color-hash": "^2.0.2",
     "cytoscape": "^3.26.0",
+    "cytoscape-klay": "^3.1.4",
     "js-cookie": "^3.0.5",
+    "klayjs": "^0.4.1",
     "pyscript-react": "^0.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -59,6 +61,8 @@
   },
   "devDependencies": {
     "@types/color-hash": "^1.0.2",
+    "@types/cytoscape": "^3.19.10",
+    "@types/cytoscape-klay": "^3.1.1",
     "@types/react-infinite-scroller": "^1.2.3",
     "gh-pages": "^5.0.0",
     "tailwindcss": "^3.3.3"

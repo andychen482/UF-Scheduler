@@ -146,47 +146,9 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   const [hasMore, setHasMore] = useState(true);
   const [records, setrecords] = useState(itemsPerPage);
 
-  // const filteredCourses = useMemo(() => {
-  //   setHasMore(true);
-  //   setrecords(itemsPerPage);
-  //   const formattedSearchTerm = debouncedSearchTerm
-  //     .replace(/\s/g, "")
-  //     .toUpperCase();
-  //   if (formattedSearchTerm.length === 0) {
-  //     return []; // Return an empty array if no search term is provided
-  //   }
-  //   const prefix = formattedSearchTerm.match(/[a-zA-Z]+/)?.[0]?.toUpperCase(); // Extract course prefix
-  //   const additionalCharacters = formattedSearchTerm.slice(prefix?.length); // Extract additional characters
-  //   return (jsonData as Course[])
-  //     .filter((course: Course) => {
-  //       const { code } = course;
-  //       const coursePrefix = code.match(/[a-zA-Z]+/)?.[0]?.toUpperCase(); // Extract course prefix
-  //       const jsonAdditionalChars = code.slice(coursePrefix?.length); // Extract additional characters
-  //       return (
-  //         coursePrefix &&
-  //         coursePrefix.startsWith(prefix!) &&
-  //         jsonAdditionalChars.toUpperCase().startsWith(additionalCharacters)
-  //       );
-  //     })
-  //     .sort(
-  //       (a: Course, b: Course) =>
-  //         a.code.localeCompare(b.code) || a.termInd.localeCompare(b.termInd)
-  //     );
-  // }, [debouncedSearchTerm]);
-
   const groupedFilteredCourses = useMemo(() => {
     return groupByCourseCodeAndName(filteredCourses);
   }, [filteredCourses]);
-
-  // const loadMore = () => {
-  //   if (records >= Object.keys(groupedFilteredCourses).length) {
-  //     setHasMore(false);
-  //   } else {
-  //     setTimeout(() => {
-  //       setrecords(records + itemsPerPage);
-  //     }, 2000);
-  //   }
-  // };
 
   useMemo(() => {
     setHasMore(true);
