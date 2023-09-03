@@ -101,7 +101,7 @@ const Main = () => {
             edgeRouting: 'ORTHOGONAL', 
           }
         } as any,
-        minZoom: 0.22,  // Set the minimum zoom level. Adjust as needed.
+        minZoom: 0.1,  // Set the minimum zoom level. Adjust as needed.
         maxZoom: 3,    // Optional: Set a maximum zoom level if needed.
         wheelSensitivity: 0.1  // Optional: Adjusts the sensitivity of mousewheel zooming.
       });

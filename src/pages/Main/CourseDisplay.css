@@ -171,14 +171,14 @@
   }
   #display-write {
     width: 100%;
-    height: 300px;
+    height: auto;
     max-height: 100vh;
     border-top: 0.5px solid #ccc;
   }
 
   #cytoscape-container {
     width: 100%;
-    height: 500px;
+    height: 600px;
   }
 
   .popup {
