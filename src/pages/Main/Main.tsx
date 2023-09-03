@@ -192,7 +192,7 @@ const Main = () => {
           </div>
           <div id="display-write">
             {/* {image && <img src={image} alt="Generated Graph" />} */}
-            <div ref={cyContainerRef} id="cytoscape-container" style={{ width: '100%', height: '100%' }}></div>
+            <div ref={cyContainerRef} id="cytoscape-container"></div>
           </div>
         </div>
       </div>
