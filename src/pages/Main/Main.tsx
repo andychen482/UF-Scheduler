@@ -128,7 +128,7 @@ const Main = () => {
       cy.on('tap', 'node', (event) => {
         const nodeId = event.target.id();
         setDebouncedSearchTerm(nodeId.replace("\n", ""));
-        setSearchTerm(nodeId.replace("\n", ""));
+        setSearchTerm(nodeId.slice(0, 4) + " " + nodeId.slice(4));
       });
     }
   };
