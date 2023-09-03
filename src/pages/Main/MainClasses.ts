@@ -1,6 +1,6 @@
 export const MainClasses = {
   container:
-    "flex flex-col items-start basis-full max-w-[50%] p-4 dark:bg-gray-800 transition-colors duration-500",
+    "flex flex-col items-start basis-full p-4 dark:bg-gray-800 transition-colors duration-500",
   badge:
     "inline-block px-2 py-1 text-xs font-semibold text-white bg-blue-500 rounded-full",
   input:
@@ -14,5 +14,5 @@ export const MainClasses = {
   caretUpIcon:
     "cursor-pointer mr-1 mt-2 text-[1.0rem] text-gray-700 dark:text-white hover:opacity-60",
   courseCard:
-    "cursor-pointer bg-white dark:bg-gray-700 rounded-md p-4 my-2 w-[18rem] sm:w-[20rem] md:w-[24rem] lg:w-[28rem] xl:w-[32rem] shadow-md transition-shadow duration-300",
+    "cursor-pointer bg-white dark:bg-gray-700 rounded-md p-4 my-2 w-[20rem] sm:w-[20rem] md:w-[22rem] lg:w-[28rem] xl:w-[32rem] shadow-md transition-shadow duration-300",
 };

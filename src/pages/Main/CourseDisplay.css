@@ -18,12 +18,14 @@
 
 .course-display {
   display: flex;
+  flex-direction: row;
 }
 
 .courses-handler {
-  width: 50%;
-  padding: 1rem;
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;  /* This ensures that the container takes up the full height, allowing for vertical centering */
 }
 
 .course-filter {
@@ -193,6 +195,28 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     z-index: 1000;
   }
+
+  .flex.flex-col.items-start.basis-full.p-4.dark\:bg-gray-800.transition-colors.duration-500 {
+    max-width: 100%;
+  }
+
+  .courses-handler {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 701px) and (max-width: 1120px)
+{
+  .flex.flex-col.items-start.basis-full.p-4.dark\:bg-gray-800.transition-colors.duration-500 {
+    max-width: 50%;
+  }
+
+  #display-write {
+    width: 100%;
+    height: auto;
+    max-height: 100vh;
+    border-left: 0.5px solid #ccc;
+  }
 }
 
 #display-write {
@@ -202,7 +226,7 @@
 }
 
 
-@media (min-width: 701px) {
+@media (min-width: 1121px) {
   #display-write {
     width: 100%;
     height: auto;
@@ -213,5 +237,8 @@
   #cytoscape-container {
     width: 100%;
     height: 100%;
+  }
+  .flex.flex-col.items-start.basis-full.p-4.dark\:bg-gray-800.transition-colors.duration-500 {
+    max-width: 40%;
   }
 }

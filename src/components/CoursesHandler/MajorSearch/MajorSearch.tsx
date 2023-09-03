@@ -31,7 +31,7 @@ const MajorSelect: React.FC<MajorSearchProps> = ({ selectedMajor, setSelectedMaj
           },
         })}
         placeholder="Select a department..."
-        className="mb-4 text-black bg-gray-200 rounded-md placeholder-gray-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-500 w-[20rem] sm:w-[20rem] md:w-[24rem] lg:w-[28rem] xl:w-[32rem]"
+        className="mb-4 text-black bg-gray-200 rounded-md placeholder-gray-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-500 w-[100%]"
       />
     </div>
   );
