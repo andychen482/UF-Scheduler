@@ -14,6 +14,7 @@
     "@types/react-dom": "^18.2.7",
     "axios": "^1.4.0",
     "color-hash": "^2.0.2",
+    "cytoscape": "^3.26.0",
     "js-cookie": "^3.0.5",
     "pyscript-react": "^0.0.3",
     "react": "^18.2.0",

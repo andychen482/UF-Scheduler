@@ -154,8 +154,8 @@
 
 .elapsed-time {
   position: absolute;
-  top: 0px;
-  right: 0px;
+  top: 14px;
+  right: 10px;
   background-color: #FA4616;
   color: #fff;
   font-size: 12px;
@@ -191,6 +191,7 @@
 }
 
 #display-write {
+  position: relative;
   flex: 1; 
   max-width: 100%;
 }

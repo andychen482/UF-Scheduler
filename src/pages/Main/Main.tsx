@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 import CoursesHandler from "../../components/CoursesHandler/CoursesHandler";
 import "./CourseDisplay.css";
 import { MainClasses } from "./MainClasses";
@@ -13,11 +13,10 @@ const Header = () => {
   );
 };
 
-
 const Main = () => {
   const { container } = MainClasses;
   const [showPopup, setShowPopup] = useState(false);
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState("");
   const [selectedMajor, setSelectedMajor] = useState<string | null>(null);
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -42,11 +41,14 @@ const Main = () => {
       // http://localhost:5000/generate_graph
       // https://ufscheduler.onrender.com/generate_graph
       // const response = await axios.post('http://localhost:5000/generate_a_list', {
-      const response = await axios.post('https://ufscheduler.onrender.com/generate_a_list', {
-        selectedMajorServ: selectedMajor,
-        selectedCoursesServ: selectedCoursesServ
-      });
-    
+      const response = await axios.post(
+        "https://ufscheduler.onrender.com/generate_a_list",
+        {
+          selectedMajorServ: selectedMajor,
+          selectedCoursesServ: selectedCoursesServ,
+        }
+      );
+
       setImage(`data:image/png;base64,${response.data.image}`);
       setElapsedTime(response.data.time);
     });
@@ -56,10 +58,13 @@ const Main = () => {
     await handleLoading(async () => {
       const selectedCoursesServ = selectedCourses.map((course) => course.code);
       // const response = await axios.post('http://localhost:5000/generate_a_matrix', {
-      const response = await axios.post('https://ufscheduler.onrender.com/generate_a_matrix', {
-        selectedMajorServ: selectedMajor,
-        selectedCoursesServ: selectedCoursesServ
-      });
+      const response = await axios.post(
+        "https://ufscheduler.onrender.com/generate_a_matrix",
+        {
+          selectedMajorServ: selectedMajor,
+          selectedCoursesServ: selectedCoursesServ,
+        }
+      );
 
       setImage(`data:image/png;base64,${response.data.otherImage}`);
       setElapsedTime(response.data.otherTime);
@@ -74,7 +79,7 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    if (image){
+    if (image) {
       localStorage.setItem("image", image);
     }
   }, [image]);
@@ -103,8 +108,6 @@ const Main = () => {
     }
   }, [showPopup]);
 
-
-
   return (
     <div>
       <Header />
@@ -119,14 +122,14 @@ const Main = () => {
             />
           </div>
           <div className="buttons-container">
-                <button
-                  className="generate-button text-white"
-                  onClick={() => handleLoading(generateAList)}
-                  disabled={selectedMajor === null || loading}
-                >
-                  Prerequisite Visualizer
-                </button>
-              {/* <button
+            <button
+              className="generate-button text-white"
+              onClick={() => handleLoading(generateAList)}
+              disabled={selectedMajor === null || loading}
+            >
+              Prerequisite Visualizer
+            </button>
+            {/* <button
                 className="generate-button text-white"
                 onClick={() => handleLoading(generateAMatrix)}
                 disabled={selectedMajor === null || loading}
@@ -143,17 +146,21 @@ const Main = () => {
           <div className={`loading-window ${loading ? "show" : ""}`}>
             Loading...
           </div>
-            <div className={`popup ${showPopup ? "show" : ""}`}>
-              <p>Enter your selected major and completed classes 
-              to generate a graph of prerequisite classes.
-              </p>
-            </div>
+          <div className={`popup ${showPopup ? "show" : ""}`}>
+            <p>
+              Enter your selected major and completed classes to generate a
+              graph of prerequisite classes.
+            </p>
+          </div>
           <div id="display-write">
             {image && <img src={image} alt="Generated Graph" />}
-          </div>
-          {elapsedTime &&
-          (<div id="elapsed-time" className="elapsed-time">{elapsedTime}{" seconds"}</div>
+            {elapsedTime && (
+            <div id="elapsed-time" className="elapsed-time">
+              {elapsedTime}
+              {" seconds"}
+            </div>
           )}
+          </div>
         </div>
       </div>
     </div>
