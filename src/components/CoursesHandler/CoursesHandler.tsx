@@ -75,7 +75,7 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
   }, [selectedCourses]);
 
   return (
-    <div className="bg-gray-700 dark:bg-gray-800 rounded-md p-4 shadow-md transition-shadow duration-300">
+    <div className="bg-gray-700 dark:bg-gray-800 rounded-md p-4 shadow-md transition-shadow duration-300 min-w-full min-h-full">
       <LikedSelectedCourses
         selectedCourses={selectedCourses}
         setSelectedCourses={setSelectedCourses}
