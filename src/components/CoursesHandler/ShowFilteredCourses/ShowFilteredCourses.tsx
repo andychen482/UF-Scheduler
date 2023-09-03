@@ -229,17 +229,17 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                         {firstCourse.termInd !== " " &&
                         firstCourse.termInd !== "C" ? (
                           <>
-                            <div className="mr-auto h-6">
+                            <div className="mr-auto h-6 whitespace-nowrap overflow-hidden text-overflow-ellipsis">
                               {firstCourse.code.replace(/([A-Z]+)/g, "$1 ")}{" "}
                               - {firstCourse.termInd}
                             </div>
                           </>
                         ) : (
-                          <div className="mr-auto h-6">
+                          <div className="mr-auto h-6  whitespace-nowrap overflow-hidden text-overflow-ellipsis">
                             {firstCourse.code.replace(/([A-Z]+)/g, "$1 ")}
                           </div>
                         )}
-                        <div className="text-sm font-normal text-gray-300 mr-6 h-5">
+                        <div className="text-sm font-normal text-gray-300 mr-6 h-5  whitespace-nowrap overflow-hidden text-overflow-ellipsis">
                           Credits: {" "}
                           {firstCourse.sections[0].credits}
                         </div>

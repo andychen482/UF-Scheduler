@@ -59,7 +59,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
             {courseChunk.map((course: Course, index: number) => (
               <div
                 key={index}
-                className={`flex-1 p-4 rounded-md mx-2 mb-2 text-black dark:text-white cursor-pointer sm:w-[18.5rem] w-full h-20 overflow-hidden`}
+                className={`flex-1 p-4 rounded-md mx-2 mb-2 text-black dark:text-white cursor-pointer w-full h-20 overflow-hidden`}
                 style={getCourseBackgroundColor(course)}
                 onClick={() => handleBadgeClick(course)}
               >
