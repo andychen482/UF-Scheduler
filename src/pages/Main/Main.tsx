@@ -98,10 +98,12 @@ const Main = () => {
           {
             selector: 'edge',
             style: {
-              'width': 5,
+              'width': 12,
               'line-color': '#ccc',
               'target-arrow-color': '#ccc',
+              'arrow-scale': 1.2,
               'target-arrow-shape': 'triangle',
+              'target-arrow-fill': 'filled',
               'curve-style': 'bezier'
             }
           }
