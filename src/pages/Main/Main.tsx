@@ -81,7 +81,8 @@ const Main = () => {
               'text-valign': 'center',
               'text-halign': 'center',
               'text-wrap': 'wrap', 
-              'text-max-width': '150px', 
+              'text-max-width': '120px', 
+              'font-weight': 'normal',
               'font-size': '30px',
               'width': '150px',  // Set a fixed width
               'height': '150px', // Set the same value for height to make it a circle
