@@ -28,10 +28,7 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
     setSearchTerm,
   }
 ) => {
-  // const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
-  // const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [hasBeenLoaded, setLoaded ] = useState(false);
-  // const [selectedMajor, setSelectedMajor] = useState<string | null>(null);
   const [ totalCredits, setTotalCredits ] = useState(0);
 
   // Load selectedCourses from the cookie when the component mounts
