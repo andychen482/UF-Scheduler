@@ -9,6 +9,7 @@ target: string;
 
 export type Node = {
 data: NodeData;
+classes: string;
 };
 
 export type Edge = {

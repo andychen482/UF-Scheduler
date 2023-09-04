@@ -7,6 +7,7 @@ import { Course } from "../../components/CourseUI/CourseTypes";
 import cytoscape from 'cytoscape';
 import { GraphData } from '../../components/Cytoscape/cytoscapeTypes';
 import klay from 'cytoscape-klay';
+import ClipLoader from "react-spinners/ClipLoader";
 
 cytoscape.use(klay);
 
@@ -55,14 +56,11 @@ const Main = () => {
       setGraphData(JSON.parse(storedGraphData));
     }
   }, [setGraphData])
-  
+
   useEffect(() => {
     if (graphData){
       localStorage.setItem("graphData", JSON.stringify(graphData));
     }
-  }, [graphData])
-
-  useEffect(() => {
     initializeCytoscape();
   }, [graphData]);
 
@@ -224,6 +222,10 @@ const Main = () => {
     };
   }, [cyRef]);
 
+  useEffect(() => {
+    handleLoading(generateAList);
+  }, [selectedCourses, selectedMajor]);
+
   const generateAList = async () => {
     await handleLoading(async () => {
       const selectedCoursesServ = selectedCourses.map((course) => course.code);
@@ -286,23 +288,8 @@ const Main = () => {
               setSearchTerm={setSearchTerm}
             />
           </div>
-          <div className="buttons-container">
-            <button
-              className="generate-button text-white"
-              onClick={() => handleLoading(generateAList)}
-              disabled={selectedMajor === null || loading}
-            >
-              Prerequisite Visualizer
-            </button>
-            {/* <div className={`help-button ${showPopup ? "show" : ""}`}>
-              <button onClick={() => setShowPopup(true)}>?</button>
-            </div> */}
-          </div>
           <div className={`tooltip-window ${showTooltip ? "show" : ""}`}>
             Please select a major to enable the button.
-          </div>
-          <div className={`loading-window ${loading ? "show" : ""}`}>
-            Loading...
           </div>
           <div className={`popup ${showPopup ? "show" : ""}`}>
             <p>
@@ -313,6 +300,9 @@ const Main = () => {
           <div id="display-write">
             {/* {image && <img src={image} alt="Generated Graph" />} */}
             <div ref={cyContainerRef} id="cytoscape-container"></div>
+            <div className={`loader-container ${loading ? "show" : ""}`}>
+              <ClipLoader color="#ffffff" loading={loading} size={150} />
+            </div>
           </div>
         </div>
       </div>
