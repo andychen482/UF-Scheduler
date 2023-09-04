@@ -158,6 +158,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   const loadMore = async () => {
     try {
       const response = await axios.post("https://ufscheduler.onrender.com/api/get_courses", {
+      // const response = await axios.post("http://localhost:5000/api/get_courses", {
         searchTerm: debouncedSearchTerm,
         itemsPerPage: itemsPerPage,
         startFrom: records  // start from current record count
@@ -177,6 +178,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     const fetchData = async () => {
       try {
         const response = await axios.post("https://ufscheduler.onrender.com/api/get_courses", {
+        // const response = await axios.post("http://localhost:5000/api/get_courses", {
           searchTerm: debouncedSearchTerm,
           itemsPerPage: itemsPerPage,
           startFrom: 0  // assuming you want to paginate from the start when the search term changes
@@ -202,7 +204,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
         useWindow={false}
       >
         {Object.keys(groupedFilteredCourses).length > 0 ? (
-          Object.keys(groupedFilteredCourses).slice(0, records).map((key, index) => {
+          Object.keys(groupedFilteredCourses).map((key, index) => {
             const courses = groupedFilteredCourses[key];
             const firstCourse = courses[0];
             const isCourseSelected = selectedCourses.some(
@@ -301,10 +303,11 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                     </div>
                 </div>
                 {isOpen && (
-                  <div className="w-[100%] opacity-100 visible transition-opacity">
-                    {courses.map((course, index) => (
+                  <div className="w-[100%] opacity-100 visible transition-opacity my-1">
+                    {/* {courses.map((course, index) => (
                       <CourseDropdown key={index} course={course} />
-                    ))}
+                    ))} */}
+                    <CourseDropdown course={firstCourse} />
                   </div>
                 )}
               </React.Fragment>

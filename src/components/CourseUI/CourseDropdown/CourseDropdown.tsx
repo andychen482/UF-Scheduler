@@ -22,8 +22,9 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({ course }) => {
         <div className="text-gray-200">
           <strong>Instructors:</strong>{" "}
           {section.instructors.length > 0 ? (
-            section.instructors.map((instructor) => (
+            section.instructors.map((instructor, index) => (
               <span
+                key={index}
                 className="text-gray-200 dark:text-gray-200" // Add the class to change the color of names
               >
                 {instructor.name}
