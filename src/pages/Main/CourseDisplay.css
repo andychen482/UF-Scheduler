@@ -1,20 +1,5 @@
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: rgb(47 49 54);
-  color: white;
-  height: 43px;
-  padding: 8px;
-  text-align: right;
-  font-size: large;
-  z-index: 1000; /* Ensure the header is above other content */
-  border-bottom: 0.5px solid #ccc;
-}
-
 .content-wrapper {
-  margin-top: 40px; /* Adjust this margin to avoid content overlap */
+  margin-top: 40px;
 }
 
 .course-display {
@@ -27,7 +12,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;  /* This ensures that the container takes up the full height, allowing for vertical centering */
+  height: 100%;
 }
 
 .course-filter {
@@ -170,16 +155,16 @@
 }
 
 .loader-container {
-  display: none; /* Initially hidden */
-  position: absolute; /* Absolute positioning */
-  top: 50%; /* Center vertically */
-  left: 50%; /* Center horizontally */
-  transform: translate(-50%, -50%); /* Adjust for the size of the loader */
-  z-index: 10; /* Ensure the loader is above other content */
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
 }
 
 .loader-container.show {
-  display: block; /* Show when the loading state is true */
+  display: block;
 }
 
 @media (max-width: 700px) {
