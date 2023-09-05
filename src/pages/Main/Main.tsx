@@ -241,7 +241,7 @@ const Main = () => {
         // Check if cyRef and cyRef.current are not null
         e.preventDefault();
 
-        const zoomFactor = e.deltaY < 0 ? 1.08 : 1 / 1.08;
+        const zoomFactor = e.deltaY < 0 ? 1.2 : 1 / 1.2;
         const container = cyRef.current.container();
         if (container) {
           // Check if container is not null
@@ -376,9 +376,6 @@ const Main = () => {
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
             />
-          </div>
-          <div className={`tooltip-window ${showTooltip ? "show" : ""}`}>
-            Please select a major to enable the button.
           </div>
           {showDisplayWrite ? (
             <div id="display-write">

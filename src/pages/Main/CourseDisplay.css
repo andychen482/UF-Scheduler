@@ -80,22 +80,6 @@
   background-color: #363c47;
 }
 
-.tooltip-window {
-  position: absolute;
-  bottom: 15%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #333;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
-  z-index: 999;
-}
-
 .loading-window {
   position: absolute;
   bottom: 15%;
@@ -113,11 +97,6 @@
 }
 
 .loading-window.show {
-  visibility: visible;
-  opacity: 1;
-}
-
-.tooltip-window.show {
   visibility: visible;
   opacity: 1;
 }
