@@ -29,6 +29,12 @@
     .calendar-container
     {
         border-left: 0.5px solid #ccc;
+        max-height: 100vh;
+        position: fixed;
+        top: 43px;
+        left: 45%;
+        flex: 1; 
+        max-width: 55%;
     }
 }
 @media (min-width: 1121px)
@@ -36,5 +42,11 @@
     .calendar-container
     {
         border-left: 0.5px solid #ccc;
+        max-height: 100vh;
+        position: fixed;
+        top: 43px;
+        left: 45%;
+        flex: 1; 
+        max-width: 55%;
     }
 }

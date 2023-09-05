@@ -122,26 +122,6 @@
   opacity: 1;
 }
 
-.popup {
-  transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
-  position: fixed;
-  bottom: 100px;
-  right: 25px;
-  max-width: 400px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 15px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  visibility: hidden;
-  opacity: 0;
-}
-
-.popup.show {
-  visibility: visible;
-  opacity: 0.9;
-}
-
 .elapsed-time {
   position: absolute;
   top: 14px;
@@ -169,16 +149,11 @@
 
 @media (max-width: 700px) {
   .flexImage {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: column-reverse; /* Reverse the order of flex items */
+    align-items: center; /* Center align items horizontally */
   }
   #display-write {
     max-height: 600px;
-    position: sticky;
-    top: 0;
-    bottom: 0;
-    flex: 1; 
-    max-width: 100%;
     width: 100%;
     border-top: 0.5px solid #ccc;
   }
@@ -188,36 +163,19 @@
     height: 600px;
   }
 
-  .popup {
-    position: fixed;
-    bottom: 90px;
-    right: 25px;
-    max-width: 350px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-  }
-
   .flex.flex-col.items-start.basis-full.p-4.dark\:bg-gray-800.transition-colors.duration-500 {
     max-width: 100%;
     width: 100%;
   }
 
   .courses-handler {
-    flex-direction: column;
+    order: 2;
+    width: 100%;
   }
 }
 
 @media (min-width: 701px) and (max-width: 1120px)
 {
-  .flex.flex-col.items-start.basis-full.p-4.dark\:bg-gray-800.transition-colors.duration-500 {
-    max-width: 45%;
-    min-width: 45%;
-  }
-
   #display-write {
     max-height: 100vh;
     border-left: 0.5px solid #ccc;
@@ -225,7 +183,6 @@
     top: 0;
     bottom: 0;
     flex: 1; 
-    width: 100%;
     max-width: 100%;
   }
 
@@ -233,13 +190,13 @@
     width: 100%;
     height: 100%;
   }
+  .flex.flex-col.items-start.basis-full.p-4.dark\:bg-gray-800.transition-colors.duration-500 {
+    max-width: 45%;
+    min-width: 45%;
+  }
 }
 
-#display-write {
-  position: relative;
-  flex: 1; 
-  max-width: 100%;
-}
+
 
 
 @media (min-width: 1121px) {

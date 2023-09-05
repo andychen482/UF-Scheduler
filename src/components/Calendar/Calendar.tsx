@@ -12,7 +12,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
       <div className="centered-text text-2xl text-white">WIP</div>
       {selectedCourses.map((course) => {
         return (
-          <div key={course.code} className="ml-2 list-none text-gray-200 font-bold">
+          <div key={course.name} className="ml-2 list-none text-gray-200 font-bold">
             <div className="course-name">{course.name}</div>
             {course.sections.map((section, index) => (
               <div key={index}>

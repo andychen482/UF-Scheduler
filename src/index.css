@@ -270,3 +270,11 @@ html, body {
   border-radius: 10px;
   @apply bg-gray-500 dark:bg-slate-500;
 }
+
+body::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: transparent;
+}

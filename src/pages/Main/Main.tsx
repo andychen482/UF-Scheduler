@@ -15,7 +15,6 @@ cytoscape.use(klay);
 
 const Main = () => {
   const { container } = MainClasses;
-  const [showPopup, setShowPopup] = useState(false);
   const [selectedMajor, setSelectedMajor] = useState<string | null>(null);
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
@@ -361,16 +360,6 @@ const Main = () => {
     }
   }, [showTooltip]);
 
-  useEffect(() => {
-    if (showPopup) {
-      const timeoutId = setTimeout(() => {
-        setShowPopup(false);
-      }, 2000);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [showPopup]);
-
   return (
     <div>
       <Header calendarView={calendarView} graphView={graphView} showDisplayWrite={showDisplayWrite} />
@@ -390,12 +379,6 @@ const Main = () => {
           </div>
           <div className={`tooltip-window ${showTooltip ? "show" : ""}`}>
             Please select a major to enable the button.
-          </div>
-          <div className={`popup ${showPopup ? "show" : ""}`}>
-            <p>
-              Enter your selected major and completed classes to generate a
-              graph of prerequisite classes.
-            </p>
           </div>
           {showDisplayWrite ? (
             <div id="display-write">
