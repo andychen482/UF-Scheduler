@@ -16,3 +16,25 @@
 .course-name {
     border-bottom: 1px solid white;
   }
+
+@media (max-width: 700px)
+{
+    .calendar-container
+    {
+        border-top: 0.5px solid #ccc;
+    }
+}
+@media (min-width: 701px) and (max-width: 1120px)
+{
+    .calendar-container
+    {
+        border-left: 0.5px solid #ccc;
+    }
+}
+@media (min-width: 1121px)
+{
+    .calendar-container
+    {
+        border-left: 0.5px solid #ccc;
+    }
+}
