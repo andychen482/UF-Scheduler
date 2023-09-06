@@ -26,6 +26,7 @@ const Main = () => {
   const cyRef = useRef<cytoscape.Core | null>(null);
   const [showDisplayWrite, setShowDisplayWrite] = useState(true);
   const [hasShownCalendar, setHasShownCalendar] = useState(false);
+  const [loadedOnce, setLoadedOnce] = useState(false);
 
   const isMobile = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -141,6 +142,7 @@ const Main = () => {
         setSearchTerm(nodeId.slice(0, 4) + " " + nodeId.slice(4));
       });
     }
+    setLoadedOnce(true);
   };
 
   const setupZoomEventHandler = (cy: cytoscape.Core) => {
@@ -328,7 +330,9 @@ const Main = () => {
   }, [cyRef]);
 
   useEffect(() => {
-    handleLoading(generateAList);
+    if (loadedOnce) {
+      handleLoading(generateAList);
+    }
   }, [selectedCourses, selectedMajor]);
 
   const generateAList = async () => {
