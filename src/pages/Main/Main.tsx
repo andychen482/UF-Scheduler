@@ -151,7 +151,7 @@ const Main = () => {
         // Check if cyRef and cyRef.current are not null
         e.preventDefault();
 
-        const zoomFactor = e.deltaY < 0 ? 1.08 : 1 / 1.08;
+        const zoomFactor = e.deltaY < 0 ? 1.05 : 1 / 1.05;
         const container = cyRef.current.container();
         if (container) {
           // Check if container is not null
@@ -243,7 +243,7 @@ const Main = () => {
         // Check if cyRef and cyRef.current are not null
         e.preventDefault();
 
-        const zoomFactor = e.deltaY < 0 ? 1.2 : 1 / 1.2;
+        const zoomFactor = e.deltaY < 0 ? 1.05 : 1 / 1.05;
         const container = cyRef.current.container();
         if (container) {
           // Check if container is not null

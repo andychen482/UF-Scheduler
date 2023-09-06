@@ -1,8 +1,7 @@
 .calendar-container
 {
     max-height: calc(100vh - 43px);
-    height: calc(100vh - 43px);
-    width: 100%;
+    width: 55%;
     overflow-y: auto;
 }
 
@@ -17,6 +16,7 @@
 .course-name {
     border-bottom: 1px solid white;
   }
+
 
 @media (max-width: 700px)
 {

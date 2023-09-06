@@ -1,0 +1,11 @@
+from twill import browser
+browser.go("https://one.uf.edu/shib/login")
+browser.show_forms()
+browser.show_cookies()
+browser.form_field("1", "j_username", "andy.chen")
+browser.form_field("1", "j_password", "@k#k4i?M#V4AV/@")
+browser.submit("_eventId_proceed")
+browser.show()
+browser.save_cookies("cookies.txt")
+browser.show_cookies()
+browser.go("https://one.uf.edu")

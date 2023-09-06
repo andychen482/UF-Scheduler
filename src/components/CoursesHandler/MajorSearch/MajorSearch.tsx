@@ -1,6 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import majorsData from '../../../courses/depts_clean.json'; // Import the JSON data from the file
+import './MajorSearchStyles.css';
 
 interface MajorSearchProps {
     selectedMajor: string | null;
@@ -32,6 +33,10 @@ const MajorSelect: React.FC<MajorSearchProps> = ({ selectedMajor, setSelectedMaj
         })}
         placeholder="Select a department..."
         className="mb-4 text-black bg-gray-200 rounded-md placeholder-gray-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-500 w-[100%]"
+        menuPortalTarget={document.body} // Append the dropdown to the body element
+        styles={{
+          menuPortal: base => ({ ...base, zIndex: 9999 }) // Adjust the z-index as needed
+        }}
       />
     </div>
   );
