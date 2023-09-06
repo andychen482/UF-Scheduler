@@ -25,6 +25,7 @@ const Main = () => {
   const [graphData, setGraphData] = useState<GraphData | null>(null);
   const cyRef = useRef<cytoscape.Core | null>(null);
   const [showDisplayWrite, setShowDisplayWrite] = useState(true);
+  const [hasShownCalendar, setHasShownCalendar] = useState(false);
 
   const isMobile = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -34,6 +35,7 @@ const Main = () => {
 
   const calendarView = () => {
     setShowDisplayWrite(false);
+    setHasShownCalendar(true);
   };
 
   const graphView = () => {
@@ -42,7 +44,7 @@ const Main = () => {
 
   //Renders graph after calendar is switched away from
   useEffect(() => {
-    if (showDisplayWrite) {
+    if (showDisplayWrite && hasShownCalendar) {
       initializeCytoscape();
     }
   }, [showDisplayWrite]);
