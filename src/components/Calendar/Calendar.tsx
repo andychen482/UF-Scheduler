@@ -5,7 +5,7 @@ import { ViewState } from "@devexpress/dx-react-scheduler";
 import { Paper } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
-import { amber, deepOrange, grey, indigo } from '@mui/material/colors';
+import { amber, deepOrange, grey, indigo } from "@mui/material/colors";
 import moment from "moment";
 import {
   Scheduler,
@@ -33,11 +33,11 @@ const getDesignTokens = (mode: PaletteMode) => ({
     mode,
     primary: {
       ...indigo,
-      ...(mode === 'dark' && {
+      ...(mode === "dark" && {
         main: indigo[400],
       }),
     },
-    ...(mode === 'dark' && {
+    ...(mode === "dark" && {
       background: {
         default: grey[900],
         paper: grey[900],
@@ -45,14 +45,14 @@ const getDesignTokens = (mode: PaletteMode) => ({
     }),
     text: {
       ...{
-            primary: '#fff',
-            secondary: grey[500],
-          },
+        primary: "#fff",
+        secondary: grey[500],
+      },
     },
   },
 });
 
-const darkModeTheme = createTheme(getDesignTokens('dark'));
+const darkModeTheme = createTheme(getDesignTokens("dark"));
 
 interface CalendarProps {
   selectedCourses: Course[];
@@ -63,13 +63,21 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
     <div className="calendar-container">
       <div className="centered-text text-2xl text-white">WIP</div>
       <ThemeProvider theme={darkModeTheme}>
-        <Paper>
-        <Scheduler data={schedulerData}>
-          <ViewState currentDate={currentDate} />
-          <WeekView startDayHour={7} endDayHour={19.5} intervalCount={1} cellDuration={60} />
-          <Appointments />
-        </Scheduler>
-        </Paper>
+        <div className="schedule">
+          <Paper>
+            <Scheduler data={schedulerData}>
+              <ViewState currentDate={currentDate} />
+              <WeekView
+                startDayHour={7}
+                endDayHour={19.5}
+                intervalCount={1}
+                cellDuration={60}
+                excludedDays={[0, 6]}
+              />
+              <Appointments />
+            </Scheduler>
+          </Paper>
+        </div>
       </ThemeProvider>
       {selectedCourses.map((course) => {
         return (
