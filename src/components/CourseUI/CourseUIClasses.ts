@@ -6,6 +6,6 @@ export const courseUIClasses = {
   list: "list-none pl-0",
   content: "ml-2 sm:ml-4 my-2 text-gray-200 dark:text-gray-300",
   contentML2: "ml-2 sm:ml-4",
-  listItem: "pt-2 pb-2 border-t border-gray-400 dark:border-gray-700",
+  listItem: "pt-2 pb-2 border-gray-400 dark:border-gray-700",
   term: "text-gray-900 dark:text-white mb-0",
 };

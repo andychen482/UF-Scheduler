@@ -4,7 +4,7 @@ import { Course } from "../../CourseUI/CourseTypes";
 import CourseDropdown from "../../CourseUI/CourseDropdown/CourseDropdown";
 import { ShowFilteredCoursesClasses } from "./ShowFilteredCoursesClasses";
 import InfiniteScroll from "react-infinite-scroller";
-import axios from 'axios';
+import axios from "axios";
 import {
   PiPlusBold,
   PiMinusBold,
@@ -45,14 +45,8 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
 
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
 
-
-  const {
-    minusIcon,
-    plusIcon,
-    caretDownIcon,
-    caretUpIcon,
-    courseCard,
-  } = ShowFilteredCoursesClasses;
+  const { minusIcon, plusIcon, caretDownIcon, caretUpIcon, courseCard } =
+    ShowFilteredCoursesClasses;
 
   const handleCourseCardClick = (event: React.MouseEvent, course: Course) => {
     const isButtonClick =
@@ -69,8 +63,6 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
           selectedCourse.code === course.code &&
           selectedCourse.name === course.name
       );
-
-
 
       toggleCourseDropdown(`${course.code}|${course.name}`);
 
@@ -143,19 +135,22 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
 
   const loadMore = async () => {
     try {
-      const response = await axios.post("https://ufscheduler.onrender.com/api/get_courses", {
-      // const response = await axios.post("http://localhost:5000/api/get_courses", {
-        searchTerm: debouncedSearchTerm,
-        itemsPerPage: itemsPerPage,
-        startFrom: records  // start from current record count
-      });
+      const response = await axios.post(
+        "https://ufscheduler.onrender.com/api/get_courses",
+        {
+          // const response = await axios.post("http://localhost:5000/api/get_courses", {
+          searchTerm: debouncedSearchTerm,
+          itemsPerPage: itemsPerPage,
+          startFrom: records, // start from current record count
+        }
+      );
 
-      setFilteredCourses(prevCourses => [...prevCourses, ...response.data]);
+      setFilteredCourses((prevCourses) => [...prevCourses, ...response.data]);
       setrecords(records + itemsPerPage);
     } catch (error) {
       console.error("Error loading more data", error);
     }
-    if (records >= 2*itemsPerPage + filteredCourses.length) {
+    if (records >= 2 * itemsPerPage + filteredCourses.length) {
       setHasMore(false);
     }
   };
@@ -163,20 +158,22 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post("https://ufscheduler.onrender.com/api/get_courses", {
-        // const response = await axios.post("http://localhost:5000/api/get_courses", {
-          searchTerm: debouncedSearchTerm,
-          itemsPerPage: itemsPerPage,
-          startFrom: 0  // assuming you want to paginate from the start when the search term changes
-        });
+        const response = await axios.post(
+          "https://ufscheduler.onrender.com/api/get_courses",
+          {
+            // const response = await axios.post("http://localhost:5000/api/get_courses", {
+            searchTerm: debouncedSearchTerm,
+            itemsPerPage: itemsPerPage,
+            startFrom: 0, // assuming you want to paginate from the start when the search term changes
+          }
+        );
 
         setFilteredCourses(response.data);
       } catch (error) {
         console.error("Error fetching data", error);
       }
-    }
-    if (debouncedSearchTerm !== "")
-    {
+    };
+    if (debouncedSearchTerm !== "") {
       fetchData();
     }
   }, [debouncedSearchTerm]);
@@ -195,7 +192,9 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
             const firstCourse = courses[0];
             const isCourseSelected = selectedCourses.some(
               (selectedCourse) =>
-                selectedCourse.code === firstCourse.code && selectedCourse.name === firstCourse.name);
+                selectedCourse.code === firstCourse.code &&
+                selectedCourse.name === firstCourse.name
+            );
             const isCourseAnimated =
               courseAnimation[`${firstCourse.code}|${firstCourse.name}`] ||
               false;
@@ -206,8 +205,12 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
             return (
               <React.Fragment key={index}>
                 <div className="flex items-center justify-between">
+                  <div
+                    className={courseCard}
+                    // onClick={(e) => handleCourseCardClick(e, firstCourse)}
+                  >
                     <div
-                      className={courseCard}
+                      className="cursor-pointer"
                       onClick={(e) => handleCourseCardClick(e, firstCourse)}
                     >
                       <div className="flex flex-row text-white dark:text-white items-center justify-evenly w-full h-6 p-1 m-0">
@@ -215,8 +218,8 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                         firstCourse.termInd !== "C" ? (
                           <>
                             <div className="mr-auto h-6 whitespace-nowrap overflow-hidden text-overflow-ellipsis">
-                              {firstCourse.code.replace(/([A-Z]+)/g, "$1 ")}{" "}
-                              - {firstCourse.termInd}
+                              {firstCourse.code.replace(/([A-Z]+)/g, "$1 ")} -{" "}
+                              {firstCourse.termInd}
                             </div>
                           </>
                         ) : (
@@ -225,32 +228,31 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                           </div>
                         )}
                         <div className="text-sm font-normal text-gray-300 mr-6 h-5 mb-[0.3rem]  whitespace-nowrap overflow-hidden text-overflow-ellipsis">
-                          Credits: {" "}
-                          {firstCourse.sections[0].credits}
+                          Credits: {firstCourse.sections[0].credits}
                         </div>
                         {/* <div className="mx-1 h-9">
-                          {isCourseSelected ? (
-                            <>
-                              <PiMinusBold
-                                className={`${minusIcon}`}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  toggleCourseSelected(firstCourse);
-                                }}
-                              />
-                            </>
-                          ) : (
-                            <>
-                              <PiPlusBold
-                                className={`${plusIcon}`}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  toggleCourseSelected(firstCourse);
-                                }}
-                              />
-                            </>
-                          )}
-                        </div> */}
+                            {isCourseSelected ? (
+                              <>
+                                <PiMinusBold
+                                  className={`${minusIcon}`}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleCourseSelected(firstCourse);
+                                  }}
+                                />
+                              </>
+                            ) : (
+                              <>
+                                <PiPlusBold
+                                  className={`${plusIcon}`}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleCourseSelected(firstCourse);
+                                  }}
+                                />
+                              </>
+                            )}
+                          </div> */}
                         <div className="mx-1 h-9">
                           {isOpen ? (
                             <PiCaretUpBold
@@ -283,19 +285,54 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                           )}
                         </div>
                       </div>
-                      <div className="text-sm font-normal text-gray-300 dark:text-white mx-1 line-clamp-1 overflow-ellipsis overflow-hidden">
-                        {firstCourse.name}
-                      </div>
+                    
+                    <div className="text-sm font-normal text-gray-300 dark:text-white mx-1 line-clamp-1 overflow-ellipsis overflow-hidden">
+                      {firstCourse.name}
                     </div>
-                </div>
-                {isOpen && (
-                  <div className="w-[100%] opacity-100 visible transition-opacity my-1">
-                    {/* {courses.map((course, index) => (
+                    </div>
+                    {isOpen && (
+                      <div>
+                        <div className={`mt-4 mb-0 mx-1 text-gray-200 `}>
+                          <hr />
+                          <strong>Description: </strong>
+                          {firstCourse.description
+                            ? firstCourse.description.replace("(P)", "").trim()
+                            : "N/A"}
+                        </div>
+                        <div>
+                          <div className="w-[100%] opacity-100 visible transition-opacity my-1">
+                            {/* {courses.map((course, index) => (
                       <CourseDropdown key={index} course={course} />
                     ))} */}
-                    <CourseDropdown course={firstCourse} selectedCourses={selectedCourses} setSelectedCourses={setSelectedCourses} filteredCourses={filteredCourses}/>
+
+                            <CourseDropdown
+                              course={firstCourse}
+                              selectedCourses={selectedCourses}
+                              setSelectedCourses={setSelectedCourses}
+                              filteredCourses={filteredCourses}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
+                {/* {isOpen && (
+                  <div>
+                    <div className="w-[100%] opacity-100 visible transition-opacity my-1">
+                      {courses.map((course, index) => (
+                      <CourseDropdown key={index} course={course} />
+                    ))}
+
+                      <CourseDropdown
+                        course={firstCourse}
+                        selectedCourses={selectedCourses}
+                        setSelectedCourses={setSelectedCourses}
+                        filteredCourses={filteredCourses}
+                      />
+                    </div>
+                  </div>
+                )} */}
               </React.Fragment>
             );
           })
@@ -305,6 +342,6 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
       </InfiniteScroll>
     </div>
   );
-}
+};
 
 export default ShowFilteredCourses;

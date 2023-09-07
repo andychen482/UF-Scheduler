@@ -40,65 +40,66 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
 
   const toggleSectionSelected = (section: Section) => {
     let courseExists = false;
-    const updatedCourses = selectedCourses.map(c => {
-        if (c.code === course.code) {
-            courseExists = true;
-            return {
-                ...c,
-                sections: c.sections.map(s => {
-                    if (s.number === section.number) {
-                        return {
-                            ...s,
-                            selected: !s.selected
-                        };
-                    } else {
-                        // Deselect all other sections
-                        return {
-                            ...s,
-                            selected: false
-                        };
-                    }
-                })
-            };
-        }
-        return c;
+    const updatedCourses = selectedCourses.map((c) => {
+      if (c.code === course.code) {
+        courseExists = true;
+        return {
+          ...c,
+          sections: c.sections.map((s) => {
+            if (s.number === section.number) {
+              return {
+                ...s,
+                selected: !s.selected,
+              };
+            } else {
+              // Deselect all other sections
+              return {
+                ...s,
+                selected: false,
+              };
+            }
+          }),
+        };
+      }
+      return c;
     });
 
     // If the course doesn't exist in selectedCourses, add it
     if (!courseExists) {
-        const newCourse = {
-            ...course,
-            sections: course.sections.map(s => {
-                if (s.number === section.number) {
-                    return {
-                        ...s,
-                        selected: true
-                    };
-                } else {
-                    return {
-                        ...s,
-                        selected: false
-                    };
-                }
-            })
-        };
-        updatedCourses.push(newCourse);
+      const newCourse = {
+        ...course,
+        sections: course.sections.map((s) => {
+          if (s.number === section.number) {
+            return {
+              ...s,
+              selected: true,
+            };
+          } else {
+            return {
+              ...s,
+              selected: false,
+            };
+          }
+        }),
+      };
+      updatedCourses.push(newCourse);
     } else {
-        // Check if all sections are not selected
-        const selectedCourse = updatedCourses.find(c => c.code === course.code);
-        if (selectedCourse && !selectedCourse.sections.some(s => s.selected)) {
-            // Remove the course from selectedCourses
-            return setSelectedCourses(prev => prev.filter(c => c.code !== course.code));
-        }
+      // Check if all sections are not selected
+      const selectedCourse = updatedCourses.find((c) => c.code === course.code);
+      if (selectedCourse && !selectedCourse.sections.some((s) => s.selected)) {
+        // Remove the course from selectedCourses
+        return setSelectedCourses((prev) =>
+          prev.filter((c) => c.code !== course.code)
+        );
+      }
     }
 
     setSelectedCourses(updatedCourses);
-};
-
+  };
 
   const renderSectionInformation = (section: Section) => {
     return (
-      <>
+      <div className="pl-4">
         {/* Star Icon based on section selected status */}
 
         <div className="text-gray-200">
@@ -125,7 +126,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
                   meetingTime.meetTimeBegin +
                   meetingTime.meetTimeEnd
                 }
-                className={`${content} text-gray-200 dark:text-gray-200`}
+                className={`mt-2 ml-2 text-gray-200 dark:text-gray-200`}
               >
                 <strong>{meetingTime.meetDays.join(", ")}: </strong> &nbsp;{" "}
                 {meetingTime.meetTimeBegin} - {meetingTime.meetTimeEnd}
@@ -139,47 +140,49 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
         </div>
 
         {/* Description */}
-        <div className="text-gray-200 dark:text-gray-200">
+        {/* <div className="text-gray-200 dark:text-gray-200">
           <strong>Description:</strong>
           <div className={`${content} text-gray-200 dark:text-gray-500`}>
             {course.description
               ? course.description.replace("(P)", "").trim()
               : "N/A"}
           </div>
-        </div>
+        </div> */}
 
         {/* Render other section details if needed */}
-      </>
+      </div>
     );
   };
 
   return (
     <div
-      className={`bg-[#43464d] dark:bg-gray-800 rounded-lg p-4 space-y-2 text-[15px]`}
+      className={`bg-[#43464d] dark:bg-gray-800 rounded-lg pl-2 pr-2 pb-2 space-y-2 text-[15px]`}
     >
       <div className="list-none">
         {course.sections.map((section, index) => (
           <li
             key={index}
-            className={`${listItem} border-t border-gray-400 dark:border-gray-700`}
+            className={`${listItem} ${
+              index > 0 ? "border-gray-400 dark:border-gray-700" : ""
+            }`}
           >
             <div className="flex justify-between items-center">
-              <div className="font-bold text-gray-200 dark:text-gray-200">
+              <div className="font-bold text-gray-200 dark:text-gray-200 flex items-center">
+                <span className="inline-block w-2 h-2 bg-gray-900 rounded-full mr-2"></span>
                 Section {section.number}:
               </div>
               {/* Star Icon based on section selected status */}
-              {
-                (isSectionSelected(section) ? (
-                  <PiMinusBold
-                    className={`${minusicons}`}
-                    onClick={() => toggleSectionSelected(section)}
-                  />
-                ) : (
-                  <PiPlusBold
-                    className={`${icons}`}
-                    onClick={() => toggleSectionSelected(section)}
-                  />
-                ))}
+              {isSectionSelected(section) ? (
+                <PiMinusBold
+                  className={`${minusicons}`}
+                  onClick={() => toggleSectionSelected(section)}
+                />
+              ) : (
+                <PiPlusBold
+                  className={`${icons}`}
+                  onClick={() => toggleSectionSelected(section)}
+                />
+              )}
             </div>
             {renderSectionInformation(section)}
           </li>
