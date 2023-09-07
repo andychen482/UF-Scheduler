@@ -1,6 +1,7 @@
 .calendar-container
 {
     max-height: calc(100vh - 43px);
+    min-height: calc(100vh - 43px);
     width: 55%;
     overflow-y: auto;
 }
@@ -40,6 +41,7 @@
     {
         border-left: 0.5px solid #ccc;
         max-height: calc(100vh - 43px);
+        min-height: calc(100vh - 43px);
         position: fixed;
         top: 43px;
         left: 45%;
@@ -53,6 +55,7 @@
     {
         border-left: 0.5px solid #ccc;
         max-height: calc(100vh - 43px);
+        min-height: calc(100vh - 43px);
         position: fixed;
         top: 43px;
         left: 45%;

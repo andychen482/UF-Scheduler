@@ -21,7 +21,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
 }) => {
   const { listItem, content } = courseUIClasses;
 
-  const { icons } = DropdownClasses;
+  const { icons, minusicons } = DropdownClasses;
 
   const isCourseSelected = () => {
     return selectedCourses.some((c) => c.code === course.code);
@@ -171,7 +171,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
               {
                 (isSectionSelected(section) ? (
                   <PiMinusBold
-                    className={`${icons}`}
+                    className={`${minusicons}`}
                     onClick={() => toggleSectionSelected(section)}
                   />
                 ) : (
