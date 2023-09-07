@@ -151,6 +151,10 @@
     order: 2;
     width: 100%;
   }
+
+  .calendar-container {
+    width: 100%;
+  }
 }
 
 @media (min-width: 701px)

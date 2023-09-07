@@ -391,7 +391,7 @@ const Main = () => {
               </div>
             </div>
           ) : (
-            <Calendar selectedCourses={selectedCourses} />
+              <Calendar selectedCourses={selectedCourses} />
           )}
         </div>
       </div>

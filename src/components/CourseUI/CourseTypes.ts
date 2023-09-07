@@ -19,6 +19,7 @@ export type Section = {
   meetTimes: MeetingTime[];
   // openSeats: number;
   finalExam: string;
+  selected: boolean;
 };
 
 export type Course = {

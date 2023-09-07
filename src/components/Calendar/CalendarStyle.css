@@ -5,9 +5,9 @@
     overflow-y: auto;
 }
 
-.schedule {
-    transform: scale(0.9);
-}
+/* .schedule {
+    transform: scale(1);
+} */
 
 .centered-text {
     display: flex;
@@ -21,12 +21,17 @@
     border-bottom: 1px solid white;
   }
 
+  .calendar-display {
+    transform: scaleX(0.95)
+  }
+
 
 @media (max-width: 700px)
 {
     .calendar-container
     {
         border-top: 0.5px solid #ccc;
+        width: 100%;
     }
 }
 @media (min-width: 701px) and (max-width: 1120px)
@@ -34,7 +39,7 @@
     .calendar-container
     {
         border-left: 0.5px solid #ccc;
-        max-height: 100vh;
+        max-height: calc(100vh - 43px);
         position: fixed;
         top: 43px;
         left: 45%;
@@ -47,7 +52,7 @@
     .calendar-container
     {
         border-left: 0.5px solid #ccc;
-        max-height: 100vh;
+        max-height: calc(100vh - 43px);
         position: fixed;
         top: 43px;
         left: 45%;

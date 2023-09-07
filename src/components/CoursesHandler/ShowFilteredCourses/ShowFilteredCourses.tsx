@@ -60,7 +60,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
       (event.target as HTMLElement).closest(".minus-icon") !== null ||
       (event.target as HTMLElement).closest(".carets") !== null;
 
-    const currentTime = new Date().getTime();
+    // const currentTime = new Date().getTime();
 
     if (!isButtonClick) {
       // eslint-disable-next-line
@@ -70,26 +70,12 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
           selectedCourse.name === course.name
       );
 
-      // If less than 250ms have passed since the last click, treat it as a double click.
-      if (currentTime - lastClick < 250) {
-        // Clear any existing timeouts
-        if (clickTimeout) {
-          clearTimeout(clickTimeout);
-          setClickTimeout(null);
-        }
 
-        toggleCourseSelected(course);
-      } else {
-        // Set up a timeout for the single click action
-        setClickTimeout(
-          setTimeout(() => {
-            toggleCourseDropdown(`${course.code}|${course.name}`);
-          }, 250)
-        );
-      }
+
+      toggleCourseDropdown(`${course.code}|${course.name}`);
 
       // Update last click time
-      setLastClick(currentTime);
+      // setLastClick(currentTime);
     }
   };
 
@@ -116,31 +102,31 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     });
   };
 
-  const toggleCourseSelected = (course: Course) => {
-    setLoaded(true);
-    const isSelected = selectedCourses.some(
-      (selectedCourse) =>
-        selectedCourse.code === course.code &&
-        selectedCourse.name === course.name
-    );
+  // const toggleCourseSelected = (course: Course) => {
+  //   setLoaded(true);
+  //   const isSelected = selectedCourses.some(
+  //     (selectedCourse) =>
+  //       selectedCourse.code === course.code &&
+  //       selectedCourse.name === course.name
+  //   );
 
-    if (isSelected) {
-      // Remove the course from the list of selected courses if it's already selected.
-      setSelectedCourses((prevSelectedCourses) =>
-        prevSelectedCourses.filter(
-          (selectedCourse) =>
-            selectedCourse.code !== course.code ||
-            selectedCourse.name !== course.name
-        )
-      );
-    } else {
-      // Add the course to the list of selected courses if it's not already selected.
-      setSelectedCourses((prevSelectedCourses) => [
-        ...prevSelectedCourses,
-        course,
-      ]);
-    }
-  };
+  //   if (isSelected) {
+  //     // Remove the course from the list of selected courses if it's already selected.
+  //     setSelectedCourses((prevSelectedCourses) =>
+  //       prevSelectedCourses.filter(
+  //         (selectedCourse) =>
+  //           selectedCourse.code !== course.code ||
+  //           selectedCourse.name !== course.name
+  //       )
+  //     );
+  //   } else {
+  //     // Add the course to the list of selected courses if it's not already selected.
+  //     setSelectedCourses((prevSelectedCourses) => [
+  //       ...prevSelectedCourses,
+  //       course,
+  //     ]);
+  //   }
+  // };
 
   const itemsPerPage = 20;
   const [hasMore, setHasMore] = useState(true);
@@ -238,11 +224,11 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                             {firstCourse.code.replace(/([A-Z]+)/g, "$1 ")}
                           </div>
                         )}
-                        <div className="text-sm font-normal text-gray-300 mr-6 h-5  whitespace-nowrap overflow-hidden text-overflow-ellipsis">
+                        <div className="text-sm font-normal text-gray-300 mr-6 h-5 mb-[0.3rem]  whitespace-nowrap overflow-hidden text-overflow-ellipsis">
                           Credits: {" "}
                           {firstCourse.sections[0].credits}
                         </div>
-                        <div className="mx-1 h-9">
+                        {/* <div className="mx-1 h-9">
                           {isCourseSelected ? (
                             <>
                               <PiMinusBold
@@ -264,7 +250,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                               />
                             </>
                           )}
-                        </div>
+                        </div> */}
                         <div className="mx-1 h-9">
                           {isOpen ? (
                             <PiCaretUpBold
@@ -307,7 +293,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                     {/* {courses.map((course, index) => (
                       <CourseDropdown key={index} course={course} />
                     ))} */}
-                    <CourseDropdown course={firstCourse} />
+                    <CourseDropdown course={firstCourse} selectedCourses={selectedCourses} setSelectedCourses={setSelectedCourses} filteredCourses={filteredCourses}/>
                   </div>
                 )}
               </React.Fragment>
