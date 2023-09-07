@@ -27,11 +27,8 @@ function convertTo24Hour(timeStr: string) {
 
   if (modifier === "PM") {
     hours = (parseInt(hours, 10) + 12).toString();
-  }
-  else
-  {
-    if ((parseInt(hours, 10)) >= 0 && (parseInt(hours, 10)) < 10)
-    {
+  } else {
+    if (parseInt(hours, 10) >= 0 && parseInt(hours, 10) < 10) {
       hours = "0" + hours;
     }
   }
@@ -72,52 +69,63 @@ interface CalendarProps {
 const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
   const courseAppointments = () => {
     let appointments: {
-        startDate: string;
-        endDate: string;
-        title: string;
+      startDate: string;
+      endDate: string;
+      title: string;
     }[] = [];
 
     const dayMapping: { [key: string]: string } = {
-        M: "Monday",
-        T: "Tuesday",
-        W: "Wednesday",
-        R: "Thursday",
-        F: "Friday",
+      M: "Monday",
+      T: "Tuesday",
+      W: "Wednesday",
+      R: "Thursday",
+      F: "Friday",
     };
 
-    selectedCourses.forEach(course => {
-        const selectedSection = course.sections.find(section => section.selected === true);
-        if (selectedSection) {
-            selectedSection.meetTimes.forEach(meetingTime => {
-                meetingTime.meetDays.forEach(day => {
-                    const fullDayName = dayMapping[day];
-                    const startDate = `${moment().day(fullDayName).format("YYYY-MM-DD")}T${convertTo24Hour(meetingTime.meetTimeBegin)}`;
-                    const endDate = `${moment().day(fullDayName).format("YYYY-MM-DD")}T${convertTo24Hour(meetingTime.meetTimeEnd)}`;
-                    const title = `${course.name}`;
-                    appointments.push({ startDate, endDate, title });
-                });
-            });
-        }
+    selectedCourses.forEach((course) => {
+      const selectedSection = course.sections.find(
+        (section) => section.selected === true
+      );
+      if (selectedSection) {
+        selectedSection.meetTimes.forEach((meetingTime) => {
+          meetingTime.meetDays.forEach((day) => {
+            const fullDayName = dayMapping[day];
+            const startDate = `${moment()
+              .day(fullDayName)
+              .format("YYYY-MM-DD")}T${convertTo24Hour(
+              meetingTime.meetTimeBegin
+            )}`;
+            const endDate = `${moment()
+              .day(fullDayName)
+              .format("YYYY-MM-DD")}T${convertTo24Hour(
+              meetingTime.meetTimeEnd
+            )}`;
+            const title = `${course.name}`;
+            appointments.push({ startDate, endDate, title });
+          });
+        });
+      }
     });
 
     return appointments;
-};
+  };
 
-const appointments = courseAppointments();
+  const appointments = courseAppointments();
 
-const startDayHour = appointments.length
-  ? Math.max(7, moment(Math.min(...appointments.map((a) => moment(a.startDate).valueOf()))).hour() - 1)
-  : 7;
+  const startDayHour = appointments.length
+    ? Math.min(...appointments.map((a) => moment(a.startDate).hour())) - 0.5
+    : 7;
 
-const endDayHour = appointments.length
-  ? Math.min(20, moment(Math.max(...appointments.map((a) => moment(a.endDate).valueOf()))).hour() + 2)
-  : 19.5;
-
+  const endDayHour = appointments.length
+    ? Math.max(...appointments.map((a) => moment(a.endDate).hour())) + 1
+    : 19.5;
 
   return (
     <div className="calendar-container">
       <div className="calendar-display">
-        <div className="centered-text text-2xl text-white mb-10">Calendar (WIP)</div>
+        <div className="centered-text text-2xl text-white mb-10">
+          Calendar (WIP)
+        </div>
         <ThemeProvider theme={darkModeTheme}>
           <div className="schedule">
             <Paper>
