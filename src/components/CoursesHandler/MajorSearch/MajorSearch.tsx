@@ -32,7 +32,7 @@ const MajorSelect: React.FC<MajorSearchProps> = ({ selectedMajor, setSelectedMaj
           },
         })}
         placeholder="Select a department..."
-        className="mb-4 text-black bg-gray-200 rounded-md placeholder-gray-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-500 w-[100%]"
+        className="mb-4 text-black bg-gray-200 rounded-md placeholder-gray-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-500 w-[100%] h-8"
         menuPortalTarget={document.body} // Append the dropdown to the body element
         styles={{
           menuPortal: base => ({ ...base, zIndex: 9999 }) // Adjust the z-index as needed

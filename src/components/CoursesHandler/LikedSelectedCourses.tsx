@@ -1,6 +1,7 @@
 import React from "react";
 import { Course } from "../CourseUI/CourseTypes";
 import ColorHash from "color-hash";
+import "./LikedSelectedStyles.css";
 
 interface LikedSelectedCoursesProps {
   selectedCourses: Course[];
@@ -49,42 +50,50 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
     return chunkedArray;
   };
 
-  const selectedCoursesChunks = chunkArray(selectedCourses, 2);
+  const selectedCoursesChunks = chunkArray(selectedCourses, 1);
 
   return (
     <>
-      <div className="space-y-2 w-[100%]">
-        {selectedCoursesChunks.map((courseChunk: Course[], chunkIndex: number) => (
-          <div key={chunkIndex} className="flex">
-            {courseChunk.map((course: Course, index: number) => (
-              <div
-                key={index}
-                className={`flex-1 p-4 rounded-md mx-2 mb-2 text-black dark:text-white cursor-pointer w-full h-20 overflow-hidden`}
-                style={getCourseBackgroundColor(course)}
-                onClick={() => handleBadgeClick(course)}
-              >
-                {/* Display course code and credits */}
-                <div className="flex justify-between">
-                  <div>
-                    {course.termInd !== " " && course.termInd !== "C" ? (
-                      <strong>
-                        {course.code.replace(/([A-Z]+)/g, "$1 ")} - {course.termInd}
-                      </strong>
-                    ) : (
-                      <strong>{course.code.replace(/([A-Z]+)/g, "$1 ")}</strong>
-                    )}
-                    <div className="text-sm line-clamp-1 overflow-ellipsis overflow-hidden">
-                      {course.name}
+      <div className="mt-4 space-y-2 w-full flex flex-col">
+        {selectedCoursesChunks.map(
+          (courseChunk: Course[], chunkIndex: number) => (
+            <div key={chunkIndex} className="flex">
+              {courseChunk.map((course: Course, index: number) => (
+                <div
+                  id="badge"
+                  key={index}
+                  className={`flex-1 p-[0.6rem] rounded-md mb-2 text-black dark:text-white cursor-pointer w-full h-16 overflow-hidden`}
+                  style={getCourseBackgroundColor(course)}
+                  onClick={() => handleBadgeClick(course)}
+                >
+                  {/* Display course code and credits */}
+                  <div className="flex justify-between">
+                    <div className="flex-1 min-w-0">
+                      {course.termInd !== " " && course.termInd !== "C" ? (
+                        <strong className="block truncate">
+                          {course.code.replace(/([A-Z]+)/g, "$1 ")} -{" "}
+                          {course.termInd}
+                        </strong>
+                      ) : (
+                        <strong className="block truncate">
+                          {course.code.replace(/([A-Z]+)/g, "$1 ")}
+                        </strong>
+                      )}
+                      <div className="text-sm line-clamp-1 text-ellipsis">
+                        {course.name}
+                      </div>
+                    </div>
+                    <div>
+                      <span className="text-white font-bold text-sm">
+                        {course.sections[0].credits}
+                      </span>
                     </div>
                   </div>
-                  <div>
-                    <span className="text-white font-bold text-sm">{course.sections[0].credits}</span>
-                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        ))}
+              ))}
+            </div>
+          )
+        )}
       </div>
     </>
   );

@@ -162,13 +162,12 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
         {course.sections.map((section, index) => (
           <li
             key={index}
-            className={`${listItem} ${
-              index > 0 ? "border-gray-400 dark:border-gray-700" : ""
-            }`}
+            className="my-2 rounded-sm bg-gray-800 border-gray-400 dark:border-gray-700"
           >
+            <div className="space-y-2 p-2">
             <div className="flex justify-between items-center">
               <div className="font-bold text-gray-200 dark:text-gray-200 flex items-center">
-                <span className="inline-block w-2 h-2 bg-gray-900 rounded-full mr-2"></span>
+                <span className="inline-block w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
                 Section {section.number}:
               </div>
               {/* Star Icon based on section selected status */}
@@ -185,6 +184,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
               )}
             </div>
             {renderSectionInformation(section)}
+            </div>
           </li>
         ))}
         {course.sections.length === 0 && (

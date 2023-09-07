@@ -10,6 +10,7 @@ import Calendar from "../../components/Calendar/Calendar";
 import klay from "cytoscape-klay";
 import ClipLoader from "react-spinners/ClipLoader";
 import Header from "../../components/Header/Header"
+import LikedSelectedCourses from "../../components/CoursesHandler/LikedSelectedCourses";
 
 cytoscape.use(klay);
 
@@ -27,6 +28,7 @@ const Main = () => {
   const [showDisplayWrite, setShowDisplayWrite] = useState(true);
   const [hasShownCalendar, setHasShownCalendar] = useState(false);
   const [loadedOnce, setLoadedOnce] = useState(false);
+  const [hasBeenLoaded, setLoaded ] = useState(false);
 
   const isMobile = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -368,9 +370,15 @@ const Main = () => {
 
   return (
     <div>
-      <Header calendarView={calendarView} graphView={graphView} showDisplayWrite={showDisplayWrite} />
+      <Header calendarView={calendarView} graphView={graphView} showDisplayWrite={showDisplayWrite} selectedCourses={selectedCourses} />
       <div className="content-wrapper">
         <div className="flex flexImage course-display bg-gray-800">
+          <div className="selected-courses">
+            <LikedSelectedCourses
+            selectedCourses={selectedCourses}
+            setSelectedCourses={setSelectedCourses}
+            setLoaded={setLoaded}></LikedSelectedCourses>
+            </div>
           <div className={`${container} courses-handler`}>
             <CoursesHandler
               selectedCourses={selectedCourses}
@@ -381,6 +389,8 @@ const Main = () => {
               setDebouncedSearchTerm={setDebouncedSearchTerm}
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
+              hasBeenLoaded={hasBeenLoaded}
+              setLoaded={setLoaded}
             />
           </div>
           {showDisplayWrite ? (

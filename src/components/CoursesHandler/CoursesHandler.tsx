@@ -14,6 +14,8 @@ interface CoursesHandlerProps {
   setDebouncedSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   searchTerm: string;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  hasBeenLoaded: boolean;
+  setLoaded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CoursesHandler: React.FC<CoursesHandlerProps> = (
@@ -26,10 +28,10 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
     setDebouncedSearchTerm,
     searchTerm,
     setSearchTerm,
+    hasBeenLoaded,
+    setLoaded,
   }
 ) => {
-  const [hasBeenLoaded, setLoaded ] = useState(false);
-  const [ totalCredits, setTotalCredits ] = useState(0);
 
   // Load selectedCourses from the cookie when the component mounts
   useEffect(() => {
@@ -58,29 +60,13 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
     }
   }, [selectedMajor]);
 
-  useEffect(() => {
-    const sumCredits = selectedCourses.reduce((totalCredits, course) => {
-      // Check if credits is a number
-      if (typeof course.sections[0].credits === 'number') {
-        return totalCredits + course.sections[0].credits;
-      }
-      // If it's not a number, just return the accumulated total so far
-      return totalCredits;
-    }, 0);
-    
-    setTotalCredits(sumCredits);
-  }, [selectedCourses]);
-
   return (
     <div className="bg-gray-700 dark:bg-gray-800 rounded-md p-4 shadow-md transition-shadow duration-300 min-w-full min-h-full">
-      <LikedSelectedCourses
+      {/* <LikedSelectedCourses
         selectedCourses={selectedCourses}
         setSelectedCourses={setSelectedCourses}
         setLoaded={setLoaded}
-      />
-      <div className="mb-1 text-white">
-        Credits: {totalCredits}
-      </div>
+      /> */}
       <MajorSelect 
         selectedMajor={selectedMajor}
         setSelectedMajor={setSelectedMajor}

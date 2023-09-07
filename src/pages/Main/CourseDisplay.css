@@ -128,10 +128,11 @@
 
 @media (max-width: 700px) {
   .flexImage {
-    flex-direction: column-reverse; /* Reverse the order of flex items */
+    flex-direction: column; /* Reverse the order of flex items */
     align-items: center; /* Center align items horizontally */
   }
   #display-write {
+    order: 3;
     max-height: 600px;
     width: 100%;
     border-top: 0.5px solid #ccc;
@@ -155,10 +156,19 @@
   .calendar-container {
     width: 100%;
   }
+  .selected-courses {
+    order: 1;
+    width: 100%;
+  }
 }
 
 @media (min-width: 701px)
 {
+.selected-courses {
+  max-width: 12%;
+  min-width: 12%;
+}
+
   #display-write {
     max-height: 100vh;
     border-left: 0.5px solid #ccc;
@@ -174,7 +184,7 @@
     height: 100%;
   }
   .flex.flex-col.items-start.basis-full.p-4.dark\:bg-gray-800.transition-colors.duration-500 {
-    max-width: 45%;
-    min-width: 45%;
+    max-width: 36%;
+    min-width: 36%;
   }
 }

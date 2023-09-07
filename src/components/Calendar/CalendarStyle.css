@@ -44,9 +44,9 @@
         min-height: calc(100vh - 43px);
         position: fixed;
         top: 43px;
-        left: 45%;
+        left: 52%;
         flex: 1; 
-        max-width: 55%;
+        max-width: 48%;
     }
 }
 @media (min-width: 1121px)
@@ -58,8 +58,8 @@
         min-height: calc(100vh - 43px);
         position: fixed;
         top: 43px;
-        left: 45%;
+        left: 48%;
         flex: 1; 
-        max-width: 55%;
+        max-width: 52%;
     }
 }

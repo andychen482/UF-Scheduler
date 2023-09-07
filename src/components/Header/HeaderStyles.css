@@ -1,53 +1,65 @@
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgb(47 49 54);
-    color: white;
-    height: 43px;
-    text-align: right;
-    font-size: large;
-    z-index: 1000;
-    border-bottom: 0.5px solid #ccc;
-    align-items: center;
-  }
-  
-  .button-container {
-    display: flex;
-  }
-  
-  .Button {
-    background-color: #393c42;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    padding: 5px 10px;
-    min-width: 10vw;
-    color: white;
-    font-size: 20px;
-    margin-top: 8px;
-    cursor: pointer;
-    transition: opacity 0.2s ease;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgb(47 49 54);
+  color: white;
+  height: 43px;
+  text-align: right;
+  font-size: large;
+  z-index: 1000;
+  border-bottom: 0.5px solid #ccc;
+  align-items: center;
+  display: flex;
+  padding: 0 10px; /* Added padding */
+}
 
-  .icon-text-container {
-    display: flex;
-    align-items: center;
-    overflow: auto;
-  }
-  
-  .Button:first-child {
-    margin-left: 0;
-  }
-  
-  .Button:last-child {
-    margin-right: 0;
-  }
+.credits-container {
+  margin-right: auto; /* This will push the content to the left */
+  white-space: nowrap;
+}
 
-  .Button.grayed {
-    opacity: 0.6;
+.button-container {
+  display: flex;
+}
+
+.Button {
+  background-color: #393c42;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 5px 10px;
+  min-width: 10vw;
+  color: white;
+  font-size: 20px;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.icon-text-container {
+  display: flex;
+  align-items: center;
+  overflow: auto;
+}
+
+.Button:first-child {
+  margin-left: 0;
+}
+
+.Button:last-child {
+  margin-right: 0;
+}
+
+.Button.grayed {
+  opacity: 0.6;
+}
+.Button.show {
+  opacity: 1;
+}
+
+@media (max-width: 460px) {
+  .title {
+    display: none;
   }
-  .Button.show {
-    opacity: 1;
-  }
-  
+}

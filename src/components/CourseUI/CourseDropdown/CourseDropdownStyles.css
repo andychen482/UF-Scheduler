@@ -1,0 +1,15 @@
+.icons {
+  transition: transform 0.3s ease;
+}
+
+.minusicons {
+  transition: transform 0.3s ease;
+}
+
+.icons:hover {
+  transform: scale(1.1);
+}
+
+.minusicons:hover {
+  transform: scale(1.1);
+}

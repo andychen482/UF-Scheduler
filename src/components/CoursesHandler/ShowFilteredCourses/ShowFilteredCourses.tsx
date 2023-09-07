@@ -94,31 +94,31 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     });
   };
 
-  // const toggleCourseSelected = (course: Course) => {
-  //   setLoaded(true);
-  //   const isSelected = selectedCourses.some(
-  //     (selectedCourse) =>
-  //       selectedCourse.code === course.code &&
-  //       selectedCourse.name === course.name
-  //   );
+  const toggleCourseSelected = (course: Course) => {
+    setLoaded(true);
+    const isSelected = selectedCourses.some(
+      (selectedCourse) =>
+        selectedCourse.code === course.code &&
+        selectedCourse.name === course.name
+    );
 
-  //   if (isSelected) {
-  //     // Remove the course from the list of selected courses if it's already selected.
-  //     setSelectedCourses((prevSelectedCourses) =>
-  //       prevSelectedCourses.filter(
-  //         (selectedCourse) =>
-  //           selectedCourse.code !== course.code ||
-  //           selectedCourse.name !== course.name
-  //       )
-  //     );
-  //   } else {
-  //     // Add the course to the list of selected courses if it's not already selected.
-  //     setSelectedCourses((prevSelectedCourses) => [
-  //       ...prevSelectedCourses,
-  //       course,
-  //     ]);
-  //   }
-  // };
+    if (isSelected) {
+      // Remove the course from the list of selected courses if it's already selected.
+      setSelectedCourses((prevSelectedCourses) =>
+        prevSelectedCourses.filter(
+          (selectedCourse) =>
+            selectedCourse.code !== course.code ||
+            selectedCourse.name !== course.name
+        )
+      );
+    } else {
+      // Add the course to the list of selected courses if it's not already selected.
+      setSelectedCourses((prevSelectedCourses) => [
+        ...prevSelectedCourses,
+        course,
+      ]);
+    }
+  };
 
   const itemsPerPage = 20;
   const [hasMore, setHasMore] = useState(true);
@@ -179,7 +179,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   }, [debouncedSearchTerm]);
 
   return (
-    <div className="max-h-[calc(100vh-20.5rem)] overflow-auto mt-3">
+    <div className="max-h-[calc(100vh-12.5rem)] overflow-auto mt-3">
       <InfiniteScroll
         pageStart={0}
         loadMore={loadMore}
@@ -230,7 +230,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                         <div className="text-sm font-normal text-gray-300 mr-6 h-5 mb-[0.3rem]  whitespace-nowrap overflow-hidden text-overflow-ellipsis">
                           Credits: {firstCourse.sections[0].credits}
                         </div>
-                        {/* <div className="mx-1 h-9">
+                        <div className="mx-1 h-9">
                             {isCourseSelected ? (
                               <>
                                 <PiMinusBold
@@ -252,7 +252,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                                 />
                               </>
                             )}
-                          </div> */}
+                          </div>
                         <div className="mx-1 h-9">
                           {isOpen ? (
                             <PiCaretUpBold
@@ -292,8 +292,8 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                     </div>
                     {isOpen && (
                       <div>
-                        <div className={`mt-4 mb-0 mx-1 text-gray-200 `}>
-                          <hr />
+                        <div className={`mt-2 mb-0 mx-1 text-gray-200 `}>
+                        <hr style={{ border: '1px solid #ffffff', marginBottom: "4px"}} />
                           <strong>Description: </strong>
                           {firstCourse.description
                             ? firstCourse.description.replace("(P)", "").trim()
