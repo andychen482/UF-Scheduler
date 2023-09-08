@@ -195,10 +195,11 @@
   top: 0;
   left: 0;
   width: 300px;
-  height: auto;
+  height: 100vh;
   padding-bottom: 60px;
   background-color: #23252a;
   overflow-x: hidden;
+  overflow-y: visible;
   transition: 0.5s;
   padding-top: 60px;
   z-index: 1000;
