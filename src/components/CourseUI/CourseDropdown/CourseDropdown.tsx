@@ -99,15 +99,20 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
 
   const renderSectionInformation = (section: Section) => {
     return (
-      <div className="pl-4">
+      <div>
         {/* Star Icon based on section selected status */}
 
         <div className="text-gray-200">
-          <strong>Instructors:</strong>{" "}
+          {section.instructors.length > 1 ? (
+            <strong>Instructors: </strong>
+          ) : (
+            <strong>Instructor: </strong>
+          )}
           {section.instructors.length > 0 ? (
             section.instructors.map((instructor, index) => (
               <span key={index} className="text-gray-200 dark:text-gray-200">
                 {instructor.name}
+                {index < section.instructors.length - 1 ? ", " : ""}
               </span>
             ))
           ) : (
@@ -126,7 +131,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
                   meetingTime.meetTimeBegin +
                   meetingTime.meetTimeEnd
                 }
-                className={`mt-2 ml-2 text-gray-200 dark:text-gray-200`}
+                className={`ml-2 text-gray-200 dark:text-gray-200`}
               >
                 <strong>{meetingTime.meetDays.join(", ")}: </strong> &nbsp;{" "}
                 {meetingTime.meetTimeBegin} - {meetingTime.meetTimeEnd}
@@ -156,7 +161,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
 
   return (
     <div
-      className={`bg-[#43464d] dark:bg-gray-800 rounded-lg pl-2 pr-2 pb-2 space-y-2 text-[15px]`}
+      className={`bg-[#43464d] dark:bg-gray-800 rounded-lg space-y-2 text-[15px]`}
     >
       <div className="list-none">
         {course.sections.map((section, index) => (
@@ -165,25 +170,24 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
             className="my-2 rounded-sm bg-gray-800 border-gray-400 dark:border-gray-700"
           >
             <div className="space-y-2 p-2">
-            <div className="flex justify-between items-center">
-              <div className="font-bold text-gray-200 dark:text-gray-200 flex items-center">
-                <span className="inline-block w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
-                Section {section.number}:
+              <div className="flex justify-between items-center">
+                <div className="font-bold text-gray-200 dark:text-gray-200 flex items-center">
+                  Section {section.number}:
+                </div>
+                {/* Star Icon based on section selected status */}
+                {isSectionSelected(section) ? (
+                  <PiMinusBold
+                    className={`${minusicons}`}
+                    onClick={() => toggleSectionSelected(section)}
+                  />
+                ) : (
+                  <PiPlusBold
+                    className={`${icons}`}
+                    onClick={() => toggleSectionSelected(section)}
+                  />
+                )}
               </div>
-              {/* Star Icon based on section selected status */}
-              {isSectionSelected(section) ? (
-                <PiMinusBold
-                  className={`${minusicons}`}
-                  onClick={() => toggleSectionSelected(section)}
-                />
-              ) : (
-                <PiPlusBold
-                  className={`${icons}`}
-                  onClick={() => toggleSectionSelected(section)}
-                />
-              )}
-            </div>
-            {renderSectionInformation(section)}
+              {renderSectionInformation(section)}
             </div>
           </li>
         ))}
