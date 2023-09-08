@@ -26,8 +26,8 @@ const Main = () => {
   const cyContainerRef = useRef<HTMLDivElement | null>(null);
   const [graphData, setGraphData] = useState<GraphData | null>(null);
   const cyRef = useRef<cytoscape.Core | null>(null);
-  const [showDisplayWrite, setShowDisplayWrite] = useState(true);
-  const [hasShownCalendar, setHasShownCalendar] = useState(false);
+  const [showDisplayWrite, setShowDisplayWrite] = useState(false);
+  const [hasShownCalendar, setHasShownCalendar] = useState(true);
   const [loadedOnce, setLoadedOnce] = useState(false);
   const [hasBeenLoaded, setLoaded] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

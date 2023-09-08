@@ -7,6 +7,8 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
 import { grey, indigo } from "@mui/material/colors";
 import moment from "moment";
+import { useEffect, useState } from "react";
+import InfiniteScroll from 'react-infinite-scroller';
 import {
   Scheduler,
   Appointments,
@@ -67,28 +69,56 @@ interface CalendarProps {
 }
 
 const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
-  const courseAppointments = () => {
-    let appointments: {
-      startDate: string;
-      endDate: string;
-      title: string;
-    }[] = [];
+  const [currentCalendars, setCurrentCalendars] = useState<any[]>([]);
+  const [hasMoreItems, setHasMoreItems] = useState(true);
 
-    const dayMapping: { [key: string]: string } = {
-      M: "Monday",
-      T: "Tuesday",
-      W: "Wednesday",
-      R: "Thursday",
-      F: "Friday",
-    };
-
-    selectedCourses.forEach((course) => {
-      const selectedSection = course.sections.find(
-        (section) => section.selected === true
-      );
+  // Step 1: Identify selected sections
+  const getAllSelectedSections = () => {
+    return selectedCourses.map(course => {
+      const selectedSection = course.sections.find(section => section.selected === true);
       if (selectedSection) {
-        selectedSection.meetTimes.forEach((meetingTime) => {
-          meetingTime.meetDays.forEach((day) => {
+        selectedSection.courseName = course.name;
+        return [selectedSection];
+      } else {
+        course.sections.forEach(section => {
+          section.courseName = course.name;
+        });
+        return course.sections;
+      }
+    });
+  };
+  
+
+  // Step 2: Generate all possible combinations
+  const generateAllCombinations = (arrays: any[][]) => {
+    return arrays.reduce((acc, curr) => 
+      acc.flatMap(c => curr.map(n => [].concat(c, n)))
+    , [[]]);
+  };
+
+  const allSelectedSections = getAllSelectedSections();
+  const allCombinations = generateAllCombinations(allSelectedSections);
+
+  // Step 3: Create calendars
+  const createCalendars = (startIndex: number, endIndex: number) => {
+    return allCombinations.slice(startIndex, endIndex).map(combination => {
+      let appointments: {
+        startDate: string;
+        endDate: string;
+        title: string;
+      }[] = [];
+
+      const dayMapping: { [key: string]: string } = {
+        M: "Monday",
+        T: "Tuesday",
+        W: "Wednesday",
+        R: "Thursday",
+        F: "Friday",
+      };
+
+      combination.forEach((section: any) => {
+        section.meetTimes.forEach((meetingTime: any) => {
+          meetingTime.meetDays.forEach((day: string) => {
             const fullDayName = dayMapping[day];
             const startDate = `${moment()
               .day(fullDayName)
@@ -100,50 +130,90 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
               .format("YYYY-MM-DD")}T${convertTo24Hour(
               meetingTime.meetTimeEnd
             )}`;
-            const title = `${course.name}`;
+            const title = `${section.courseName}`;
             appointments.push({ startDate, endDate, title });
           });
         });
-      }
-    });
+      });
 
-    return appointments;
+      return appointments;
+    });
   };
 
-  const appointments = courseAppointments();
+  const loadMoreCalendars = () => {
+    // const allSelectedSections = getAllSelectedSections();
+    // const allCombinations = generateAllCombinations(allSelectedSections);
+    if (currentCalendars.length >= allCombinations.length) {
+      setHasMoreItems(false);
+      return;
+    }
 
-  const startDayHour = appointments.length
-    ? Math.min(...appointments.map((a) => moment(a.startDate).hour())) - 0.5
-    : 7;
+    const newCalendars = createCalendars(currentCalendars.length, currentCalendars.length + 5);
+    setCurrentCalendars([...currentCalendars, ...newCalendars]);
+  };
 
-  const endDayHour = appointments.length
-    ? Math.max(...appointments.map((a) => moment(a.endDate).hour())) + 1
-    : 19.5;
+  // Step 4: Render calendars
+  const renderCalendar = (appointments: any, index: number) => {
+    const startDayHour = appointments.length
+      ? Math.min(...appointments.map((a: any) => moment(a.startDate).hour())) - 0.5
+      : 7;
+  
+    const endDayHour = appointments.length
+      ? Math.max(...appointments.map((a: any) => moment(a.endDate).hour())) + 1
+      : 19.5;
+  
+    return (
+      <div className="test">
+      <ThemeProvider theme={darkModeTheme}>
+        <Paper>
+          <div className="Scheduler">
+          <Scheduler data={appointments}>
+            <ViewState currentDate={currentDate} />
+            <WeekView
+              startDayHour={startDayHour}
+              endDayHour={endDayHour}
+              intervalCount={1}
+              cellDuration={30}
+              excludedDays={[0, 6]}
+            />
+            <Appointments />
+            <AppointmentTooltip showCloseButton />
+          </Scheduler>
+          </div>
+        </Paper>
+      </ThemeProvider>
+      </div>
+    );
+  };
+  
+  useEffect(() => {
+    setCurrentCalendars([]);
+    setHasMoreItems(true);
+  }, [selectedCourses]);
 
   return (
     <div className="calendar-container">
       <div className="calendar-display">
-        <div className="centered-text text-2xl text-white mb-10">
-          Calendar (WIP)
+        <div className="centered-text text-2xl text-white mb-5">
+          Calendar
         </div>
-        <ThemeProvider theme={darkModeTheme}>
-          <div className="schedule">
-            <Paper>
-              <Scheduler data={appointments}>
-                <ViewState currentDate={currentDate} />
-                <WeekView
-                  startDayHour={startDayHour}
-                  endDayHour={endDayHour}
-                  intervalCount={1}
-                  cellDuration={30}
-                  excludedDays={[0, 6]}
-                />
-                <Appointments />
-                <AppointmentTooltip showCloseButton />
-              </Scheduler>
-            </Paper>
-          </div>
-        </ThemeProvider>
+        <div style={{ height: '80vh', overflow: 'auto' }}> {/* Add this container with defined height and overflow */}
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={loadMoreCalendars}
+            hasMore={hasMoreItems}
+            loader={<div className="loader" key={0}>Loading ...</div>}
+            useWindow={false}
+          >
+            <div className="flex flex-col">
+            {currentCalendars.map((appointments, index) => (
+              <div key={index}>
+                {renderCalendar(appointments, index)}
+              </div>
+            ))}
+            </div>
+          </InfiniteScroll>
+        </div>
       </div>
     </div>
   );

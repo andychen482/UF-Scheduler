@@ -20,6 +20,7 @@ export type Section = {
   // openSeats: number;
   finalExam: string;
   selected: boolean;
+  courseName: string;
 };
 
 export type Course = {
