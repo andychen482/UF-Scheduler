@@ -445,7 +445,9 @@ const Main = () => {
               </div>
             </div>
           ) : (
+            <div className="calendar-container">
             <Calendar selectedCourses={selectedCourses} />
+            </div>
           )}
         </div>
       </div>

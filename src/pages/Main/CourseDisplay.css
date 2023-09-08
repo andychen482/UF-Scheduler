@@ -155,6 +155,7 @@
 
   .calendar-container {
     width: 100%;
+    order: 3;
   }
   .selected-courses {
     order: 1;
