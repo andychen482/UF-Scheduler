@@ -9,8 +9,9 @@ import { GraphData } from "../../components/Cytoscape/cytoscapeTypes";
 import Calendar from "../../components/Calendar/Calendar";
 import klay from "cytoscape-klay";
 import ClipLoader from "react-spinners/ClipLoader";
-import Header from "../../components/Header/Header"
+import Header from "../../components/Header/Header";
 import LikedSelectedCourses from "../../components/CoursesHandler/LikedSelectedCourses";
+import { AiOutlineClose } from "react-icons/ai";
 
 cytoscape.use(klay);
 
@@ -28,7 +29,21 @@ const Main = () => {
   const [showDisplayWrite, setShowDisplayWrite] = useState(true);
   const [hasShownCalendar, setHasShownCalendar] = useState(false);
   const [loadedOnce, setLoadedOnce] = useState(false);
-  const [hasBeenLoaded, setLoaded ] = useState(false);
+  const [hasBeenLoaded, setLoaded] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const isMobile = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -370,15 +385,44 @@ const Main = () => {
 
   return (
     <div>
-      <Header calendarView={calendarView} graphView={graphView} showDisplayWrite={showDisplayWrite} selectedCourses={selectedCourses} />
+      <Header
+        calendarView={calendarView}
+        graphView={graphView}
+        showDisplayWrite={showDisplayWrite}
+        selectedCourses={selectedCourses}
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+        windowWidth={windowWidth}
+      />
       <div className="content-wrapper">
         <div className="flex flexImage course-display bg-gray-800">
-          <div className="selected-courses">
-            <LikedSelectedCourses
-            selectedCourses={selectedCourses}
-            setSelectedCourses={setSelectedCourses}
-            setLoaded={setLoaded}></LikedSelectedCourses>
+          {windowWidth < 701 ? (
+            <div className={`drawer ${isDrawerOpen ? "" : "closed"}`}>
+              <button
+                className="drawer-close-button"
+                onClick={() => setIsDrawerOpen(false)}
+              >
+                <AiOutlineClose className="mt-1 text-white" size={18} />
+              </button>
+              <span className="text-white font-bold w-full flex justify-center items-center">Courses</span>
+
+              <LikedSelectedCourses
+                selectedCourses={selectedCourses}
+                setSelectedCourses={setSelectedCourses}
+                setLoaded={setLoaded}
+                windowWidth={windowWidth}
+              />
             </div>
+          ) : (
+            <div className="selected-courses">
+              <LikedSelectedCourses
+                selectedCourses={selectedCourses}
+                setSelectedCourses={setSelectedCourses}
+                setLoaded={setLoaded}
+                windowWidth={windowWidth}
+              />
+            </div>
+          )}
           <div className={`${container} courses-handler`}>
             <CoursesHandler
               selectedCourses={selectedCourses}
@@ -401,7 +445,7 @@ const Main = () => {
               </div>
             </div>
           ) : (
-              <Calendar selectedCourses={selectedCourses} />
+            <Calendar selectedCourses={selectedCourses} />
           )}
         </div>
       </div>

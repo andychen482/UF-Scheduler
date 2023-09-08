@@ -7,6 +7,7 @@ interface LikedSelectedCoursesProps {
   selectedCourses: Course[];
   setSelectedCourses: React.Dispatch<React.SetStateAction<Course[]>>;
   setLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  windowWidth: number;
 }
 
 const colorHash = new ColorHash({
@@ -22,6 +23,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
   selectedCourses,
   setSelectedCourses,
   setLoaded,
+  windowWidth,
 }) => {
   const getCourseBackgroundColor = (course: Course) => {
     const hashedColor = getHashedColor(course);
@@ -54,10 +56,18 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
 
   return (
     <>
-      <div className="mt-4 space-y-2 w-full flex flex-col">
+      <div className="mt-4 space-y-1 w-full flex flex-col">
+        {windowWidth > 700 && (
+          <div>
+            <div className="text-white font-bold w-full flex justify-center items-center ml-1">
+              Courses
+            </div>
+            <hr className="ml-2" />
+          </div>
+        )}
         {selectedCoursesChunks.map(
           (courseChunk: Course[], chunkIndex: number) => (
-            <div key={chunkIndex} className="flex">
+            <div key={chunkIndex} className="flex mx-3">
               {courseChunk.map((course: Course, index: number) => (
                 <div
                   id="badge"

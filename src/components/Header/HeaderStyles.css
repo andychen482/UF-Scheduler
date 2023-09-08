@@ -63,3 +63,13 @@
     display: none;
   }
 }
+
+.menu-button {
+  z-index: 99999;
+  transition: opacity 0.3s ease;
+}
+
+.faded {
+  opacity: 0.5;
+}
+

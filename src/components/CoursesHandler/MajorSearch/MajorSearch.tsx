@@ -1,7 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
 import majorsData from '../../../courses/depts_clean.json'; // Import the JSON data from the file
-import './MajorSearchStyles.css';
 
 interface MajorSearchProps {
     selectedMajor: string | null;
@@ -24,7 +23,7 @@ const MajorSelect: React.FC<MajorSearchProps> = ({ selectedMajor, setSelectedMaj
         onChange={handleChange}
         theme={(theme) => ({
           ...theme,
-          borderRadius: 0,
+          borderRadius: 6,
           colors: {
             ...theme.colors,
             primary25: '#E6E6E6',
@@ -32,10 +31,14 @@ const MajorSelect: React.FC<MajorSearchProps> = ({ selectedMajor, setSelectedMaj
           },
         })}
         placeholder="Select a department..."
-        className="mb-4 text-black bg-gray-200 rounded-md placeholder-gray-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-500 w-[100%] h-8"
+        className="mb-4 text-black bg-gray-200 placeholder-gray-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-500 w-[100%] h-8 rounded"
         menuPortalTarget={document.body} // Append the dropdown to the body element
         styles={{
-          menuPortal: base => ({ ...base, zIndex: 9999 }) // Adjust the z-index as needed
+          menuPortal: base => ({ ...base, zIndex: 999 }), // Adjust the z-index to a value lower than the drawer's but higher than other elements
+          control: (base) => ({
+            ...base,
+            borderRadius: "4px",  // Adjust this value to control the border radius of the control
+          }),
         }}
       />
     </div>

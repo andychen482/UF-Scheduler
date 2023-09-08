@@ -2,6 +2,7 @@ import "./HeaderStyles.css";
 import { useEffect, useState } from "react";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { PiGraphFill } from "react-icons/pi";
+import { BiMenu } from "react-icons/bi";
 import { Course } from "../CourseUI/CourseTypes";
 
 interface HeaderProps {
@@ -9,6 +10,9 @@ interface HeaderProps {
   graphView: () => void;
   showDisplayWrite: boolean;
   selectedCourses: Course[];
+  isDrawerOpen: boolean;
+  setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  windowWidth: number;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -16,6 +20,9 @@ const Header: React.FC<HeaderProps> = ({
   graphView,
   showDisplayWrite,
   selectedCourses,
+  isDrawerOpen,
+  setIsDrawerOpen,
+  windowWidth,
 }) => {
   const [totalCredits, setTotalCredits] = useState(0);
 
@@ -33,7 +40,14 @@ const Header: React.FC<HeaderProps> = ({
   }, [selectedCourses]);
   return (
     <header className="header flex gap-x-5">
-      <div className="credits-container mt-1 text-white">Credits: {totalCredits}</div>
+      {windowWidth < 701 && (
+        <BiMenu className={`menu-button cursor-pointer mt-1 ${isDrawerOpen ? 'faded' : ''}`} onClick={() => setIsDrawerOpen((prev) => !prev)}>
+        </BiMenu>
+      )}
+      <div className="credits-container mt-1 text-white">
+        Credits: {totalCredits}
+      </div>
+
       <div className="button-container gap-x-4">
         <button
           className={`Button cursor-pointer text-gray-400 ${
