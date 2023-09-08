@@ -59,10 +59,10 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
       <div className="mt-4 space-y-1 w-full flex flex-col">
         {windowWidth > 700 && (
           <div>
-            <div className="text-white font-bold w-full flex justify-center items-center ml-1">
+            <div className="text-white font-bold w-full flex justify-center items-center">
               Courses
             </div>
-            <hr className="ml-2" />
+            <hr className="mx-1" />
           </div>
         )}
         {selectedCoursesChunks.map(

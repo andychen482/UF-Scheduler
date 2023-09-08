@@ -58,7 +58,7 @@
   opacity: 1;
 }
 
-@media (max-width: 460px) {
+@media (max-width: 500px) {
   .title {
     display: none;
   }
@@ -67,6 +67,7 @@
 .menu-button {
   z-index: 99999;
   transition: opacity 0.3s ease;
+  min-width: 18px;
 }
 
 .faded {

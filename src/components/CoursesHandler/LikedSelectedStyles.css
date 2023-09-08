@@ -3,14 +3,5 @@
     width: 90%;
     margin: 20px auto 0 auto;
 }
-#badge {
-    margin-left: 0px;
-}
 
-}
-
-@media (min-width: 701px) {
-    #badge {
-        margin-left: 16px;
-    }
 }
