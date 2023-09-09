@@ -169,9 +169,6 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
   };
 
   const loadMoreCalendars = () => {
-    console.log("allPossibleCalendars: " + allPossibleCalendars.length);
-    console.log("currentCalendars: " + currentCalendars.length);
-    console.log("hasMoreItems: " + hasMoreItems);
     if (currentCalendars.length >= allPossibleCalendars.length) {
       setHasMoreItems(false);
       return;
@@ -190,10 +187,6 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
     const endDayHour = appointments.length
       ? Math.max(...appointments.map((a: any) => moment(a.endDate).hour())) + 1
       : 19.5;
-
-      console.log("allPossibleCalendars: " + allPossibleCalendars.length);
-      console.log("currentCalendars: " + currentCalendars.length);
-      console.log("hasMoreItems: " + hasMoreItems);
   
     return (
       <div className="test">
