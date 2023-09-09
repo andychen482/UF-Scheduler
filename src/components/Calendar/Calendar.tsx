@@ -9,6 +9,7 @@ import { grey, indigo } from "@mui/material/colors";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroller';
+import Select from "react-select";
 import {
   Scheduler,
   Appointments,
@@ -71,6 +72,26 @@ interface CalendarProps {
 const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
   const [currentCalendars, setCurrentCalendars] = useState<any[]>([]);
   const [hasMoreItems, setHasMoreItems] = useState(true);
+  const [allPossibleCalendars, setAllPossibleCalendars] = useState<any[]>([]);
+
+  const sortOptions = [
+    { value: 'earliestStart', label: 'Earliest Start' },
+    { value: 'latestStart', label: 'Latest Start' },
+    { value: 'earliestEnd', label: 'Earliest End' },
+    { value: 'latestEnd', label: 'Latest End' },
+    { value: 'mostCompact', label: 'Most Compact' },
+  ];
+
+  function isOverlapping(appointment1: any, appointment2: any) {
+    return (
+      moment(appointment1.startDate).isBefore(appointment2.endDate) &&
+      moment(appointment2.startDate).isBefore(appointment1.endDate)
+    );
+  }
+
+  function isOverlappingWithAny(appointment: any, calendar: any[]) {
+    return calendar.some(existingAppointment => isOverlapping(existingAppointment, appointment));
+  }
 
   // Step 1: Identify selected sections
   const getAllSelectedSections = () => {
@@ -107,7 +128,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
         endDate: string;
         title: string;
       }[] = [];
-
+  
       const dayMapping: { [key: string]: string } = {
         M: "Monday",
         T: "Tuesday",
@@ -115,7 +136,9 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
         R: "Thursday",
         F: "Friday",
       };
-
+  
+      let isValidCombination = true;
+  
       combination.forEach((section: any) => {
         section.meetTimes.forEach((meetingTime: any) => {
           meetingTime.meetDays.forEach((day: string) => {
@@ -131,24 +154,30 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
               meetingTime.meetTimeEnd
             )}`;
             const title = `${section.courseName}`;
-            appointments.push({ startDate, endDate, title });
+  
+            if (isOverlappingWithAny({ startDate, endDate, title }, appointments)) {
+              isValidCombination = false;
+            } else {
+              appointments.push({ startDate, endDate, title });
+            }
           });
         });
       });
-
-      return appointments;
-    });
+  
+      return isValidCombination ? appointments : null;
+    }).filter(calendar => calendar !== null);
   };
 
   const loadMoreCalendars = () => {
-    // const allSelectedSections = getAllSelectedSections();
-    // const allCombinations = generateAllCombinations(allSelectedSections);
-    if (currentCalendars.length >= allCombinations.length) {
+    console.log("allPossibleCalendars: " + allPossibleCalendars.length);
+    console.log("currentCalendars: " + currentCalendars.length);
+    console.log("hasMoreItems: " + hasMoreItems);
+    if (currentCalendars.length >= allPossibleCalendars.length) {
       setHasMoreItems(false);
       return;
     }
 
-    const newCalendars = createCalendars(currentCalendars.length, currentCalendars.length + 5);
+    const newCalendars = allPossibleCalendars.slice(currentCalendars.length, currentCalendars.length + 5);
     setCurrentCalendars([...currentCalendars, ...newCalendars]);
   };
 
@@ -161,6 +190,10 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
     const endDayHour = appointments.length
       ? Math.max(...appointments.map((a: any) => moment(a.endDate).hour())) + 1
       : 19.5;
+
+      console.log("allPossibleCalendars: " + allPossibleCalendars.length);
+      console.log("currentCalendars: " + currentCalendars.length);
+      console.log("hasMoreItems: " + hasMoreItems);
   
     return (
       <div className="test">
@@ -187,17 +220,82 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
   };
   
   useEffect(() => {
-    setCurrentCalendars([]);
+    const allSelectedSections = getAllSelectedSections();
+    const allCombinations = generateAllCombinations(allSelectedSections);
+    const allCalendars = createCalendars(0, allCombinations.length);
+    setAllPossibleCalendars(allCalendars);
+    setCurrentCalendars(allCalendars.slice(0, 5));
     setHasMoreItems(true);
   }, [selectedCourses]);
+
+  const handleSortChange = (selectedOption: any) => {
+    let sortedCalendars;
+
+    switch (selectedOption.value) {
+      case 'earliestStart':
+        sortedCalendars = [...allPossibleCalendars].sort((a, b) => {
+          const aStartDayHour = a.length ? Math.min(...a.map((appt: any) => moment(appt.startDate).hour())) : 24;
+          const bStartDayHour = b.length ? Math.min(...b.map((appt: any) => moment(appt.startDate).hour())) : 24;
+          return aStartDayHour - bStartDayHour;
+        });
+        break;
+      case 'latestStart':
+        sortedCalendars = [...allPossibleCalendars].sort((a, b) => {
+          const aStartDayHour = a.length ? Math.min(...a.map((appt: any) => moment(appt.startDate).hour())) : 24;
+          const bStartDayHour = b.length ? Math.min(...b.map((appt: any) => moment(appt.startDate).hour())) : 24;
+          return bStartDayHour - aStartDayHour;
+        });
+        break;
+      case 'earliestEnd':
+        sortedCalendars = [...allPossibleCalendars].sort((a, b) => {
+          const aEndDayHour = a.length ? Math.max(...a.map((appt: any) => moment(appt.endDate).hour())) : 0;
+          const bEndDayHour = b.length ? Math.max(...b.map((appt: any) => moment(appt.endDate).hour())) : 0;
+          return aEndDayHour - bEndDayHour;
+        });
+        break;
+      case 'latestEnd':
+        sortedCalendars = [...allPossibleCalendars].sort((a, b) => {
+          const aEndDayHour = a.length ? Math.max(...a.map((appt: any) => moment(appt.endDate).hour())) : 0;
+          const bEndDayHour = b.length ? Math.max(...b.map((appt: any) => moment(appt.endDate).hour())) : 0;
+          return bEndDayHour - aEndDayHour;
+        });
+        break;
+      case 'mostCompact':
+        // this is most definetly wrong
+        sortedCalendars = [...allPossibleCalendars].sort((a, b) => {
+          const aDuration = a.length ? Math.min(Math.max(...a.map((appt: any) => moment(appt.endDate).hour())) - Math.min(...a.map((appt: any) => moment(appt.startDate).hour()))) : 24;
+          const bDuration = b.length ? Math.min(Math.max(...b.map((appt: any) => moment(appt.endDate).hour())) - Math.min(...b.map((appt: any) => moment(appt.startDate).hour()))) : 24;
+          return aDuration - bDuration;
+        });
+        break;
+      default:
+        sortedCalendars = allPossibleCalendars;
+    }
+
+    setAllPossibleCalendars(sortedCalendars);
+    setCurrentCalendars(sortedCalendars.slice(0, 5));
+  };
 
   return (
     <div className="calendar-container">
       <div className="calendar-display">
-        <div className="centered-text text-2xl text-white mb-5">
+        <div className="centered-text text-2xl text-white mb-2">
           Calendar
         </div>
-        <div style={{ height: '80vh', overflow: 'auto' }}> {/* Add this container with defined height and overflow */}
+        <Select
+          options={sortOptions}
+          onChange={handleSortChange}
+          className="m-5"
+          menuPortalTarget={document.body} // Append the dropdown to the body element
+          styles={{
+            menuPortal: base => ({ ...base, zIndex: 999 }), // Adjust the z-index to a value lower than the drawer's but higher than other elements
+            control: (base) => ({
+              ...base,
+              borderRadius: "4px",  // Adjust this value to control the border radius of the control
+            }),
+          }}
+        />
+        <div style={{ height: '78vh', overflow: 'auto' }}> {/* Add this container with defined height and overflow */}
           <InfiniteScroll
             pageStart={0}
             loadMore={loadMoreCalendars}
