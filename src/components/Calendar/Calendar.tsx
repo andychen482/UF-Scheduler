@@ -285,6 +285,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
         <Select
           options={sortOptions}
           onChange={handleSortChange}
+          placeholder="Sort by..."
           className="m-5"
           menuPortalTarget={document.body} // Append the dropdown to the body element
           styles={{
