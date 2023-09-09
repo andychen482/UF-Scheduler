@@ -7,7 +7,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
 import { grey, indigo } from "@mui/material/colors";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import InfiniteScroll from 'react-infinite-scroller';
 import Select from "react-select";
 import {
@@ -117,11 +117,20 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
     , [[]]);
   };
 
-  const allSelectedSections = getAllSelectedSections();
-  const allCombinations = generateAllCombinations(allSelectedSections);
+  const allSelectedSections = useMemo(() => getAllSelectedSections(), [selectedCourses]);
+  const allCombinations = useMemo(() => generateAllCombinations(allSelectedSections), [allSelectedSections]);
+
 
   // Step 3: Create calendars
   const createCalendars = (startIndex: number, endIndex: number) => {
+    const dayMapping: { [key: string]: string } = {
+      M: `${moment().day("Monday").format("YYYY-MM-DD")}`,
+      T: `${moment().day("Tuesday").format("YYYY-MM-DD")}`,
+      W: `${moment().day("Wednesday").format("YYYY-MM-DD")}`,
+      R: `${moment().day("Thursday").format("YYYY-MM-DD")}`,
+      F: `${moment().day("Friday").format("YYYY-MM-DD")}`,
+    };
+    
     return allCombinations.slice(startIndex, endIndex).map(combination => {
       let appointments: {
         startDate: string;
@@ -129,28 +138,15 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
         title: string;
       }[] = [];
   
-      const dayMapping: { [key: string]: string } = {
-        M: "Monday",
-        T: "Tuesday",
-        W: "Wednesday",
-        R: "Thursday",
-        F: "Friday",
-      };
-  
       let isValidCombination = true;
   
       combination.forEach((section: any) => {
         section.meetTimes.forEach((meetingTime: any) => {
           meetingTime.meetDays.forEach((day: string) => {
-            const fullDayName = dayMapping[day];
-            const startDate = `${moment()
-              .day(fullDayName)
-              .format("YYYY-MM-DD")}T${convertTo24Hour(
+            const startDate = `${dayMapping[day]}T${convertTo24Hour(
               meetingTime.meetTimeBegin
             )}`;
-            const endDate = `${moment()
-              .day(fullDayName)
-              .format("YYYY-MM-DD")}T${convertTo24Hour(
+            const endDate = `${dayMapping[day]}T${convertTo24Hour(
               meetingTime.meetTimeEnd
             )}`;
             const title = `${section.courseName}`;
@@ -181,7 +177,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
   // Step 4: Render calendars
   const renderCalendar = (appointments: any, index: number) => {
     const startDayHour = appointments.length
-      ? Math.min(...appointments.map((a: any) => moment(a.startDate).hour())) - 0.5
+      ? Math.min(...appointments.map((a: any) => moment(a.startDate).hour())) - 1
       : 7;
   
     const endDayHour = appointments.length
@@ -199,7 +195,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
               startDayHour={startDayHour}
               endDayHour={endDayHour}
               intervalCount={1}
-              cellDuration={30}
+              cellDuration={50}
               excludedDays={[0, 6]}
             />
             <Appointments />
@@ -219,6 +215,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
     setAllPossibleCalendars(allCalendars);
     setCurrentCalendars(allCalendars.slice(0, 5));
     setHasMoreItems(true);
+    console.log(allCalendars);
   }, [selectedCourses]);
 
   const handleSortChange = (selectedOption: any) => {
