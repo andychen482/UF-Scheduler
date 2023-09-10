@@ -37,8 +37,6 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   setLoaded,
 }) => {
   const [openCourseCode, setOpenCourseCode] = useState<string[] | null>();
-  const [lastClick, setLastClick] = useState(0);
-  const [clickTimeout, setClickTimeout] = useState<NodeJS.Timeout | null>(null);
   const [courseAnimation, setCourseAnimation] = useState<{
     [key: string]: boolean;
   }>({});
@@ -134,21 +132,23 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   }, [debouncedSearchTerm]);
 
   const loadMore = async () => {
-    try {
-      const response = await axios.post(
-        "https://ufscheduler.onrender.com/api/get_courses",
-        {
-          // const response = await axios.post("http://localhost:5000/api/get_courses", {
-          searchTerm: debouncedSearchTerm,
-          itemsPerPage: itemsPerPage,
-          startFrom: records, // start from current record count
-        }
-      );
+    if (debouncedSearchTerm !== "" && debouncedSearchTerm !== null) {
+      try {
+        const response = await axios.post(
+          "https://ufscheduler.onrender.com/api/get_courses",
+          {
+            // const response = await axios.post("http://localhost:5000/api/get_courses", {
+            searchTerm: debouncedSearchTerm,
+            itemsPerPage: itemsPerPage,
+            startFrom: records, // start from current record count
+          }
+        );
 
-      setFilteredCourses((prevCourses) => [...prevCourses, ...response.data]);
-      setrecords(records + itemsPerPage);
-    } catch (error) {
-      console.error("Error loading more data", error);
+        setFilteredCourses((prevCourses) => [...prevCourses, ...response.data]);
+        setrecords(records + itemsPerPage);
+      } catch (error) {
+        console.error("Error loading more data", error);
+      }
     }
     if (records >= 2 * itemsPerPage + filteredCourses.length) {
       setHasMore(false);
@@ -173,7 +173,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
         console.error("Error fetching data", error);
       }
     };
-    if (debouncedSearchTerm !== "") {
+    if (debouncedSearchTerm !== "" && debouncedSearchTerm !== null) {
       fetchData();
     }
   }, [debouncedSearchTerm]);
