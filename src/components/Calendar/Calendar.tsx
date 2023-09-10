@@ -123,42 +123,39 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
 
   // Step 3: Create calendars
   const createCalendars = (startIndex: number, endIndex: number) => {
-    const dayMapping: { [key: string]: string } = {
-      M: `${moment().day("Monday").format("YYYY-MM-DD")}`,
-      T: `${moment().day("Tuesday").format("YYYY-MM-DD")}`,
-      W: `${moment().day("Wednesday").format("YYYY-MM-DD")}`,
-      R: `${moment().day("Thursday").format("YYYY-MM-DD")}`,
-      F: `${moment().day("Friday").format("YYYY-MM-DD")}`,
-    };
-    
+    const dayMapping = new Map([
+      ['M', `${moment().day("Monday").format("YYYY-MM-DD")}`],
+      ['T', `${moment().day("Tuesday").format("YYYY-MM-DD")}`],
+      ['W', `${moment().day("Wednesday").format("YYYY-MM-DD")}`],
+      ['R', `${moment().day("Thursday").format("YYYY-MM-DD")}`],
+      ['F', `${moment().day("Friday").format("YYYY-MM-DD")}`],
+    ]);
+  
     return allCombinations.slice(startIndex, endIndex).map(combination => {
-      let appointments: {
-        startDate: string;
-        endDate: string;
-        title: string;
-      }[] = [];
+      let appointments = [];
   
       let isValidCombination = true;
   
-      combination.forEach((section: any) => {
-        section.meetTimes.forEach((meetingTime: any) => {
-          meetingTime.meetDays.forEach((day: string) => {
-            const startDate = `${dayMapping[day]}T${convertTo24Hour(
-              meetingTime.meetTimeBegin
-            )}`;
-            const endDate = `${dayMapping[day]}T${convertTo24Hour(
-              meetingTime.meetTimeEnd
-            )}`;
-            const title = `${section.courseName}`;
+      combinationLoop: for (let section of combination) {
+        const title = section.courseName;
+  
+        for (let meetingTime of section.meetTimes) {
+          const meetTimeBegin = convertTo24Hour(meetingTime.meetTimeBegin);
+          const meetTimeEnd = convertTo24Hour(meetingTime.meetTimeEnd);
+  
+          for (let day of meetingTime.meetDays) {
+            const startDate = `${dayMapping.get(day)}T${meetTimeBegin}`;
+            const endDate = `${dayMapping.get(day)}T${meetTimeEnd}`;
   
             if (isOverlappingWithAny({ startDate, endDate, title }, appointments)) {
               isValidCombination = false;
+              break combinationLoop;
             } else {
               appointments.push({ startDate, endDate, title });
             }
-          });
-        });
-      });
+          }
+        }
+      }
   
       return isValidCombination ? appointments : null;
     }).filter(calendar => calendar !== null);
@@ -215,7 +212,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
     setAllPossibleCalendars(allCalendars);
     setCurrentCalendars(allCalendars.slice(0, 5));
     setHasMoreItems(true);
-    console.log(allCalendars);
+    console.log(allCalendars.length);
   }, [selectedCourses]);
 
   const handleSortChange = (selectedOption: any) => {
