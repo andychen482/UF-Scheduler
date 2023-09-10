@@ -26,8 +26,8 @@ const Main = () => {
   const cyContainerRef = useRef<HTMLDivElement | null>(null);
   const [graphData, setGraphData] = useState<GraphData | null>(null);
   const cyRef = useRef<cytoscape.Core | null>(null);
-  const [showDisplayWrite, setShowDisplayWrite] = useState(false);
-  const [hasShownCalendar, setHasShownCalendar] = useState(true);
+  const [showDisplayWrite, setShowDisplayWrite] = useState(true);
+  const [hasShownCalendar, setHasShownCalendar] = useState(false);
   const [loadedOnce, setLoadedOnce] = useState(false);
   const [hasBeenLoaded, setLoaded] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -394,6 +394,7 @@ const Main = () => {
         setIsDrawerOpen={setIsDrawerOpen}
         windowWidth={windowWidth}
       />
+      <div className={`overlay ${isDrawerOpen ? "open" : "closed"}`} onClick={() => setIsDrawerOpen(false)}></div>
       <div className="content-wrapper">
         <div className="flex flexImage course-display bg-gray-800">
           {windowWidth < 701 ? (
@@ -405,7 +406,7 @@ const Main = () => {
                 <AiOutlineClose className="mt-1 text-white" size={18} />
               </button>
               <span className="text-white font-bold w-full flex justify-center items-center">Courses</span>
-
+  
               <LikedSelectedCourses
                 selectedCourses={selectedCourses}
                 setSelectedCourses={setSelectedCourses}
@@ -453,6 +454,6 @@ const Main = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Main;

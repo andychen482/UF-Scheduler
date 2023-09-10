@@ -203,7 +203,7 @@
   overflow-y: visible;
   transition: 0.5s;
   padding-top: 60px;
-  z-index: 1000;
+  z-index: 10000;
   border-radius: 5px;
   box-shadow: 10px 5px 15px -8px rgba(0, 0, 0, 0.5);
 }
@@ -222,3 +222,23 @@
   font-size: 24px;
   cursor: pointer;
 }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust as needed */
+  z-index: 9999; /* Ensure this is below the drawer's z-index */
+  display: none; /* Initially hidden */
+}
+
+.overlay.open {
+  display: block; /* Show when the drawer is open */
+}
+
+.overlay.closed {
+  display: none; /* Hide when the drawer is closed */
+}
+

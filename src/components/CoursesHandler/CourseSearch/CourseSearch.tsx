@@ -52,6 +52,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
       onChange={handleSearchChange}
       autoCorrect="off"
       className="px-2 py-2 text-black bg-gray-200 rounded-md placeholder-gray-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-500 w-[100%]"
+      style={{ zIndex: 998 }}
     />
   );
 };
