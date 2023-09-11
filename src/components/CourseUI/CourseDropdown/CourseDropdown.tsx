@@ -1,23 +1,19 @@
 import React from "react";
 import { Course, Section } from "../CourseTypes";
 import { courseUIClasses } from "../CourseUIClasses";
-import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 import { PiPlusBold, PiMinusBold } from "react-icons/pi";
 import { DropdownClasses } from "./DropdownClasses";
-import { Icon } from "@mui/material";
 
 interface CourseDropdownProps {
   course: Course;
   selectedCourses: Course[];
   setSelectedCourses: React.Dispatch<React.SetStateAction<Course[]>>;
-  filteredCourses: Course[];
 }
 
 const CourseDropdown: React.FC<CourseDropdownProps> = ({
   course,
   selectedCourses,
   setSelectedCourses,
-  filteredCourses,
 }) => {
   const { listItem, content } = courseUIClasses;
 

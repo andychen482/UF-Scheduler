@@ -309,7 +309,6 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                               course={firstCourse}
                               selectedCourses={selectedCourses}
                               setSelectedCourses={setSelectedCourses}
-                              filteredCourses={filteredCourses}
                             />
                           </div>
                         </div>

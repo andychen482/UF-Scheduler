@@ -1,14 +1,12 @@
 import React, { useRef } from "react";
 
 interface CourseSearchProps {
-  debouncedSearchTerm: string;
   setDebouncedSearchTerm: (searchTerm: string) => void;
   searchTerm: string;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const CourseSearch: React.FC<CourseSearchProps> = ({
-  debouncedSearchTerm,
   setDebouncedSearchTerm,
   searchTerm,
   setSearchTerm,

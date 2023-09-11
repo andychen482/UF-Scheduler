@@ -397,7 +397,7 @@ const Main = () => {
       <div className={`overlay ${isDrawerOpen ? "open" : "closed"}`} onClick={() => setIsDrawerOpen(false)}></div>
       <div className="content-wrapper">
         <div className="flex flexImage course-display bg-gray-800">
-          {windowWidth < 701 ? (
+          {windowWidth < 1001 ? (
             <div className={`drawer ${isDrawerOpen ? "" : "closed"}`}>
               <button
                 className="drawer-close-button"

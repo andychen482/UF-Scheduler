@@ -1,5 +1,5 @@
 import React from "react";
-import { Course } from "../CourseUI/CourseTypes";
+import { Course, Section } from "../CourseUI/CourseTypes";
 import ColorHash from "color-hash";
 import "./LikedSelectedStyles.css";
 
@@ -27,6 +27,9 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
 }) => {
   const getCourseBackgroundColor = (course: Course) => {
     const hashedColor = getHashedColor(course);
+    course.sections.map((section: Section) => {
+      section.color = hashedColor;
+    })
     return {
       backgroundColor: hashedColor,
     };

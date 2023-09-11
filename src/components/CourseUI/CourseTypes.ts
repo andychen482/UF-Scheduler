@@ -21,6 +21,7 @@ export type Section = {
   finalExam: string;
   selected: boolean;
   courseName: string;
+  color: string;
 };
 
 export type Course = {

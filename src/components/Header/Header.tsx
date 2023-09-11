@@ -40,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({
   }, [selectedCourses]);
   return (
     <header className="header flex gap-x-5">
-      {windowWidth < 701 && (
+      {windowWidth < 1001 && (
         <BiMenu className={`menu-button cursor-pointer mt-1 ${isDrawerOpen ? 'faded' : ''}`} onClick={() => setIsDrawerOpen((prev) => !prev)}>
         </BiMenu>
       )}

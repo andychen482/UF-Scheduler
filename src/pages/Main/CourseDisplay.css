@@ -126,7 +126,7 @@
   display: block;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1000px) {
   .flexImage {
     flex-direction: column; /* Reverse the order of flex items */
     align-items: center; /* Center align items horizontally */
@@ -163,7 +163,7 @@
   }
 }
 
-@media (min-width: 701px)
+@media (min-width: 1001px)
 {
 .selected-courses {
   max-width: 12%;

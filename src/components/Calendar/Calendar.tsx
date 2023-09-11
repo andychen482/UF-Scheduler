@@ -1,7 +1,6 @@
-import { render } from "@testing-library/react";
 import { Course } from "../CourseUI/CourseTypes";
 import "./CalendarStyle.css";
-import { ViewState } from "@devexpress/dx-react-scheduler";
+import { ViewState, AppointmentModel } from "@devexpress/dx-react-scheduler";
 import { Paper } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
@@ -16,6 +15,30 @@ import {
   WeekView,
   AppointmentTooltip,
 } from "@devexpress/dx-react-scheduler-material-ui";
+
+interface CustomAppointmentProps extends Appointments.AppointmentProps {
+  color: string;
+  style?: React.CSSProperties;
+}
+
+const Appointment: React.FC<CustomAppointmentProps> = ({
+  children,
+  style,
+  data,
+  color, // Separate color property
+  ...restProps
+}) => (
+  <Appointments.Appointment
+    {...restProps}
+    data={data}
+    style={{
+      ...style,
+      backgroundColor: color, // Apply the color here
+    }}
+  >
+    {children}
+  </Appointments.Appointment>
+);
 
 const currentDate = moment().format("YYYY-MM-DD");
 
@@ -149,6 +172,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
 
         combinationLoop: for (let section of combination) {
           const title = section.courseName;
+          const color = section.color;
 
           for (let meetingTime of section.meetTimes) {
             const meetTimeBegin = convertTo24Hour(meetingTime.meetTimeBegin);
@@ -167,7 +191,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
                 isValidCombination = false;
                 break combinationLoop;
               } else {
-                appointments.push({ startDate, endDate, title });
+                appointments.push({ startDate, endDate, title, color });
               }
             }
           }
@@ -216,7 +240,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
                   cellDuration={50}
                   excludedDays={[0, 6]}
                 />
-                <Appointments />
+                <Appointments appointmentComponent={(props) => <Appointment {...props} color={props.data.color} />} />
                 <AppointmentTooltip showCloseButton />
               </Scheduler>
             </div>
@@ -340,7 +364,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
             }}
           />
         </div>
-        <div style={{ height: "78vh", overflow: "auto" }}>
+        <div style={{ height: "80vh", overflow: "auto" }}>
           {" "}
           {/* Add this container with defined height and overflow */}
           <InfiniteScroll

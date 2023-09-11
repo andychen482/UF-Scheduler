@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import LikedSelectedCourses from "./LikedSelectedCourses";
 import CourseSearch from "./CourseSearch/CourseSearch";
 import ShowFilteredCourses from "./ShowFilteredCourses/ShowFilteredCourses";
 import { Course } from "../CourseUI/CourseTypes";
@@ -72,7 +71,6 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
         setSelectedMajor={setSelectedMajor}
       />
       <CourseSearch
-        debouncedSearchTerm={debouncedSearchTerm}
         setDebouncedSearchTerm={setDebouncedSearchTerm}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
