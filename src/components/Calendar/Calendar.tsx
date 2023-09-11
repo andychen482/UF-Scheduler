@@ -1,6 +1,6 @@
 import { Course } from "../CourseUI/CourseTypes";
 import "./CalendarStyle.css";
-import { ViewState, AppointmentModel } from "@devexpress/dx-react-scheduler";
+import { ViewState } from "@devexpress/dx-react-scheduler";
 import { Paper } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";

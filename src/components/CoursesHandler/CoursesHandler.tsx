@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import CourseSearch from "./CourseSearch/CourseSearch";
 import ShowFilteredCourses from "./ShowFilteredCourses/ShowFilteredCourses";
 import { Course } from "../CourseUI/CourseTypes";
