@@ -5,7 +5,6 @@ import { Paper } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
 import { grey, indigo } from "@mui/material/colors";
-import moment from "moment";
 import { useEffect, useState, useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import Select from "react-select";
@@ -41,24 +40,21 @@ const Appointment: React.FC<CustomAppointmentProps> = ({
   </Appointments.Appointment>
 );
 
-const currentDate = moment().format("YYYY-MM-DD");
+const currentDate = new Date().toISOString().split('T')[0];
 
 function convertTo24Hour(timeStr: string) {
-  const [time, modifier] = timeStr.split(" ");
-
+  let [time, modifier] = timeStr.split(" ");
   let [hours, minutes] = time.split(":");
 
-  if (hours === "12") {
-    hours = "00";
-  }
+  let hoursInt = parseInt(hours, 10);
 
   if (modifier === "PM") {
-    hours = (parseInt(hours, 10) + 12).toString();
-  } else {
-    if (parseInt(hours, 10) >= 0 && parseInt(hours, 10) < 10) {
-      hours = "0" + hours;
-    }
+    hoursInt = hoursInt !== 12 ? hoursInt + 12 : hoursInt;
+  } else if (hoursInt === 12) {
+    hoursInt = 0;
   }
+
+  hours = hoursInt < 10 ? "0" + hoursInt : hoursInt.toString();
 
   return `${hours}:${minutes}`;
 }
@@ -141,12 +137,19 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
     [allSelectedSections]
   );
 
+  const getDayDate = (dayIndex: number) => {
+    const date = new Date();
+    const diff = dayIndex - date.getDay();
+    date.setDate(date.getDate() + diff);
+    return date.toISOString().split('T')[0];
+  };
+
   const dayMapping = new Map([
-    ["M", `${moment().day("Monday").format("YYYY-MM-DD")}`],
-    ["T", `${moment().day("Tuesday").format("YYYY-MM-DD")}`],
-    ["W", `${moment().day("Wednesday").format("YYYY-MM-DD")}`],
-    ["R", `${moment().day("Thursday").format("YYYY-MM-DD")}`],
-    ["F", `${moment().day("Friday").format("YYYY-MM-DD")}`],
+    ["M", getDayDate(1)],
+    ["T", getDayDate(2)],
+    ["W", getDayDate(3)],
+    ["R", getDayDate(4)],
+    ["F", getDayDate(5)],
   ]);
 
   // Step 3: Create calendars
@@ -160,7 +163,8 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
       const intervalTree = new IntervalTree();
   
       combinationLoop: for (let section of combination) {
-        const { courseName: title, color, meetTimes } = section;
+        const title = `${section.courseName} ${section.number}`;
+        const { color, meetTimes } = section;
   
         for (let { meetDays, meetTimeBegin, meetTimeEnd } of meetTimes) {
           const startDateBase = convertTo24Hour(meetTimeBegin);
@@ -171,8 +175,8 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
             const startDate = `${date}T${startDateBase}`;
             const endDate = `${date}T${endDateBase}`;
   
-            const startMoment = moment(startDate);
-            const endMoment = moment(endDate);
+            const startMoment = new Date(startDate);
+            const endMoment = new Date(endDate);
   
             // Creating an interval using the Interval class
             const interval = new Interval(startMoment.valueOf(), endMoment.valueOf());
@@ -210,12 +214,12 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
   // Step 4: Render calendars
   const renderCalendar = (appointments: any, index: number) => {
     const startDayHour = appointments.length
-      ? Math.min(...appointments.map((a: any) => moment(a.startDate).hour())) -
+      ? Math.min(...appointments.map((a: any) => new Date(a.startDate).getHours())) -
         1
       : 7;
 
     const endDayHour = appointments.length
-      ? Math.max(...appointments.map((a: any) => moment(a.endDate).hour())) + 1
+      ? Math.max(...appointments.map((a: any) => new Date(a.endDate).getHours())) + 1
       : 19.5;
 
     return (
@@ -260,11 +264,11 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
     return allPossibleCalendars.map((calendar) => {
       const startDayHour = calendar.length
         ? Math.min(
-            ...calendar.map((appt: any) => moment(appt.startDate).hour())
+            ...calendar.map((appt: any) => new Date(appt.startDate).getHours())
           )
         : 24;
       const endDayHour = calendar.length
-        ? Math.max(...calendar.map((appt: any) => moment(appt.endDate).hour()))
+        ? Math.max(...calendar.map((appt: any) => new Date(appt.endDate).getHours()))
         : 0;
       return { calendar, startDayHour, endDayHour };
     });
