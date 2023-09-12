@@ -115,7 +115,9 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
         course.sections.forEach((section) => {
           section.courseName = course.name;
         });
-        return course.sections.filter((section) => section.instructors.length > 0);
+        return course.sections.filter((section) => 
+        section.instructors.length > 0 && section.meetTimes && section.meetTimes.length > 0
+      );
       }
     });
   };
