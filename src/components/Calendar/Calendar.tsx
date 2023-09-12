@@ -9,6 +9,7 @@ import moment from "moment";
 import { useEffect, useState, useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import Select from "react-select";
+import IntervalTree, { Interval } from '@flatten-js/interval-tree';
 import {
   Scheduler,
   Appointments,
@@ -105,19 +106,6 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
     { value: "mostCompact", label: "Most Compact" },
   ];
 
-  function isOverlapping(appointment1: any, appointment2: any) {
-    return (
-      moment(appointment1.startDate).isBefore(appointment2.endDate) &&
-      moment(appointment2.startDate).isBefore(appointment1.endDate)
-    );
-  }
-
-  function isOverlappingWithAny(appointment: any, calendar: any[]) {
-    return calendar.some((existingAppointment) =>
-      isOverlapping(existingAppointment, appointment)
-    );
-  }
-
   // Step 1: Identify selected sections
   const getAllSelectedSections = () => {
     return selectedCourses.map((course) => {
@@ -153,53 +141,57 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
     [allSelectedSections]
   );
 
+  const dayMapping = new Map([
+    ["M", `${moment().day("Monday").format("YYYY-MM-DD")}`],
+    ["T", `${moment().day("Tuesday").format("YYYY-MM-DD")}`],
+    ["W", `${moment().day("Wednesday").format("YYYY-MM-DD")}`],
+    ["R", `${moment().day("Thursday").format("YYYY-MM-DD")}`],
+    ["F", `${moment().day("Friday").format("YYYY-MM-DD")}`],
+  ]);
+
   // Step 3: Create calendars
   const createCalendars = (startIndex: number, endIndex: number) => {
-    const dayMapping = new Map([
-      ["M", `${moment().day("Monday").format("YYYY-MM-DD")}`],
-      ["T", `${moment().day("Tuesday").format("YYYY-MM-DD")}`],
-      ["W", `${moment().day("Wednesday").format("YYYY-MM-DD")}`],
-      ["R", `${moment().day("Thursday").format("YYYY-MM-DD")}`],
-      ["F", `${moment().day("Friday").format("YYYY-MM-DD")}`],
-    ]);
 
-    return allCombinations
-      .slice(startIndex, endIndex)
-      .map((combination) => {
-        let appointments = [];
-
-        let isValidCombination = true;
-
-        combinationLoop: for (let section of combination) {
-          const title = section.courseName;
-          const color = section.color;
-
-          for (let meetingTime of section.meetTimes) {
-            const meetTimeBegin = convertTo24Hour(meetingTime.meetTimeBegin);
-            const meetTimeEnd = convertTo24Hour(meetingTime.meetTimeEnd);
-
-            for (let day of meetingTime.meetDays) {
-              const startDate = `${dayMapping.get(day)}T${meetTimeBegin}`;
-              const endDate = `${dayMapping.get(day)}T${meetTimeEnd}`;
-
-              if (
-                isOverlappingWithAny(
-                  { startDate, endDate, title },
-                  appointments
-                )
-              ) {
-                isValidCombination = false;
-                break combinationLoop;
-              } else {
-                appointments.push({ startDate, endDate, title, color });
-              }
+    return allCombinations.slice(startIndex, endIndex).map((combination) => {
+      let appointments = [];
+      let isValidCombination = true;
+  
+      // Creating an interval tree for efficient overlap checking
+      const intervalTree = new IntervalTree();
+  
+      combinationLoop: for (let section of combination) {
+        const { courseName: title, color, meetTimes } = section;
+  
+        for (let { meetDays, meetTimeBegin, meetTimeEnd } of meetTimes) {
+          const startDateBase = convertTo24Hour(meetTimeBegin);
+          const endDateBase = convertTo24Hour(meetTimeEnd);
+  
+          for (let day of meetDays) {
+            const date = dayMapping.get(day);
+            const startDate = `${date}T${startDateBase}`;
+            const endDate = `${date}T${endDateBase}`;
+  
+            const startMoment = moment(startDate);
+            const endMoment = moment(endDate);
+  
+            // Creating an interval using the Interval class
+            const interval = new Interval(startMoment.valueOf(), endMoment.valueOf());
+  
+            // Checking for overlapping appointments using the interval tree
+            if (intervalTree.search(interval).length > 0) {
+              isValidCombination = false;
+              break combinationLoop;
             }
+  
+            // Adding the current appointment to the interval tree
+            intervalTree.insert(interval, { title, color });
+            appointments.push({ startDate, endDate, title, color });
           }
         }
-
-        return isValidCombination ? appointments : null;
-      })
-      .filter((calendar) => calendar !== null);
+      }
+  
+      return isValidCombination ? appointments : null;
+    }).filter(Boolean);
   };
 
   const loadMoreCalendars = () => {
@@ -240,7 +232,11 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
                   cellDuration={50}
                   excludedDays={[0, 6]}
                 />
-                <Appointments appointmentComponent={(props) => <Appointment {...props} color={props.data.color} />} />
+                <Appointments
+                  appointmentComponent={(props) => (
+                    <Appointment {...props} color={props.data.color} />
+                  )}
+                />
                 <AppointmentTooltip showCloseButton />
               </Scheduler>
             </div>
@@ -260,78 +256,49 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
     console.log(allCalendars.length);
   }, [selectedCourses]);
 
+  const calendarsWithComputedHours = useMemo(() => {
+    return allPossibleCalendars.map((calendar) => {
+      const startDayHour = calendar.length
+        ? Math.min(
+            ...calendar.map((appt: any) => moment(appt.startDate).hour())
+          )
+        : 24;
+      const endDayHour = calendar.length
+        ? Math.max(...calendar.map((appt: any) => moment(appt.endDate).hour()))
+        : 0;
+      return { calendar, startDayHour, endDayHour };
+    });
+  }, [allPossibleCalendars]);
+
   const handleSortChange = (selectedOption: any) => {
-    let sortedCalendars;
+    let sortedCalendars: any[] = [];
 
     switch (selectedOption.value) {
       case "earliestStart":
-        sortedCalendars = [...allPossibleCalendars].sort((a, b) => {
-          const aStartDayHour = a.length
-            ? Math.min(...a.map((appt: any) => moment(appt.startDate).hour()))
-            : 24;
-          const bStartDayHour = b.length
-            ? Math.min(...b.map((appt: any) => moment(appt.startDate).hour()))
-            : 24;
-          return aStartDayHour - bStartDayHour;
-        });
+        sortedCalendars = calendarsWithComputedHours
+          .sort((a, b) => a.startDayHour - b.startDayHour)
+          .map((item) => item.calendar);
         break;
       case "latestStart":
-        sortedCalendars = [...allPossibleCalendars].sort((a, b) => {
-          const aStartDayHour = a.length
-            ? Math.min(...a.map((appt: any) => moment(appt.startDate).hour()))
-            : 24;
-          const bStartDayHour = b.length
-            ? Math.min(...b.map((appt: any) => moment(appt.startDate).hour()))
-            : 24;
-          return bStartDayHour - aStartDayHour;
-        });
+        sortedCalendars = calendarsWithComputedHours
+          .sort((a, b) => b.startDayHour - a.startDayHour)
+          .map((item) => item.calendar);
         break;
       case "earliestEnd":
-        sortedCalendars = [...allPossibleCalendars].sort((a, b) => {
-          const aEndDayHour = a.length
-            ? Math.max(...a.map((appt: any) => moment(appt.endDate).hour()))
-            : 0;
-          const bEndDayHour = b.length
-            ? Math.max(...b.map((appt: any) => moment(appt.endDate).hour()))
-            : 0;
-          return aEndDayHour - bEndDayHour;
-        });
+        sortedCalendars = calendarsWithComputedHours
+          .sort((a, b) => a.endDayHour - b.endDayHour)
+          .map((item) => item.calendar);
         break;
       case "latestEnd":
-        sortedCalendars = [...allPossibleCalendars].sort((a, b) => {
-          const aEndDayHour = a.length
-            ? Math.max(...a.map((appt: any) => moment(appt.endDate).hour()))
-            : 0;
-          const bEndDayHour = b.length
-            ? Math.max(...b.map((appt: any) => moment(appt.endDate).hour()))
-            : 0;
-          return bEndDayHour - aEndDayHour;
-        });
+        sortedCalendars = calendarsWithComputedHours
+          .sort((a, b) => b.endDayHour - a.endDayHour)
+          .map((item) => item.calendar);
         break;
       case "mostCompact":
-        // this is most definetly wrong
-        sortedCalendars = [...allPossibleCalendars].sort((a, b) => {
-          const aDuration = a.length
-            ? Math.min(
-                Math.max(...a.map((appt: any) => moment(appt.endDate).hour())) -
-                  Math.min(
-                    ...a.map((appt: any) => moment(appt.startDate).hour())
-                  )
-              )
-            : 24;
-          const bDuration = b.length
-            ? Math.min(
-                Math.max(...b.map((appt: any) => moment(appt.endDate).hour())) -
-                  Math.min(
-                    ...b.map((appt: any) => moment(appt.startDate).hour())
-                  )
-              )
-            : 24;
-          return aDuration - bDuration;
-        });
+        sortedCalendars = calendarsWithComputedHours
+          .sort((a, b) => (a.endDayHour - a.startDayHour) - (b.endDayHour - b.startDayHour))
+          .map((item) => item.calendar);
         break;
-      default:
-        sortedCalendars = allPossibleCalendars;
     }
 
     setAllPossibleCalendars(sortedCalendars);
@@ -372,7 +339,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
             loadMore={loadMoreCalendars}
             hasMore={hasMoreItems}
             loader={
-              <div className="loader" key={0}>
+              <div className="loader text-gray-300 ml-[20px]" key={0}>
                 Loading ...
               </div>
             }

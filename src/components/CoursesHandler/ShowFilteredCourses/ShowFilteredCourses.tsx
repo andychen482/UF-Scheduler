@@ -176,6 +176,9 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     if (debouncedSearchTerm !== "" && debouncedSearchTerm !== null) {
       fetchData();
     }
+    else {
+      setFilteredCourses([]);
+    }
   }, [debouncedSearchTerm]);
 
   return (
