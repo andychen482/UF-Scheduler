@@ -5,7 +5,7 @@ import { Paper } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
 import { grey, indigo } from "@mui/material/colors";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import Select from "react-select";
 import IntervalTree, { Interval } from '@flatten-js/interval-tree';
@@ -15,6 +15,7 @@ import {
   WeekView,
   AppointmentTooltip,
 } from "@devexpress/dx-react-scheduler-material-ui";
+import { isEqual } from 'lodash';
 
 interface CustomAppointmentProps extends Appointments.AppointmentProps {
   color: string;
@@ -41,6 +42,18 @@ const Appointment: React.FC<CustomAppointmentProps> = ({
 );
 
 const currentDate = new Date().toISOString().split('T')[0];
+
+function useDeepCompareEffect(callback: () => void, dependencies: any[]) {
+  const dependenciesRef = useRef<any[]>();
+
+  useEffect(() => {
+    if (!isEqual(dependencies, dependenciesRef.current)) {
+      callback();
+    }
+
+    dependenciesRef.current = dependencies;
+  }, [dependencies, callback]);
+}
 
 function convertTo24Hour(timeStr: string) {
   let [time, modifier] = timeStr.split(" ");
@@ -252,7 +265,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
     );
   };
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     const allSelectedSections = getAllSelectedSections();
     const allCombinations = generateAllCombinations(allSelectedSections);
     const allCalendars = createCalendars(0, allCombinations.length);
