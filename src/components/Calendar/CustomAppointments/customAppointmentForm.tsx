@@ -96,10 +96,6 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
     setCustomAppointments([...customAppointments, newAppointment]);
   };
 
-  useEffect(() => {
-    console.log(customAppointments);
-  }, [customAppointments]);
-
   return (
     <form className="custom-appointment-form" style={style}>
       {/* Include input fields for all the properties such as display, credits, deptName, finalExam, and color */}
