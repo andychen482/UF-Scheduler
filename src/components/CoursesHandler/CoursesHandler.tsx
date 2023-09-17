@@ -15,6 +15,8 @@ interface CoursesHandlerProps {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   hasBeenLoaded: boolean;
   setLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  customAppointments: any[];
+  setCustomAppointments: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 const CoursesHandler: React.FC<CoursesHandlerProps> = (
@@ -29,6 +31,8 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
     setSearchTerm,
     hasBeenLoaded,
     setLoaded,
+    customAppointments,
+    setCustomAppointments
   }
 ) => {
 
@@ -47,6 +51,20 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
   }, [selectedCourses, hasBeenLoaded]);
 
   useEffect(() => {
+    const storedCustomAppointment = localStorage.getItem("customAppointments");
+    if (storedCustomAppointment) {
+      setCustomAppointments(JSON.parse(storedCustomAppointment));
+    }
+  }, [setCustomAppointments]);
+
+  useEffect(() => {
+    if (customAppointments.length > 0 || hasBeenLoaded){
+      localStorage.setItem("customAppointments", JSON.stringify(customAppointments));
+    }
+    console.log("Saving: " + customAppointments);
+  }, [customAppointments, hasBeenLoaded]);
+
+  useEffect(() => {
     const storedSelectedMajor = localStorage.getItem("selectedMajor");
     if (storedSelectedMajor) {
       setSelectedMajor(JSON.parse(storedSelectedMajor));
@@ -60,7 +78,7 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
   }, [selectedMajor]);
 
   return (
-    <div className="bg-gray-700 dark:bg-gray-800 rounded-md p-4 shadow-md transition-shadow duration-300 min-w-full min-h-full">
+    <div className="bg-gray-700 dark:bg-gray-800 rounded-md p-4 shadow-md transition-shadow duration-300 min-w-full min-h-full" style={{ maxHeight: 'calc(100vh - 72px)'}}>
       {/* <LikedSelectedCourses
         selectedCourses={selectedCourses}
         setSelectedCourses={setSelectedCourses}

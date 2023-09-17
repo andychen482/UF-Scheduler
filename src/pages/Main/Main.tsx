@@ -32,6 +32,7 @@ const Main = () => {
   const [hasBeenLoaded, setLoaded] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [customAppointments, setCustomAppointments] = useState<any[]>([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -398,29 +399,33 @@ const Main = () => {
       <div className="content-wrapper">
         <div className="flex flexImage course-display bg-gray-800">
           {windowWidth < 1001 ? (
-            <div className={`drawer ${isDrawerOpen ? "" : "closed"}`}>
+            <div className={`drawer overflow-auto ${isDrawerOpen ? "" : "closed"}`}>
               <button
                 className="drawer-close-button"
                 onClick={() => setIsDrawerOpen(false)}
               >
                 <AiOutlineClose className="mt-1 text-white" size={18} />
               </button>
-              <span className="text-white font-bold w-full flex justify-center items-center">Courses</span>
+
   
               <LikedSelectedCourses
                 selectedCourses={selectedCourses}
                 setSelectedCourses={setSelectedCourses}
                 setLoaded={setLoaded}
                 windowWidth={windowWidth}
+                customAppointments={customAppointments}
+                setCustomAppointments={setCustomAppointments}
               />
             </div>
           ) : (
-            <div className="selected-courses">
+            <div className="selected-courses overflow-auto" style={{ height: 'calc(100vh - 43px)' }}>
               <LikedSelectedCourses
                 selectedCourses={selectedCourses}
                 setSelectedCourses={setSelectedCourses}
                 setLoaded={setLoaded}
                 windowWidth={windowWidth}
+                customAppointments={customAppointments}
+                setCustomAppointments={setCustomAppointments}
               />
             </div>
           )}
@@ -436,6 +441,8 @@ const Main = () => {
               setSearchTerm={setSearchTerm}
               hasBeenLoaded={hasBeenLoaded}
               setLoaded={setLoaded}
+              customAppointments={customAppointments}
+              setCustomAppointments={setCustomAppointments}
             />
           </div>
           {showDisplayWrite ? (
@@ -447,7 +454,7 @@ const Main = () => {
             </div>
           ) : (
             <div className="calendar-container">
-            <Calendar selectedCourses={selectedCourses} />
+            <Calendar selectedCourses={selectedCourses} customAppointments={customAppointments} setCustomAppointments={setCustomAppointments} />
             </div>
           )}
         </div>

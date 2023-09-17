@@ -4,8 +4,8 @@ export const courseUIClasses = {
   title: "text-xl sm:text-2xl font-bold text-gray-900 dark:text-white",
   subtitle: "text-lg sm:text-xl font-semibold text-gray-800 dark:text-gray-200",
   list: "list-none pl-0",
-  content: "ml-2 sm:ml-4 my-2 text-gray-200 dark:text-gray-300",
+  content: "w-[100%] ml-2 sm:ml-4 my-2 text-gray-200 dark:text-gray-300",
   contentML2: "ml-2 sm:ml-4",
-  listItem: "pt-2 pb-2 border-gray-400 dark:border-gray-700",
+  listItem: "w-[100%] pt-2 pb-2 border-gray-400 dark:border-gray-700",
   term: "text-gray-900 dark:text-white mb-0",
 };

@@ -1,0 +1,116 @@
+.custom-appointment-form {
+    background-color: #2f3136;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+    width: 95%;
+    margin: 20px;
+  }
+  
+  .custom-appointment-form .form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .custom-appointment-form .form-row div {
+    width: 48%;
+  }
+  
+  .custom-appointment-form label {
+    display: block;
+    margin-bottom: 2px;
+    font-weight: bold;
+  }
+  
+  .custom-appointment-form input[type="text"],
+  .custom-appointment-form input[type="number"],
+  .custom-appointment-form input[type="time"] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+    color: #000;
+    height: 40px; /* Set a specific height */
+  }
+
+  .custom-appointment-form input[type="color"] {
+    width: 100%;
+    background-color: #ffffff;
+    color: #000;
+    height: 40px; /* Set a specific height */
+  }
+  
+  .custom-appointment-form input[type="checkbox"] {
+    display: none; /* Hide the default checkboxes */
+  }
+  
+  .custom-appointment-form .checkbox-label {
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 15px;
+    cursor: pointer;
+    font-size: 100%;
+    user-select: none;
+    line-height: 20px; /* Adjust line-height to align with the checkbox */
+  }
+  
+  .custom-appointment-form .checkbox-label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%); /* Vertically center the custom checkbox */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #1f4da8; /* Add a border around the custom checkbox */
+    border-radius: 4px; /* Optional: add border radius to round the corners */
+  }
+  
+  .custom-appointment-form input[type="checkbox"]:checked + .checkbox-label:after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%); /* Vertically center the check mark */
+    width: 10px;
+    height: 10px;
+    background-color: #1f4da8; /* Color of the check mark */
+  }
+
+  .custom-appointment-form .button-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .custom-appointment-form .add-appointment-button {
+    width: auto; 
+    padding: 8px 8px 8px 8px; 
+    margin-top: 10px;
+    background-color: #ffffff;
+    color: #2f3136;
+    border: 1px solid #ccc; 
+    border-radius: 5px;
+    cursor: pointer;
+    height: 40px;
+  }
+  
+  
+  .custom-appointment-form .add-appointment-button:hover {
+    background-color: #ddd;
+  }
+
+  .custom-appointment-form .disabled-button {
+    background-color: #ccc;
+    cursor: not-allowed;
+    border: 1px solid #aaa;
+  }
+  
+  .custom-appointment-form .disabled-button:hover {
+    background-color: #ccc;
+  }
+  

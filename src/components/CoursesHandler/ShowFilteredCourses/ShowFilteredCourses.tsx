@@ -207,7 +207,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
 
             return (
               <React.Fragment key={index}>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center w-full justify-between">
                   <div
                     className={courseCard}
                     // onClick={(e) => handleCourseCardClick(e, firstCourse)}

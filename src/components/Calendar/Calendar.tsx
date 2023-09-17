@@ -8,14 +8,15 @@ import { grey, indigo } from "@mui/material/colors";
 import { useEffect, useState, useMemo, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import Select from "react-select";
-import IntervalTree, { Interval } from '@flatten-js/interval-tree';
+import IntervalTree, { Interval } from "@flatten-js/interval-tree";
+import CustomAppointmentForm from "./CustomAppointments/customAppointmentForm";
 import {
   Scheduler,
   Appointments,
   WeekView,
   AppointmentTooltip,
 } from "@devexpress/dx-react-scheduler-material-ui";
-import { isEqual } from 'lodash';
+import { isEqual } from "lodash";
 
 interface CustomAppointmentProps extends Appointments.AppointmentProps {
   color: string;
@@ -41,7 +42,7 @@ const Appointment: React.FC<CustomAppointmentProps> = ({
   </Appointments.Appointment>
 );
 
-const currentDate = new Date().toISOString().split('T')[0];
+const currentDate = new Date().toISOString().split("T")[0];
 
 function useDeepCompareEffect(callback: () => void, dependencies: any[]) {
   const dependenciesRef = useRef<any[]>();
@@ -100,12 +101,23 @@ const darkModeTheme = createTheme(getDesignTokens("dark"));
 
 interface CalendarProps {
   selectedCourses: Course[];
+  customAppointments: any[];
+  setCustomAppointments: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
+const Calendar: React.FC<CalendarProps> = ({
+  selectedCourses,
+  customAppointments,
+  setCustomAppointments,
+}) => {
   const [currentCalendars, setCurrentCalendars] = useState<any[]>([]);
   const [hasMoreItems, setHasMoreItems] = useState(true);
   const [allPossibleCalendars, setAllPossibleCalendars] = useState<any[]>([]);
+  const [isAppointmentFormVisible, setIsAppointmentFormVisible] =
+    useState(false);
+
+  // Need to change this and put into a higher parent because this
+  // currently does not allow you to delete all appointments
 
   const sortOptions = [
     { value: "earliestStart", label: "Earliest Start" },
@@ -128,15 +140,19 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
         course.sections.forEach((section) => {
           section.courseName = course.name;
         });
-        return course.sections.filter((section) => 
-        section.instructors.length > 0 && section.meetTimes && section.meetTimes.length > 0
-      );
+        return course.sections.filter(
+          (section) =>
+            section.instructors.length > 0 &&
+            section.meetTimes &&
+            section.meetTimes.length > 0
+        );
       }
     });
   };
 
   // Step 2: Generate all possible combinations
   const generateAllCombinations = (arrays: any[][]) => {
+    arrays = [...arrays, ...customAppointments.map((item) => [item])];
     return arrays.reduce(
       (acc, curr) => acc.flatMap((c) => curr.map((n) => [].concat(c, n))),
       [[]]
@@ -149,14 +165,14 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
   );
   const allCombinations = useMemo(
     () => generateAllCombinations(allSelectedSections),
-    [allSelectedSections]
+    [allSelectedSections, customAppointments]
   );
 
   const getDayDate = (dayIndex: number) => {
     const date = new Date();
     const diff = dayIndex - date.getDay();
     date.setDate(date.getDate() + diff);
-    return date.toISOString().split('T')[0];
+    return date.toISOString().split("T")[0];
   };
 
   const dayMapping = new Map([
@@ -169,48 +185,53 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
 
   // Step 3: Create calendars
   const createCalendars = (startIndex: number, endIndex: number) => {
+    return allCombinations
+      .slice(startIndex, endIndex)
+      .map((combination) => {
+        let appointments = [];
+        let isValidCombination = true;
 
-    return allCombinations.slice(startIndex, endIndex).map((combination) => {
-      let appointments = [];
-      let isValidCombination = true;
-  
-      // Creating an interval tree for efficient overlap checking
-      const intervalTree = new IntervalTree();
-  
-      combinationLoop: for (let section of combination) {
-        const title = `${section.courseName} ${section.number}`;
-        const { color, meetTimes } = section;
-  
-        for (let { meetDays, meetTimeBegin, meetTimeEnd } of meetTimes) {
-          const startDateBase = convertTo24Hour(meetTimeBegin);
-          const endDateBase = convertTo24Hour(meetTimeEnd);
-  
-          for (let day of meetDays) {
-            const date = dayMapping.get(day);
-            const startDate = `${date}T${startDateBase}`;
-            const endDate = `${date}T${endDateBase}`;
-  
-            const startMoment = new Date(startDate);
-            const endMoment = new Date(endDate);
-  
-            // Creating an interval using the Interval class
-            const interval = new Interval(startMoment.valueOf(), endMoment.valueOf());
-  
-            // Checking for overlapping appointments using the interval tree
-            if (intervalTree.search(interval).length > 0) {
-              isValidCombination = false;
-              break combinationLoop;
+        // Creating an interval tree for efficient overlap checking
+        const intervalTree = new IntervalTree();
+
+        combinationLoop: for (let section of combination) {
+          const title = `${section.courseName} ${section.number}`;
+          const { color, meetTimes } = section;
+
+          for (let { meetDays, meetTimeBegin, meetTimeEnd } of meetTimes) {
+            const startDateBase = convertTo24Hour(meetTimeBegin);
+            const endDateBase = convertTo24Hour(meetTimeEnd);
+
+            for (let day of meetDays) {
+              const date = dayMapping.get(day);
+              const startDate = `${date}T${startDateBase}`;
+              const endDate = `${date}T${endDateBase}`;
+
+              const startMoment = new Date(startDate);
+              const endMoment = new Date(endDate);
+
+              // Creating an interval using the Interval class
+              const interval = new Interval(
+                startMoment.valueOf(),
+                endMoment.valueOf()
+              );
+
+              // Checking for overlapping appointments using the interval tree
+              if (intervalTree.search(interval).length > 0) {
+                isValidCombination = false;
+                break combinationLoop;
+              }
+
+              // Adding the current appointment to the interval tree
+              intervalTree.insert(interval, { title, color });
+              appointments.push({ startDate, endDate, title, color });
             }
-  
-            // Adding the current appointment to the interval tree
-            intervalTree.insert(interval, { title, color });
-            appointments.push({ startDate, endDate, title, color });
           }
         }
-      }
-  
-      return isValidCombination ? appointments : null;
-    }).filter(Boolean);
+
+        return isValidCombination ? appointments : null;
+      })
+      .filter(Boolean);
   };
 
   const loadMoreCalendars = () => {
@@ -229,12 +250,15 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
   // Step 4: Render calendars
   const renderCalendar = (appointments: any, index: number) => {
     const startDayHour = appointments.length
-      ? Math.min(...appointments.map((a: any) => new Date(a.startDate).getHours())) -
-        1
+      ? Math.min(
+          ...appointments.map((a: any) => new Date(a.startDate).getHours())
+        ) - 1
       : 7;
 
     const endDayHour = appointments.length
-      ? Math.max(...appointments.map((a: any) => new Date(a.endDate).getHours())) + 1
+      ? Math.max(
+          ...appointments.map((a: any) => new Date(a.endDate).getHours())
+        ) + 1
       : 19.5;
 
     return (
@@ -273,7 +297,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
     setCurrentCalendars(allCalendars.slice(0, 5));
     setHasMoreItems(true);
     console.log(allCalendars.length);
-  }, [selectedCourses]);
+  }, [selectedCourses, customAppointments]);
 
   const calendarsWithComputedHours = useMemo(() => {
     return allPossibleCalendars.map((calendar) => {
@@ -283,7 +307,9 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
           )
         : 24;
       const endDayHour = calendar.length
-        ? Math.max(...calendar.map((appt: any) => new Date(appt.endDate).getHours()))
+        ? Math.max(
+            ...calendar.map((appt: any) => new Date(appt.endDate).getHours())
+          )
         : 0;
       return { calendar, startDayHour, endDayHour };
     });
@@ -315,7 +341,10 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
         break;
       case "mostCompact":
         sortedCalendars = calendarsWithComputedHours
-          .sort((a, b) => (a.endDayHour - a.startDayHour) - (b.endDayHour - b.startDayHour))
+          .sort(
+            (a, b) =>
+              a.endDayHour - a.startDayHour - (b.endDayHour - b.startDayHour)
+          )
           .map((item) => item.calendar);
         break;
     }
@@ -327,11 +356,35 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
   return (
     <div className="calendar-container">
       <div className="calendar-display">
+        {/* Step 2: Add a button at the top of your component to toggle the visibility state */}
+
+        {/* Step 3: Apply CSS transitions to the CustomAppointmentForm component to achieve the slide-out effect */}
+        <CustomAppointmentForm
+          customAppointments={customAppointments}
+          setCustomAppointments={setCustomAppointments}
+          style={{
+            transform: isAppointmentFormVisible
+              ? "translateX(-50%)"
+              : "translateX(+110%)",
+            transition: "transform 0.3s ease-in-out",
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            width: "50%",
+            height: "50%",
+            zIndex: 999,
+            backgroundColor: "#252422",
+            marginLeft: "0%", // Adjust to center horizontally
+            marginTop: "-15%", // Adjust to center vertically
+            border: "2px solid #ccc",
+          }}
+        ></CustomAppointmentForm>
         <div
           style={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "space-between",
             alignItems: "center",
+            padding: "0 20px",
             height: "10vh",
           }}
         >
@@ -339,7 +392,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
             options={sortOptions}
             onChange={handleSortChange}
             placeholder="Sort by..."
-            className="w-[90%] mt-2"
+            className="w-[80%] mt-2"
             menuPortalTarget={document.body} // Append the dropdown to the body element
             styles={{
               menuPortal: (base) => ({ ...base, zIndex: 999 }), // Adjust the z-index to a value lower than the drawer's but higher than other elements
@@ -349,6 +402,25 @@ const Calendar: React.FC<CalendarProps> = ({ selectedCourses }) => {
               }),
             }}
           />
+          <button
+            style={{
+              padding: "5px", // Add padding to make the button larger
+              fontSize: "16px", // Set a font size
+              borderRadius: "4px", // Round the corners of the button
+              border: "none", // Remove the default border
+              backgroundColor: indigo[400], // Use a background color that matches your theme
+              color: "#fff", // Set the text color to white
+              cursor: "pointer", // Change the cursor to a pointer on hover
+              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Add a subtle box shadow
+              marginTop: "7px", // Add some top margin
+              height: "auto", // Set the height
+              width: "auto", // Set the width
+              marginLeft: "10px"
+            }}
+            onClick={() => setIsAppointmentFormVisible((prev) => !prev)}
+          >
+            Add Events
+          </button>
         </div>
         <div style={{ height: "80vh", overflow: "auto" }}>
           {" "}

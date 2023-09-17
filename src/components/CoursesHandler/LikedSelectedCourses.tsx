@@ -8,6 +8,8 @@ interface LikedSelectedCoursesProps {
   setSelectedCourses: React.Dispatch<React.SetStateAction<Course[]>>;
   setLoaded: React.Dispatch<React.SetStateAction<boolean>>;
   windowWidth: number;
+  customAppointments: any[];
+  setCustomAppointments: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 const colorHash = new ColorHash({
@@ -24,12 +26,14 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
   setSelectedCourses,
   setLoaded,
   windowWidth,
+  customAppointments,
+  setCustomAppointments,
 }) => {
   const getCourseBackgroundColor = (course: Course) => {
     const hashedColor = getHashedColor(course);
     course.sections.map((section: Section) => {
       section.color = hashedColor;
-    })
+    });
     return {
       backgroundColor: hashedColor,
     };
@@ -46,6 +50,16 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
     setLoaded(true);
   };
 
+  const handleAppointmentBadgeClick = (section: any) => {
+    setCustomAppointments((prevAppointments) =>
+      prevAppointments.filter(
+        (selectedAppointment) =>
+          selectedAppointment.courseName !== section.courseName
+      )
+    );
+    setLoaded(true);
+  };
+
   // Function to chunk the selected courses into pairs
   const chunkArray = (array: Course[], chunkSize: number) => {
     const chunkedArray = [];
@@ -55,19 +69,28 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
     return chunkedArray;
   };
 
+  const appointmentChunkArray = (array: any[], chunkSize: number) => {
+    const chunkedArray = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      chunkedArray.push(array.slice(i, i + chunkSize));
+    }
+    return chunkedArray;
+  };
+
   const selectedCoursesChunks = chunkArray(selectedCourses, 1);
+  const appointmentChunks = appointmentChunkArray(customAppointments, 1);
 
   return (
     <>
-      <div className="mt-4 space-y-1 w-full flex flex-col">
-        {windowWidth > 700 && (
+      <div className="mt-4 space-y-2 w-full flex flex-col">
+
           <div>
             <div className="text-white font-bold w-full flex justify-center items-center">
               Courses
             </div>
             <hr className="mx-1" />
           </div>
-        )}
+
         {selectedCoursesChunks.map(
           (courseChunk: Course[], chunkIndex: number) => (
             <div key={chunkIndex} className="flex mx-3">
@@ -100,6 +123,48 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                       <span className="text-white font-bold text-sm">
                         {course.sections[0].credits}
                       </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )
+        )}
+
+            <div>
+              <div className="text-white font-bold w-full flex justify-center items-center">
+                Recurring Events
+              </div>
+              <hr className="mx-1" />
+            </div>
+
+        {appointmentChunks.map(
+          (appointmentChunk: any[], chunkIndex: number) => (
+            <div key={chunkIndex} className="flex mx-3">
+              {appointmentChunk.map((appointment: any, index: number) => (
+                <div
+                  id="badge"
+                  key={index}
+                  className={`flex-1 p-[0.6rem] rounded-md mb-2 text-black dark:text-white cursor-pointer w-full h-16 overflow-hidden`}
+                  style={{ backgroundColor: appointment.color }}
+                  onClick={() => handleAppointmentBadgeClick(appointment)}
+                >
+                  {/* Display course code and credits */}
+                  <div className="flex justify-between">
+                    <div className="flex-1 min-w-0">
+                      <strong className="block truncate">
+                        {appointment.courseName}
+                      </strong>
+                      <div className="text-sm line-clamp-1 text-ellipsis">
+                        {appointment.meetTimes[0].meetBuilding}
+                      </div>
+                    </div>
+                    <div>
+                      {appointment.meetTimes.map((meetTime: any) => (
+                        <strong className="block truncate text-white text-sm">
+                          {meetTime.meetDays}
+                        </strong>
+                      ))}
                     </div>
                   </div>
                 </div>
