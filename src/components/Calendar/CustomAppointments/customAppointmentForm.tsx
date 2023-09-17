@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Section } from "../../CourseUI/CourseTypes"; // adjust the path as necessary
 import "./AppointmentStyling.css";
+import { AiOutlineClose } from "react-icons/ai";
 
 interface CustomAppointmentProps {
   customAppointments: Section[];
   setCustomAppointments: React.Dispatch<React.SetStateAction<Section[]>>;
   appointment?: Section;
   style?: React.CSSProperties; // Add style prop here
+  isAppointmentFormVisible: boolean;
+  setIsAppointmentFormVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
@@ -14,6 +17,8 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
   setCustomAppointments,
   appointment,
   style,
+  isAppointmentFormVisible,
+  setIsAppointmentFormVisible,
 }) => {
   const [courseName, setCourseName] = useState("");
   const [number, setNumber] = useState("");
@@ -161,6 +166,11 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
           </label>
         </div>
       </div>
+      <AiOutlineClose
+            style={{ position: "absolute", right: "2%", top: "10px", color: "#FF605C" }}
+            onClick={() => setIsAppointmentFormVisible((prev) => !prev)}
+            className="close-button"
+          />
       <div className="form-row">
         <div>
           <label>Start Time:</label>

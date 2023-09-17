@@ -359,26 +359,26 @@ const Calendar: React.FC<CalendarProps> = ({
         {/* Step 2: Add a button at the top of your component to toggle the visibility state */}
 
         {/* Step 3: Apply CSS transitions to the CustomAppointmentForm component to achieve the slide-out effect */}
+        {isAppointmentFormVisible && (
         <CustomAppointmentForm
           customAppointments={customAppointments}
           setCustomAppointments={setCustomAppointments}
+          isAppointmentFormVisible={isAppointmentFormVisible}
+          setIsAppointmentFormVisible={setIsAppointmentFormVisible}
           style={{
-            transform: isAppointmentFormVisible
-              ? "translateX(-50%)"
-              : "translateX(+110%)",
-            transition: "transform 0.3s ease-in-out",
+            transform: "translateX(-50%)",
             position: "fixed",
             top: "50%",
             left: "50%",
-            width: "50%",
-            height: "50%",
+            width: "auto",
+            height: "auto",
             zIndex: 999,
             backgroundColor: "#252422",
             marginLeft: "0%", // Adjust to center horizontally
             marginTop: "-15%", // Adjust to center vertically
-            border: "2px solid #ccc",
+            border: "1px solid #ccc",
           }}
-        ></CustomAppointmentForm>
+        ></CustomAppointmentForm>)}
         <div
           style={{
             display: "flex",
