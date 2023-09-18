@@ -40,10 +40,9 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
       meetDays.length > 0 &&
       Boolean(meetTimeBegin) &&
       Boolean(meetTimeEnd) &&
-      Boolean(meetBuilding) &&
       Boolean(color);
     setIsFormValid(isValid);
-  }, [courseName, meetDays, meetTimeBegin, meetTimeEnd, meetBuilding, color]);
+  }, [courseName, meetDays, meetTimeBegin, meetTimeEnd, color]);
 
   useEffect(() => {
     if (appointment) {
@@ -190,14 +189,6 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
         </div>
       </div>
       <div className="form-row">
-        <div>
-          <label>Location:</label>
-          <input
-            type="text"
-            value={meetBuilding}
-            onChange={(e) => setMeetBuilding(e.target.value)}
-          />
-        </div>
         <div>
           <label>Color:</label>
           <input

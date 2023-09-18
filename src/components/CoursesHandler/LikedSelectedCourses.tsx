@@ -83,13 +83,12 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
   return (
     <>
       <div className="mt-4 space-y-2 w-full flex flex-col">
-
-          <div>
-            <div className="text-white font-bold w-full flex justify-center items-center">
-              Courses
-            </div>
-            <hr className="mx-1" />
+        <div>
+          <div className="text-white font-bold w-full flex justify-center items-center">
+            Courses
           </div>
+          <hr className="mx-1" />
+        </div>
 
         {selectedCoursesChunks.map(
           (courseChunk: Course[], chunkIndex: number) => (
@@ -98,31 +97,29 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                 <div
                   id="badge"
                   key={index}
-                  className={`flex-1 p-[0.6rem] rounded-md mb-2 text-black dark:text-white cursor-pointer w-full h-16 overflow-hidden`}
+                  className={`flex-1 p-[0.6rem] rounded-md mb-2 text-black dark:text-white cursor-pointer w-full h-full overflow-hidden`}
                   style={getCourseBackgroundColor(course)}
                   onClick={() => handleBadgeClick(course)}
                 >
                   {/* Display course code and credits */}
                   <div className="flex justify-between">
                     <div className="flex-1 min-w-0">
-                      {course.termInd !== " " && course.termInd !== "C" ? (
-                        <strong className="block truncate">
-                          {course.code.replace(/([A-Z]+)/g, "$1 ")} -{" "}
-                          {course.termInd}
-                        </strong>
-                      ) : (
-                        <strong className="block truncate">
-                          {course.code.replace(/([A-Z]+)/g, "$1 ")}
-                        </strong>
-                      )}
-                      <div className="text-sm line-clamp-1 text-ellipsis">
-                        {course.name}
+                      <div className="flex justify-between">
+                        {course.termInd !== " " && course.termInd !== "C" ? (
+                          <strong className="block truncate">
+                            {course.code.replace(/([A-Z]+)/g, "$1 ")} -{" "}
+                            {course.termInd}
+                          </strong>
+                        ) : (
+                          <strong className="block truncate">
+                            {course.code.replace(/([A-Z]+)/g, "$1 ")}
+                          </strong>
+                        )}
+                        <span className="text-white mt-[0.12rem] font-bold text-sm">
+                          {course.sections[0].credits}
+                        </span>
                       </div>
-                    </div>
-                    <div>
-                      <span className="text-white font-bold text-sm">
-                        {course.sections[0].credits}
-                      </span>
+                      <div className="text-sm text-ellipsis">{course.name}</div>
                     </div>
                   </div>
                 </div>
@@ -131,47 +128,50 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
           )
         )}
 
-            <div>
-              <div className="text-white font-bold w-full flex justify-center items-center">
-                Recurring Events
-              </div>
-              <hr className="mx-1" />
-            </div>
+        <div>
+          <div className="text-white font-bold w-full flex justify-center items-center">
+            Recurring Events
+          </div>
+          <hr className="mx-1" />
+        </div>
 
         {appointmentChunks.map(
-          (appointmentChunk: any[], chunkIndex: number) => (
-            <div key={chunkIndex} className="flex mx-3">
-              {appointmentChunk.map((appointment: any, index: number) => (
-                <div
-                  id="badge"
-                  key={index}
-                  className={`flex-1 p-[0.6rem] rounded-md mb-2 text-black dark:text-white cursor-pointer w-full h-16 overflow-hidden`}
-                  style={{ backgroundColor: appointment.color }}
-                  onClick={() => handleAppointmentBadgeClick(appointment)}
-                >
-                  {/* Display course code and credits */}
-                  <div className="flex justify-between">
-                    <div className="flex-1 min-w-0">
-                      <strong className="block truncate">
-                        {appointment.courseName}
-                      </strong>
-                      <div className="text-sm line-clamp-1 text-ellipsis">
-                        {appointment.meetTimes[0].meetBuilding}
-                      </div>
-                    </div>
-                    <div>
-                      {appointment.meetTimes.map((meetTime: any) => (
-                        <strong className="block truncate text-white text-sm">
-                          {meetTime.meetDays}
-                        </strong>
-                      ))}
-                    </div>
-                  </div>
+  (appointmentChunk: any[], chunkIndex: number) => (
+    <div key={chunkIndex} className="flex mx-3">
+      {appointmentChunk.map((appointment: any, index: number) => (
+        <div
+          id="badge"
+          key={index}
+          className={`flex-1 p-[0.6rem] rounded-md mb-2 text-black dark:text-white cursor-pointer w-full h-full overflow-hidden`}
+          style={{ backgroundColor: appointment.color }}
+          onClick={() => handleAppointmentBadgeClick(appointment)}
+        >
+          {/* Display course code and credits */}
+          <div className="flex justify-between">
+            <div className="flex-1 min-w-0">
+              <div className="flex justify-between">
+                <strong className="block truncate">
+                  {appointment.courseName}
+                </strong>
+                <div>
+                  <strong className="block truncate text-white text-sm mt-[0.12rem]">
+                    {appointment.meetTimes
+                      .map((meetTime: any) => meetTime.meetDays)
+                      .join(", ")}
+                  </strong>
                 </div>
-              ))}
+              </div>
+              <div className="text-sm">
+                {appointment.meetTimes[0].meetTimeBegin.replace(/^0/, '')} -{" "}
+                {appointment.meetTimes[0].meetTimeEnd.replace(/^0/, '')}
+              </div>
             </div>
-          )
-        )}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+)}
       </div>
     </>
   );
