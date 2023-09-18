@@ -308,8 +308,8 @@ const Calendar: React.FC<CalendarProps> = ({
     setAllPossibleCalendars(allCalendars);
     setCurrentCalendars(allCalendars.slice(0, 5));
     setHasMoreItems(true);
-    console.log(allCalendars.length);
-    console.log(allCombinations);
+    // console.log(allCalendars.length);
+    // console.log(allCombinations);
   }, [selectedCourses, customAppointments]);
 
   const calendarsWithComputedHours = useMemo(() => {

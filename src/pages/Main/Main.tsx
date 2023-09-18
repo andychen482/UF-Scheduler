@@ -473,13 +473,15 @@ const Main = () => {
       <div
         className="about text-white text-xs w-full"
         style={{
-          position: "absolute",
+          position: "fixed", // Changed from "absolute" to "fixed"
           bottom: "0px",
           left: "50%",
           transform: "translate(-50%, 0%)",
           textAlign: "center",
         }}
-      > <p>Updated to Fall 2023</p><p>Created by Andy Chen and Ronak Agarwal</p>
+      >
+        <p>Updated to Fall 2023</p>
+        <p>Created by Andy Chen and Ronak Agarwal</p>
       </div>
     </div>
   );

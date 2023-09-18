@@ -61,7 +61,6 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
     if (customAppointments.length > 0 || hasBeenLoaded){
       localStorage.setItem("customAppointments", JSON.stringify(customAppointments));
     }
-    console.log("Saving: " + customAppointments);
   }, [customAppointments, hasBeenLoaded]);
 
   useEffect(() => {
