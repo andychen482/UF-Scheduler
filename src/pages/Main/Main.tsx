@@ -471,12 +471,6 @@ const Main = () => {
         </div>
       </div>
       <div
-        className="updated-at text-white text-xs"
-        style={{ position: "absolute", right: "5px", bottom: "0px" }}
-      >
-        Updated to Fall 2023
-      </div>
-      <div
         className="about text-white text-xs"
         style={{
           position: "absolute",
@@ -485,8 +479,7 @@ const Main = () => {
           transform: "translate(-50%, 0%)",
           textAlign: "center",
         }}
-      >
-        Created by Andy Chen and Ronak Agarwal
+      > <p>Updated to Fall 2023</p><p>Created by Andy Chen and Ronak Agarwal</p>
       </div>
     </div>
   );
