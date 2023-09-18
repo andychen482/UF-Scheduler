@@ -395,11 +395,16 @@ const Main = () => {
         setIsDrawerOpen={setIsDrawerOpen}
         windowWidth={windowWidth}
       />
-      <div className={`overlay ${isDrawerOpen ? "open" : "closed"}`} onClick={() => setIsDrawerOpen(false)}></div>
+      <div
+        className={`overlay ${isDrawerOpen ? "open" : "closed"}`}
+        onClick={() => setIsDrawerOpen(false)}
+      ></div>
       <div className="content-wrapper">
         <div className="flex flexImage course-display bg-gray-800">
           {windowWidth < 1001 ? (
-            <div className={`drawer overflow-auto ${isDrawerOpen ? "" : "closed"}`}>
+            <div
+              className={`drawer overflow-auto ${isDrawerOpen ? "" : "closed"}`}
+            >
               <button
                 className="drawer-close-button"
                 onClick={() => setIsDrawerOpen(false)}
@@ -407,7 +412,6 @@ const Main = () => {
                 <AiOutlineClose className="mt-1 text-white" size={18} />
               </button>
 
-  
               <LikedSelectedCourses
                 selectedCourses={selectedCourses}
                 setSelectedCourses={setSelectedCourses}
@@ -418,7 +422,10 @@ const Main = () => {
               />
             </div>
           ) : (
-            <div className="selected-courses overflow-auto" style={{ height: 'calc(100vh - 43px)' }}>
+            <div
+              className="selected-courses overflow-auto"
+              style={{ height: "calc(100vh - 43px)" }}
+            >
               <LikedSelectedCourses
                 selectedCourses={selectedCourses}
                 setSelectedCourses={setSelectedCourses}
@@ -454,13 +461,35 @@ const Main = () => {
             </div>
           ) : (
             <div className="calendar-container">
-            <Calendar selectedCourses={selectedCourses} customAppointments={customAppointments} setCustomAppointments={setCustomAppointments} />
+              <Calendar
+                selectedCourses={selectedCourses}
+                customAppointments={customAppointments}
+                setCustomAppointments={setCustomAppointments}
+              />
             </div>
           )}
         </div>
       </div>
+      <div
+        className="updated-at text-white text-xs"
+        style={{ position: "absolute", right: "5px", bottom: "0px" }}
+      >
+        Updated to Fall 2023
+      </div>
+      <div
+        className="about text-white text-xs"
+        style={{
+          position: "absolute",
+          bottom: "0px",
+          left: "50%",
+          transform: "translate(-50%, 0%)",
+          textAlign: "center",
+        }}
+      >
+        Created by Andy Chen and Ronak Agarwal
+      </div>
     </div>
   );
-}
+};
 
 export default Main;
