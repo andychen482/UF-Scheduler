@@ -250,16 +250,22 @@ const Calendar: React.FC<CalendarProps> = ({
   // Step 4: Render calendars
   const renderCalendar = (appointments: any, index: number) => {
     const startDayHour = appointments.length
-      ? Math.min(
+    ? Math.min(
+        Math.min(
           ...appointments.map((a: any) => new Date(a.startDate).getHours())
-        ) - 1
-      : 7;
+        ) - 1,
+        23.5
+      )
+    : 7;
 
     const endDayHour = appointments.length
-      ? Math.max(
+    ? Math.min(
+        Math.max(
           ...appointments.map((a: any) => new Date(a.endDate).getHours())
-        ) + 1
-      : 19.5;
+        ) + 1,
+        23.5
+      )
+    : 19.5;
 
     return (
       <div className="test">
@@ -297,6 +303,7 @@ const Calendar: React.FC<CalendarProps> = ({
     setCurrentCalendars(allCalendars.slice(0, 5));
     setHasMoreItems(true);
     console.log(allCalendars.length);
+    console.log(allCombinations);
   }, [selectedCourses, customAppointments]);
 
   const calendarsWithComputedHours = useMemo(() => {
