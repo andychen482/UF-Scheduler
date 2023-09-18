@@ -15,6 +15,7 @@ import {
   Appointments,
   WeekView,
   AppointmentTooltip,
+  Resources,
 } from "@devexpress/dx-react-scheduler-material-ui";
 import { isEqual } from "lodash";
 
@@ -115,9 +116,16 @@ const Calendar: React.FC<CalendarProps> = ({
   const [allPossibleCalendars, setAllPossibleCalendars] = useState<any[]>([]);
   const [isAppointmentFormVisible, setIsAppointmentFormVisible] =
     useState(false);
+  const [instancesThis, setInstances] = useState<any[]>([]);
 
-  // Need to change this and put into a higher parent because this
-  // currently does not allow you to delete all appointments
+  let resources: any[] = [
+    {
+      fieldName: "number",
+      title: "number",
+      allowMultiple: false,
+      instances: [...instancesThis],
+    },
+  ];
 
   const sortOptions = [
     { value: "earliestStart", label: "Earliest Start" },
@@ -195,14 +203,16 @@ const Calendar: React.FC<CalendarProps> = ({
         const intervalTree = new IntervalTree();
 
         combinationLoop: for (let section of combination) {
-          let title = null;
-          if (section.number !== "") {
-            title = `${section.courseName}, Section ${section.number}`;
-          }
-          else {
-            title = `${section.courseName}`;
-          }
+          const title = `${section.courseName}`;
           const { color, meetTimes } = section;
+
+          if (section.number !== "") {
+            instancesThis.push({
+              id: `${section.number}`,
+              text: `Section ${section.number}`,
+              color: `${section.color}`,
+            });
+          }
 
           for (let { meetDays, meetTimeBegin, meetTimeEnd } of meetTimes) {
             const startDateBase = convertTo24Hour(meetTimeBegin);
@@ -212,6 +222,8 @@ const Calendar: React.FC<CalendarProps> = ({
               const date = dayMapping.get(day);
               const startDate = `${date}T${startDateBase}`;
               const endDate = `${date}T${endDateBase}`;
+              const id = `${section.number}`;
+              const number = id;
 
               const startMoment = new Date(startDate);
               const endMoment = new Date(endDate);
@@ -230,7 +242,23 @@ const Calendar: React.FC<CalendarProps> = ({
 
               // Adding the current appointment to the interval tree
               intervalTree.insert(interval, { title, color });
-              appointments.push({ startDate, endDate, title, color });
+              if (section.number !== "") {
+                appointments.push({
+                  startDate,
+                  endDate,
+                  id,
+                  number,
+                  title,
+                  color,
+                });
+              } else {
+                appointments.push({
+                  startDate,
+                  endDate,
+                  title,
+                  color,
+                });
+              }
             }
           }
         }
@@ -256,22 +284,25 @@ const Calendar: React.FC<CalendarProps> = ({
   // Step 4: Render calendars
   const renderCalendar = (appointments: any, index: number) => {
     const startDayHour = appointments.length
-    ? Math.min(
-        Math.min(
-          ...appointments.map((a: any) => new Date(a.startDate).getHours())
-        ) - 1,
-        23.5
-      )
-    : 7;
+      ? Math.min(
+          Math.min(
+            ...appointments.map((a: any) => new Date(a.startDate).getHours())
+          ) - 1,
+          23.5
+        )
+      : 7;
 
     const endDayHour = appointments.length
-    ? Math.min(
-        Math.max(
-          ...appointments.map((a: any) => new Date(a.endDate).getHours())
-        ) + 1,
-        23.5
-      )
-    : 19.5;
+      ? Math.min(
+          Math.max(
+            ...appointments.map((a: any) => new Date(a.endDate).getHours())
+          ) + 1,
+          23.5
+        )
+      : 19.5;
+
+    let mainResourceName = "number";
+    console.log(resources);
 
     return (
       <div className="test">
@@ -293,6 +324,10 @@ const Calendar: React.FC<CalendarProps> = ({
                   )}
                 />
                 <AppointmentTooltip showCloseButton />
+                <Resources
+                  data={resources}
+                  mainResourceName={mainResourceName}
+                />
               </Scheduler>
             </div>
           </Paper>
@@ -310,6 +345,7 @@ const Calendar: React.FC<CalendarProps> = ({
     setHasMoreItems(true);
     // console.log(allCalendars.length);
     // console.log(allCombinations);
+    console.log(allCalendars);
   }, [selectedCourses, customAppointments]);
 
   const calendarsWithComputedHours = useMemo(() => {
@@ -373,25 +409,26 @@ const Calendar: React.FC<CalendarProps> = ({
 
         {/* Step 3: Apply CSS transitions to the CustomAppointmentForm component to achieve the slide-out effect */}
         {isAppointmentFormVisible && (
-        <CustomAppointmentForm
-          customAppointments={customAppointments}
-          setCustomAppointments={setCustomAppointments}
-          isAppointmentFormVisible={isAppointmentFormVisible}
-          setIsAppointmentFormVisible={setIsAppointmentFormVisible}
-          style={{
-            transform: "translateX(-50%)",
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            width: "auto",
-            height: "auto",
-            zIndex: 999,
-            backgroundColor: "#252422",
-            marginLeft: "0%", // Adjust to center horizontally
-            marginTop: "-15%", // Adjust to center vertically
-            border: "1px solid #ccc",
-          }}
-        ></CustomAppointmentForm>)}
+          <CustomAppointmentForm
+            customAppointments={customAppointments}
+            setCustomAppointments={setCustomAppointments}
+            isAppointmentFormVisible={isAppointmentFormVisible}
+            setIsAppointmentFormVisible={setIsAppointmentFormVisible}
+            style={{
+              transform: "translateX(-50%)",
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              width: "auto",
+              height: "auto",
+              zIndex: 999,
+              backgroundColor: "#252422",
+              marginLeft: "0%", // Adjust to center horizontally
+              marginTop: "-15%", // Adjust to center vertically
+              border: "1px solid #ccc",
+            }}
+          ></CustomAppointmentForm>
+        )}
         <div
           style={{
             display: "flex",
@@ -428,7 +465,7 @@ const Calendar: React.FC<CalendarProps> = ({
               marginTop: "7px", // Add some top margin
               height: "auto", // Set the height
               width: "auto", // Set the width
-              marginLeft: "10px"
+              marginLeft: "10px",
             }}
             onClick={() => setIsAppointmentFormVisible((prev) => !prev)}
           >
