@@ -398,7 +398,7 @@ const Calendar: React.FC<CalendarProps> = ({
             justifyContent: "space-between",
             alignItems: "center",
             padding: "0 20px",
-            height: "10vh",
+            height: "60px",
           }}
         >
           <Select
@@ -435,7 +435,7 @@ const Calendar: React.FC<CalendarProps> = ({
             Add Events
           </button>
         </div>
-        <div style={{ height: "80vh", overflow: "auto" }}>
+        <div style={{ height: "calc(100vh - 103px)", overflow: "auto" }}>
           {" "}
           {/* Add this container with defined height and overflow */}
           <InfiniteScroll
