@@ -195,7 +195,13 @@ const Calendar: React.FC<CalendarProps> = ({
         const intervalTree = new IntervalTree();
 
         combinationLoop: for (let section of combination) {
-          const title = `${section.courseName}, Section ${section.number}`;
+          let title = null;
+          if (section.number !== "") {
+            title = `${section.courseName}, Section ${section.number}`;
+          }
+          else {
+            title = `${section.courseName}`;
+          }
           const { color, meetTimes } = section;
 
           for (let { meetDays, meetTimeBegin, meetTimeEnd } of meetTimes) {
