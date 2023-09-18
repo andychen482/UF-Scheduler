@@ -471,7 +471,7 @@ const Main = () => {
         </div>
       </div>
       <div
-        className="about text-white text-xs"
+        className="about text-white text-xs w-full"
         style={{
           position: "absolute",
           bottom: "0px",
