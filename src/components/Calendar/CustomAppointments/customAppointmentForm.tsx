@@ -98,6 +98,7 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
     };
 
     setCustomAppointments([...customAppointments, newAppointment]);
+    setIsAppointmentFormVisible(false);
   };
 
   return (
