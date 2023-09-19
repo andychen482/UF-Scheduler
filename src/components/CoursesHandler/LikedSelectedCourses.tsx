@@ -54,11 +54,14 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
     setCustomAppointments((prevAppointments) =>
       prevAppointments.filter(
         (selectedAppointment) =>
-          selectedAppointment.courseName !== section.courseName
+          !(
+            selectedAppointment === section
+          )
       )
     );
     setLoaded(true);
   };
+  
 
   // Function to chunk the selected courses into pairs
   const chunkArray = (array: Course[], chunkSize: number) => {

@@ -18,6 +18,7 @@ import {
   Resources,
 } from "@devexpress/dx-react-scheduler-material-ui";
 import { isEqual } from "lodash";
+import { start } from "repl";
 
 const currentDate = new Date().toISOString().split("T")[0];
 
@@ -218,13 +219,14 @@ const Calendar: React.FC<CalendarProps> = ({
               const date = dayMapping.get(day);
               const startDate = `${date}T${startDateBase}`;
               const endDate = `${date}T${endDateBase}`;
-              let id = null;
+              const id = `${section.courseName}-${startDate}-${date}`;
+              let number = null;
               if (section.number !== "") {
-                id = `${section.number}`;
+                number = `${section.number}`;
               } else {
-                id = `${section.courseName}-${section.color}`;
+                number = `${section.courseName}-${section.color}`;
               }
-              const number = id;
+              // const number = id;
               const startMoment = new Date(startDate);
               const endMoment = new Date(endDate);
 
