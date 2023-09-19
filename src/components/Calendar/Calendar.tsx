@@ -20,6 +20,12 @@ import {
 import { isEqual } from "lodash";
 import { start } from "repl";
 
+type CalendarWithHours = {
+  calendar: any[];
+  startDayHour: number;
+  endDayHour: number;
+};
+
 const currentDate = new Date().toISOString().split("T")[0];
 
 function useDeepCompareEffect(callback: () => void, dependencies: any[]) {
@@ -333,7 +339,7 @@ const Calendar: React.FC<CalendarProps> = ({
     // console.log(instancesThis);
   }, [selectedCourses, customAppointments]);
 
-  const calendarsWithComputedHours = useMemo(() => {
+  const calendarsWithComputedHours = (): CalendarWithHours[] => {
     return allPossibleCalendars.map((calendar) => {
       const startDayHour = calendar.length
         ? Math.min(
@@ -347,34 +353,35 @@ const Calendar: React.FC<CalendarProps> = ({
         : 0;
       return { calendar, startDayHour, endDayHour };
     });
-  }, [allPossibleCalendars]);
+  };
+
+
 
   const handleSortChange = (selectedOption: any) => {
     let sortedCalendars: any[] = [];
-
     switch (selectedOption.value) {
       case "earliestStart":
-        sortedCalendars = calendarsWithComputedHours
-          .sort((a, b) => a.startDayHour - b.startDayHour)
-          .map((item) => item.calendar);
+        sortedCalendars = calendarsWithComputedHours()
+        .sort((a: CalendarWithHours, b: CalendarWithHours) => a.startDayHour - b.startDayHour)
+        .map((item: CalendarWithHours) => item.calendar);
         break;
       case "latestStart":
-        sortedCalendars = calendarsWithComputedHours
+        sortedCalendars = calendarsWithComputedHours()
           .sort((a, b) => b.startDayHour - a.startDayHour)
           .map((item) => item.calendar);
         break;
       case "earliestEnd":
-        sortedCalendars = calendarsWithComputedHours
+        sortedCalendars = calendarsWithComputedHours()
           .sort((a, b) => a.endDayHour - b.endDayHour)
           .map((item) => item.calendar);
         break;
       case "latestEnd":
-        sortedCalendars = calendarsWithComputedHours
+        sortedCalendars = calendarsWithComputedHours()
           .sort((a, b) => b.endDayHour - a.endDayHour)
           .map((item) => item.calendar);
         break;
       case "mostCompact":
-        sortedCalendars = calendarsWithComputedHours
+        sortedCalendars = calendarsWithComputedHours()
           .sort(
             (a, b) =>
               a.endDayHour - a.startDayHour - (b.endDayHour - b.startDayHour)
