@@ -1,4 +1,4 @@
-import { Course } from "../CourseUI/CourseTypes";
+import { Course, Section } from "../CourseUI/CourseTypes";
 import "./CalendarStyle.css";
 import { ViewState } from "@devexpress/dx-react-scheduler";
 import { Paper } from "@mui/material";
@@ -18,30 +18,6 @@ import {
   Resources,
 } from "@devexpress/dx-react-scheduler-material-ui";
 import { isEqual } from "lodash";
-
-interface CustomAppointmentProps extends Appointments.AppointmentProps {
-  color: string;
-  style?: React.CSSProperties;
-}
-
-const Appointment: React.FC<CustomAppointmentProps> = ({
-  children,
-  style,
-  data,
-  color, // Separate color property
-  ...restProps
-}) => (
-  <Appointments.Appointment
-    {...restProps}
-    data={data}
-    style={{
-      ...style,
-      backgroundColor: color, // Apply the color here
-    }}
-  >
-    {children}
-  </Appointments.Appointment>
-);
 
 const currentDate = new Date().toISOString().split("T")[0];
 
@@ -159,10 +135,30 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   // Step 2: Generate all possible combinations
-  const generateAllCombinations = (arrays: any[][]) => {
+  const generateAllCombinations = (arrays: Section[][]) => {
     arrays = [...arrays, ...customAppointments.map((item) => [item])];
-    return arrays.reduce(
-      (acc, curr) => acc.flatMap((c) => curr.map((n) => [].concat(c, n))),
+    for (let sections of arrays) {
+      for (let section of sections) {
+        if (section.number !== "") {
+          instancesThis.push({
+            id: `${section.number}`,
+            text: `Section ${section.number}`,
+            color: `${section.color}`,
+          });
+        } else {
+          instancesThis.push({
+            id: `${section.courseName}-${section.color}`,
+            text: `${section.courseName}`,
+            color: `${section.color}`,
+          });
+        }
+      }
+    }
+    return arrays.reduce<Section[][]>(
+      (acc, curr) =>
+        acc.flatMap((c: Section[]) =>
+          curr.map((n: Section) => ([] as Section[]).concat(c, [n]))
+        ),
       [[]]
     );
   };
@@ -195,7 +191,7 @@ const Calendar: React.FC<CalendarProps> = ({
   const createCalendars = (startIndex: number, endIndex: number) => {
     return allCombinations
       .slice(startIndex, endIndex)
-      .map((combination) => {
+      .map((combination: Section[]) => {
         let appointments = [];
         let isValidCombination = true;
 
@@ -206,13 +202,13 @@ const Calendar: React.FC<CalendarProps> = ({
           const title = `${section.courseName}`;
           const { color, meetTimes } = section;
 
-          if (section.number !== "") {
-            instancesThis.push({
-              id: `${section.number}`,
-              text: `Section ${section.number}`,
-              color: `${section.color}`,
-            });
-          }
+          // if (section.number !== "") {
+          //   instancesThis.push({
+          //     id: `${section.number}`,
+          //     text: `Section ${section.number}`,
+          //     color: `${section.color}`,
+          //   });
+          // }
 
           for (let { meetDays, meetTimeBegin, meetTimeEnd } of meetTimes) {
             const startDateBase = convertTo24Hour(meetTimeBegin);
@@ -222,9 +218,13 @@ const Calendar: React.FC<CalendarProps> = ({
               const date = dayMapping.get(day);
               const startDate = `${date}T${startDateBase}`;
               const endDate = `${date}T${endDateBase}`;
-              const id = `${section.number}`;
+              let id = null;
+              if (section.number !== "") {
+                id = `${section.number}`;
+              } else {
+                id = `${section.courseName}-${section.color}`;
+              }
               const number = id;
-
               const startMoment = new Date(startDate);
               const endMoment = new Date(endDate);
 
@@ -242,23 +242,14 @@ const Calendar: React.FC<CalendarProps> = ({
 
               // Adding the current appointment to the interval tree
               intervalTree.insert(interval, { title, color });
-              if (section.number !== "") {
-                appointments.push({
-                  startDate,
-                  endDate,
-                  id,
-                  number,
-                  title,
-                  color,
-                });
-              } else {
-                appointments.push({
-                  startDate,
-                  endDate,
-                  title,
-                  color,
-                });
-              }
+              appointments.push({
+                startDate,
+                endDate,
+                id,
+                number,
+                title,
+                color,
+              });
             }
           }
         }
@@ -302,7 +293,6 @@ const Calendar: React.FC<CalendarProps> = ({
       : 19.5;
 
     let mainResourceName = "number";
-    console.log(resources);
 
     return (
       <div className="test">
@@ -318,11 +308,7 @@ const Calendar: React.FC<CalendarProps> = ({
                   cellDuration={50}
                   excludedDays={[0, 6]}
                 />
-                <Appointments
-                  appointmentComponent={(props) => (
-                    <Appointment {...props} color={props.data.color} />
-                  )}
-                />
+                <Appointments />
                 <AppointmentTooltip showCloseButton />
                 <Resources
                   data={resources}
@@ -337,15 +323,12 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   useDeepCompareEffect(() => {
-    const allSelectedSections = getAllSelectedSections();
-    const allCombinations = generateAllCombinations(allSelectedSections);
     const allCalendars = createCalendars(0, allCombinations.length);
     setAllPossibleCalendars(allCalendars);
     setCurrentCalendars(allCalendars.slice(0, 5));
     setHasMoreItems(true);
-    // console.log(allCalendars.length);
-    // console.log(allCombinations);
-    console.log(allCalendars);
+    // console.log(allCalendars);
+    // console.log(instancesThis);
   }, [selectedCourses, customAppointments]);
 
   const calendarsWithComputedHours = useMemo(() => {
