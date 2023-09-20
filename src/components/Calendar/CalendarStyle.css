@@ -23,7 +23,7 @@
 }
 
 .test {
-  margin: 15px 30px 15px 30px;
+  margin: 0px 30px 15px 30px;
   max-height: 400px;
   overflow: auto;
 }
@@ -57,3 +57,6 @@
   .MainLayout-flexRow.MainLayout-stickyElement.MainLayout-leftPanel.MainLayout-ordinaryLeftPanelBorder {
     max-width: 65px;
   }
+
+
+  

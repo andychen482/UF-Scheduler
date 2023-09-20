@@ -18,7 +18,6 @@ import {
   Resources,
 } from "@devexpress/dx-react-scheduler-material-ui";
 import { isEqual } from "lodash";
-import { start } from "repl";
 
 type CalendarWithHours = {
   calendar: any[];
@@ -131,12 +130,20 @@ const Calendar: React.FC<CalendarProps> = ({
         course.sections.forEach((section) => {
           section.courseName = course.name;
         });
-        return course.sections.filter(
-          (section) =>
-            section.instructors.length > 0 &&
-            section.meetTimes &&
-            section.meetTimes.length > 0
-        );
+
+        let allowedNoMeetTimeSection = true;
+
+        return course.sections.filter((section) => {
+          if (section.instructors.length > 0) {
+            if (section.meetTimes && section.meetTimes.length > 0) {
+              return true;
+            } else if (allowedNoMeetTimeSection) {
+              allowedNoMeetTimeSection = false;
+              return true;
+            }
+          }
+          return false;
+        });
       }
     });
   };
@@ -209,14 +216,6 @@ const Calendar: React.FC<CalendarProps> = ({
           const title = `${section.courseName}`;
           const { color, meetTimes } = section;
 
-          // if (section.number !== "") {
-          //   instancesThis.push({
-          //     id: `${section.number}`,
-          //     text: `Section ${section.number}`,
-          //     color: `${section.color}`,
-          //   });
-          // }
-
           for (let { meetDays, meetTimeBegin, meetTimeEnd } of meetTimes) {
             const startDateBase = convertTo24Hour(meetTimeBegin);
             const endDateBase = convertTo24Hour(meetTimeEnd);
@@ -281,7 +280,11 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   // Step 4: Render calendars
-  const renderCalendar = (appointments: any, index: number) => {
+  const renderCalendar = (
+    appointments: any,
+    index: number,
+    combination: Section[]
+  ) => {
     const startDayHour = appointments.length
       ? Math.min(
           Math.min(
@@ -302,7 +305,25 @@ const Calendar: React.FC<CalendarProps> = ({
 
     let mainResourceName = "number";
 
+    const onlineSections = combination.filter(
+      (section) => !section.meetTimes || section.meetTimes.length === 0
+    );
+
+    const onlineSectionNames = onlineSections.map(section => section.courseName);
+    let onlineMessage = "";
+    if (onlineSectionNames.length > 1) {
+      onlineMessage = `${onlineSectionNames.slice(0, -1).join(', ')} and ${onlineSectionNames.slice(-1)} are online`;
+    } else if (onlineSectionNames.length === 1) {
+      onlineMessage = `${onlineSectionNames[0]} is online`;
+    }
+
     return (
+      <>
+      {onlineMessage && (
+        <div className="online-section-message mt-2 mx-[30px]" style={{backgroundColor: 'rgba(0, 0, 0, 0.6)', padding: '5px', color: '#fff' }}>
+          {onlineMessage}
+        </div>
+      )}
       <div className="test">
         <ThemeProvider theme={darkModeTheme}>
           <Paper>
@@ -327,6 +348,7 @@ const Calendar: React.FC<CalendarProps> = ({
           </Paper>
         </ThemeProvider>
       </div>
+      </>
     );
   };
 
@@ -355,15 +377,16 @@ const Calendar: React.FC<CalendarProps> = ({
     });
   };
 
-
-
   const handleSortChange = (selectedOption: any) => {
     let sortedCalendars: any[] = [];
     switch (selectedOption.value) {
       case "earliestStart":
         sortedCalendars = calendarsWithComputedHours()
-        .sort((a: CalendarWithHours, b: CalendarWithHours) => a.startDayHour - b.startDayHour)
-        .map((item: CalendarWithHours) => item.calendar);
+          .sort(
+            (a: CalendarWithHours, b: CalendarWithHours) =>
+              a.startDayHour - b.startDayHour
+          )
+          .map((item: CalendarWithHours) => item.calendar);
         break;
       case "latestStart":
         sortedCalendars = calendarsWithComputedHours()
@@ -480,7 +503,9 @@ const Calendar: React.FC<CalendarProps> = ({
           >
             <div className="flex flex-col">
               {currentCalendars.map((appointments, index) => (
-                <div key={index}>{renderCalendar(appointments, index)}</div>
+                <div key={index}>
+                  {renderCalendar(appointments, index, allCombinations[index])}
+                </div>
               ))}
             </div>
           </InfiniteScroll>
