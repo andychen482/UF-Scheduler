@@ -93,7 +93,7 @@ const Calendar: React.FC<CalendarProps> = ({
   customAppointments,
   setCustomAppointments,
 }) => {
-  const [currentCalendars, setCurrentCalendars] = useState<any[]>([]);
+  const [currentCalendars, setCurrentCalendars] = useState<{appointments: any[], combination: Section[]}[]>([]);
   const [hasMoreItems, setHasMoreItems] = useState(true);
   const [allPossibleCalendars, setAllPossibleCalendars] = useState<any[]>([]);
   const [isAppointmentFormVisible, setIsAppointmentFormVisible] =
@@ -205,7 +205,7 @@ const Calendar: React.FC<CalendarProps> = ({
   const createCalendars = (startIndex: number, endIndex: number) => {
     return allCombinations
       .slice(startIndex, endIndex)
-      .map((combination: Section[]) => {
+      .map((combination: Section[], index: number) => {
         let appointments = [];
         let isValidCombination = true;
 
@@ -261,10 +261,10 @@ const Calendar: React.FC<CalendarProps> = ({
           }
         }
 
-        return isValidCombination ? appointments : null;
+        return isValidCombination ? {appointments, combination} : null;
       })
-      .filter(Boolean);
-  };
+      .filter(Boolean) as { appointments: any[]; combination: Section[] }[]; // Add a type assertion here
+    };
 
   const loadMoreCalendars = () => {
     if (currentCalendars.length >= allPossibleCalendars.length) {
@@ -280,11 +280,7 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   // Step 4: Render calendars
-  const renderCalendar = (
-    appointments: any,
-    index: number,
-    combination: Section[]
-  ) => {
+  const renderCalendar = ({ appointments, combination }: { appointments: any[], combination: Section[] }, index: number) => {
     const startDayHour = appointments.length
       ? Math.min(
           Math.min(
@@ -305,9 +301,8 @@ const Calendar: React.FC<CalendarProps> = ({
 
     let mainResourceName = "number";
 
-    const onlineSections = combination.filter(
-      (section) => !section.meetTimes || section.meetTimes.length === 0
-    );
+    const onlineSections = combination.filter(section => !section.meetTimes || section.meetTimes.length === 0);
+
 
     const onlineSectionNames = onlineSections.map(section => section.courseName);
     let onlineMessage = "";
@@ -320,7 +315,7 @@ const Calendar: React.FC<CalendarProps> = ({
     return (
       <>
       {onlineMessage && (
-        <div className="online-section-message mt-2 mx-[30px]" style={{backgroundColor: 'rgba(0, 0, 0, 0.6)', padding: '5px', color: '#fff' }}>
+        <div className="online-section-message mx-[30px]" style={{backgroundColor: 'rgba(0, 0, 0, 0.6)', padding: '5px', color: '#fff' }}>
           {onlineMessage}
         </div>
       )}
@@ -378,44 +373,61 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   const handleSortChange = (selectedOption: any) => {
-    let sortedCalendars: any[] = [];
+    let sortedCalendars: { appointments: any[]; combination: Section[] }[] = [];
     switch (selectedOption.value) {
       case "earliestStart":
-        sortedCalendars = calendarsWithComputedHours()
-          .sort(
-            (a: CalendarWithHours, b: CalendarWithHours) =>
-              a.startDayHour - b.startDayHour
-          )
-          .map((item: CalendarWithHours) => item.calendar);
-        break;
-      case "latestStart":
-        sortedCalendars = calendarsWithComputedHours()
-          .sort((a, b) => b.startDayHour - a.startDayHour)
-          .map((item) => item.calendar);
-        break;
-      case "earliestEnd":
-        sortedCalendars = calendarsWithComputedHours()
-          .sort((a, b) => a.endDayHour - b.endDayHour)
-          .map((item) => item.calendar);
-        break;
-      case "latestEnd":
-        sortedCalendars = calendarsWithComputedHours()
-          .sort((a, b) => b.endDayHour - a.endDayHour)
-          .map((item) => item.calendar);
-        break;
-      case "mostCompact":
-        sortedCalendars = calendarsWithComputedHours()
+        sortedCalendars = allPossibleCalendars
+          .slice()
           .sort(
             (a, b) =>
-              a.endDayHour - a.startDayHour - (b.endDayHour - b.startDayHour)
-          )
-          .map((item) => item.calendar);
+              Math.min(...a.appointments.map((appt: any) => new Date(appt.startDate).getHours())) -
+              Math.min(...b.appointments.map((appt: any) => new Date(appt.startDate).getHours()))
+          );
+        break;
+      case "latestStart":
+        sortedCalendars = allPossibleCalendars
+          .slice()
+          .sort(
+            (a, b) =>
+              Math.max(...b.appointments.map((appt: any) => new Date(appt.startDate).getHours())) -
+              Math.max(...a.appointments.map((appt: any) => new Date(appt.startDate).getHours()))
+          );
+        break;
+      case "earliestEnd":
+        sortedCalendars = allPossibleCalendars
+          .slice()
+          .sort(
+            (a, b) =>
+              Math.min(...a.appointments.map((appt: any) => new Date(appt.endDate).getHours())) -
+              Math.min(...b.appointments.map((appt: any) => new Date(appt.endDate).getHours()))
+          );
+        break;
+      case "latestEnd":
+        sortedCalendars = allPossibleCalendars
+          .slice()
+          .sort(
+            (a, b) =>
+              Math.max(...b.appointments.map((appt: any) => new Date(appt.endDate).getHours())) -
+              Math.max(...a.appointments.map((appt: any) => new Date(appt.endDate).getHours()))
+          );
+        break;
+      case "mostCompact":
+        sortedCalendars = allPossibleCalendars
+          .slice()
+          .sort(
+            (a, b) =>
+              (Math.max(...a.appointments.map((appt: any) => new Date(appt.endDate).getHours())) -
+                Math.min(...a.appointments.map((appt: any) => new Date(appt.startDate).getHours()))) -
+              (Math.max(...b.appointments.map((appt: any) => new Date(appt.endDate).getHours())) -
+                Math.min(...b.appointments.map((appt: any) => new Date(appt.startDate).getHours())))
+          );
         break;
     }
-
+  
     setAllPossibleCalendars(sortedCalendars);
     setCurrentCalendars(sortedCalendars.slice(0, 5));
   };
+  
 
   return (
     <div className="calendar-container">
@@ -451,6 +463,7 @@ const Calendar: React.FC<CalendarProps> = ({
             alignItems: "center",
             padding: "0 20px",
             height: "60px",
+            marginBottom: "20px",
           }}
         >
           <Select
@@ -487,7 +500,7 @@ const Calendar: React.FC<CalendarProps> = ({
             Add Events
           </button>
         </div>
-        <div style={{ height: "calc(100vh - 103px)", overflow: "auto" }}>
+        <div style={{ height: "calc(100vh - 123px)", overflow: "auto" }}>
           {" "}
           {/* Add this container with defined height and overflow */}
           <InfiniteScroll
@@ -502,11 +515,11 @@ const Calendar: React.FC<CalendarProps> = ({
             useWindow={false}
           >
             <div className="flex flex-col">
-              {currentCalendars.map((appointments, index) => (
-                <div key={index}>
-                  {renderCalendar(appointments, index, allCombinations[index])}
-                </div>
-              ))}
+            {currentCalendars.map(({ appointments, combination }, index) => (
+      <div key={index}>
+        {renderCalendar({ appointments, combination }, index)}
+      </div>
+    ))}
             </div>
           </InfiniteScroll>
         </div>
