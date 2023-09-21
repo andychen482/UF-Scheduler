@@ -478,6 +478,7 @@ const Main = () => {
           left: "50%",
           transform: "translate(-50%, 0%)",
           textAlign: "center",
+          zIndex: 1000,
         }}
       >
         <p>Updated to Fall 2023 | Created by Andy Chen😀</p>
