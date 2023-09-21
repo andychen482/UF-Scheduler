@@ -58,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({
           <div className="button-content">
             <div className="icon-text-container">
               <PiGraphFill />
-              <span className="text-[1.0rem] ml-2 overflow-hidden">Prerequisites</span>
+              <span className="text-[1.0rem] ml-2 overflow-hidden">Graph</span>
             </div>
           </div>
         </button>
