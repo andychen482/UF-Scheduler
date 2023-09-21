@@ -74,12 +74,14 @@ const Calendar: React.FC<CalendarProps> = ({
   customAppointments,
   setCustomAppointments,
 }) => {
-  const [currentCalendars, setCurrentCalendars] = useState<{appointments: any[], combination: Section[]}[]>([]);
+  const [currentCalendars, setCurrentCalendars] = useState<
+    { appointments: any[]; combination: Section[] }[]
+  >([]);
   const [hasMoreItems, setHasMoreItems] = useState(true);
-  // const [allPossibleCalendars, setAllPossibleCalendars] = useState<any[]>([]);
   const [isAppointmentFormVisible, setIsAppointmentFormVisible] =
     useState(false);
   const [instancesThis, setInstances] = useState<any[]>([]);
+  const date = new Date();
 
   let resources: any[] = [
     {
@@ -168,18 +170,17 @@ const Calendar: React.FC<CalendarProps> = ({
   );
 
   const getDayDate = (dayIndex: number) => {
-    const date = new Date();
     const diff = dayIndex - date.getDay();
     date.setDate(date.getDate() + diff);
     return date.toISOString().split("T")[0];
   };
 
   const dayMapping = new Map([
-    ["M", getDayDate(0)],
-    ["T", getDayDate(1)],
-    ["W", getDayDate(2)],
-    ["R", getDayDate(3)],
-    ["F", getDayDate(4)],
+    ["M", getDayDate(1)],
+    ["T", getDayDate(2)],
+    ["W", getDayDate(3)],
+    ["R", getDayDate(4)],
+    ["F", getDayDate(5)],
   ]);
 
   // Step 3: Create calendars
@@ -242,27 +243,33 @@ const Calendar: React.FC<CalendarProps> = ({
           }
         }
 
-        return isValidCombination ? {appointments, combination} : null;
+        return isValidCombination ? { appointments, combination } : null;
       })
       .filter(Boolean) as { appointments: any[]; combination: Section[] }[]; // Add a type assertion here
-    };
+  };
 
-    const loadMoreCalendars = () => {
-      if (currentCalendars.length >= allCombinations.length) {
-        setHasMoreItems(false);
-        return;
-      }
-    
-      // Step 2: Update the loadMoreCalendars function to generate calendars on the fly
-      const newCalendars = createCalendars(
-        currentCalendars.length,
-        currentCalendars.length + 5
-      );
-      setCurrentCalendars([...currentCalendars, ...newCalendars]);
-    };
+  const loadMoreCalendars = () => {
+    if (currentCalendars.length >= allCombinations.length) {
+      setHasMoreItems(false);
+      return;
+    }
+
+    // Step 2: Update the loadMoreCalendars function to generate calendars on the fly
+    const newCalendars = createCalendars(
+      currentCalendars.length,
+      currentCalendars.length + 5
+    );
+    setCurrentCalendars([...currentCalendars, ...newCalendars]);
+  };
 
   // Step 4: Render calendars
-  const renderCalendar = ({ appointments, combination }: { appointments: any[], combination: Section[] }, index: number) => {
+  const renderCalendar = (
+    {
+      appointments,
+      combination,
+    }: { appointments: any[]; combination: Section[] },
+    index: number
+  ) => {
     const startDayHour = appointments.length
       ? Math.min(
           Math.min(
@@ -283,66 +290,85 @@ const Calendar: React.FC<CalendarProps> = ({
 
     let mainResourceName = "classNumber";
 
-    const onlineSections = combination.filter(section => !section.meetTimes || section.meetTimes.length === 0);
+    const onlineSections = combination.filter(
+      (section) => !section.meetTimes || section.meetTimes.length === 0
+    );
 
-
-    const onlineSectionNames = onlineSections.map(section => section.courseName);
+    const onlineSectionNames = onlineSections.map(
+      (section) => section.courseName
+    );
     let onlineMessage = "";
     if (onlineSectionNames.length > 1) {
-      onlineMessage = `${onlineSectionNames.slice(0, -1).join(', ')} and ${onlineSectionNames.slice(-1)} are online`;
+      onlineMessage = `${onlineSectionNames
+        .slice(0, -1)
+        .join(", ")} and ${onlineSectionNames.slice(-1)} are online`;
     } else if (onlineSectionNames.length === 1) {
       onlineMessage = `${onlineSectionNames[0]} is online`;
     }
 
     return (
       <>
-      {onlineMessage && (
-        <div className="online-section-message mx-[30px]" style={{backgroundColor: 'rgba(0, 0, 0, 0.6)', padding: '5px', color: '#fff' }}>
-          {onlineMessage}
+        {onlineMessage && (
+          <div
+            className="online-section-message mx-[30px]"
+            style={{
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
+              padding: "5px",
+              color: "#fff",
+            }}
+          >
+            {onlineMessage}
+          </div>
+        )}
+        <div className="test">
+          <ThemeProvider theme={darkModeTheme}>
+            <Paper>
+              <div className="Scheduler">
+                <Scheduler data={appointments}>
+                  <ViewState currentDate={currentDate} />
+                  <WeekView
+                    startDayHour={startDayHour}
+                    endDayHour={endDayHour}
+                    intervalCount={1}
+                    cellDuration={50}
+                    excludedDays={[0, 6]}
+                  />
+                  <Appointments />
+                  <AppointmentTooltip showCloseButton />
+                  <Resources
+                    data={resources}
+                    mainResourceName={mainResourceName}
+                  />
+                </Scheduler>
+              </div>
+            </Paper>
+          </ThemeProvider>
         </div>
-      )}
-      <div className="test">
-        <ThemeProvider theme={darkModeTheme}>
-          <Paper>
-            <div className="Scheduler">
-              <Scheduler data={appointments}>
-                <ViewState currentDate={currentDate} />
-                <WeekView
-                  startDayHour={startDayHour}
-                  endDayHour={endDayHour}
-                  intervalCount={1}
-                  cellDuration={50}
-                  excludedDays={[0, 6]}
-                />
-                <Appointments />
-                <AppointmentTooltip showCloseButton />
-                <Resources
-                  data={resources}
-                  mainResourceName={mainResourceName}
-                />
-              </Scheduler>
-            </div>
-          </Paper>
-        </ThemeProvider>
-      </div>
       </>
     );
   };
 
   const handleSortChange = (selectedOption: any) => {
-    // Step 4: Update the handleSortChange function to sort the currentCalendars state directly
     let sortedCalendars: { appointments: any[]; combination: Section[] }[] = [];
     // Generate all calendars before sorting
     const allCalendars = createCalendars(0, allCombinations.length);
-    
+
     switch (selectedOption.value) {
       case "earliestStart":
         sortedCalendars = allCalendars
           .slice()
           .sort(
             (a, b) =>
-              Math.min(...a.appointments.map((appt: any) => new Date(appt.startDate).getHours())) -
-              Math.min(...b.appointments.map((appt: any) => new Date(appt.startDate).getHours()))
+              Math.min(
+                ...a.appointments.map((appt: any) =>
+                  new Date(appt.startDate).getHours()
+                )
+              ) -
+              Math.min(
+                ...b.appointments.map((appt: any) =>
+                  new Date(appt.startDate).getHours()
+                )
+              )
           );
         break;
       case "latestStart":
@@ -350,8 +376,16 @@ const Calendar: React.FC<CalendarProps> = ({
           .slice()
           .sort(
             (a, b) =>
-              Math.max(...b.appointments.map((appt: any) => new Date(appt.startDate).getHours())) -
-              Math.max(...a.appointments.map((appt: any) => new Date(appt.startDate).getHours()))
+              Math.max(
+                ...b.appointments.map((appt: any) =>
+                  new Date(appt.startDate).getHours()
+                )
+              ) -
+              Math.max(
+                ...a.appointments.map((appt: any) =>
+                  new Date(appt.startDate).getHours()
+                )
+              )
           );
         break;
       case "earliestEnd":
@@ -359,8 +393,16 @@ const Calendar: React.FC<CalendarProps> = ({
           .slice()
           .sort(
             (a, b) =>
-              Math.min(...a.appointments.map((appt: any) => new Date(appt.endDate).getHours())) -
-              Math.min(...b.appointments.map((appt: any) => new Date(appt.endDate).getHours()))
+              Math.min(
+                ...a.appointments.map((appt: any) =>
+                  new Date(appt.endDate).getHours()
+                )
+              ) -
+              Math.min(
+                ...b.appointments.map((appt: any) =>
+                  new Date(appt.endDate).getHours()
+                )
+              )
           );
         break;
       case "latestEnd":
@@ -368,8 +410,16 @@ const Calendar: React.FC<CalendarProps> = ({
           .slice()
           .sort(
             (a, b) =>
-              Math.max(...b.appointments.map((appt: any) => new Date(appt.endDate).getHours())) -
-              Math.max(...a.appointments.map((appt: any) => new Date(appt.endDate).getHours()))
+              Math.max(
+                ...b.appointments.map((appt: any) =>
+                  new Date(appt.endDate).getHours()
+                )
+              ) -
+              Math.max(
+                ...a.appointments.map((appt: any) =>
+                  new Date(appt.endDate).getHours()
+                )
+              )
           );
         break;
       case "mostCompact":
@@ -377,31 +427,41 @@ const Calendar: React.FC<CalendarProps> = ({
           .slice()
           .sort(
             (a, b) =>
-              (Math.max(...a.appointments.map((appt: any) => new Date(appt.endDate).getHours())) -
-                Math.min(...a.appointments.map((appt: any) => new Date(appt.startDate).getHours()))) -
-              (Math.max(...b.appointments.map((appt: any) => new Date(appt.endDate).getHours())) -
-                Math.min(...b.appointments.map((appt: any) => new Date(appt.startDate).getHours())))
+              Math.max(
+                ...a.appointments.map((appt: any) =>
+                  new Date(appt.endDate).getHours()
+                )
+              ) -
+              Math.min(
+                ...a.appointments.map((appt: any) =>
+                  new Date(appt.startDate).getHours()
+                )
+              ) -
+              (Math.max(
+                ...b.appointments.map((appt: any) =>
+                  new Date(appt.endDate).getHours()
+                )
+              ) -
+                Math.min(
+                  ...b.appointments.map((appt: any) =>
+                    new Date(appt.startDate).getHours()
+                  )
+                ))
           );
         break;
     }
-  
+
     setCurrentCalendars(sortedCalendars);
   };
 
   useEffect(() => {
-    // Reset the currentCalendars state to an empty array to trigger the loading of new calendars
     setCurrentCalendars([]);
-    // Reset the hasMoreItems state to true to allow loading of new calendars when scrolling
     setHasMoreItems(true);
   }, [selectedCourses, customAppointments]);
-  
 
   return (
     <div className="calendar-container">
       <div className="calendar-display">
-        {/* Step 2: Add a button at the top of your component to toggle the visibility state */}
-
-        {/* Step 3: Apply CSS transitions to the CustomAppointmentForm component to achieve the slide-out effect */}
         {isAppointmentFormVisible && (
           <CustomAppointmentForm
             customAppointments={customAppointments}
@@ -481,11 +541,11 @@ const Calendar: React.FC<CalendarProps> = ({
             useWindow={false}
           >
             <div className="flex flex-col">
-            {currentCalendars.map(({ appointments, combination }, index) => (
-      <div key={index}>
-        {renderCalendar({ appointments, combination }, index)}
-      </div>
-    ))}
+              {currentCalendars.map(({ appointments, combination }, index) => (
+                <div key={index}>
+                  {renderCalendar({ appointments, combination }, index)}
+                </div>
+              ))}
             </div>
           </InfiniteScroll>
         </div>
