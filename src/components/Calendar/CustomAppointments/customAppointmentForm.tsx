@@ -8,7 +8,6 @@ interface CustomAppointmentProps {
   setCustomAppointments: React.Dispatch<React.SetStateAction<Section[]>>;
   appointment?: Section;
   style?: React.CSSProperties; // Add style prop here
-  isAppointmentFormVisible: boolean;
   setIsAppointmentFormVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -17,20 +16,19 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
   setCustomAppointments,
   appointment,
   style,
-  isAppointmentFormVisible,
   setIsAppointmentFormVisible,
 }) => {
   const [courseName, setCourseName] = useState("");
-  const [number, setNumber] = useState("");
+  const classNumber = "";
   const [meetDays, setMeetDays] = useState<string[]>([]);
   const [meetTimeBegin, setMeetTimeBegin] = useState("");
   const [meetTimeEnd, setMeetTimeEnd] = useState("");
   const [meetBuilding, setMeetBuilding] = useState("");
-  const [meetRoom, setMeetRoom] = useState("");
-  const [display, setDisplay] = useState("");
-  const [credits, setCredits] = useState(0);
-  const [deptName, setDeptName] = useState("");
-  const [finalExam, setFinalExam] = useState("");
+  const meetRoom = "";
+  const display = "";
+  const credits = 0;
+  const deptName = "";
+  const finalExam = "";
   const [color, setColor] = useState("#1f4da8");
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -77,7 +75,7 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
 
   const handleAddAppointment = () => {
     const newAppointment: Section = {
-      number,
+      classNumber,
       display,
       credits,
       deptName,

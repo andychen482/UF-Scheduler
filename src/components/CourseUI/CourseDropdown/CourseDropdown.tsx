@@ -23,7 +23,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
     const selectedCourse = selectedCourses.find((c) => c.code === course.code);
     if (selectedCourse) {
       const selectedSection = selectedCourse.sections.find(
-        (s) => s.number === section.number
+        (s) => s.classNumber === section.classNumber
       );
       return selectedSection?.selected === true;
     }
@@ -38,7 +38,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
         return {
           ...c,
           sections: c.sections.map((s) => {
-            if (s.number === section.number) {
+            if (s.classNumber === section.classNumber) {
               return {
                 ...s,
                 selected: !s.selected,
@@ -61,7 +61,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
       const newCourse = {
         ...course,
         sections: course.sections.map((s) => {
-          if (s.number === section.number) {
+          if (s.classNumber === section.classNumber) {
             return {
               ...s,
               selected: true,
@@ -166,7 +166,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
               <div className="space-y-2 p-2">
                 <div className="flex justify-between items-center">
                   <div className="font-bold text-gray-200 dark:text-gray-200 flex items-center">
-                    Section {section.number}:
+                    Class # {section.classNumber}:
                   </div>
                   {/* Star Icon based on section selected status */}
                   {isSectionSelected(section) ? (

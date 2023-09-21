@@ -60,7 +60,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
         {course.sections.map((section, index) => (
           <li key={index} className={listItem}>
             <div className={content}>
-              <strong>Section {section.number}:</strong> {section.display} (
+              <strong>Section {section.classNumber}:</strong> {section.display} (
               {section.credits} credits)
               <br />
               <div className={contentML2}>

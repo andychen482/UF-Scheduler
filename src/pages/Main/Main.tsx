@@ -480,8 +480,7 @@ const Main = () => {
           textAlign: "center",
         }}
       >
-        <p>Updated to Fall 2023</p>
-        <p>Created by Andy Chen and Ronak Agarwal</p>
+        <p>Updated to Fall 2023 | Created by Andy Chen😀</p>
       </div>
     </div>
   );

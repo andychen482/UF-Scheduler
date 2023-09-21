@@ -11,7 +11,7 @@ export type MeetingTime = {
 };
 
 export type Section = {
-  number: string;
+  classNumber: string;
   display: string;
   credits: number;
   deptName: string;

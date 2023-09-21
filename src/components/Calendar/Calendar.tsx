@@ -5,7 +5,7 @@ import { Paper } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
 import { grey, indigo } from "@mui/material/colors";
-import { useEffect, useState, useMemo, useRef } from "react";
+import { useEffect, useState, useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import Select from "react-select";
 import IntervalTree, { Interval } from "@flatten-js/interval-tree";
@@ -17,27 +17,8 @@ import {
   AppointmentTooltip,
   Resources,
 } from "@devexpress/dx-react-scheduler-material-ui";
-import { isEqual } from "lodash";
-
-type CalendarWithHours = {
-  calendar: any[];
-  startDayHour: number;
-  endDayHour: number;
-};
 
 const currentDate = new Date().toISOString().split("T")[0];
-
-function useDeepCompareEffect(callback: () => void, dependencies: any[]) {
-  const dependenciesRef = useRef<any[]>();
-
-  useEffect(() => {
-    if (!isEqual(dependencies, dependenciesRef.current)) {
-      callback();
-    }
-
-    dependenciesRef.current = dependencies;
-  }, [dependencies, callback]);
-}
 
 function convertTo24Hour(timeStr: string) {
   let [time, modifier] = timeStr.split(" ");
@@ -95,15 +76,15 @@ const Calendar: React.FC<CalendarProps> = ({
 }) => {
   const [currentCalendars, setCurrentCalendars] = useState<{appointments: any[], combination: Section[]}[]>([]);
   const [hasMoreItems, setHasMoreItems] = useState(true);
-  const [allPossibleCalendars, setAllPossibleCalendars] = useState<any[]>([]);
+  // const [allPossibleCalendars, setAllPossibleCalendars] = useState<any[]>([]);
   const [isAppointmentFormVisible, setIsAppointmentFormVisible] =
     useState(false);
   const [instancesThis, setInstances] = useState<any[]>([]);
 
   let resources: any[] = [
     {
-      fieldName: "number",
-      title: "number",
+      fieldName: "classNumber",
+      title: "classNumber",
       allowMultiple: false,
       instances: [...instancesThis],
     },
@@ -153,10 +134,10 @@ const Calendar: React.FC<CalendarProps> = ({
     arrays = [...arrays, ...customAppointments.map((item) => [item])];
     for (let sections of arrays) {
       for (let section of sections) {
-        if (section.number !== "") {
+        if (section.classNumber !== "") {
           instancesThis.push({
-            id: `${section.number}`,
-            text: `Section ${section.number}`,
+            id: `${section.classNumber}`,
+            text: `Class # ${section.classNumber}`,
             color: `${section.color}`,
           });
         } else {
@@ -194,11 +175,11 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   const dayMapping = new Map([
-    ["M", getDayDate(1)],
-    ["T", getDayDate(2)],
-    ["W", getDayDate(3)],
-    ["R", getDayDate(4)],
-    ["F", getDayDate(5)],
+    ["M", getDayDate(0)],
+    ["T", getDayDate(1)],
+    ["W", getDayDate(2)],
+    ["R", getDayDate(3)],
+    ["F", getDayDate(4)],
   ]);
 
   // Step 3: Create calendars
@@ -225,11 +206,11 @@ const Calendar: React.FC<CalendarProps> = ({
               const startDate = `${date}T${startDateBase}`;
               const endDate = `${date}T${endDateBase}`;
               const id = `${section.courseName}-${startDate}-${date}`;
-              let number = null;
-              if (section.number !== "") {
-                number = `${section.number}`;
+              let classNumber = null;
+              if (section.classNumber !== "") {
+                classNumber = `${section.classNumber}`;
               } else {
-                number = `${section.courseName}-${section.color}`;
+                classNumber = `${section.courseName}-${section.color}`;
               }
               // const number = id;
               const startMoment = new Date(startDate);
@@ -253,7 +234,7 @@ const Calendar: React.FC<CalendarProps> = ({
                 startDate,
                 endDate,
                 id,
-                number,
+                classNumber,
                 title,
                 color,
               });
@@ -266,18 +247,19 @@ const Calendar: React.FC<CalendarProps> = ({
       .filter(Boolean) as { appointments: any[]; combination: Section[] }[]; // Add a type assertion here
     };
 
-  const loadMoreCalendars = () => {
-    if (currentCalendars.length >= allPossibleCalendars.length) {
-      setHasMoreItems(false);
-      return;
-    }
-
-    const newCalendars = allPossibleCalendars.slice(
-      currentCalendars.length,
-      currentCalendars.length + 5
-    );
-    setCurrentCalendars([...currentCalendars, ...newCalendars]);
-  };
+    const loadMoreCalendars = () => {
+      if (currentCalendars.length >= allCombinations.length) {
+        setHasMoreItems(false);
+        return;
+      }
+    
+      // Step 2: Update the loadMoreCalendars function to generate calendars on the fly
+      const newCalendars = createCalendars(
+        currentCalendars.length,
+        currentCalendars.length + 5
+      );
+      setCurrentCalendars([...currentCalendars, ...newCalendars]);
+    };
 
   // Step 4: Render calendars
   const renderCalendar = ({ appointments, combination }: { appointments: any[], combination: Section[] }, index: number) => {
@@ -299,7 +281,7 @@ const Calendar: React.FC<CalendarProps> = ({
         )
       : 19.5;
 
-    let mainResourceName = "number";
+    let mainResourceName = "classNumber";
 
     const onlineSections = combination.filter(section => !section.meetTimes || section.meetTimes.length === 0);
 
@@ -347,36 +329,15 @@ const Calendar: React.FC<CalendarProps> = ({
     );
   };
 
-  useDeepCompareEffect(() => {
-    const allCalendars = createCalendars(0, allCombinations.length);
-    setAllPossibleCalendars(allCalendars);
-    setCurrentCalendars(allCalendars.slice(0, 5));
-    setHasMoreItems(true);
-    console.log(allCalendars.length);
-    // console.log(instancesThis);
-  }, [selectedCourses, customAppointments]);
-
-  const calendarsWithComputedHours = (): CalendarWithHours[] => {
-    return allPossibleCalendars.map((calendar) => {
-      const startDayHour = calendar.length
-        ? Math.min(
-            ...calendar.map((appt: any) => new Date(appt.startDate).getHours())
-          )
-        : 24;
-      const endDayHour = calendar.length
-        ? Math.max(
-            ...calendar.map((appt: any) => new Date(appt.endDate).getHours())
-          )
-        : 0;
-      return { calendar, startDayHour, endDayHour };
-    });
-  };
-
   const handleSortChange = (selectedOption: any) => {
+    // Step 4: Update the handleSortChange function to sort the currentCalendars state directly
     let sortedCalendars: { appointments: any[]; combination: Section[] }[] = [];
+    // Generate all calendars before sorting
+    const allCalendars = createCalendars(0, allCombinations.length);
+    
     switch (selectedOption.value) {
       case "earliestStart":
-        sortedCalendars = allPossibleCalendars
+        sortedCalendars = allCalendars
           .slice()
           .sort(
             (a, b) =>
@@ -385,7 +346,7 @@ const Calendar: React.FC<CalendarProps> = ({
           );
         break;
       case "latestStart":
-        sortedCalendars = allPossibleCalendars
+        sortedCalendars = allCalendars
           .slice()
           .sort(
             (a, b) =>
@@ -394,7 +355,7 @@ const Calendar: React.FC<CalendarProps> = ({
           );
         break;
       case "earliestEnd":
-        sortedCalendars = allPossibleCalendars
+        sortedCalendars = allCalendars
           .slice()
           .sort(
             (a, b) =>
@@ -403,7 +364,7 @@ const Calendar: React.FC<CalendarProps> = ({
           );
         break;
       case "latestEnd":
-        sortedCalendars = allPossibleCalendars
+        sortedCalendars = allCalendars
           .slice()
           .sort(
             (a, b) =>
@@ -412,7 +373,7 @@ const Calendar: React.FC<CalendarProps> = ({
           );
         break;
       case "mostCompact":
-        sortedCalendars = allPossibleCalendars
+        sortedCalendars = allCalendars
           .slice()
           .sort(
             (a, b) =>
@@ -424,9 +385,15 @@ const Calendar: React.FC<CalendarProps> = ({
         break;
     }
   
-    setAllPossibleCalendars(sortedCalendars);
-    setCurrentCalendars(sortedCalendars.slice(0, 5));
+    setCurrentCalendars(sortedCalendars);
   };
+
+  useEffect(() => {
+    // Reset the currentCalendars state to an empty array to trigger the loading of new calendars
+    setCurrentCalendars([]);
+    // Reset the hasMoreItems state to true to allow loading of new calendars when scrolling
+    setHasMoreItems(true);
+  }, [selectedCourses, customAppointments]);
   
 
   return (
@@ -439,7 +406,6 @@ const Calendar: React.FC<CalendarProps> = ({
           <CustomAppointmentForm
             customAppointments={customAppointments}
             setCustomAppointments={setCustomAppointments}
-            isAppointmentFormVisible={isAppointmentFormVisible}
             setIsAppointmentFormVisible={setIsAppointmentFormVisible}
             style={{
               transform: "translateX(-50%)",
