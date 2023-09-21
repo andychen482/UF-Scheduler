@@ -84,8 +84,7 @@ const Calendar: React.FC<CalendarProps> = ({
   const date = new Date();
   const [lastIndex, setLastIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-
-
+  const [selectedSortOption, setSelectedSortOption] = useState<{ value: string; label: string; } | null>(null);
 
   let resources: any[] = [
     {
@@ -500,6 +499,7 @@ const Calendar: React.FC<CalendarProps> = ({
     setCurrentCalendars([]);
     setLastIndex(0);
     setHasMoreItems(true);
+    setSelectedSortOption(null);
   }, [selectedCourses, customAppointments]);
 
   return (
@@ -536,8 +536,12 @@ const Calendar: React.FC<CalendarProps> = ({
           }}
         >
           <Select
+            value={selectedSortOption}
             options={sortOptions}
-            onChange={handleSortChange}
+            onChange={(option) => {
+              setSelectedSortOption(option || null);
+              handleSortChange(option);
+            }}
             placeholder="Sort by..."
             className="w-[80%] mt-2"
             menuPortalTarget={document.body} // Append the dropdown to the body element
