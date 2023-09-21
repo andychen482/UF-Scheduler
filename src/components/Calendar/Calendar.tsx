@@ -82,6 +82,10 @@ const Calendar: React.FC<CalendarProps> = ({
     useState(false);
   const [instancesThis, setInstances] = useState<any[]>([]);
   const date = new Date();
+  const [lastIndex, setLastIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+
 
   let resources: any[] = [
     {
@@ -164,10 +168,18 @@ const Calendar: React.FC<CalendarProps> = ({
     () => getAllSelectedSections(),
     [selectedCourses]
   );
-  const allCombinations = useMemo(
-    () => generateAllCombinations(allSelectedSections),
-    [allSelectedSections, customAppointments]
-  );
+  // const allCombinations = useMemo(
+  //   () => generateAllCombinations(allSelectedSections),
+  //   [allSelectedSections, customAppointments]
+  // );
+  const [allCombinations, setAllCombinations] = useState<Section[][]>(() => 
+  generateAllCombinations(allSelectedSections)
+);
+
+  useEffect(() => {
+    const newCombinations = generateAllCombinations(allSelectedSections);
+    setAllCombinations(newCombinations);
+  }, [allSelectedSections, customAppointments]);
 
   const getDayDate = (dayIndex: number) => {
     const diff = dayIndex - date.getDay();
@@ -184,17 +196,17 @@ const Calendar: React.FC<CalendarProps> = ({
   ]);
 
   // Step 3: Create calendars
-  const createCalendars = (startIndex: number, endIndex: number) => {
-    return allCombinations
-      .slice(startIndex, endIndex)
-      .map((combination: Section[], index: number) => {
-        let appointments = [];
-        let isValidCombination = true;
-
-        // Creating an interval tree for efficient overlap checking
-        const intervalTree = new IntervalTree();
-
-        combinationLoop: for (let section of combination) {
+  const createCalendars = (startIndex: number, numRequested: number) => {
+    let generatedCalendars = [];
+    let index = startIndex;
+  
+    while (generatedCalendars.length < numRequested && index < allCombinations.length) {
+      const combination = allCombinations[index];
+      let appointments = [];
+      let isValidCombination = true;
+      const intervalTree = new IntervalTree();
+  
+      combinationLoop: for (let section of combination) {
           const title = `${section.courseName}`;
           const { color, meetTimes } = section;
 
@@ -242,25 +254,35 @@ const Calendar: React.FC<CalendarProps> = ({
             }
           }
         }
+        if (isValidCombination) {
+          generatedCalendars.push({ appointments, combination });
+        }
+        index++;
+      }
+      setLastIndex(index); // Update the lastIndex state
+      return generatedCalendars;
+    };
 
-        return isValidCombination ? { appointments, combination } : null;
-      })
-      .filter(Boolean) as { appointments: any[]; combination: Section[] }[]; // Add a type assertion here
-  };
-
-  const loadMoreCalendars = () => {
-    if (currentCalendars.length >= allCombinations.length) {
-      setHasMoreItems(false);
-      return;
-    }
-
-    // Step 2: Update the loadMoreCalendars function to generate calendars on the fly
-    const newCalendars = createCalendars(
-      currentCalendars.length,
-      currentCalendars.length + 5
-    );
-    setCurrentCalendars([...currentCalendars, ...newCalendars]);
-  };
+    const loadMoreCalendars = () => {
+      if (isLoading) {
+        return; // Exit if already loading
+      }
+    
+      setIsLoading(true); // Set loading state to true
+    
+      const newCalendars = createCalendars(lastIndex, 5); // Assuming you want to generate 5 calendars at a time
+    
+      if (newCalendars.length === 0) {
+        setHasMoreItems(false); // No more valid combinations, stop loading
+        setIsLoading(false);
+        return;
+      }
+    
+      setCurrentCalendars([...currentCalendars, ...newCalendars]);
+      setIsLoading(false); // Set loading state to false
+    };
+    
+  
 
   // Step 4: Render calendars
   const renderCalendar = (
@@ -348,114 +370,135 @@ const Calendar: React.FC<CalendarProps> = ({
     );
   };
 
-  const handleSortChange = (selectedOption: any) => {
-    let sortedCalendars: { appointments: any[]; combination: Section[] }[] = [];
-    // Generate all calendars before sorting
-    const allCalendars = createCalendars(0, allCombinations.length);
-
+  const timeToMinutes = (timeStr: string) => {
+    const [hours, minutes] = timeStr.split(":").map(Number);
+    return hours * 60 + minutes;
+  };
+  
+  const sortCombinations = (selectedOption: any) => {
     switch (selectedOption.value) {
       case "earliestStart":
-        sortedCalendars = allCalendars
-          .slice()
-          .sort(
-            (a, b) =>
-              Math.min(
-                ...a.appointments.map((appt: any) =>
-                  new Date(appt.startDate).getHours()
-                )
-              ) -
-              Math.min(
-                ...b.appointments.map((appt: any) =>
-                  new Date(appt.startDate).getHours()
-                )
+        return allCombinations.sort((a, b) => {
+          const aStart = Math.min(
+            ...a.flatMap((section) =>
+              section.meetTimes.map((time) =>
+                timeToMinutes(convertTo24Hour(time.meetTimeBegin))
               )
+            )
           );
-        break;
+          const bStart = Math.min(
+            ...b.flatMap((section) =>
+              section.meetTimes.map((time) =>
+                timeToMinutes(convertTo24Hour(time.meetTimeBegin))
+              )
+            )
+          );
+          return aStart - bStart;
+        });
+      // ... (handle other cases similarly)
       case "latestStart":
-        sortedCalendars = allCalendars
-          .slice()
-          .sort(
-            (a, b) =>
-              Math.max(
-                ...b.appointments.map((appt: any) =>
-                  new Date(appt.startDate).getHours()
-                )
-              ) -
-              Math.max(
-                ...a.appointments.map((appt: any) =>
-                  new Date(appt.startDate).getHours()
-                )
+        return allCombinations.sort((a, b) => {
+          const aStart = Math.min(
+            ...a.flatMap((section) =>
+              section.meetTimes.map((time) =>
+                timeToMinutes(convertTo24Hour(time.meetTimeBegin))
               )
+            )
           );
-        break;
+          const bStart = Math.min(
+            ...b.flatMap((section) =>
+              section.meetTimes.map((time) =>
+                timeToMinutes(convertTo24Hour(time.meetTimeBegin))
+              )
+            )
+          );
+          return bStart - aStart;
+        });
       case "earliestEnd":
-        sortedCalendars = allCalendars
-          .slice()
-          .sort(
-            (a, b) =>
-              Math.min(
-                ...a.appointments.map((appt: any) =>
-                  new Date(appt.endDate).getHours()
-                )
-              ) -
-              Math.min(
-                ...b.appointments.map((appt: any) =>
-                  new Date(appt.endDate).getHours()
-                )
+        return allCombinations.sort((a, b) => {
+          const aEnd = Math.max(
+            ...a.flatMap((section) =>
+              section.meetTimes.map((time) =>
+                timeToMinutes(convertTo24Hour(time.meetTimeEnd))
               )
+            )
           );
-        break;
+          const bEnd = Math.max(
+            ...b.flatMap((section) =>
+              section.meetTimes.map((time) =>
+                timeToMinutes(convertTo24Hour(time.meetTimeEnd))
+              )
+            )
+          );
+          return aEnd - bEnd;
+        });
       case "latestEnd":
-        sortedCalendars = allCalendars
-          .slice()
-          .sort(
-            (a, b) =>
-              Math.max(
-                ...b.appointments.map((appt: any) =>
-                  new Date(appt.endDate).getHours()
-                )
-              ) -
-              Math.max(
-                ...a.appointments.map((appt: any) =>
-                  new Date(appt.endDate).getHours()
-                )
+        return allCombinations.sort((a, b) => {
+          const aEnd = Math.max(
+            ...a.flatMap((section) =>
+              section.meetTimes.map((time) =>
+                timeToMinutes(convertTo24Hour(time.meetTimeEnd))
               )
+            )
           );
-        break;
+          const bEnd = Math.max(
+            ...b.flatMap((section) =>
+              section.meetTimes.map((time) =>
+                timeToMinutes(convertTo24Hour(time.meetTimeEnd))
+              )
+            )
+          );
+          return bEnd - aEnd;
+        });
       case "mostCompact":
-        sortedCalendars = allCalendars
-          .slice()
-          .sort(
-            (a, b) =>
-              Math.max(
-                ...a.appointments.map((appt: any) =>
-                  new Date(appt.endDate).getHours()
-                )
-              ) -
-              Math.min(
-                ...a.appointments.map((appt: any) =>
-                  new Date(appt.startDate).getHours()
-                )
-              ) -
-              (Math.max(
-                ...b.appointments.map((appt: any) =>
-                  new Date(appt.endDate).getHours()
-                )
-              ) -
-                Math.min(
-                  ...b.appointments.map((appt: any) =>
-                    new Date(appt.startDate).getHours()
-                  )
-                ))
+        return allCombinations.sort((a, b) => {
+          const aStart = Math.min(
+            ...a.flatMap((section) =>
+              section.meetTimes.map((time) =>
+                timeToMinutes(convertTo24Hour(time.meetTimeBegin))
+              )
+            )
           );
-        break;
+          const bStart = Math.min(
+            ...b.flatMap((section) =>
+              section.meetTimes.map((time) =>
+                timeToMinutes(convertTo24Hour(time.meetTimeBegin))
+              )
+            )
+          );
+          const aEnd = Math.max(
+            ...a.flatMap((section) =>
+              section.meetTimes.map((time) =>
+                timeToMinutes(convertTo24Hour(time.meetTimeEnd))
+              )
+            )
+          );
+          const bEnd = Math.max(
+            ...b.flatMap((section) =>
+              section.meetTimes.map((time) =>
+                timeToMinutes(convertTo24Hour(time.meetTimeEnd))
+              )
+            )
+          );
+          return aEnd - aStart - (bEnd - bStart);
+        });
+      default:
+        return allCombinations;
     }
+  };
+  
 
-    setCurrentCalendars(sortedCalendars);
+  const handleSortChange = (selectedOption: any) => {
+    let sortedCombinations: Section[][] = [];
+    sortedCombinations = sortCombinations(selectedOption);
+    setAllCombinations(sortedCombinations);
+    setCurrentCalendars([]);
+    setLastIndex(0);
   };
 
   useEffect(() => {
     setCurrentCalendars([]);
+    setLastIndex(0);
     setHasMoreItems(true);
   }, [selectedCourses, customAppointments]);
 
