@@ -387,13 +387,25 @@ const Calendar: React.FC<CalendarProps> = ({
     );
   };
 
+  const getEarliestAndLatestTimes = (combination: any): [number, number] => {
+    const startTimes = getTimes(combination, 'meetTimeBegin');
+    const endTimes = getTimes(combination, 'meetTimeEnd');
+    return [Math.min(...startTimes), Math.max(...endTimes)];
+  };
+
   const sortCombinations = (selectedOption: any) => {
     return allCombinations.sort((a, b) => {
-      const aTimes = getTimes(a, selectedOption.key);
-      const bTimes = getTimes(b, selectedOption.key);
-      const aValue = selectedOption.operation(...aTimes);
-      const bValue = selectedOption.operation(...bTimes);
-      return selectedOption.direction * (aValue - bValue);
+      if (selectedOption.value === 'mostCompact') {
+        const [aStart, aEnd] = getEarliestAndLatestTimes(a);
+        const [bStart, bEnd] = getEarliestAndLatestTimes(b);
+        return (aEnd - aStart) - (bEnd - bStart);
+      } else {
+        const aTimes = getTimes(a, selectedOption.key);
+        const bTimes = getTimes(b, selectedOption.key);
+        const aValue = selectedOption.operation(...aTimes);
+        const bValue = selectedOption.operation(...bTimes);
+        return selectedOption.direction * (aValue - bValue);
+      }
     });
   };
 
@@ -402,28 +414,13 @@ const Calendar: React.FC<CalendarProps> = ({
 
     setTimeout(() => {
       const sortOptions: any = {
-        earliestStart: {
-          key: "meetTimeBegin",
-          operation: Math.min,
-          direction: 1,
-        },
-        latestStart: {
-          key: "meetTimeBegin",
-          operation: Math.min,
-          direction: -1,
-        },
-        earliestEnd: { key: "meetTimeEnd", operation: Math.max, direction: 1 },
-        latestEnd: { key: "meetTimeEnd", operation: Math.max, direction: -1 },
-        mostCompact: {
-          key: "meetTimeBegin",
-          operation: (aStart: number, aEnd: number) => aEnd - aStart,
-          direction: 1,
-        },
+        earliestStart: { key: 'meetTimeBegin', operation: Math.min, direction: 1 },
+        latestStart: { key: 'meetTimeBegin', operation: Math.min, direction: -1 },
+        earliestEnd: { key: 'meetTimeEnd', operation: Math.max, direction: 1 },
+        latestEnd: { key: 'meetTimeEnd', operation: Math.max, direction: -1 },
       };
-
-      const sortedCombinations = sortCombinations(
-        sortOptions[selectedOption.value] || {}
-      );
+    
+      const sortedCombinations = sortCombinations({ ...sortOptions[selectedOption.value], value: selectedOption.value });
       setAllCombinations(sortedCombinations);
       setCurrentCalendars([]);
       setLastIndex(0);
