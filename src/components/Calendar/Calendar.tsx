@@ -8,6 +8,7 @@ import { grey, indigo } from "@mui/material/colors";
 import { useEffect, useState, useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import Select from "react-select";
+import { addDays, format, getDay, startOfWeek } from "date-fns";
 import IntervalTree, { Interval } from "@flatten-js/interval-tree";
 import CustomAppointmentForm from "./CustomAppointments/customAppointmentForm";
 import {
@@ -81,10 +82,13 @@ const Calendar: React.FC<CalendarProps> = ({
   const [isAppointmentFormVisible, setIsAppointmentFormVisible] =
     useState(false);
   const [instancesThis, setInstances] = useState<any[]>([]);
-  const date = new Date();
   const [lastIndex, setLastIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedSortOption, setSelectedSortOption] = useState<{ value: string; label: string; } | null>(null);
+  const [selectedSortOption, setSelectedSortOption] = useState<{
+    value: string;
+    label: string;
+  } | null>(null);
+  const [isLoadingSort, setIsLoadingSort] = useState(false);
 
   let resources: any[] = [
     {
@@ -171,9 +175,9 @@ const Calendar: React.FC<CalendarProps> = ({
   //   () => generateAllCombinations(allSelectedSections),
   //   [allSelectedSections, customAppointments]
   // );
-  const [allCombinations, setAllCombinations] = useState<Section[][]>(() => 
-  generateAllCombinations(allSelectedSections)
-);
+  const [allCombinations, setAllCombinations] = useState<Section[][]>(() =>
+    generateAllCombinations(allSelectedSections)
+  );
 
   useEffect(() => {
     const newCombinations = generateAllCombinations(allSelectedSections);
@@ -181,9 +185,9 @@ const Calendar: React.FC<CalendarProps> = ({
   }, [allSelectedSections, customAppointments]);
 
   const getDayDate = (dayIndex: number) => {
-    const diff = dayIndex - date.getDay();
-    date.setDate(date.getDate() + diff);
-    return date.toISOString().split("T")[0];
+    const start = startOfWeek(new Date()); // This gets the start of the week (Sunday by default)
+    const targetDate = addDays(start, dayIndex);
+    return format(targetDate, "yyyy-MM-dd");
   };
 
   const dayMapping = new Map([
@@ -198,90 +202,91 @@ const Calendar: React.FC<CalendarProps> = ({
   const createCalendars = (startIndex: number, numRequested: number) => {
     let generatedCalendars = [];
     let index = startIndex;
-  
-    while (generatedCalendars.length < numRequested && index < allCombinations.length) {
+
+    while (
+      generatedCalendars.length < numRequested &&
+      index < allCombinations.length
+    ) {
       const combination = allCombinations[index];
       let appointments = [];
       let isValidCombination = true;
       const intervalTree = new IntervalTree();
-  
+
       combinationLoop: for (let section of combination) {
-          const title = `${section.courseName}`;
-          const { color, meetTimes } = section;
+        const title = `${section.courseName}`;
+        const { color, meetTimes } = section;
 
-          for (let { meetDays, meetTimeBegin, meetTimeEnd } of meetTimes) {
-            const startDateBase = convertTo24Hour(meetTimeBegin);
-            const endDateBase = convertTo24Hour(meetTimeEnd);
+        for (let { meetDays, meetTimeBegin, meetTimeEnd } of meetTimes) {
+          const startDateBase = convertTo24Hour(meetTimeBegin);
+          const endDateBase = convertTo24Hour(meetTimeEnd);
 
-            for (let day of meetDays) {
-              const date = dayMapping.get(day);
-              const startDate = `${date}T${startDateBase}`;
-              const endDate = `${date}T${endDateBase}`;
-              const id = `${section.courseName}-${startDate}-${date}`;
-              let classNumber = null;
-              if (section.classNumber !== "") {
-                classNumber = `${section.classNumber}`;
-              } else {
-                classNumber = `${section.courseName}-${section.color}`;
-              }
-              // const number = id;
-              const startMoment = new Date(startDate);
-              const endMoment = new Date(endDate);
-
-              // Creating an interval using the Interval class
-              const interval = new Interval(
-                startMoment.valueOf(),
-                endMoment.valueOf()
-              );
-
-              // Checking for overlapping appointments using the interval tree
-              if (intervalTree.search(interval).length > 0) {
-                isValidCombination = false;
-                break combinationLoop;
-              }
-
-              // Adding the current appointment to the interval tree
-              intervalTree.insert(interval, { title, color });
-              appointments.push({
-                startDate,
-                endDate,
-                id,
-                classNumber,
-                title,
-                color,
-              });
+          for (let day of meetDays) {
+            const date = dayMapping.get(day);
+            const startDate = `${date}T${startDateBase}`;
+            const endDate = `${date}T${endDateBase}`;
+            const id = `${section.courseName}-${startDate}-${date}`;
+            let classNumber = null;
+            if (section.classNumber !== "") {
+              classNumber = `${section.classNumber}`;
+            } else {
+              classNumber = `${section.courseName}-${section.color}`;
             }
+            // const number = id;
+            const startMoment = new Date(startDate);
+            const endMoment = new Date(endDate);
+
+            // Creating an interval using the Interval class
+            const interval = new Interval(
+              startMoment.valueOf(),
+              endMoment.valueOf()
+            );
+
+            // Checking for overlapping appointments using the interval tree
+            if (intervalTree.search(interval).length > 0) {
+              isValidCombination = false;
+              break combinationLoop;
+            }
+
+            // Adding the current appointment to the interval tree
+            intervalTree.insert(interval, { title, color });
+            appointments.push({
+              startDate,
+              endDate,
+              id,
+              classNumber,
+              title,
+              color,
+            });
           }
         }
-        if (isValidCombination) {
-          generatedCalendars.push({ appointments, combination });
-        }
-        index++;
       }
-      setLastIndex(index); // Update the lastIndex state
-      return generatedCalendars;
-    };
+      if (isValidCombination) {
+        generatedCalendars.push({ appointments, combination });
+      }
+      index++;
+    }
+    setLastIndex(index); // Update the lastIndex state
+    return generatedCalendars;
+  };
 
-    const loadMoreCalendars = () => {
-      if (isLoading) {
-        return; // Exit if already loading
-      }
-    
-      setIsLoading(true); // Set loading state to true
-    
-      const newCalendars = createCalendars(lastIndex, 5); // Assuming you want to generate 5 calendars at a time
-    
-      if (newCalendars.length === 0) {
-        setHasMoreItems(false); // No more valid combinations, stop loading
-        setIsLoading(false);
-        return;
-      }
-    
-      setCurrentCalendars([...currentCalendars, ...newCalendars]);
-      setIsLoading(false); // Set loading state to false
-    };
-    
-  
+  const loadMoreCalendars = () => {
+    if (isLoading) {
+      return; // Exit if already loading
+    }
+
+    setIsLoading(true); // Set loading state to true
+
+    const newCalendars = createCalendars(lastIndex, 5); // Assuming you want to generate 5 calendars at a time
+
+    if (newCalendars.length === 0) {
+      setHasMoreItems(false); // No more valid combinations, stop loading
+      setIsLoading(false);
+      return;
+    }
+
+    setCurrentCalendars([...currentCalendars, ...newCalendars]);
+    setIsLoading(false); // Set loading state to false
+  };
 
   // Step 4: Render calendars
   const renderCalendar = (
@@ -369,130 +374,61 @@ const Calendar: React.FC<CalendarProps> = ({
     );
   };
 
-  const timeToMinutes = (timeStr: string) => {
+  const timeToMinutes = (timeStr: string): number => {
     const [hours, minutes] = timeStr.split(":").map(Number);
     return hours * 60 + minutes;
   };
-  
-  const sortCombinations = (selectedOption: any) => {
-    switch (selectedOption.value) {
-      case "earliestStart":
-        return allCombinations.sort((a, b) => {
-          const aStart = Math.min(
-            ...a.flatMap((section) =>
-              section.meetTimes.map((time) =>
-                timeToMinutes(convertTo24Hour(time.meetTimeBegin))
-              )
-            )
-          );
-          const bStart = Math.min(
-            ...b.flatMap((section) =>
-              section.meetTimes.map((time) =>
-                timeToMinutes(convertTo24Hour(time.meetTimeBegin))
-              )
-            )
-          );
-          return aStart - bStart;
-        });
-      // ... (handle other cases similarly)
-      case "latestStart":
-        return allCombinations.sort((a, b) => {
-          const aStart = Math.min(
-            ...a.flatMap((section) =>
-              section.meetTimes.map((time) =>
-                timeToMinutes(convertTo24Hour(time.meetTimeBegin))
-              )
-            )
-          );
-          const bStart = Math.min(
-            ...b.flatMap((section) =>
-              section.meetTimes.map((time) =>
-                timeToMinutes(convertTo24Hour(time.meetTimeBegin))
-              )
-            )
-          );
-          return bStart - aStart;
-        });
-      case "earliestEnd":
-        return allCombinations.sort((a, b) => {
-          const aEnd = Math.max(
-            ...a.flatMap((section) =>
-              section.meetTimes.map((time) =>
-                timeToMinutes(convertTo24Hour(time.meetTimeEnd))
-              )
-            )
-          );
-          const bEnd = Math.max(
-            ...b.flatMap((section) =>
-              section.meetTimes.map((time) =>
-                timeToMinutes(convertTo24Hour(time.meetTimeEnd))
-              )
-            )
-          );
-          return aEnd - bEnd;
-        });
-      case "latestEnd":
-        return allCombinations.sort((a, b) => {
-          const aEnd = Math.max(
-            ...a.flatMap((section) =>
-              section.meetTimes.map((time) =>
-                timeToMinutes(convertTo24Hour(time.meetTimeEnd))
-              )
-            )
-          );
-          const bEnd = Math.max(
-            ...b.flatMap((section) =>
-              section.meetTimes.map((time) =>
-                timeToMinutes(convertTo24Hour(time.meetTimeEnd))
-              )
-            )
-          );
-          return bEnd - aEnd;
-        });
-      case "mostCompact":
-        return allCombinations.sort((a, b) => {
-          const aStart = Math.min(
-            ...a.flatMap((section) =>
-              section.meetTimes.map((time) =>
-                timeToMinutes(convertTo24Hour(time.meetTimeBegin))
-              )
-            )
-          );
-          const bStart = Math.min(
-            ...b.flatMap((section) =>
-              section.meetTimes.map((time) =>
-                timeToMinutes(convertTo24Hour(time.meetTimeBegin))
-              )
-            )
-          );
-          const aEnd = Math.max(
-            ...a.flatMap((section) =>
-              section.meetTimes.map((time) =>
-                timeToMinutes(convertTo24Hour(time.meetTimeEnd))
-              )
-            )
-          );
-          const bEnd = Math.max(
-            ...b.flatMap((section) =>
-              section.meetTimes.map((time) =>
-                timeToMinutes(convertTo24Hour(time.meetTimeEnd))
-              )
-            )
-          );
-          return aEnd - aStart - (bEnd - bStart);
-        });
-      default:
-        return allCombinations;
-    }
+
+  const getTimes = (combination: any, key: string): number[] => {
+    return combination.flatMap((section: any) =>
+      section.meetTimes.map((time: any) =>
+        timeToMinutes(convertTo24Hour(time[key]))
+      )
+    );
   };
-  
+
+  const sortCombinations = (selectedOption: any) => {
+    return allCombinations.sort((a, b) => {
+      const aTimes = getTimes(a, selectedOption.key);
+      const bTimes = getTimes(b, selectedOption.key);
+      const aValue = selectedOption.operation(...aTimes);
+      const bValue = selectedOption.operation(...bTimes);
+      return selectedOption.direction * (aValue - bValue);
+    });
+  };
 
   const handleSortChange = (selectedOption: any) => {
-    let sortedCombinations: Section[][] = [];
-    sortedCombinations = sortCombinations(selectedOption);
-    setAllCombinations(sortedCombinations);
-    setCurrentCalendars([]);
-    setLastIndex(0);
+    setIsLoadingSort(true); // Set loading state to true at the start
+
+    setTimeout(() => {
+      const sortOptions: any = {
+        earliestStart: {
+          key: "meetTimeBegin",
+          operation: Math.min,
+          direction: 1,
+        },
+        latestStart: {
+          key: "meetTimeBegin",
+          operation: Math.min,
+          direction: -1,
+        },
+        earliestEnd: { key: "meetTimeEnd", operation: Math.max, direction: 1 },
+        latestEnd: { key: "meetTimeEnd", operation: Math.max, direction: -1 },
+        mostCompact: {
+          key: "meetTimeBegin",
+          operation: (aStart: number, aEnd: number) => aEnd - aStart,
+          direction: 1,
+        },
+      };
+
+      const sortedCombinations = sortCombinations(
+        sortOptions[selectedOption.value] || {}
+      );
+      setAllCombinations(sortedCombinations);
+      setCurrentCalendars([]);
+      setLastIndex(0);
+      setIsLoadingSort(false); // Set loading state to false at the end
+    }, 0);
   };
 
   useEffect(() => {
@@ -504,6 +440,7 @@ const Calendar: React.FC<CalendarProps> = ({
 
   return (
     <div className="calendar-container">
+      {isLoadingSort && <div className="spinner"></div>}
       <div className="calendar-display">
         {isAppointmentFormVisible && (
           <CustomAppointmentForm

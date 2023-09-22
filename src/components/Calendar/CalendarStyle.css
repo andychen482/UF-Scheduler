@@ -62,5 +62,28 @@
     max-width: 65px;
   }
 
+  .spinner {
+    border: 8px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 8px solid #000;
+    width: 80px;
+    height: 80px;
+    animation: spin 1s linear infinite;
+  
+    /* Centering the spinner */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* This will keep the spinner centered */
+    z-index: 1000;
+  }
+  
+  @keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  
+  
+
 
   
