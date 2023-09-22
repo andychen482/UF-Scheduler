@@ -8,7 +8,7 @@ import { grey, indigo } from "@mui/material/colors";
 import { useEffect, useState, useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import Select from "react-select";
-import { addDays, format, getDay, startOfWeek } from "date-fns";
+import { addDays, format, startOfWeek } from "date-fns";
 import IntervalTree, { Interval } from "@flatten-js/interval-tree";
 import CustomAppointmentForm from "./CustomAppointments/customAppointmentForm";
 import {
@@ -20,23 +20,6 @@ import {
 } from "@devexpress/dx-react-scheduler-material-ui";
 
 const currentDate = new Date().toISOString().split("T")[0];
-
-function convertTo24Hour(timeStr: string) {
-  let [time, modifier] = timeStr.split(" ");
-  let [hours, minutes] = time.split(":");
-
-  let hoursInt = parseInt(hours, 10);
-
-  if (modifier === "PM") {
-    hoursInt = hoursInt !== 12 ? hoursInt + 12 : hoursInt;
-  } else if (hoursInt === 12) {
-    hoursInt = 0;
-  }
-
-  hours = hoursInt < 10 ? "0" + hoursInt : hoursInt.toString();
-
-  return `${hours}:${minutes}`;
-}
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
@@ -217,8 +200,8 @@ const Calendar: React.FC<CalendarProps> = ({
         const { color, meetTimes } = section;
 
         for (let { meetDays, meetTimeBegin, meetTimeEnd } of meetTimes) {
-          const startDateBase = convertTo24Hour(meetTimeBegin);
-          const endDateBase = convertTo24Hour(meetTimeEnd);
+          const startDateBase = meetTimeBegin;
+          const endDateBase = meetTimeEnd;
 
           for (let day of meetDays) {
             const date = dayMapping.get(day);
@@ -379,15 +362,17 @@ const Calendar: React.FC<CalendarProps> = ({
     return hours * 60 + minutes;
   };
 
-  const getTimes = (combination: any, key: string): number[] => {
-    return combination.flatMap((section: any) =>
-      section.meetTimes.map((time: any) =>
-        timeToMinutes(convertTo24Hour(time[key]))
-      )
-    );
+  const getTimes = (combination: any, key: string) => {
+    const times = [];
+    for (let section of combination) {
+      for (let time of section.meetTimes) {
+        times.push(timeToMinutes(time[key]));
+      }
+    }
+    return times;
   };
-
-  const getEarliestAndLatestTimes = (combination: any): [number, number] => {
+  
+  const getEarliestAndLatestTimes = (combination: any) => {
     const startTimes = getTimes(combination, 'meetTimeBegin');
     const endTimes = getTimes(combination, 'meetTimeEnd');
     return [Math.min(...startTimes), Math.max(...endTimes)];
