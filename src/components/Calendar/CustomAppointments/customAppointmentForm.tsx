@@ -55,15 +55,6 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
     }
   }, [appointment]);
 
-  const convertTo12HourFormat = (time: string): string => {
-    const [hour, minute] = time.split(":");
-    const hourNumber = Number(hour);
-    const ampm = hourNumber >= 12 ? "PM" : "AM";
-    const hour12Format =
-      hourNumber > 12 ? hourNumber - 12 : hourNumber === 0 ? 12 : hourNumber;
-    return `${hour12Format.toString().padStart(2, "0")}:${minute} ${ampm}`;
-  };
-
   const handleMeetDaysChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     if (event.target.checked) {
@@ -83,8 +74,8 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
       meetTimes: [
         {
           meetDays,
-          meetTimeBegin: convertTo12HourFormat(meetTimeBegin),
-          meetTimeEnd: convertTo12HourFormat(meetTimeEnd),
+          meetTimeBegin: meetTimeBegin,
+          meetTimeEnd: meetTimeEnd,
           meetBuilding,
           meetRoom,
         },
