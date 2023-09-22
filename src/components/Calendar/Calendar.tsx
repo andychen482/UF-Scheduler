@@ -461,6 +461,15 @@ const Calendar: React.FC<CalendarProps> = ({
               setSelectedSortOption(option || null);
               handleSortChange(option);
             }}
+            theme={(theme) => ({
+              ...theme,
+              borderRadius: 6,
+              colors: {
+                ...theme.colors,
+                primary25: '#E6E6E6',
+                primary: '#B3B3B3',
+              },
+            })}
             placeholder="Sort by..."
             className="w-[80%] mt-2"
             menuPortalTarget={document.body} // Append the dropdown to the body element
