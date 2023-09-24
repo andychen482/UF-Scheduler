@@ -1,7 +1,7 @@
 import React from "react";
 import { Course, Section } from "../CourseTypes";
 import { courseUIClasses } from "../CourseUIClasses";
-import { PiPlusBold, PiMinusBold } from "react-icons/pi";
+import { BiSolidLockOpen, BiSolidLockAlt } from "react-icons/bi";
 import { DropdownClasses } from "./DropdownClasses";
 
 interface CourseDropdownProps {
@@ -9,6 +9,15 @@ interface CourseDropdownProps {
   selectedCourses: Course[];
   setSelectedCourses: React.Dispatch<React.SetStateAction<Course[]>>;
 }
+
+const convertTo12HourFormat = (time: string): string => {
+  const [hour, minute] = time.split(":");
+  const hourNumber = Number(hour);
+  const ampm = hourNumber >= 12 ? "PM" : "AM";
+  const hour12Format =
+    hourNumber > 12 ? hourNumber - 12 : hourNumber === 0 ? 12 : hourNumber;
+  return `${hour12Format}:${minute} ${ampm}`;
+};
 
 const CourseDropdown: React.FC<CourseDropdownProps> = ({
   course,
@@ -126,7 +135,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
                 className={`ml-2 text-gray-200 dark:text-gray-200`}
               >
                 <strong>{meetingTime.meetDays.join(", ")}: </strong> &nbsp;{" "}
-                {meetingTime.meetTimeBegin} - {meetingTime.meetTimeEnd}
+                {convertTo12HourFormat(meetingTime.meetTimeBegin)} - {convertTo12HourFormat(meetingTime.meetTimeEnd)}
               </div>
             ))
           ) : (
@@ -170,12 +179,12 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
                   </div>
                   {/* Star Icon based on section selected status */}
                   {isSectionSelected(section) ? (
-                    <PiMinusBold
+                    <BiSolidLockAlt
                       className={`${minusicons}`}
                       onClick={() => toggleSectionSelected(section)}
                     />
                   ) : (
-                    <PiPlusBold
+                    <BiSolidLockOpen
                       className={`${icons}`}
                       onClick={() => toggleSectionSelected(section)}
                     />

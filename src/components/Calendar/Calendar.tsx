@@ -19,7 +19,28 @@ import {
   Resources,
 } from "@devexpress/dx-react-scheduler-material-ui";
 
-const currentDate = new Date().toISOString().split("T")[0];
+const today = new Date();
+const isWeekend = today.getDay() === 6 || today.getDay() === 0; // 6 is Saturday, 0 is Sunday
+
+const currentDate = isWeekend 
+    ? new Date(addDays(today, 7 - today.getDay())).toISOString().split("T")[0]
+    : today.toISOString().split("T")[0];
+
+const getDayDate = (dayIndex: number) => {
+    const start = isWeekend 
+        ? startOfWeek(addDays(new Date(), 7)) 
+        : startOfWeek(new Date()); 
+    const targetDate = addDays(start, dayIndex);
+    return format(targetDate, "yyyy-MM-dd");
+};
+
+const dayMapping = new Map([
+    ["M", getDayDate(1)],
+    ["T", getDayDate(2)],
+    ["W", getDayDate(3)],
+    ["R", getDayDate(4)],
+    ["F", getDayDate(5)],
+]);
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
@@ -167,20 +188,6 @@ const Calendar: React.FC<CalendarProps> = ({
     setAllCombinations(newCombinations);
   }, [allSelectedSections, customAppointments]);
 
-  const getDayDate = (dayIndex: number) => {
-    const start = startOfWeek(new Date()); // This gets the start of the week (Sunday by default)
-    const targetDate = addDays(start, dayIndex);
-    return format(targetDate, "yyyy-MM-dd");
-  };
-
-  const dayMapping = new Map([
-    ["M", getDayDate(1)],
-    ["T", getDayDate(2)],
-    ["W", getDayDate(3)],
-    ["R", getDayDate(4)],
-    ["F", getDayDate(5)],
-  ]);
-
   // Step 3: Create calendars
   const createCalendars = (startIndex: number, numRequested: number) => {
     let generatedCalendars = [];
@@ -266,7 +273,7 @@ const Calendar: React.FC<CalendarProps> = ({
       setIsLoading(false);
       return;
     }
-
+    console.log(newCalendars);
     setCurrentCalendars([...currentCalendars, ...newCalendars]);
     setIsLoading(false); // Set loading state to false
   };
