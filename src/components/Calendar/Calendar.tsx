@@ -273,7 +273,6 @@ const Calendar: React.FC<CalendarProps> = ({
       setIsLoading(false);
       return;
     }
-    console.log(newCalendars);
     setCurrentCalendars([...currentCalendars, ...newCalendars]);
     setIsLoading(false); // Set loading state to false
   };
@@ -522,7 +521,7 @@ const Calendar: React.FC<CalendarProps> = ({
             }
             useWindow={false}
           >
-            <div className="flex flex-col">
+            <div className="flex flex-col mt-2">
               {currentCalendars.map(({ appointments, combination }, index) => (
                 <div key={index}>
                   {renderCalendar({ appointments, combination }, index)}

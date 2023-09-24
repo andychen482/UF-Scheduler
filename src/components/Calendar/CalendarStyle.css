@@ -26,6 +26,8 @@
   margin: 0px 30px 30px 30px;
   max-height: 400px;
   overflow: auto;
+  border-radius: 5px;
+  box-shadow: 0px 1px 5px 1px rgb(22, 22, 22);
 }
 
 @media (max-width: 1000px) {
