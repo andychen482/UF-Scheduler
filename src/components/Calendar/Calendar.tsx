@@ -528,6 +528,7 @@ const Calendar: React.FC<CalendarProps> = ({
                   {renderCalendar({ appointments, combination }, index)}
                 </div>
               ))}
+              {currentCalendars.length === 0 && (<div className="text-white ml-[20px]">No possible calendars.</div>)}
             </div>
           </InfiniteScroll>
         </div>
