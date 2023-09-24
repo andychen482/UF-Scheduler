@@ -20,7 +20,7 @@ import {
 } from "@devexpress/dx-react-scheduler-material-ui";
 
 const today = new Date();
-const isWeekend = today.getDay() === 6 || today.getDay() === 0; // 6 is Saturday, 0 is Sunday
+const isWeekend = today.getDay() === 6; // 6 is Saturday, 0 is Sunday
 
 const currentDate = isWeekend 
     ? new Date(addDays(today, 7 - today.getDay())).toISOString().split("T")[0]
