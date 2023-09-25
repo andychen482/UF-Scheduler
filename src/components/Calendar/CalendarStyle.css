@@ -22,12 +22,20 @@
   border-bottom: 1px solid white;
 }
 
-.test {
-  margin: 0px 30px 30px 30px;
-  max-height: 400px;
-  overflow: auto;
+.header-and-calendar {
+  margin: 0px 30px 5px 30px;
   border-radius: 5px;
   box-shadow: 0px 1px 5px 1px rgb(22, 22, 22);
+}
+
+.test {
+  max-height: 400px;
+  overflow: auto;
+}
+
+.online-section-message {
+  border-top-left-radius: 5px; /* Round the top-left corner */
+  border-top-right-radius: 5px;
 }
 
 @media (max-width: 1000px) {
@@ -38,12 +46,7 @@
   }
 
   .test {
-    margin: 0px 25px 25px 25px;
     max-height: 40vh;
-  }
-  .online-section-message {
-    margin-left: 25px;
-    margin-right: 25px;
   }
 }
 
@@ -60,32 +63,31 @@
   }
 }
 
-  .MainLayout-flexRow.MainLayout-stickyElement.MainLayout-leftPanel.MainLayout-ordinaryLeftPanelBorder {
-    max-width: 65px;
-  }
+.MainLayout-flexRow.MainLayout-stickyElement.MainLayout-leftPanel.MainLayout-ordinaryLeftPanelBorder {
+  max-width: 65px;
+}
 
-  .spinner {
-    border: 8px solid #0021a5;
-    border-radius: 50%;
-    border-top: 8px solid #fa4616;
-    width: 80px;
-    height: 80px;
-    animation: spin 1s linear infinite;
-  
-    /* Centering the spinner */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* This will keep the spinner centered */
-    z-index: 1000;
-  }
-  
-  @keyframes spin {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
-  }
-  
-  
+.spinner {
+  border: 8px solid #0021a5;
+  border-radius: 50%;
+  border-top: 8px solid #fa4616;
+  width: 80px;
+  height: 80px;
+  animation: spin 1s linear infinite;
 
+  /* Centering the spinner */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* This will keep the spinner centered */
+  z-index: 1000;
+}
 
-  
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}

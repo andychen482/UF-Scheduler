@@ -22,24 +22,24 @@ import {
 const today = new Date();
 const isWeekend = today.getDay() === 6; // 6 is Saturday, 0 is Sunday
 
-const currentDate = isWeekend 
-    ? new Date(addDays(today, 7 - today.getDay())).toISOString().split("T")[0]
-    : today.toISOString().split("T")[0];
+const currentDate = isWeekend
+  ? new Date(addDays(today, 7 - today.getDay())).toISOString().split("T")[0]
+  : today.toISOString().split("T")[0];
 
 const getDayDate = (dayIndex: number) => {
-    const start = isWeekend 
-        ? startOfWeek(addDays(new Date(), 7)) 
-        : startOfWeek(new Date()); 
-    const targetDate = addDays(start, dayIndex);
-    return format(targetDate, "yyyy-MM-dd");
+  const start = isWeekend
+    ? startOfWeek(addDays(new Date(), 7))
+    : startOfWeek(new Date());
+  const targetDate = addDays(start, dayIndex);
+  return format(targetDate, "yyyy-MM-dd");
 };
 
 const dayMapping = new Map([
-    ["M", getDayDate(1)],
-    ["T", getDayDate(2)],
-    ["W", getDayDate(3)],
-    ["R", getDayDate(4)],
-    ["F", getDayDate(5)],
+  ["M", getDayDate(1)],
+  ["T", getDayDate(2)],
+  ["W", getDayDate(3)],
+  ["R", getDayDate(4)],
+  ["F", getDayDate(5)],
 ]);
 
 const getDesignTokens = (mode: PaletteMode) => ({
@@ -67,6 +67,25 @@ const getDesignTokens = (mode: PaletteMode) => ({
 });
 
 const darkModeTheme = createTheme(getDesignTokens("dark"));
+
+const generateICSContent = (appointments: any[]) => {
+  let icsContent =
+    "BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nPRODID:-//YourCompany//YourApp//EN\n";
+
+  for (let appointment of appointments) {
+    const startDate = `${appointment.startDate.replace(/[-:]/g, "")}00`; // Append "00" for seconds
+    const endDate = `${appointment.endDate.replace(/[-:]/g, "")}00`; // Append "00" for seconds
+    icsContent += "BEGIN:VEVENT\n";
+    icsContent += `DTSTART:${startDate}\n`;
+    icsContent += `DTEND:${endDate}\n`;
+    icsContent += `UID:${appointment.id.replace(" ", "")}@example.com\n`;
+    icsContent += `SUMMARY:${appointment.title}\n`;
+    icsContent += "END:VEVENT\n";
+  }
+
+  icsContent += "END:VCALENDAR";
+  return icsContent;
+};
 
 interface CalendarProps {
   selectedCourses: Course[];
@@ -323,42 +342,61 @@ const Calendar: React.FC<CalendarProps> = ({
 
     return (
       <>
-        {onlineMessage && (
-          <div
-            className="online-section-message mx-[30px]"
-            style={{
-              backgroundColor: "rgba(0, 0, 0, 0.6)",
-              padding: "5px",
-              color: "#fff",
-            }}
-          >
-            {onlineMessage}
+        <div className="header-and-calendar">
+          {onlineMessage && (
+            <div
+              className="online-section-message"
+              style={{
+                backgroundColor: "rgba(0, 0, 0, 0.6)",
+                padding: "5px",
+                color: "#fff",
+              }}
+            >
+              {onlineMessage}
+            </div>
+          )}
+          <div className="test">
+            <ThemeProvider theme={darkModeTheme}>
+              <Paper>
+                <div className="Scheduler">
+                  <Scheduler data={appointments}>
+                    <ViewState currentDate={currentDate} />
+                    <WeekView
+                      startDayHour={startDayHour}
+                      endDayHour={endDayHour}
+                      intervalCount={1}
+                      cellDuration={50}
+                      excludedDays={[0, 6]}
+                    />
+                    <Appointments />
+                    <AppointmentTooltip showCloseButton />
+                    <Resources
+                      data={resources}
+                      mainResourceName={mainResourceName}
+                    />
+                  </Scheduler>
+                </div>
+              </Paper>
+            </ThemeProvider>
           </div>
-        )}
-        <div className="test">
-          <ThemeProvider theme={darkModeTheme}>
-            <Paper>
-              <div className="Scheduler">
-                <Scheduler data={appointments}>
-                  <ViewState currentDate={currentDate} />
-                  <WeekView
-                    startDayHour={startDayHour}
-                    endDayHour={endDayHour}
-                    intervalCount={1}
-                    cellDuration={50}
-                    excludedDays={[0, 6]}
-                  />
-                  <Appointments />
-                  <AppointmentTooltip showCloseButton />
-                  <Resources
-                    data={resources}
-                    mainResourceName={mainResourceName}
-                  />
-                </Scheduler>
-              </div>
-            </Paper>
-          </ThemeProvider>
         </div>
+        <div style={{ display: 'flex', justifyContent: 'end', alignItems: 'end',  marginBottom: '25px', marginRight: '30px' }}>
+        <button
+          onClick={() => {
+            const icsContent = generateICSContent(appointments);
+            const blob = new Blob([icsContent], { type: "text/calendar" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "calendar.ics";
+            a.click();
+            URL.revokeObjectURL(url);
+          }}
+          className="text-white"
+        >
+          Download ICS
+        </button>
+      </div>
       </>
     );
   };
@@ -377,19 +415,19 @@ const Calendar: React.FC<CalendarProps> = ({
     }
     return times;
   };
-  
+
   const getEarliestAndLatestTimes = (combination: any) => {
-    const startTimes = getTimes(combination, 'meetTimeBegin');
-    const endTimes = getTimes(combination, 'meetTimeEnd');
+    const startTimes = getTimes(combination, "meetTimeBegin");
+    const endTimes = getTimes(combination, "meetTimeEnd");
     return [Math.min(...startTimes), Math.max(...endTimes)];
   };
 
   const sortCombinations = (selectedOption: any) => {
     return allCombinations.sort((a, b) => {
-      if (selectedOption.value === 'mostCompact') {
+      if (selectedOption.value === "mostCompact") {
         const [aStart, aEnd] = getEarliestAndLatestTimes(a);
         const [bStart, bEnd] = getEarliestAndLatestTimes(b);
-        return (aEnd - aStart) - (bEnd - bStart);
+        return aEnd - aStart - (bEnd - bStart);
       } else {
         const aTimes = getTimes(a, selectedOption.key);
         const bTimes = getTimes(b, selectedOption.key);
@@ -405,13 +443,24 @@ const Calendar: React.FC<CalendarProps> = ({
 
     setTimeout(() => {
       const sortOptions: any = {
-        earliestStart: { key: 'meetTimeBegin', operation: Math.min, direction: 1 },
-        latestStart: { key: 'meetTimeBegin', operation: Math.min, direction: -1 },
-        earliestEnd: { key: 'meetTimeEnd', operation: Math.max, direction: 1 },
-        latestEnd: { key: 'meetTimeEnd', operation: Math.max, direction: -1 },
+        earliestStart: {
+          key: "meetTimeBegin",
+          operation: Math.min,
+          direction: 1,
+        },
+        latestStart: {
+          key: "meetTimeBegin",
+          operation: Math.min,
+          direction: -1,
+        },
+        earliestEnd: { key: "meetTimeEnd", operation: Math.max, direction: 1 },
+        latestEnd: { key: "meetTimeEnd", operation: Math.max, direction: -1 },
       };
-    
-      const sortedCombinations = sortCombinations({ ...sortOptions[selectedOption.value], value: selectedOption.value });
+
+      const sortedCombinations = sortCombinations({
+        ...sortOptions[selectedOption.value],
+        value: selectedOption.value,
+      });
       setAllCombinations(sortedCombinations);
       setCurrentCalendars([]);
       setLastIndex(0);
@@ -472,8 +521,8 @@ const Calendar: React.FC<CalendarProps> = ({
               borderRadius: 6,
               colors: {
                 ...theme.colors,
-                primary25: '#E6E6E6',
-                primary: '#B3B3B3',
+                primary25: "#E6E6E6",
+                primary: "#B3B3B3",
               },
             })}
             placeholder="Sort by..."
@@ -527,7 +576,11 @@ const Calendar: React.FC<CalendarProps> = ({
                   {renderCalendar({ appointments, combination }, index)}
                 </div>
               ))}
-              {currentCalendars.length === 0 && (<div className="text-white ml-[20px]">No possible calendars.</div>)}
+              {currentCalendars.length === 0 && (
+                <div className="text-white ml-[20px]">
+                  No possible calendars.
+                </div>
+              )}
             </div>
           </InfiniteScroll>
         </div>
