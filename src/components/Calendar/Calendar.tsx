@@ -68,6 +68,31 @@ const getDesignTokens = (mode: PaletteMode) => ({
 
 const darkModeTheme = createTheme(getDesignTokens("dark"));
 
+function convertToICSFormat(dateStr?: string): string | null {
+  if (typeof dateStr !== 'string') {
+      console.error('Invalid input to convertToICSFormat:', dateStr);
+      return null;
+  }
+
+  // Extract the date and time parts from the input string
+  const [datePart, timePart] = dateStr.split(" @ ");
+  const [month, day, year] = datePart.split("/").map(Number);
+  const [startTime] = timePart.split(" - ");
+  const [hourPart, period] = startTime.split(" ");
+  let [hours, minutes] = hourPart.split(":").map(Number);
+
+  // Adjust hours based on AM/PM
+  if (period === "PM" && hours !== 12) {
+      hours += 12;
+  } else if (period === "AM" && hours === 12) {
+      hours = 0;
+  }
+
+  // Convert to ICS format
+  const icsDate = `${year}${String(month).padStart(2, '0')}${String(day).padStart(2, '0')}T${String(hours).padStart(2, '0')}${String(minutes).padStart(2, '0')}00`;
+  return icsDate;
+}
+
 const generateICSContent = (appointments: any[]) => {
   let icsContent =
     "BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nPRODID:-//YourCompany//YourApp//EN\n";
@@ -78,6 +103,7 @@ const generateICSContent = (appointments: any[]) => {
     icsContent += "BEGIN:VEVENT\n";
     icsContent += `DTSTART:${startDate}\n`;
     icsContent += `DTEND:${endDate}\n`;
+    icsContent += `RRULE:FREQ=WEEKLY;UNTIL=${convertToICSFormat(appointment.finalExam)}\n`
     icsContent += `UID:${appointment.id.replace(" ", "")}@example.com\n`;
     icsContent += `SUMMARY:${appointment.title}\n`;
     icsContent += "END:VEVENT\n";
@@ -256,6 +282,8 @@ const Calendar: React.FC<CalendarProps> = ({
               break combinationLoop;
             }
 
+            const finalExam = section.finalExam;
+
             // Adding the current appointment to the interval tree
             intervalTree.insert(interval, { title, color });
             appointments.push({
@@ -265,6 +293,7 @@ const Calendar: React.FC<CalendarProps> = ({
               classNumber,
               title,
               color,
+              finalExam,
             });
           }
         }

@@ -481,7 +481,7 @@ const Main = () => {
           zIndex: 1000,
         }}
       >
-        <p>Updated to Fall 2023 | Created by Andy Chen😀</p>
+        <p>Updated to Fall 2023 | Created by Andy Chen</p>
       </div>
     </div>
   );
