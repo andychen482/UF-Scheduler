@@ -140,7 +140,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
         )}
 
         <div>
-          <div className="text-white font-bold w-full flex justify-center items-center">
+          <div className="text-white font-bold w-full flex justify-center items-center text-center">
             Recurring Events
           </div>
           <hr className="mx-1" />

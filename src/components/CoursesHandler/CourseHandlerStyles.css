@@ -1,0 +1,5 @@
+@media (max-width: 1000px) {
+    .course-handler {
+        height: 91vh !important;
+    }
+}

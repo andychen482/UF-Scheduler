@@ -400,7 +400,7 @@ const Main = () => {
         onClick={() => setIsDrawerOpen(false)}
       ></div>
       <div className="content-wrapper">
-        <div className="flex flexImage course-display bg-gray-800">
+        <div className="flex flexImage course-display bg-gray-900">
           {windowWidth < 1001 ? (
             <div
               className={`drawer overflow-auto ${isDrawerOpen ? "" : "closed"}`}
@@ -424,7 +424,7 @@ const Main = () => {
           ) : (
             <div
               className="selected-courses overflow-auto"
-              style={{ height: "calc(100vh - 43px)" }}
+              style={{ height: "calc(100vh - 40px)", background: "rgb(27,27,27)" }}
             >
               <LikedSelectedCourses
                 selectedCourses={selectedCourses}
@@ -436,7 +436,7 @@ const Main = () => {
               />
             </div>
           )}
-          <div className={`${container} courses-handler`}>
+          <div className={`flex flex-col items-start basis-full dark:bg-gray-800 transition-colors duration-500 overflow-y-auto p-0 rounded-none courses-handler`}>
             <CoursesHandler
               selectedCourses={selectedCourses}
               setSelectedCourses={setSelectedCourses}

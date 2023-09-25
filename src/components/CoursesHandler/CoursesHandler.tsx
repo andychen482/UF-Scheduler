@@ -3,6 +3,7 @@ import CourseSearch from "./CourseSearch/CourseSearch";
 import ShowFilteredCourses from "./ShowFilteredCourses/ShowFilteredCourses";
 import { Course } from "../CourseUI/CourseTypes";
 import MajorSelect from "./MajorSearch/MajorSearch";
+import "./CourseHandlerStyles.css"
 
 interface CoursesHandlerProps {
   selectedCourses: Course[];
@@ -77,7 +78,7 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
   }, [selectedMajor]);
 
   return (
-    <div className="bg-gray-700 dark:bg-gray-800 rounded-md p-4 shadow-md transition-shadow duration-300 min-w-full min-h-full" style={{ maxHeight: 'calc(100vh - 72px)'}}>
+    <div className="bg-[rgb(27,27,27)] dark:bg-gray-800 p-4 shadow-md transition-shadow duration-300 min-w-full min-h-full course-handler" style={{ height: 'calc(100vh - 40px)'}}>
       {/* <LikedSelectedCourses
         selectedCourses={selectedCourses}
         setSelectedCourses={setSelectedCourses}
