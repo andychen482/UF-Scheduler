@@ -77,7 +77,8 @@ const Header: React.FC<HeaderProps> = ({
         </button>
       </div>
       <div className="mr-2">
-        <h1 className="title font-semibold">UFScheduler</h1>
+        <span className="title font-semibold text-blue-500">UF</span>
+        <span className="title font-semibold text-orange-500">Scheduler</span>
       </div>
     </header>
   );

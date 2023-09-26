@@ -460,7 +460,7 @@ const Main = () => {
               </div>
             </div>
           ) : (
-            <div className="calendar-container">
+            <div className="calendar-container bg-[rgb(27,27,27)]">
               <Calendar
                 selectedCourses={selectedCourses}
                 customAppointments={customAppointments}
@@ -473,7 +473,7 @@ const Main = () => {
       <div
         className="about text-white text-xs w-full"
         style={{
-          position: "fixed", // Changed from "absolute" to "fixed"
+          position: "fixed",
           bottom: "0px",
           left: "50%",
           transform: "translate(-50%, 0%)",
@@ -481,7 +481,12 @@ const Main = () => {
           zIndex: 1000,
         }}
       >
-        <p>Updated to Fall 2023 | Created by Andy Chen</p>
+        <p>
+          Updated to Fall 2023 | Maintained by Andy Chen |{" "}
+          <a href="http://localhost:3000/about" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline" }}>
+            About
+          </a>
+        </p>
       </div>
     </div>
   );
