@@ -12,6 +12,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Header from "../../components/Header/Header";
 import LikedSelectedCourses from "../../components/CoursesHandler/LikedSelectedCourses";
 import { AiOutlineClose } from "react-icons/ai";
+import Footer from "../../components/Footer/Footer";
 
 cytoscape.use(klay);
 
@@ -470,24 +471,7 @@ const Main = () => {
           )}
         </div>
       </div>
-      <div
-        className="about text-white text-xs w-full"
-        style={{
-          position: "fixed",
-          bottom: "0px",
-          left: "50%",
-          transform: "translate(-50%, 0%)",
-          textAlign: "center",
-          zIndex: 1000,
-        }}
-      >
-        <p>
-          Fall 2023 | Maintained and updated by Andy Chen |{" "}
-          <a href="/about" style={{ color: "inherit", textDecoration: "underline" }}>
-            About
-          </a>
-        </p>
-      </div>
+<Footer />
     </div>
   );
 };
