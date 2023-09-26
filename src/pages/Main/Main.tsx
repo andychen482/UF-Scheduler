@@ -482,8 +482,8 @@ const Main = () => {
         }}
       >
         <p>
-          Updated to Fall 2023 | Maintained by Andy Chen |{" "}
-          <a href="http://localhost:3000/about" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline" }}>
+          Fall 2023 | Maintained and updated by Andy Chen |{" "}
+          <a href="/about" style={{ color: "inherit", textDecoration: "underline" }}>
             About
           </a>
         </p>
