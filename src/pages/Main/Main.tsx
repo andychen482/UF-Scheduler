@@ -483,7 +483,7 @@ const Main = () => {
       >
         <p>
           Fall 2023 | Maintained and updated by Andy Chen |{" "}
-          <a href="/about" style={{ color: "inherit", textDecoration: "underline" }}>
+          <a href="/#/about" style={{ color: "inherit", textDecoration: "underline" }}>
             About
           </a>
         </p>
