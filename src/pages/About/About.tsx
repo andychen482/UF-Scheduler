@@ -1,6 +1,5 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import LinkedInProfileBadge from "react-linkedin-profile-badge";
 import Footer from "../../components/Footer/Footer";
 import "./AboutStyles.css";
 
@@ -60,52 +59,63 @@ const AboutPage: React.FC = () => {
               marginBottom: "20px",
             }}
           >
-            UF Scheduler is a website that aims to help students
-            plan their schedules. It is not affiliated with the University of
-            Florida.
+            UF Scheduler is a website that aims to help students plan their
+            schedules. It is not affiliated with the University of Florida.
           </p>
-          {/* <p style={{ color: "white", lineHeight: "1.6", fontSize: "1.2em" }}>
-            Check out the project on{" "}
-            <FontAwesomeIcon icon={faGithub} style={{ marginLeft: "5px" }} />{" "}
-            <a
-              href="https://github.com/andychen482/UF-Scheduler"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "#58a6ff" }}
-            >
-              GitHub
-            </a>
-            .
-          </p> */}
-          <h1
+          <div
             style={{
-              color: "white",
-              fontSize: "1.75em",
-              marginBottom: "10px",
-              marginTop: "20px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "start",
             }}
           >
-            Contributors
-          </h1>
-          <p style={{ color: "white", lineHeight: "1.6", fontSize: "1.2em" }}>
-            Surya Karthikeyan Vijayalakshmi
-          </p>
-          <p style={{ color: "white", lineHeight: "1.6", fontSize: "1.2em" }}>
-            Daniel Urbonas
-          </p>
-          <h1
-            style={{
-              color: "white",
-              fontSize: "1.75em",
-              marginBottom: "10px",
-              marginTop: "20px",
-            }}
-          >
-            Contact
-          </h1>
-          <a href = "mailto: andy.chen@ufl.edu" style={{ color: "white", lineHeight: "1.6", fontSize: "1.2em" }}>
-            andy.chen@ufl.edu
-          </a>
+            <div>
+              <h1
+                style={{
+                  color: "white",
+                  fontSize: "1.75em",
+                  marginBottom: "10px",
+                  marginTop: "20px",
+                }}
+              >
+                Contributors
+              </h1>
+              <p
+                style={{ color: "white", lineHeight: "1.6", fontSize: "1.2em" }}
+              >
+                Surya Karthikeyan Vijayalakshmi
+              </p>
+              <p
+                style={{ color: "white", lineHeight: "1.6", fontSize: "1.2em" }}
+              >
+                Daniel Urbonas
+              </p>
+              <h1
+                style={{
+                  color: "white",
+                  fontSize: "1.75em",
+                  marginBottom: "10px",
+                  marginTop: "20px",
+                }}
+              >
+                Contact
+              </h1>
+              <a
+                href="mailto: andy.chen@ufl.edu"
+                style={{ color: "white", lineHeight: "1.6", fontSize: "1.2em" }}
+              >
+                andy.chen@ufl.edu
+              </a>
+            </div>
+            <div>
+              <LinkedInProfileBadge
+                profileId="andy-chen67"
+                theme="dark"
+                size="large"
+                orientation="horizontal"
+              />
+            </div>
+          </div>
         </div>
         <Footer />
       </div>
