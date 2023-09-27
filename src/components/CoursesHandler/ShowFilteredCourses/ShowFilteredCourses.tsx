@@ -209,12 +209,12 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
               <React.Fragment key={index}>
                 <div className="flex items-center w-full justify-between">
                   <div
-                    className={courseCard}
-                    // onClick={(e) => handleCourseCardClick(e, firstCourse)}
+                    className={`${courseCard} cursor-pointer`}
+                    onClick={(e) => handleCourseCardClick(e, firstCourse)}
                   >
                     <div
-                      className="cursor-pointer"
-                      onClick={(e) => handleCourseCardClick(e, firstCourse)}
+                      // className="cursor-pointer"
+                      // onClick={(e) => handleCourseCardClick(e, firstCourse)}
                     >
                       <div className="flex flex-row text-white dark:text-white items-center justify-evenly w-full h-6 p-1 m-0">
                         {firstCourse.termInd !== " " &&
