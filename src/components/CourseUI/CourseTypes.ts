@@ -7,6 +7,7 @@ export type MeetingTime = {
   meetTimeBegin: string;
   meetTimeEnd: string;
   meetBuilding: string;
+  meetBldgCode: string;
   meetRoom: string | number;
 };
 

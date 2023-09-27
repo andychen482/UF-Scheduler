@@ -31,6 +31,7 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
   const finalExam = "";
   const [color, setColor] = useState("#1f4da8");
   const [isFormValid, setIsFormValid] = useState(false);
+  const meetBldgCode = "";
 
   useEffect(() => {
     const isValid =
@@ -78,6 +79,7 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
           meetTimeEnd: meetTimeEnd,
           meetBuilding,
           meetRoom,
+          meetBldgCode,
         },
       ],
       finalExam,

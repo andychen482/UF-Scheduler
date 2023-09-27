@@ -135,7 +135,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
                 className={`ml-2 text-gray-200 dark:text-gray-200`}
               >
                 <strong>{meetingTime.meetDays.join(", ")}: </strong> &nbsp;{" "}
-                {convertTo12HourFormat(meetingTime.meetTimeBegin)} - {convertTo12HourFormat(meetingTime.meetTimeEnd)}
+                {convertTo12HourFormat(meetingTime.meetTimeBegin)} - {convertTo12HourFormat(meetingTime.meetTimeEnd)} @ {meetingTime.meetBuilding} {meetingTime.meetBldgCode}
               </div>
             ))
           ) : (

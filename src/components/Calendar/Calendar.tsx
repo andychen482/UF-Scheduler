@@ -5,7 +5,7 @@ import { Paper } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
 import { grey, indigo } from "@mui/material/colors";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import Select from "react-select";
 import { addDays, format, startOfWeek } from "date-fns";
@@ -106,6 +106,7 @@ const generateICSContent = (appointments: any[]) => {
     icsContent += `RRULE:FREQ=WEEKLY;UNTIL=${convertToICSFormat(appointment.finalExam)}\n`
     icsContent += `UID:${appointment.id.replace(" ", "")}@example.com\n`;
     icsContent += `SUMMARY:${appointment.title}\n`;
+    icsContent += `LOCATION:${appointment.location}\n`;
     icsContent += "END:VEVENT\n";
   }
 
@@ -138,6 +139,9 @@ const Calendar: React.FC<CalendarProps> = ({
     label: string;
   } | null>(null);
   const [isLoadingSort, setIsLoadingSort] = useState(false);
+  const [locations, setLocations] = useState<any[]>([]);
+  const prevSelectedCoursesRef = useRef<Course[]>();
+  const prevCustomAppointmentsRef = useRef<any[]>();
 
   let resources: any[] = [
     {
@@ -145,6 +149,12 @@ const Calendar: React.FC<CalendarProps> = ({
       title: "classNumber",
       allowMultiple: false,
       instances: [...instancesThis],
+    },
+    {
+      fieldName: "location",
+      title: "Location",
+      allowMultiple: false,
+      instances: [...locations],
     },
   ];
 
@@ -205,6 +215,13 @@ const Calendar: React.FC<CalendarProps> = ({
             color: `${section.color}`,
           });
         }
+        for (let meetTime of section.meetTimes) {
+          locations.push({
+            id: `${meetTime.meetBuilding} ${meetTime.meetBldgCode}`,
+            text: `${meetTime.meetBuilding} ${meetTime.meetBldgCode}`,
+            color: `${section.color}`,
+          });
+        }
       }
     }
     return arrays.reduce<Section[][]>(
@@ -220,10 +237,7 @@ const Calendar: React.FC<CalendarProps> = ({
     () => getAllSelectedSections(),
     [selectedCourses]
   );
-  // const allCombinations = useMemo(
-  //   () => generateAllCombinations(allSelectedSections),
-  //   [allSelectedSections, customAppointments]
-  // );
+
   const [allCombinations, setAllCombinations] = useState<Section[][]>(() =>
     generateAllCombinations(allSelectedSections)
   );
@@ -251,9 +265,11 @@ const Calendar: React.FC<CalendarProps> = ({
         const title = `${section.courseName}`;
         const { color, meetTimes } = section;
 
-        for (let { meetDays, meetTimeBegin, meetTimeEnd } of meetTimes) {
+        for (let { meetDays, meetTimeBegin, meetTimeEnd, meetBuilding, meetBldgCode } of meetTimes) {
           const startDateBase = meetTimeBegin;
           const endDateBase = meetTimeEnd;
+          const building = meetBuilding;
+          const room = meetBldgCode;
 
           for (let day of meetDays) {
             const date = dayMapping.get(day);
@@ -284,6 +300,8 @@ const Calendar: React.FC<CalendarProps> = ({
 
             const finalExam = section.finalExam;
 
+            const location = `${building} ${room}`;
+
             // Adding the current appointment to the interval tree
             intervalTree.insert(interval, { title, color });
             appointments.push({
@@ -294,6 +312,7 @@ const Calendar: React.FC<CalendarProps> = ({
               title,
               color,
               finalExam,
+              location
             });
           }
         }
@@ -316,12 +335,17 @@ const Calendar: React.FC<CalendarProps> = ({
 
     const newCalendars = createCalendars(lastIndex, 5); // Assuming you want to generate 5 calendars at a time
 
+    console.log("newCalendars");
+    console.log(newCalendars);
+
     if (newCalendars.length === 0) {
       setHasMoreItems(false); // No more valid combinations, stop loading
       setIsLoading(false);
       return;
     }
     setCurrentCalendars([...currentCalendars, ...newCalendars]);
+    console.log("currentCalendars");
+    console.log(currentCalendars);
     setIsLoading(false); // Set loading state to false
   };
 
@@ -493,15 +517,26 @@ const Calendar: React.FC<CalendarProps> = ({
       setAllCombinations(sortedCombinations);
       setCurrentCalendars([]);
       setLastIndex(0);
+      setHasMoreItems(true);
       setIsLoadingSort(false); // Set loading state to false at the end
     }, 0);
   };
 
   useEffect(() => {
-    setCurrentCalendars([]);
-    setLastIndex(0);
-    setHasMoreItems(true);
-    setSelectedSortOption(null);
+    // Step 2: Compare the current values with the previous values
+    if (
+      JSON.stringify(prevSelectedCoursesRef.current) !== JSON.stringify(selectedCourses) ||
+      JSON.stringify(prevCustomAppointmentsRef.current) !== JSON.stringify(customAppointments)
+    ) {
+      setCurrentCalendars([]);
+      setLastIndex(0);
+      setHasMoreItems(true);
+      setSelectedSortOption(null);
+    }
+
+    // Step 4: Update the reference values
+    prevSelectedCoursesRef.current = selectedCourses;
+    prevCustomAppointmentsRef.current = customAppointments;
   }, [selectedCourses, customAppointments]);
 
   return (
