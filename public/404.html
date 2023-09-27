@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 Not Found</title>
+    <!-- Include Tailwind CSS from CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @keyframes gradientBackground {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .animated-background {
+        background: linear-gradient(270deg, #ae320f, #000000, #001a81, #000000);
+        background-size: 600% 600%;
+        animation: gradientBackground 25s infinite;
+      }
+      .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgb(32, 34, 37);
+        color: white;
+        height: 43px;
+        text-align: right;
+        font-size: large;
+        z-index: 1000;
+        border-bottom: 0.5px solid #ccc;
+        align-items: center;
+        display: flex;
+        padding: 0 10px; /* Added padding */
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header flex gap-x-5 justify-end bg-[rgb(32,34,37)]">
+      <div class="mr-2">
+        <a href="https://ufscheduler.com">
+          <span class="font-semibold text-blue-500">UF</span>
+          <span class="font-semibold text-orange-500">Scheduler</span>
+        </a>
+      </div>
+    </header>
+    <div class="animated-background" style="min-height: 100vh; padding: 50px">
+      <div style="max-width: 800px; margin: 0 auto">
+        <h1
+          style="
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            margin-top: 40px;
+          "
+        >
+          How did you get here?
+        </h1>
+        <p
+          style="
+            color: white;
+            line-height: 1.6;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+          "
+        >
+          404 not found.
+        </p>
+      </div>
+      <div
+        class="text-white text-xs w-full"
+        style="
+          position: fixed;
+          bottom: 0px;
+          left: 50%;
+          transform: translate(-50%, 0%);
+          text-align: center;
+          z-index: 1000;
+        "
+      >
+        <p>
+          Updated to Fall 2023 | Created by Andy Chen |
+          <a
+            href="https://ufscheduler.com/about"
+            style="color: inherit; text-decoration: underline"
+            >About</a
+          >
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

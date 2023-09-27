@@ -1,15 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Footer from "../../components/Footer/Footer";
 import "../About/AboutStyles.css"
 
 const Fourohfour: React.FC = () => {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      window.location.href = "/";
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, []);
   return (
     <>
       <header className="header flex gap-x-5 justify-end">
@@ -45,7 +38,7 @@ const Fourohfour: React.FC = () => {
               marginBottom: "20px",
             }}
           >
-            Sending you back to the home page...
+            404 not found.
           </p>
         </div>
         <Footer />
