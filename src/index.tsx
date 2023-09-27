@@ -4,8 +4,10 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import ReactGA from 'react-ga4';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+ReactGA.initialize("G-9KSSSDD2TJ");
 root.render(
   <React.StrictMode>
     <BrowserRouter>
@@ -14,7 +16,22 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+type WebVitalMetric = {
+  id: string;
+  name: string;
+  value: number;
+};
+
+const sendToGoogleAnalytics = (metric: WebVitalMetric) => {
+  const { id, name, value } = metric;
+
+  ReactGA.send({
+    hitType: 'event',
+    eventCategory: 'Web Vitals',
+    eventAction: name,
+    eventLabel: id,
+    eventValue: Math.round(name === 'CLS' ? value * 1000 : value),
+  });
+};
+
+reportWebVitals(sendToGoogleAnalytics);
