@@ -9,8 +9,8 @@ const AboutPage: React.FC = () => {
       <header className="header flex gap-x-5 justify-end">
         <div className="mr-2">
           <a href="/">
-            <span className="title font-semibold text-blue-500">UF</span>
-            <span className="title font-semibold text-orange-500">
+            <span className="font-semibold text-blue-500">UF</span>
+            <span className="font-semibold text-orange-500">
               Scheduler
             </span>
           </a>
