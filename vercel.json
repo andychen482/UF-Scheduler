@@ -1,7 +1,0 @@
-{
-    "routes": [
-      { "src": "^/$", "dest": "/index.html" },
-      { "src": "^/about$", "dest": "/index.html" },
-      { "src": "/(.*)", "status": 404, "dest": "/index.html" }
-    ]
-  }
