@@ -17,7 +17,14 @@ import Footer from "../../components/Footer/Footer";
 cytoscape.use(klay);
 
 const Main = () => {
-  const [selectedMajor, setSelectedMajor] = useState<string | null>(null);
+  const [selectedMajor, setSelectedMajor] = useState<string | null>(() => {
+    const storedSelectedMajor = localStorage.getItem("selectedMajor");
+    if (storedSelectedMajor) {
+      return storedSelectedMajor;
+    } else {
+      return null;
+    }
+  });
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [searchTerm, setSearchTerm] = useState("");

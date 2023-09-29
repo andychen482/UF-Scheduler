@@ -64,16 +64,19 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
     }
   }, [customAppointments, hasBeenLoaded]);
 
-  useEffect(() => {
-    const storedSelectedMajor = localStorage.getItem("selectedMajor");
-    if (storedSelectedMajor) {
-      setSelectedMajor(JSON.parse(storedSelectedMajor));
-    }
-  }, [setSelectedMajor]);
+  // useEffect(() => {
+  //   const storedSelectedMajor = localStorage.getItem("selectedMajor");
+  //   if (storedSelectedMajor) {
+  //     setSelectedMajor(JSON.parse(storedSelectedMajor));
+  //   }
+  // }, [setSelectedMajor]);
 
   useEffect(() => {
-    if (selectedMajor){
-      localStorage.setItem("selectedMajor", JSON.stringify(selectedMajor));
+    if (selectedMajor !== undefined && selectedMajor !== null){
+      localStorage.setItem("selectedMajor", selectedMajor);
+    }
+    else {
+      localStorage.setItem("selectedMajor", "");
     }
   }, [selectedMajor]);
 
