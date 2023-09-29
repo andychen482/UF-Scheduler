@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import CoursesHandler from "../../components/CoursesHandler/CoursesHandler";
 import "./CourseDisplay.css";
-import { MainClasses } from "./MainClasses";
 import { Course } from "../../components/CourseUI/CourseTypes";
 import cytoscape from "cytoscape";
 import { GraphData } from "../../components/Cytoscape/cytoscapeTypes";
@@ -12,12 +11,12 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Header from "../../components/Header/Header";
 import LikedSelectedCourses from "../../components/CoursesHandler/LikedSelectedCourses";
 import { AiOutlineClose } from "react-icons/ai";
+import { PiPlusBold } from "react-icons/pi";
 import Footer from "../../components/Footer/Footer";
 
 cytoscape.use(klay);
 
 const Main = () => {
-  const { container } = MainClasses;
   const [selectedMajor, setSelectedMajor] = useState<string | null>(null);
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
@@ -34,6 +33,19 @@ const Main = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [customAppointments, setCustomAppointments] = useState<any[]>([]);
+  const [showInstructions, setShowInstructions] = useState(false);
+
+  useEffect(() => {
+    // Check if the user has been shown the instructions before
+    if (!localStorage.getItem("hasShownInstructions")) {
+      setShowInstructions(true);
+    }
+  }, []);
+
+  const handleCloseInstructions = () => {
+    setShowInstructions(false);
+    localStorage.setItem("hasShownInstructions", "true");
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -401,6 +413,42 @@ const Main = () => {
         onClick={() => setIsDrawerOpen(false)}
       ></div>
       <div className="content-wrapper">
+        {showInstructions && (
+          <div className="instructions-popup">
+            <AiOutlineClose
+              className="close-icon"
+              onClick={handleCloseInstructions}
+            />
+            <div className="text-center font-bold mb-2 text-lg">
+              <span>Welcome to </span>
+              <span className="text-blue-500">UF</span>
+              <span className="text-orange-500">Scheduler!</span>
+            </div>
+            <p className="mb-2">
+              The graph tab visualizes the prerequisites for each department.
+            </p>
+            <p className="mb-2">
+              The calendar tab generates all your possible schedules with
+              options to sort and download.
+            </p>
+            <div className="inline-content mb-2">
+              <p>
+                To add courses, type in the search box and press on the&nbsp;
+              </p>
+              <PiPlusBold />
+              <p>&nbsp;buttons.</p>
+            </div>
+            <div className="mb-2">
+              <span>
+                Courses can be removed by clicking on the course badges in the{" "}
+              </span>
+              <span className="underline">Courses</span>
+              <span>&nbsp;list on the left</span>
+            </div>
+            <p>Custom events and ics downloads are supported.</p>
+          </div>
+        )}
+
         <div className="flex flexImage course-display bg-gray-900">
           {windowWidth < 1001 ? (
             <div
@@ -425,7 +473,10 @@ const Main = () => {
           ) : (
             <div
               className="selected-courses overflow-auto"
-              style={{ height: "calc(100vh - 40px)", background: "rgb(27,27,27)" }}
+              style={{
+                height: "calc(100vh - 40px)",
+                background: "rgb(27,27,27)",
+              }}
             >
               <LikedSelectedCourses
                 selectedCourses={selectedCourses}
@@ -437,7 +488,9 @@ const Main = () => {
               />
             </div>
           )}
-          <div className={`flex flex-col items-start basis-full dark:bg-gray-800 transition-colors duration-500 overflow-y-auto p-0 rounded-none courses-handler`}>
+          <div
+            className={`flex flex-col items-start basis-full dark:bg-gray-800 transition-colors duration-500 overflow-y-auto p-0 rounded-none courses-handler`}
+          >
             <CoursesHandler
               selectedCourses={selectedCourses}
               setSelectedCourses={setSelectedCourses}
@@ -471,7 +524,7 @@ const Main = () => {
           )}
         </div>
       </div>
-<Footer />
+      <Footer />
     </div>
   );
 };

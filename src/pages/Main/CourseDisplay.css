@@ -8,6 +8,42 @@
   min-height: calc(100vh - 43px);
 }
 
+.instructions-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: black;
+  color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: fit-content;
+  border-radius: 5px;
+}
+
+.inline-content {
+  display: flex;
+  align-items: center;
+}
+
+
+.close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: red;
+  transition: transform 0.2s;
+}
+
+.close-icon:hover {
+  transform: scale(0.9);
+}
+
+
+
 .courses-handler {
   display: flex;
   justify-content: center;
