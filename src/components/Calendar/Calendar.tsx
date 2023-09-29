@@ -491,75 +491,83 @@ const Calendar: React.FC<CalendarProps> = ({
           </div>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "end",
-            marginBottom: "25px",
-            marginRight: "30px",
-          }}
-        >
-          {!areAppointmentsEqual(
-            selectedCalendar?.appointments,
-            appointments
-          ) ? (
-            <button
-              onClick={() => setSelectedCalendar({ appointments, combination })}
+        {appointments.length > 0 && (
+          <>
+            <div
               style={{
-                padding: "5px",
-                fontSize: "16px",
-                borderRadius: "4px",
-                border: "none",
-                backgroundColor: "#008000",
-                color: "#fff",
-                cursor: "pointer",
-                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                marginTop: "7px",
-                height: "auto",
-                width: "auto",
-                marginLeft: "30px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "end",
+                marginBottom: "25px",
+                marginRight: "30px",
               }}
             >
-              Select
-            </button>
-          ) : (
-            <button
-              onClick={() => setSelectedCalendar(null)}
-              style={{
-                padding: "5px",
-                fontSize: "16px",
-                borderRadius: "4px",
-                border: "none",
-                backgroundColor: "#D22B2B",
-                color: "#fff",
-                cursor: "pointer",
-                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                marginTop: "7px",
-                height: "auto",
-                width: "auto",
-                marginLeft: "30px",
-              }}
-            >
-              Deselect
-            </button>
-          )}
-          <button
-            onClick={() => {
-              const icsContent = generateICSContent(appointments);
-              const blob = new Blob([icsContent], { type: "text/calendar" });
-              const url = URL.createObjectURL(blob);
-              const a = document.createElement("a");
-              a.href = url;
-              a.download = "calendar.ics";
-              a.click();
-              URL.revokeObjectURL(url);
-            }}
-            className="text-white"
-          >
-            Download ICS
-          </button>
-        </div>
+              {!areAppointmentsEqual(
+                selectedCalendar?.appointments,
+                appointments
+              ) ? (
+                <button
+                  onClick={() =>
+                    setSelectedCalendar({ appointments, combination })
+                  }
+                  style={{
+                    padding: "5px",
+                    fontSize: "16px",
+                    borderRadius: "4px",
+                    border: "none",
+                    backgroundColor: "#008000",
+                    color: "#fff",
+                    cursor: "pointer",
+                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                    marginTop: "7px",
+                    height: "auto",
+                    width: "auto",
+                    marginLeft: "30px",
+                  }}
+                >
+                  Select
+                </button>
+              ) : (
+                <button
+                  onClick={() => setSelectedCalendar(null)}
+                  style={{
+                    padding: "5px",
+                    fontSize: "16px",
+                    borderRadius: "4px",
+                    border: "none",
+                    backgroundColor: "#D22B2B",
+                    color: "#fff",
+                    cursor: "pointer",
+                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                    marginTop: "7px",
+                    height: "auto",
+                    width: "auto",
+                    marginLeft: "30px",
+                  }}
+                >
+                  Deselect
+                </button>
+              )}
+              <button
+                onClick={() => {
+                  const icsContent = generateICSContent(appointments);
+                  const blob = new Blob([icsContent], {
+                    type: "text/calendar",
+                  });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = "calendar.ics";
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }}
+                className="text-white"
+              >
+                Download ICS
+              </button>
+            </div>
+          </>
+        )}
       </>
     );
   };
