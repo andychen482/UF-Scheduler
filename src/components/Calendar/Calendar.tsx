@@ -103,7 +103,8 @@ const generateICSContent = (appointments: any[]) => {
     icsContent += "BEGIN:VEVENT\n";
     icsContent += `DTSTART:${startDate}\n`;
     icsContent += `DTEND:${endDate}\n`;
-    icsContent += `RRULE:FREQ=WEEKLY;UNTIL=${convertToICSFormat(appointment.finalExam)}\n`
+    // icsContent += `RRULE:FREQ=WEEKLY;UNTIL=${convertToICSFormat(appointment.finalExam)}\n`
+    icsContent += "RRULE:FREQ=WEEKLY\n";
     icsContent += `UID:${appointment.id.replace(" ", "")}@example.com\n`;
     icsContent += `SUMMARY:${appointment.title}\n`;
     icsContent += `LOCATION:${appointment.location}\n`;
@@ -298,7 +299,7 @@ const Calendar: React.FC<CalendarProps> = ({
               break combinationLoop;
             }
 
-            const finalExam = section.finalExam;
+            // const finalExam = section.finalExam;
 
             const location = `${building} ${room}`;
 
@@ -311,7 +312,7 @@ const Calendar: React.FC<CalendarProps> = ({
               classNumber,
               title,
               color,
-              finalExam,
+              // finalExam,
               location
             });
           }
