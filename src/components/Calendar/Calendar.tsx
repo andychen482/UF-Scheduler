@@ -42,6 +42,17 @@ const dayMapping = new Map([
   ["F", getDayDate(5)],
 ]);
 
+function areAppointmentsEqual(appointments1?: any[], appointments2?: any[]) {
+  if (!appointments1 || !appointments2) return false;
+  if (appointments1.length !== appointments2.length) return false;
+  for (let i = 0; i < appointments1.length; i++) {
+    if (JSON.stringify(appointments1[i]) !== JSON.stringify(appointments2[i])) {
+      return false;
+    }
+  }
+  return true;
+}
+
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
     mode,
@@ -69,9 +80,9 @@ const getDesignTokens = (mode: PaletteMode) => ({
 const darkModeTheme = createTheme(getDesignTokens("dark"));
 
 function convertToICSFormat(dateStr?: string): string | null {
-  if (typeof dateStr !== 'string') {
-      console.error('Invalid input to convertToICSFormat:', dateStr);
-      return null;
+  if (typeof dateStr !== "string") {
+    console.error("Invalid input to convertToICSFormat:", dateStr);
+    return null;
   }
 
   // Extract the date and time parts from the input string
@@ -83,13 +94,17 @@ function convertToICSFormat(dateStr?: string): string | null {
 
   // Adjust hours based on AM/PM
   if (period === "PM" && hours !== 12) {
-      hours += 12;
+    hours += 12;
   } else if (period === "AM" && hours === 12) {
-      hours = 0;
+    hours = 0;
   }
 
   // Convert to ICS format
-  const icsDate = `${year}${String(month).padStart(2, '0')}${String(day).padStart(2, '0')}T${String(hours).padStart(2, '0')}${String(minutes).padStart(2, '0')}00`;
+  const icsDate = `${year}${String(month).padStart(2, "0")}${String(
+    day
+  ).padStart(2, "0")}T${String(hours).padStart(2, "0")}${String(
+    minutes
+  ).padStart(2, "0")}00`;
   return icsDate;
 }
 
@@ -103,6 +118,7 @@ const generateICSContent = (appointments: any[]) => {
     icsContent += "BEGIN:VEVENT\n";
     icsContent += `DTSTART:${startDate}\n`;
     icsContent += `DTEND:${endDate}\n`;
+    //wait until final exam dates are finalized
     // icsContent += `RRULE:FREQ=WEEKLY;UNTIL=${convertToICSFormat(appointment.finalExam)}\n`
     icsContent += "RRULE:FREQ=WEEKLY\n";
     icsContent += `UID:${appointment.id.replace(" ", "")}@example.com\n`;
@@ -114,6 +130,11 @@ const generateICSContent = (appointments: any[]) => {
   icsContent += "END:VCALENDAR";
   return icsContent;
 };
+
+type SelectedCalendarType = {
+  appointments: any[];
+  combination: Section[];
+} | null;
 
 interface CalendarProps {
   selectedCourses: Course[];
@@ -144,6 +165,26 @@ const Calendar: React.FC<CalendarProps> = ({
   const prevSelectedCoursesRef = useRef<Course[]>();
   const prevCustomAppointmentsRef = useRef<any[]>();
 
+  const [selectedCalendar, setSelectedCalendar] =
+    useState<SelectedCalendarType>(() => {
+      const storedValue = localStorage.getItem("selectedCalendar");
+      if (storedValue) {
+        try {
+          const parsedValue: SelectedCalendarType = JSON.parse(storedValue);
+          if (
+            parsedValue &&
+            Array.isArray(parsedValue.appointments) &&
+            Array.isArray(parsedValue.combination)
+          ) {
+            return parsedValue;
+          }
+        } catch (error) {
+          return null;
+        }
+      }
+      return null;
+    });
+
   let resources: any[] = [
     {
       fieldName: "classNumber",
@@ -166,6 +207,15 @@ const Calendar: React.FC<CalendarProps> = ({
     { value: "latestEnd", label: "Latest End" },
     { value: "mostCompact", label: "Most Compact" },
   ];
+
+  useEffect(() => {
+    if (selectedCalendar !== undefined) {
+      localStorage.setItem(
+        "selectedCalendar",
+        JSON.stringify(selectedCalendar)
+      );
+    }
+  }, [selectedCalendar]);
 
   // Step 1: Identify selected sections
   const getAllSelectedSections = () => {
@@ -266,7 +316,13 @@ const Calendar: React.FC<CalendarProps> = ({
         const title = `${section.courseName}`;
         const { color, meetTimes } = section;
 
-        for (let { meetDays, meetTimeBegin, meetTimeEnd, meetBuilding, meetBldgCode } of meetTimes) {
+        for (let {
+          meetDays,
+          meetTimeBegin,
+          meetTimeEnd,
+          meetBuilding,
+          meetBldgCode,
+        } of meetTimes) {
           const startDateBase = meetTimeBegin;
           const endDateBase = meetTimeEnd;
           const building = meetBuilding;
@@ -313,7 +369,7 @@ const Calendar: React.FC<CalendarProps> = ({
               title,
               color,
               // finalExam,
-              location
+              location,
             });
           }
         }
@@ -434,23 +490,76 @@ const Calendar: React.FC<CalendarProps> = ({
             </ThemeProvider>
           </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'end', alignItems: 'end',  marginBottom: '25px', marginRight: '30px' }}>
-        <button
-          onClick={() => {
-            const icsContent = generateICSContent(appointments);
-            const blob = new Blob([icsContent], { type: "text/calendar" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "calendar.ics";
-            a.click();
-            URL.revokeObjectURL(url);
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "end",
+            marginBottom: "25px",
+            marginRight: "30px",
           }}
-          className="text-white"
         >
-          Download ICS
-        </button>
-      </div>
+          {!areAppointmentsEqual(
+            selectedCalendar?.appointments,
+            appointments
+          ) ? (
+            <button
+              onClick={() => setSelectedCalendar({ appointments, combination })}
+              style={{
+                padding: "5px",
+                fontSize: "16px",
+                borderRadius: "4px",
+                border: "none",
+                backgroundColor: "#008000",
+                color: "#fff",
+                cursor: "pointer",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                marginTop: "7px",
+                height: "auto",
+                width: "auto",
+                marginLeft: "30px",
+              }}
+            >
+              Select
+            </button>
+          ) : (
+            <button
+              onClick={() => setSelectedCalendar(null)}
+              style={{
+                padding: "5px",
+                fontSize: "16px",
+                borderRadius: "4px",
+                border: "none",
+                backgroundColor: "#D22B2B",
+                color: "#fff",
+                cursor: "pointer",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                marginTop: "7px",
+                height: "auto",
+                width: "auto",
+                marginLeft: "30px",
+              }}
+            >
+              Deselect
+            </button>
+          )}
+          <button
+            onClick={() => {
+              const icsContent = generateICSContent(appointments);
+              const blob = new Blob([icsContent], { type: "text/calendar" });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url;
+              a.download = "calendar.ics";
+              a.click();
+              URL.revokeObjectURL(url);
+            }}
+            className="text-white"
+          >
+            Download ICS
+          </button>
+        </div>
       </>
     );
   };
@@ -526,8 +635,10 @@ const Calendar: React.FC<CalendarProps> = ({
   useEffect(() => {
     // Step 2: Compare the current values with the previous values
     if (
-      JSON.stringify(prevSelectedCoursesRef.current) !== JSON.stringify(selectedCourses) ||
-      JSON.stringify(prevCustomAppointmentsRef.current) !== JSON.stringify(customAppointments)
+      JSON.stringify(prevSelectedCoursesRef.current) !==
+        JSON.stringify(selectedCourses) ||
+      JSON.stringify(prevCustomAppointmentsRef.current) !==
+        JSON.stringify(customAppointments)
     ) {
       setCurrentCalendars([]);
       setLastIndex(0);
@@ -635,6 +746,17 @@ const Calendar: React.FC<CalendarProps> = ({
             }
             useWindow={false}
           >
+            {/* Step 3: If selectedCalendar is not empty, display it first */}
+            {selectedCalendar && (
+              <>
+                <div className="bg-gray-800 pt-4 pb-[1px]">
+                  <p className="text-white text-lg font-bold ml-[30px] mb-[10px]">
+                    Selected Calendar
+                  </p>
+                  <div>{renderCalendar(selectedCalendar, -1)}</div>
+                </div>
+              </>
+            )}
             <div className="flex flex-col mt-2">
               {currentCalendars.map(({ appointments, combination }, index) => (
                 <div key={index}>

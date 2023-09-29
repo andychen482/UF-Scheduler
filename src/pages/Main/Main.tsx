@@ -98,7 +98,7 @@ const Main = () => {
     if (storedGraphData) {
       setGraphData(JSON.parse(storedGraphData));
     }
-  }, [setGraphData]);
+  }, []);
 
   useEffect(() => {
     if (graphData) {
