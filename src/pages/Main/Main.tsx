@@ -438,12 +438,12 @@ const Main = () => {
               The calendar tab generates all your possible schedules with
               options to sort and download.
             </p>
-            <div className="inline-content mb-2">
-              <p>
+            <div className="mb-2">
+              <span>
                 To add courses, type in the search box and press on the&nbsp;
-              </p>
-              <PiPlusBold />
-              <p>&nbsp;buttons.</p>
+              </span>
+              <span className="font-bold text-xl">+&nbsp;</span>
+              <span>buttons.</span>
             </div>
             <div className="mb-2">
               <span>

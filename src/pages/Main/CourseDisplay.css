@@ -281,3 +281,6 @@
   display: none; /* Hide when the drawer is closed */
 }
 
+.nowrap {
+  white-space: nowrap;
+}
