@@ -79,6 +79,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
 
 const darkModeTheme = createTheme(getDesignTokens("dark"));
 
+//For calendar ICS to stop on final exam (add back when final exam dates are finalized)
 function convertToICSFormat(dateStr?: string): string | null {
   if (typeof dateStr !== "string") {
     console.error("Invalid input to convertToICSFormat:", dateStr);
@@ -409,17 +410,12 @@ const Calendar: React.FC<CalendarProps> = ({
 
     const newCalendars = createCalendars(lastIndex, 5); // Assuming you want to generate 5 calendars at a time
 
-    console.log("newCalendars");
-    console.log(newCalendars);
-
     if (newCalendars.length === 0) {
       setHasMoreItems(false); // No more valid combinations, stop loading
       setIsLoading(false);
       return;
     }
     setCurrentCalendars([...currentCalendars, ...newCalendars]);
-    console.log("currentCalendars");
-    console.log(currentCalendars);
     setIsLoading(false); // Set loading state to false
   };
 
