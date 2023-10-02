@@ -4,7 +4,7 @@
   "icons": [
     {
       "src": "ufschedulerlogo2.ico",
-      "sizes": "144x144",
+      "sizes": "16x16 32x32 48x48 144x144",
       "type": "image/x-icon"
     },
     {
