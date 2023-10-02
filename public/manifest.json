@@ -3,12 +3,12 @@
   "name": "UF Scheduler",
   "icons": [
     {
-      "src": "ufschedulerlogo.ico",
+      "src": "favicon.ico",
       "sizes": "16x16 32x32 48x48 144x144 192x192",
       "type": "image/x-icon"
     },
     {
-      "src": "ufschedulerlogo.png",
+      "src": "apple-touch-icon.png",
       "type": "image/png",
       "sizes": "180x180"
     }
