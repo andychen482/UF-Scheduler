@@ -112,12 +112,29 @@ const generateICSContent = (appointments: any[]) => {
   let icsContent =
     "BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nPRODID:-//YourCompany//YourApp//EN\n";
 
+  // Mapping between the days of the week and the corresponding dates in the target week
+  const dayToDateMapping: { [key: number]: string } = {
+    0: "20240107", // Sunday
+    1: "20240108", // Monday
+    2: "20240109", // Tuesday
+    3: "20240110", // Wednesday
+    4: "20240111", // Thursday
+    5: "20240112", // Friday
+    6: "20240113", // Saturday
+  };
+
   for (let appointment of appointments) {
-    const startDate = `${appointment.startDate.replace(/[-:]/g, "")}00`; // Append "00" for seconds
-    const endDate = `${appointment.endDate.replace(/[-:]/g, "")}00`; // Append "00" for seconds
+    // Extract the date and time parts from the startDate and endDate
+    const startDateParts = appointment.startDate.split("T");
+    const endDateParts = appointment.endDate.split("T");
+
+    // Replace the date part with the corresponding date in the target week
+    const newStartDate = dayToDateMapping[new Date(appointment.startDate).getUTCDay()] + "T" + startDateParts[1];
+    const newEndDate = dayToDateMapping[new Date(appointment.endDate).getUTCDay()] + "T" + endDateParts[1];
+
     icsContent += "BEGIN:VEVENT\n";
-    icsContent += `DTSTART:${startDate}\n`;
-    icsContent += `DTEND:${endDate}\n`;
+    icsContent += `DTSTART:${newStartDate.replace(/[-:]/g, "")}00\n`; // Append "00" for seconds
+    icsContent += `DTEND:${newEndDate.replace(/[-:]/g, "")}00\n`; // Append "00" for seconds
     //wait until final exam dates are finalized
     // icsContent += `RRULE:FREQ=WEEKLY;UNTIL=${convertToICSFormat(appointment.finalExam)}\n`
     icsContent += "RRULE:FREQ=WEEKLY;UNTIL=20240503T115900\n";
@@ -355,7 +372,7 @@ const Calendar: React.FC<CalendarProps> = ({
               break combinationLoop;
             }
 
-            // const finalExam = section.finalExam;
+            const finalExam = section.finalExam;
 
             const location = `${building} ${room}`;
 
@@ -368,7 +385,7 @@ const Calendar: React.FC<CalendarProps> = ({
               classNumber,
               title,
               color,
-              // finalExam,
+              finalExam,
               location,
             });
           }
