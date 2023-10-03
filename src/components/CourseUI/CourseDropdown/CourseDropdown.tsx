@@ -109,16 +109,13 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
           ) : (
             <strong>Instructor: </strong>
           )}
-          {section.instructors.length > 0 ? (
+          {
             section.instructors.map((instructor, index) => (
               <span key={index} className="text-gray-200 dark:text-gray-200">
                 {instructor.name}
                 {index < section.instructors.length - 1 ? ", " : ""}
               </span>
-            ))
-          ) : (
-            <span className="text-gray-200 dark:text-gray-200">N/A</span>
-          )}
+            ))}
         </div>
 
         {/* Meeting Times */}
@@ -166,7 +163,6 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
     >
       <div className="list-none">
         {course.sections
-          .filter((sections) => sections.instructors.length > 0)
           .map((section, index) => (
             <li
               key={index}
@@ -194,8 +190,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
               </div>
             </li>
           ))}
-        {course.sections.filter((section) => section.instructors.length > 0)
-          .length === 0 && (
+        {course.sections.length === 0 && (
           <div
             className={`${listItem} ${content} text-gray-200 dark:text-gray-200`}
           >
