@@ -406,21 +406,7 @@ const Main = () => {
 
   return (
     <div>
-      <Header
-        calendarView={calendarView}
-        graphView={graphView}
-        showDisplayWrite={showDisplayWrite}
-        selectedCourses={selectedCourses}
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
-        windowWidth={windowWidth}
-      />
-      <div
-        className={`overlay ${isDrawerOpen ? "open" : "closed"}`}
-        onClick={() => setIsDrawerOpen(false)}
-      ></div>
-      <div className="content-wrapper">
-        {showInstructions && (
+              {showInstructions && (
           <div className="instructions-popup">
             <AiOutlineClose
               className="close-icon"
@@ -456,6 +442,23 @@ const Main = () => {
             </p>
           </div>
         )}
+              {showInstructions && (
+        <div className={`overlay ${showInstructions ? "open" : "closed"}`} onClick={handleCloseInstructions}></div>
+      )}
+      <Header
+        calendarView={calendarView}
+        graphView={graphView}
+        showDisplayWrite={showDisplayWrite}
+        selectedCourses={selectedCourses}
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+        windowWidth={windowWidth}
+      />
+      <div
+        className={`overlay ${isDrawerOpen ? "open" : "closed"}`}
+        onClick={() => setIsDrawerOpen(false)}
+      ></div>
+      <div className="content-wrapper">
 
         <div className="flex flexImage course-display bg-gray-900">
           {windowWidth < 1001 ? (
