@@ -40,18 +40,18 @@ const Main = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [customAppointments, setCustomAppointments] = useState<any[]>([]);
-  const [showInstructions, setShowInstructions] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(true);
 
-  useEffect(() => {
-    // Check if the user has been shown the instructions before
-    if (!localStorage.getItem("hasShownInstructions")) {
-      setShowInstructions(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Check if the user has been shown the instructions before
+  //   if (!localStorage.getItem("hasShownInstructions")) {
+  //     setShowInstructions(true);
+  //   }
+  // }, []);
 
   const handleCloseInstructions = () => {
     setShowInstructions(false);
-    localStorage.setItem("hasShownInstructions", "true");
+    // localStorage.setItem("hasShownInstructions", "true");
   };
 
   useEffect(() => {
@@ -431,7 +431,7 @@ const Main = () => {
               <span className="text-blue-500">UF</span>
               <span className="text-orange-500">Scheduler!</span>
             </div>
-            <p className="text-md font-bold">Release Notes for 10/2/2023:</p>
+            <p className="text-md font-bold">Updated 10/3/2023:</p>
             <ul className="list-disc list-inside mb-2 space-y-2">
               <li>
                 The graph tab visualizes the prerequisites for each department.
