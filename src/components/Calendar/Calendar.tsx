@@ -252,14 +252,12 @@ const Calendar: React.FC<CalendarProps> = ({
         let allowedNoMeetTimeSection = true;
 
         return course.sections.filter((section) => {
-          if (section.instructors.length > 0) {
             if (section.meetTimes && section.meetTimes.length > 0) {
               return true;
             } else if (allowedNoMeetTimeSection) {
               allowedNoMeetTimeSection = false;
               return true;
             }
-          }
           return false;
         });
       }
