@@ -40,18 +40,18 @@ const Main = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [customAppointments, setCustomAppointments] = useState<any[]>([]);
-  const [showInstructions, setShowInstructions] = useState(true);
+  const [showInstructions, setShowInstructions] = useState(false);
 
-  // useEffect(() => {
-  //   // Check if the user has been shown the instructions before
-  //   if (!localStorage.getItem("hasShownInstructions")) {
-  //     setShowInstructions(true);
-  //   }
-  // }, []);
+  useEffect(() => {
+    // Check if the user has been shown the instructions before
+    if (!sessionStorage.getItem("hasShownInstructions")) {
+      setShowInstructions(true);
+    }
+  }, []);
 
   const handleCloseInstructions = () => {
     setShowInstructions(false);
-    // localStorage.setItem("hasShownInstructions", "true");
+    sessionStorage.setItem("hasShownInstructions", "true");
   };
 
   useEffect(() => {
@@ -406,44 +406,47 @@ const Main = () => {
 
   return (
     <div>
-              {showInstructions && (
-          <div className="instructions-popup">
-            <AiOutlineClose
-              className="close-icon"
-              onClick={handleCloseInstructions}
-            />
-            <div className="text-center font-bold mb-1 text-lg">
-              <span>Welcome to </span>
-              <span className="text-blue-500">UF</span>
-              <span className="text-orange-500">Scheduler!</span>
-            </div>
-            <p className="text-md font-bold">Updated 10/3/2023:</p>
-            <ul className="list-disc list-inside mb-2 space-y-2">
-              <li>
-                The graph tab visualizes the prerequisites for each department.
-              </li>
-              <li>
-                The calendar tab generates all possible schedules with options
-                to sort and download.
-              </li>
-              <li>
-                To add courses, type in the search box and press on the{" "}
-                <span className="font-bold text-xl">+ </span>buttons.
-              </li>
-              <li>
-                Courses can be removed by clicking on the course badges in the{" "}
-                <span className="underline">Courses</span> list on the left.
-              </li>
-              <li>Custom events and ics downloads are supported.</li>
-            </ul>
-            <p className="text-md mb-2">
-              Note: Spring 2024 is still being updated so schedules are subject
-              to change
-            </p>
+      {showInstructions && (
+        <div className="instructions-popup">
+          <AiOutlineClose
+            className="close-icon"
+            onClick={handleCloseInstructions}
+          />
+          <div className="text-center font-bold mb-1 text-lg">
+            <span>Welcome to </span>
+            <span className="text-blue-500">UF</span>
+            <span className="text-orange-500">Scheduler!</span>
           </div>
-        )}
-              {showInstructions && (
-        <div className={`overlay ${showInstructions ? "open" : "closed"}`} onClick={handleCloseInstructions}></div>
+          <p className="text-md font-bold">Updated 10/4/2023</p>
+          <p className="text-md mb-2">
+            Note: Spring 2024 is still being updated so schedules are subject to
+            change
+          </p>
+          <ul className="list-disc list-inside mb-2 space-y-2">
+            <li>
+              The graph tab visualizes the prerequisites for each department.
+            </li>
+            <li>
+              The calendar tab generates all possible schedules with options to
+              sort and download.
+            </li>
+            <li>
+              To add courses, type in the search box and press on the{" "}
+              <span className="font-bold text-xl">+ </span>buttons.
+            </li>
+            <li>
+              Courses can be removed by clicking on the course badges in the{" "}
+              <span className="underline">Courses</span> list on the left.
+            </li>
+            <li>Custom events and ics downloads are supported.</li>
+          </ul>
+        </div>
+      )}
+      {showInstructions && (
+        <div
+          className={`overlay ${showInstructions ? "open" : "closed"}`}
+          onClick={handleCloseInstructions}
+        ></div>
       )}
       <Header
         calendarView={calendarView}
@@ -459,7 +462,6 @@ const Main = () => {
         onClick={() => setIsDrawerOpen(false)}
       ></div>
       <div className="content-wrapper">
-
         <div className="flex flexImage course-display bg-gray-900">
           {windowWidth < 1001 ? (
             <div
