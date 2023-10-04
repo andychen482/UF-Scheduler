@@ -1,5 +1,7 @@
 export type Instructor = {
   name: string;
+  avgRating: number;
+  avgDifficulty: number;
 };
 
 export type MeetingTime = {

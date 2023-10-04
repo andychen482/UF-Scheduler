@@ -109,13 +109,15 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
           ) : (
             <strong>Instructor: </strong>
           )}
-          {
-            section.instructors.map((instructor, index) => (
-              <span key={index} className="text-gray-200 dark:text-gray-200">
-                {instructor.name}
-                {index < section.instructors.length - 1 ? ", " : ""}
-              </span>
-            ))}
+          {section.instructors.map((instructor, index) => (
+            <span key={index} className="text-gray-200 dark:text-gray-200">
+              {instructor.name}
+              {instructor.avgRating != null &&
+              (<span className="font-bold">{" "}-{" "}{instructor.avgRating} </span>)
+              }
+              {index < section.instructors.length - 1 ? ", " : ""}
+            </span>
+          ))}
         </div>
 
         {/* Meeting Times */}
@@ -132,7 +134,9 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
                 className={`ml-2 text-gray-200 dark:text-gray-200`}
               >
                 <strong>{meetingTime.meetDays.join(", ")}: </strong> &nbsp;{" "}
-                {convertTo12HourFormat(meetingTime.meetTimeBegin)} - {convertTo12HourFormat(meetingTime.meetTimeEnd)} @ {meetingTime.meetBuilding} {meetingTime.meetBldgCode}
+                {convertTo12HourFormat(meetingTime.meetTimeBegin)} -{" "}
+                {convertTo12HourFormat(meetingTime.meetTimeEnd)} @{" "}
+                {meetingTime.meetBuilding} {meetingTime.meetBldgCode}
               </div>
             ))
           ) : (
@@ -162,34 +166,33 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
       className={`bg-[#43464d] dark:bg-gray-800 rounded-lg space-y-2 text-[15px]`}
     >
       <div className="list-none">
-        {course.sections
-          .map((section, index) => (
-            <li
-              key={index}
-              className="my-2 rounded-sm bg-gray-800 border-gray-400 dark:border-gray-700"
-            >
-              <div className="space-y-2 p-2">
-                <div className="flex justify-between items-center">
-                  <div className="font-bold text-gray-200 dark:text-gray-200 flex items-center">
-                    Class # {section.classNumber}:
-                  </div>
-                  {/* Star Icon based on section selected status */}
-                  {isSectionSelected(section) ? (
-                    <BiSolidLockAlt
-                      className={`${minusicons}`}
-                      onClick={() => toggleSectionSelected(section)}
-                    />
-                  ) : (
-                    <BiSolidLockOpen
-                      className={`${icons}`}
-                      onClick={() => toggleSectionSelected(section)}
-                    />
-                  )}
+        {course.sections.map((section, index) => (
+          <li
+            key={index}
+            className="my-2 rounded-sm bg-gray-800 border-gray-400 dark:border-gray-700"
+          >
+            <div className="space-y-2 p-2">
+              <div className="flex justify-between items-center">
+                <div className="font-bold text-gray-200 dark:text-gray-200 flex items-center">
+                  Class # {section.classNumber}:
                 </div>
-                {renderSectionInformation(section)}
+                {/* Star Icon based on section selected status */}
+                {isSectionSelected(section) ? (
+                  <BiSolidLockAlt
+                    className={`${minusicons}`}
+                    onClick={() => toggleSectionSelected(section)}
+                  />
+                ) : (
+                  <BiSolidLockOpen
+                    className={`${icons}`}
+                    onClick={() => toggleSectionSelected(section)}
+                  />
+                )}
               </div>
-            </li>
-          ))}
+              {renderSectionInformation(section)}
+            </div>
+          </li>
+        ))}
         {course.sections.length === 0 && (
           <div
             className={`${listItem} ${content} text-gray-200 dark:text-gray-200`}
