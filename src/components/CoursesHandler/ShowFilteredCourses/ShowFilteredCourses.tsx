@@ -209,12 +209,12 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
               <React.Fragment key={index}>
                 <div className="flex items-center w-full justify-between">
                   <div
-                    className={`${courseCard} cursor-pointer`}
-                    onClick={(e) => handleCourseCardClick(e, firstCourse)}
+                    className={`${courseCard}`}
+                    // onClick={(e) => handleCourseCardClick(e, firstCourse)}
                   >
                     <div
-                      // className="cursor-pointer"
-                      // onClick={(e) => handleCourseCardClick(e, firstCourse)}
+                      className="cursor-pointer"
+                      onClick={(e) => handleCourseCardClick(e, firstCourse)}
                     >
                       <div className="flex flex-row text-white dark:text-white items-center justify-evenly w-full h-6 p-1 m-0">
                         {firstCourse.termInd !== " " &&
@@ -288,7 +288,6 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                           )}
                         </div>
                       </div>
-                    
                     <div className="text-sm font-normal text-gray-300 dark:text-white mx-1 line-clamp-1 overflow-ellipsis overflow-hidden">
                       {firstCourse.name}
                     </div>
@@ -304,10 +303,6 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                         </div>
                         <div>
                           <div className="w-[100%] opacity-100 visible transition-opacity my-1">
-                            {/* {courses.map((course, index) => (
-                      <CourseDropdown key={index} course={course} />
-                    ))} */}
-
                             <CourseDropdown
                               course={firstCourse}
                               selectedCourses={selectedCourses}
@@ -319,22 +314,6 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                     )}
                   </div>
                 </div>
-                {/* {isOpen && (
-                  <div>
-                    <div className="w-[100%] opacity-100 visible transition-opacity my-1">
-                      {courses.map((course, index) => (
-                      <CourseDropdown key={index} course={course} />
-                    ))}
-
-                      <CourseDropdown
-                        course={firstCourse}
-                        selectedCourses={selectedCourses}
-                        setSelectedCourses={setSelectedCourses}
-                        filteredCourses={filteredCourses}
-                      />
-                    </div>
-                  </div>
-                )} */}
               </React.Fragment>
             );
           })
