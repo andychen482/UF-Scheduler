@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useEffect } from "react";
-// import jsonData from "../../../courses/UF_Jun-30-2023_23_fall_clean.json";
 import { Course } from "../../CourseUI/CourseTypes";
 import CourseDropdown from "../../CourseUI/CourseDropdown/CourseDropdown";
 import { ShowFilteredCoursesClasses } from "./ShowFilteredCoursesClasses";
@@ -56,11 +55,6 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
 
     if (!isButtonClick) {
       // eslint-disable-next-line
-      const isSelected = selectedCourses.some(
-        (selectedCourse) =>
-          selectedCourse.code === course.code &&
-          selectedCourse.name === course.name
-      );
 
       toggleCourseDropdown(`${course.code}|${course.name}`);
 
@@ -161,13 +155,13 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
         const response = await axios.post(
           "https://ufscheduler.onrender.com/api/get_courses",
           {
-            // const response = await axios.post("http://localhost:5000/api/get_courses", {
+        // const response = await axios.post("http://localhost:5000/api/get_courses", {
             searchTerm: debouncedSearchTerm,
             itemsPerPage: itemsPerPage,
-            startFrom: 0, // assuming you want to paginate from the start when the search term changes
+            startFrom: 0,
           }
         );
-
+  
         setFilteredCourses(response.data);
       } catch (error) {
         console.error("Error fetching data", error);
@@ -179,7 +173,12 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     else {
       setFilteredCourses([]);
     }
+    
+    // Reset the open courses when the search term changes
+    setOpenCourseCode(null);
+  
   }, [debouncedSearchTerm]);
+  
 
   return (
     <div className="max-h-[calc(100vh-12.5rem)] overflow-auto mt-3">

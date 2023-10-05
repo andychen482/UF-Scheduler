@@ -99,10 +99,10 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
   };
 
   const getRatingColor = (rating: number | null): string => {
-    if (rating === null) return 'text-gray-200 dark:text-gray-200';  // Default
-    if (rating <= 2) return 'text-red-500';  // Red
-    if (rating < 4) return 'text-yellow-500';  // Yellow
-    return 'text-green-500';  // Green
+    if (rating === null) return "text-gray-200 dark:text-gray-200"; // Default
+    if (rating <= 2) return "text-red-500"; // Red
+    if (rating < 4) return "text-yellow-500"; // Yellow
+    return "text-green-500"; // Green
   };
 
   const renderSectionInformation = (section: Section) => {
@@ -116,17 +116,26 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
           ) : (
             <strong>Instructor: </strong>
           )}
-        {section.instructors.map((instructor, index) => (
+          {section.instructors.map((instructor, index) => (
             <span key={index} className="text-gray-200 dark:text-gray-200">
-              {instructor.name}{" "}-
+              {instructor.name}
               {instructor.avgRating != null && (
-                  <span className={`font-bold whitespace-nowrap ${getRatingColor(instructor.avgRating)}`}>
-                      {" "}{instructor.avgRating}/5
+                <>
+                  {" "}
+                  -
+                  <span
+                    className={`font-bold whitespace-nowrap ${getRatingColor(
+                      instructor.avgRating
+                    )}`}
+                  >
+                    {" "}
+                    {instructor.avgRating}/5
                   </span>
+                </>
               )}
               {index < section.instructors.length - 1 ? ", " : ""}
             </span>
-        ))}
+          ))}
         </div>
 
         {/* Meeting Times */}
