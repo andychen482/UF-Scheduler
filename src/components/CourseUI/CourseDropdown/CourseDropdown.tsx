@@ -113,7 +113,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
             <span key={index} className="text-gray-200 dark:text-gray-200">
               {instructor.name}
               {instructor.avgRating != null &&
-              (<span className="font-bold">{" "}-{" "}{instructor.avgRating} Rating</span>)
+              (<span className="font-bold">{" "}-{" "}{instructor.avgRating}/5 Rating</span>)
               }
               {index < section.instructors.length - 1 ? ", " : ""}
             </span>
