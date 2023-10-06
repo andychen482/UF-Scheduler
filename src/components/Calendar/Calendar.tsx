@@ -190,9 +190,7 @@ const Calendar: React.FC<CalendarProps> = ({
         try {
           const parsedValue: SelectedCalendarType = JSON.parse(storedValue);
           if (
-            parsedValue &&
-            Array.isArray(parsedValue.appointments) &&
-            Array.isArray(parsedValue.combination)
+            parsedValue
           ) {
             return parsedValue;
           }
@@ -227,7 +225,7 @@ const Calendar: React.FC<CalendarProps> = ({
   ];
 
   useEffect(() => {
-    if (selectedCalendar !== undefined) {
+    if (selectedCalendar !== undefined && selectedCalendar !== null) {
       localStorage.setItem(
         "selectedCalendar",
         JSON.stringify(selectedCalendar)
