@@ -52,17 +52,8 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
   }, [selectedCourses, hasBeenLoaded]);
 
   useEffect(() => {
-    const storedCustomAppointment = localStorage.getItem("customAppointments");
-    if (storedCustomAppointment) {
-      setCustomAppointments(JSON.parse(storedCustomAppointment));
-    }
-  }, [setCustomAppointments]);
-
-  useEffect(() => {
-    if (customAppointments.length > 0 || hasBeenLoaded){
       localStorage.setItem("customAppointments", JSON.stringify(customAppointments));
-    }
-  }, [customAppointments, hasBeenLoaded]);
+  }, [customAppointments]);
 
   // useEffect(() => {
   //   const storedSelectedMajor = localStorage.getItem("selectedMajor");

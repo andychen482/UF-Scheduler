@@ -39,7 +39,14 @@ const Main = () => {
   const [hasBeenLoaded, setLoaded] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [customAppointments, setCustomAppointments] = useState<any[]>([]);
+  const [customAppointments, setCustomAppointments] = useState<any[]>(() => {
+    const storedCustomAppointment = localStorage.getItem("customAppointments");
+    if (storedCustomAppointment) {
+      return JSON.parse(storedCustomAppointment);
+    } else {
+      return [];
+    }
+  });
   const [showInstructions, setShowInstructions] = useState(false);
 
   useEffect(() => {
