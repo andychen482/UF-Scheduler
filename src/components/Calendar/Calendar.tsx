@@ -668,6 +668,12 @@ const Calendar: React.FC<CalendarProps> = ({
     prevCustomAppointmentsRef.current = customAppointments;
   }, [selectedCourses, customAppointments]);
 
+  useEffect(() => {
+    // Load initial calendars when the component mounts
+    loadMoreCalendars();
+  }, []); // Empty dependency array means this useEffect runs once when component mounts
+  
+
   return (
     <div className="calendar-container">
       {isLoadingSort && <div className="spinner"></div>}
