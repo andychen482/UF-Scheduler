@@ -83,11 +83,6 @@ const AboutPage: React.FC = () => {
               <p
                 style={{ color: "white", lineHeight: "1.6", fontSize: "1.2em" }}
               >
-                Surya Karthikeyan Vijayalakshmi
-              </p>
-              <p
-                style={{ color: "white", lineHeight: "1.6", fontSize: "1.2em" }}
-              >
                 Daniel Urbonas
               </p>
               <h1
