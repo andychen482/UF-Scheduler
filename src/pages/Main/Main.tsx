@@ -424,12 +424,7 @@ const Main = () => {
             <span className="text-blue-500">UF</span>
             <span className="text-orange-500">Scheduler!</span>
           </div>
-          <p className="text-md font-bold">Updated 10/6/2023</p>
-          <ul className="list-disc list-inside mb-2 space-y-2">
-            <li>
-              Fixed bug where calendars would not load on startup
-            </li>
-            </ul>
+          <p className="text-md font-bold">Courses updated 10/10/2023</p>
           <p className="text-md mb-2">
             Note: Spring 2024 is still being updated so schedules are subject to
             change
