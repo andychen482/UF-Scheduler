@@ -78,21 +78,6 @@ const AboutPage: React.FC = () => {
                   marginTop: "20px",
                 }}
               >
-                Contributors
-              </h1>
-              <p
-                style={{ color: "white", lineHeight: "1.6", fontSize: "1.2em" }}
-              >
-                Daniel Urbonas
-              </p>
-              <h1
-                style={{
-                  color: "white",
-                  fontSize: "1.75em",
-                  marginBottom: "10px",
-                  marginTop: "20px",
-                }}
-              >
                 Contact
               </h1>
               <a
