@@ -104,64 +104,73 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
             onChange={(e) => setCourseName(e.target.value)}
           />
         </div>
+      </div>
+      <div className="form-row">
         <div>
           <label>Meet Days:</label>
-          <input
-            type="checkbox"
-            id="monday"
-            value="M"
-            onChange={handleMeetDaysChange}
-          />
-          <label className="checkbox-label" htmlFor="monday">
-            M
-          </label>
+          <div className="checkbox-group">
+            <input
+              type="checkbox"
+              id="monday"
+              value="M"
+              onChange={handleMeetDaysChange}
+            />
+            <label className="checkbox-label" htmlFor="monday">
+              M
+            </label>
 
-          <input
-            type="checkbox"
-            id="tuesday"
-            value="T"
-            onChange={handleMeetDaysChange}
-          />
-          <label className="checkbox-label" htmlFor="tuesday">
-            T
-          </label>
+            <input
+              type="checkbox"
+              id="tuesday"
+              value="T"
+              onChange={handleMeetDaysChange}
+            />
+            <label className="checkbox-label" htmlFor="tuesday">
+              T
+            </label>
 
-          <input
-            type="checkbox"
-            id="wednesday"
-            value="W"
-            onChange={handleMeetDaysChange}
-          />
-          <label className="checkbox-label" htmlFor="wednesday">
-            W
-          </label>
+            <input
+              type="checkbox"
+              id="wednesday"
+              value="W"
+              onChange={handleMeetDaysChange}
+            />
+            <label className="checkbox-label" htmlFor="wednesday">
+              W
+            </label>
 
-          <input
-            type="checkbox"
-            id="thursday"
-            value="R"
-            onChange={handleMeetDaysChange}
-          />
-          <label className="checkbox-label" htmlFor="thursday">
-            R
-          </label>
+            <input
+              type="checkbox"
+              id="thursday"
+              value="R"
+              onChange={handleMeetDaysChange}
+            />
+            <label className="checkbox-label" htmlFor="thursday">
+              R
+            </label>
 
-          <input
-            type="checkbox"
-            id="friday"
-            value="F"
-            onChange={handleMeetDaysChange}
-          />
-          <label className="checkbox-label" htmlFor="friday">
-            F
-          </label>
+            <input
+              type="checkbox"
+              id="friday"
+              value="F"
+              onChange={handleMeetDaysChange}
+            />
+            <label className="checkbox-label" htmlFor="friday">
+              F
+            </label>
+          </div>
         </div>
       </div>
       <AiOutlineClose
-            style={{ position: "absolute", right: "2%", top: "10px", color: "#FF605C" }}
-            onClick={() => setIsAppointmentFormVisible((prev) => !prev)}
-            className="close-button"
-          />
+        style={{
+          position: "absolute",
+          right: "2%",
+          top: "10px",
+          color: "#FF605C",
+        }}
+        onClick={() => setIsAppointmentFormVisible((prev) => !prev)}
+        className="close-button"
+      />
       <div className="form-row">
         <div>
           <label>Start Time:</label>
@@ -190,16 +199,18 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
           />
         </div>
       </div>
-<div className="form-row button-row">
-  <button
-    type="button"
-    className={`add-appointment-button ${!isFormValid ? 'disabled-button' : ''}`}
-    onClick={handleAddAppointment}
-    disabled={!isFormValid}
-  >
-    Add Recurring Event
-  </button>
-</div>
+      <div className="form-row button-row">
+        <button
+          type="button"
+          className={`add-appointment-button ${
+            !isFormValid ? "disabled-button" : ""
+          }`}
+          onClick={handleAddAppointment}
+          disabled={!isFormValid}
+        >
+          Add Recurring Event
+        </button>
+      </div>
     </form>
   );
 };

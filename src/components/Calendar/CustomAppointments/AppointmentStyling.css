@@ -11,10 +11,11 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
+    gap: 20px;
   }
   
   .custom-appointment-form .form-row div {
-    width: 48%;
+    width: 100%;
   }
   
   .custom-appointment-form label {
@@ -44,6 +45,10 @@
   
   .custom-appointment-form input[type="checkbox"] {
     display: none; /* Hide the default checkboxes */
+  }
+
+  .custom-appointment-form .checkbox-group {
+    display: inline-block; /* Make the checkbox group inline */
   }
   
   .custom-appointment-form .checkbox-label {
