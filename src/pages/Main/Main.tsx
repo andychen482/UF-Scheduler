@@ -452,13 +452,14 @@ const Main = () => {
       )}
       {showInstructions && (
         <>
-        <div
-          className={`overlay ${showInstructions ? "open" : "closed"}`}
-          onClick={handleCloseInstructions}
-        >
-        </div>
-        <img src={'images/white-arrow.png'} className="arrow"></img>
-          <figcaption className="caption">Calendar here!</figcaption>
+          <div
+            className={`overlay ${showInstructions ? "open" : "closed"}`}
+            onClick={handleCloseInstructions}
+          ></div>
+          <div className="arrow-container" onClick={handleCloseInstructions} style={{userSelect: 'none'}}>
+            <img src={"images/white-arrow.png"} className="arrow"></img>
+            <figcaption className="caption">Calendar here!</figcaption>
+          </div>
         </>
       )}
       <Header
