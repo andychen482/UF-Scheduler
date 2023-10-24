@@ -451,13 +451,15 @@ const Main = () => {
         </div>
       )}
       {showInstructions && (
+        <>
         <div
           className={`overlay ${showInstructions ? "open" : "closed"}`}
           onClick={handleCloseInstructions}
         >
-          <img src={'images/white-arrow.png'} className="arrow"></img>
-          <figcaption className="caption">Calendar here!</figcaption>
         </div>
+        <img src={'images/white-arrow.png'} className="arrow"></img>
+          <figcaption className="caption">Calendar here!</figcaption>
+        </>
       )}
       <Header
         calendarView={calendarView}

@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'CustomFont';
-  src: url('../../../public/fonts/Pacifico-Regular.woff') format('woff'); /* Adjust the path and format accordingly */
+  font-family: "CustomFont";
+  src: url("../../../public/fonts/Pacifico-Regular.woff") format("woff"); /* Adjust the path and format accordingly */
   font-weight: normal;
   font-style: normal;
 }
@@ -27,6 +27,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   z-index: 10000;
   width: fit-content;
+  min-width: 300px;
   border-radius: 5px;
 }
 
@@ -170,7 +171,7 @@
   display: block;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1000px) and (min-width: 501px){
   .flexImage {
     flex-direction: column; /* Reverse the order of flex items */
     align-items: center; /* Center align items horizontally */
@@ -204,6 +205,28 @@
     order: 1;
     width: 100%;
   }
+
+  .arrow {
+    position: absolute;
+    top: 0px;
+    right: 40px;
+    animation: arrowAnimation 1s infinite alternate;
+    z-index: 10010;
+  }
+
+  .caption {
+    font-family: "CustomFont", "Segoe UI";
+    font-size: 20px;
+    position: absolute;
+    top: 70px;
+    right: 290px;
+    text-align: center;
+    color: white; /* Adjust as needed */
+    margin-top: 10px; /* Space between the image and the caption */
+    animation: captionAnimation 1s infinite alternate;
+    z-index: 10010;
+
+  }
 }
 
 @media (min-width: 1001px) {
@@ -230,6 +253,88 @@
   .flex.flex-col.items-start.basis-full.p-0.dark\:bg-gray-800.transition-colors.duration-500 {
     max-width: 36%;
     min-width: 36%;
+  }
+
+  .arrow {
+    position: absolute;
+    top: 0px;
+    right: 60px;
+    animation: arrowAnimation 1s infinite alternate;
+    z-index: 10010;
+
+  }
+
+  .caption {
+    font-family: "CustomFont", "Segoe UI";
+    font-size: 20px;
+    position: absolute;
+    top: 70px;
+    right: 310px;
+    text-align: center;
+    color: white; /* Adjust as needed */
+    margin-top: 10px; /* Space between the image and the caption */
+    animation: captionAnimation 1s infinite alternate;
+    z-index: 10010;
+
+  }
+}
+
+@media (max-width: 500px) {
+  .flexImage {
+    flex-direction: column; /* Reverse the order of flex items */
+    align-items: center; /* Center align items horizontally */
+  }
+  #display-write {
+    order: 3;
+    width: 100%;
+    border-top: 0.5px solid #ccc;
+  }
+
+  #cytoscape-container {
+    width: 100%;
+    height: 80vh;
+  }
+
+  .flex.flex-col.items-start.basis-full.p-0.dark\:bg-gray-800.transition-colors.duration-500 {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .courses-handler {
+    order: 2;
+    width: 100%;
+  }
+
+  .calendar-container {
+    width: 100%;
+    order: 3;
+  }
+  .selected-courses {
+    order: 1;
+    width: 100%;
+  }
+
+  .arrow {
+    position: absolute;
+    top: 0px;
+    right: -70px;
+    animation: arrowAnimation 1s infinite alternate;
+    z-index: 10010;
+
+  }
+
+  .caption {
+    font-family: "CustomFont", "Segoe UI";
+    font-size: 20px;
+    position: absolute;
+    top: 70px;
+    right: 180px;
+    text-align: center;
+    color: white; /* Adjust as needed */
+    margin-top: 10px; /* Space between the image and the caption */
+    animation: captionAnimation 1s infinite alternate;
+    z-index: 10010;
+
   }
 }
 
@@ -288,13 +393,6 @@
   white-space: nowrap;
 }
 
-.arrow {
-  position: absolute;
-  top: 0px;
-  right: 50px;
-  animation: arrowAnimation 1s infinite alternate;
-}
-
 @keyframes arrowAnimation {
   from {
     transform: scaleY(-1) scale(0.5) rotate(42deg) translateY(0);
@@ -302,18 +400,6 @@
   to {
     transform: scaleY(-1) scale(0.5) rotate(40deg) translateY(8px);
   }
-}
-
-.caption {
-  font-family:'CustomFont', 'Segoe UI';
-  font-size: 20px;
-  position: absolute;
-  top: 70px;
-  right: 300px;
-  text-align: center;
-  color: white; /* Adjust as needed */
-  margin-top: 10px; /* Space between the image and the caption */
-  animation: captionAnimation 1s infinite alternate;
 }
 
 @keyframes captionAnimation {
