@@ -126,7 +126,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   }, [debouncedSearchTerm]);
 
   const loadMore = async () => {
-    if (debouncedSearchTerm !== "" && debouncedSearchTerm !== null) {
+    // if (debouncedSearchTerm !== "" && debouncedSearchTerm !== null) {
       try {
         const response = await axios.post(
           "https://ufscheduler.onrender.com/api/get_courses",
@@ -143,7 +143,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
       } catch (error) {
         console.error("Error loading more data", error);
       }
-    }
+    // }
     if (records >= 2 * itemsPerPage + filteredCourses.length) {
       setHasMore(false);
     }

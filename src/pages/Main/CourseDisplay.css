@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'CustomFont';
+  src: url('../../../public/fonts/Pacifico-Regular.woff') format('woff'); /* Adjust the path and format accordingly */
+  font-weight: normal;
+  font-style: normal;
+}
+
 .content-wrapper {
   margin-top: 40px;
 }
@@ -28,7 +35,6 @@
   align-items: center;
 }
 
-
 .close-icon {
   position: absolute;
   top: 10px;
@@ -42,8 +48,6 @@
   transform: scale(0.9);
 }
 
-
-
 .courses-handler {
   display: flex;
   justify-content: center;
@@ -52,7 +56,7 @@
 }
 
 #cytoscape-container {
-  background-color: rgb(27,27,27);
+  background-color: rgb(27, 27, 27);
 }
 
 .course-filter {
@@ -125,7 +129,7 @@
   bottom: 15%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #FA4616;;
+  background-color: #fa4616;
   color: #fff;
   padding: 5px 10px;
   border-radius: 4px;
@@ -145,7 +149,7 @@
   position: absolute;
   top: 14px;
   right: 10px;
-  background-color: #FA4616;
+  background-color: #fa4616;
   color: #fff;
   font-size: 12px;
   font-weight: bold;
@@ -202,13 +206,12 @@
   }
 }
 
-@media (min-width: 1001px)
-{
-.selected-courses {
-  max-width: 12%;
-  min-width: 12%;
-  border-right: 0.5px solid #ccc;
-}
+@media (min-width: 1001px) {
+  .selected-courses {
+    max-width: 12%;
+    min-width: 12%;
+    border-right: 0.5px solid #ccc;
+  }
 
   #display-write {
     max-height: 100vh;
@@ -216,7 +219,7 @@
     position: sticky;
     top: 0;
     bottom: 0;
-    flex: 1; 
+    flex: 1;
     max-width: 100%;
   }
 
@@ -283,4 +286,41 @@
 
 .nowrap {
   white-space: nowrap;
+}
+
+.arrow {
+  position: absolute;
+  top: 0px;
+  right: 50px;
+  animation: arrowAnimation 1s infinite alternate;
+}
+
+@keyframes arrowAnimation {
+  from {
+    transform: scaleY(-1) scale(0.5) rotate(42deg) translateY(0);
+  }
+  to {
+    transform: scaleY(-1) scale(0.5) rotate(40deg) translateY(8px);
+  }
+}
+
+.caption {
+  font-family:'CustomFont', 'Segoe UI';
+  font-size: 20px;
+  position: absolute;
+  top: 70px;
+  right: 300px;
+  text-align: center;
+  color: white; /* Adjust as needed */
+  margin-top: 10px; /* Space between the image and the caption */
+  animation: captionAnimation 1s infinite alternate;
+}
+
+@keyframes captionAnimation {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-8px) translateX(-3px);
+  }
 }

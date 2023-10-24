@@ -430,6 +430,7 @@ const Main = () => {
             change
           </p>
           <ul className="list-disc list-inside mb-2 space-y-2">
+            <b>Instructions:</b>
             <li>
               The graph tab visualizes the prerequisites for each department.
             </li>
@@ -453,7 +454,10 @@ const Main = () => {
         <div
           className={`overlay ${showInstructions ? "open" : "closed"}`}
           onClick={handleCloseInstructions}
-        ></div>
+        >
+          <img src={'images/white-arrow.png'} className="arrow"></img>
+          <figcaption className="caption">Calendar here!</figcaption>
+        </div>
       )}
       <Header
         calendarView={calendarView}
