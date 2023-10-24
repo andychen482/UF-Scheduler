@@ -424,18 +424,14 @@ const Main = () => {
             <span className="text-blue-500">UF</span>
             <span className="text-orange-500">Scheduler!</span>
           </div>
-          <p className="text-md font-bold">Courses updated 10/24/2023</p>
-          <p className="text-md mb-2">
-            Note: Spring 2024 is still being updated so schedules are subject to
-            change
-          </p>
+          <p className="text-md font-bold text-center">Courses updated 10/24/2023</p>
           <ul className="list-disc list-inside mb-2 space-y-2">
-            <b>Instructions:</b>
+            <b className="instruction-title">How to Use:</b>
             <li>
-              The graph tab visualizes the prerequisites for each department.
+              The Graph tab visualizes the prerequisites for each department.
             </li>
             <li>
-              The calendar tab generates all possible schedules with options to
+              The Calendar tab generates all possible schedules with options to
               sort and download.
             </li>
             <li>
@@ -446,7 +442,7 @@ const Main = () => {
               Courses can be removed by clicking on the course badges in the{" "}
               <span className="underline">Courses</span> list on the left.
             </li>
-            <li>Custom events and ics downloads are supported.</li>
+            <li>Custom events and ICS downloads are supported.</li>
           </ul>
         </div>
       )}
