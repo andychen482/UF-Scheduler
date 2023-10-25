@@ -13,6 +13,8 @@ interface HeaderProps {
   isDrawerOpen: boolean;
   setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
   windowWidth: number;
+  showArrow: boolean;
+  setShowArrow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -23,8 +25,20 @@ const Header: React.FC<HeaderProps> = ({
   isDrawerOpen,
   setIsDrawerOpen,
   windowWidth,
+  showArrow,
+  setShowArrow,
 }) => {
   const [totalCredits, setTotalCredits] = useState(0);
+
+  const handleClickingCalendar = () => {
+    setShowArrow(false);
+    localStorage.setItem("hasClickedCalendar", "true");
+  };
+
+  const handleCalendarButtonClick = () => {
+    calendarView();
+    handleClickingCalendar();
+  };
 
   useEffect(() => {
     const sumCredits = selectedCourses.reduce((totalCredits, course) => {
@@ -38,6 +52,7 @@ const Header: React.FC<HeaderProps> = ({
 
     setTotalCredits(sumCredits);
   }, [selectedCourses]);
+
   return (
     <header className="header flex gap-x-5">
       {windowWidth < 1001 && (
@@ -66,7 +81,7 @@ const Header: React.FC<HeaderProps> = ({
           className={`Button cursor-pointer text-gray-400 ${
             showDisplayWrite ? "grayed" : "show"
           }`}
-          onClick={calendarView}
+          onClick={handleCalendarButtonClick}
         >
           <div className="button-content">
             <div className="icon-text-container">

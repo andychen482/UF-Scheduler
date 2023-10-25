@@ -212,6 +212,7 @@
     right: 40px;
     animation: arrowAnimation 1s infinite alternate;
     z-index: 10010;
+    pointer-events: none;
   }
 
   .caption {
@@ -225,6 +226,7 @@
     margin-top: 10px; /* Space between the image and the caption */
     animation: captionAnimation 1s infinite alternate;
     z-index: 10010;
+    pointer-events: none;
 
   }
 }
@@ -261,7 +263,7 @@
     right: 60px;
     animation: arrowAnimation 1s infinite alternate;
     z-index: 10010;
-
+    pointer-events: none;
   }
 
   .caption {
@@ -275,7 +277,7 @@
     margin-top: 10px; /* Space between the image and the caption */
     animation: captionAnimation 1s infinite alternate;
     z-index: 10010;
-
+    pointer-events: none;
   }
 }
 
@@ -320,7 +322,7 @@
     right: -70px;
     animation: arrowAnimation 1s infinite alternate;
     z-index: 10010;
-
+    pointer-events: none;
   }
 
   .caption {
@@ -334,7 +336,7 @@
     margin-top: 10px; /* Space between the image and the caption */
     animation: captionAnimation 1s infinite alternate;
     z-index: 10010;
-
+    pointer-events: none;
   }
 }
 

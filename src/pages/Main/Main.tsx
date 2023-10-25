@@ -48,6 +48,14 @@ const Main = () => {
     }
   });
   const [showInstructions, setShowInstructions] = useState(false);
+  const [showArrow, setShowArrow] = useState<boolean>(() => {
+    const storedShowArrow = localStorage.getItem("hasClickedCalendar");
+    if (storedShowArrow) {
+      return false;
+    } else {
+      return true;
+    }
+  });
 
   useEffect(() => {
     // Check if the user has been shown the instructions before
@@ -424,7 +432,9 @@ const Main = () => {
             <span className="text-blue-500">UF</span>
             <span className="text-orange-500">Scheduler!</span>
           </div>
-          <p className="text-md font-bold text-center">Courses updated 10/24/2023</p>
+          <p className="text-md font-bold text-center">
+            Courses updated 10/24/2023
+          </p>
           <ul className="list-disc list-inside mb-2 space-y-2">
             <b className="instruction-title">How to Use:</b>
             <li>
@@ -452,7 +462,14 @@ const Main = () => {
             className={`overlay ${showInstructions ? "open" : "closed"}`}
             onClick={handleCloseInstructions}
           ></div>
-          <div className="arrow-container" onClick={handleCloseInstructions} style={{userSelect: 'none'}}>
+        </>
+      )}
+      {showArrow && (
+        <>
+          <div
+            className="arrow-container"
+            style={{ userSelect: "none" }}
+          >
             <img src={"images/white-arrow.png"} className="arrow"></img>
             <figcaption className="caption">Calendar here!</figcaption>
           </div>
@@ -466,6 +483,8 @@ const Main = () => {
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
         windowWidth={windowWidth}
+        showArrow={showArrow}
+        setShowArrow={setShowArrow}
       />
       <div
         className={`overlay ${isDrawerOpen ? "open" : "closed"}`}
