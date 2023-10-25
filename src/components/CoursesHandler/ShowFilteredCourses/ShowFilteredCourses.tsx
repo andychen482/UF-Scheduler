@@ -167,12 +167,12 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
         console.error("Error fetching data", error);
       }
     };
-    if (debouncedSearchTerm !== "" && debouncedSearchTerm !== null) {
+    // if (debouncedSearchTerm !== "" && debouncedSearchTerm !== null) {
       fetchData();
-    }
-    else {
-      setFilteredCourses([]);
-    }
+    // }
+    // else {
+    //   setFilteredCourses([]);
+    // }
     
     // Reset the open courses when the search term changes
     setOpenCourseCode(null);
