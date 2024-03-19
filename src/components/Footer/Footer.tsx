@@ -12,7 +12,7 @@ const Footer = () => {
       }}
     >
       <p>
-        Updated to Spring 2024 | Created by Andy Chen |{" "}
+        Updated to Fall 2024 | Created by Andy Chen |{" "}
         <a
           href="/about"
           style={{ color: "inherit", textDecoration: "underline" }}
