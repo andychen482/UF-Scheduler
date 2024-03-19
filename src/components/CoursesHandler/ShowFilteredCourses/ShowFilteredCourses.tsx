@@ -299,6 +299,11 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                           {firstCourse.description
                             ? firstCourse.description.replace("(P)", "").trim()
                             : "N/A"}
+                          <br />
+                          <strong> Prerequisites: </strong>
+                          {firstCourse.prerequisites
+                            ? firstCourse.prerequisites.replace("Prereq: ", "").trim()
+                            : "N/A"}
                         </div>
                         <div>
                           <div className="w-[100%] opacity-100 visible transition-opacity my-1">

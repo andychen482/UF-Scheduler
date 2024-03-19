@@ -433,7 +433,7 @@ const Main = () => {
             <span className="text-orange-500">Scheduler!</span>
           </div>
           <p className="text-md font-bold text-center">
-            Courses updated 3/19/2023
+            Courses updated 3/19/2024
           </p>
           <ul className="list-disc list-inside mb-2 space-y-2">
             <b className="instruction-title">How to Use:</b>
