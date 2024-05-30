@@ -30,7 +30,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
 
   const waitListAvailable = (section: Section) => {
     if (section.waitList.total === section.waitList.cap) {
-      return "Full";
+      return section.waitList.total + "/" + section.waitList.cap + " (Full)";
     }
     return section.waitList.total + "/" + section.waitList.cap;
   };
