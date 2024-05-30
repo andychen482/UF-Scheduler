@@ -57,6 +57,11 @@ const Main = () => {
     }
   });
 
+  const [currentDate, setCurrentDate] = useState("");
+  useEffect(() => {
+    setCurrentDate(new Date().toLocaleDateString("en-US"));
+  }, []);
+
   useEffect(() => {
     // Check if the user has been shown the instructions before
     if (!sessionStorage.getItem("hasShownInstructions")) {
@@ -433,7 +438,7 @@ const Main = () => {
             <span className="text-orange-500">Scheduler!</span>
           </div>
           <p className="text-md font-bold text-center">
-            Courses updated 3/19/2024
+            Courses updated {currentDate}
           </p>
           <ul className="list-disc list-inside mb-2 space-y-2">
             <b className="instruction-title">How to Use:</b>
