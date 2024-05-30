@@ -35,9 +35,9 @@ const Footer = () => {
     const currentTime = new Date();
     const differenceInMinutes = Math.floor((currentTime.getTime() - lastUpdated.getTime()) / 60000);
 
-    if (differenceInMinutes < 1) return "Last updated less than a minute ago";
-    else if (differenceInMinutes === 1) return "Last updated 1 minute ago";
-    else return `Last updated ${differenceInMinutes} minutes ago`;
+    if (differenceInMinutes < 1) return "Updated less than a minute ago";
+    else if (differenceInMinutes === 1) return "Updated 1 minute ago";
+    else return `Updated ${differenceInMinutes} minutes ago`;
   }
 
   return (
@@ -53,7 +53,7 @@ const Footer = () => {
       }}
     >
       <p>
-        Fall 2024 | <span id="lastUpdated">{displayLastUpdatedTime()}</span> | Created by Andy Chen |{" "}
+        Fall 2024 | <span id="lastUpdated">{displayLastUpdatedTime()}</span> | By Andy Chen |{" "}
         <a
           href="/about"
           style={{ color: "inherit", textDecoration: "underline" }}
