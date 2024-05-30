@@ -11,7 +11,6 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Header from "../../components/Header/Header";
 import LikedSelectedCourses from "../../components/CoursesHandler/LikedSelectedCourses";
 import { AiOutlineClose } from "react-icons/ai";
-import { PiPlusBold } from "react-icons/pi";
 import Footer from "../../components/Footer/Footer";
 
 cytoscape.use(klay);
@@ -56,11 +55,6 @@ const Main = () => {
       return true;
     }
   });
-
-  const [currentDate, setCurrentDate] = useState("");
-  useEffect(() => {
-    setCurrentDate(new Date().toLocaleDateString("en-US"));
-  }, []);
 
   useEffect(() => {
     // Check if the user has been shown the instructions before
@@ -432,16 +426,15 @@ const Main = () => {
             className="close-icon"
             onClick={handleCloseInstructions}
           />
-          <div className="text-center font-bold mb-1 text-lg">
+          <div className="text-center font-bold mb-2 text-[2.25rem]">
             <span>Welcome to </span>
             <span className="text-blue-500">UF</span>
             <span className="text-orange-500">Scheduler!</span>
           </div>
-          <p className="text-md font-bold text-center">
-            Courses updated {currentDate}
-          </p>
-          <ul className="list-disc list-inside mb-2 space-y-2">
-            <b className="instruction-title">How to Use:</b>
+          <ul className="list-[circle] list-inside mb-2 space-y-2">
+            <span className="text-center">
+              <b className="instruction-title">How to Use:</b>
+            </span>
             <li>
               The Graph tab visualizes the prerequisites for each department.
             </li>
@@ -471,11 +464,8 @@ const Main = () => {
       )}
       {showArrow && (
         <>
-          <div
-            className="arrow-container"
-            style={{ userSelect: "none" }}
-          >
-            <img src={"images/white-arrow.png"} className="arrow"></img>
+          <div className="arrow-container" style={{ userSelect: "none" }}>
+            <img src={"images/white-arrow.png"} alt="" className="arrow"></img>
             <figcaption className="caption">Calendar here!</figcaption>
           </div>
         </>
