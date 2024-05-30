@@ -1,35 +1,44 @@
+import React, { useEffect, useState } from 'react';
+
 const Footer = () => {
-  function displayLastUpdatedTime() {
-    const lastScrapedTime = new Date();
-    lastScrapedTime.setMinutes(0, 0, 0);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-    function updateTime() {
-      const currentTime = new Date();
-      const lastScrapedTimeMs = lastScrapedTime.getTime();
-      const currentTimeMs = currentTime.getTime();
-      const differenceInMinutes = Math.floor(
-        (currentTimeMs - lastScrapedTimeMs) / 60000
-      );
+  function fetchLastCommitTime() {
+    const url = 'https://api.github.com/repos/andychen482/UF-Scheduler-Backend/commits?path=courses';
 
-      let message = `Last updated ${differenceInMinutes} minutes ago`;
-      if (differenceInMinutes < 1) {
-        message = "Last updated less than a minute ago";
-      }
-      else if (differenceInMinutes < 2) {
-        message = "Last updated 1 minute ago";
-      }
-
-      const lastUpdatedElement = document.getElementById("lastUpdated");
-      if (lastUpdatedElement) {
-        lastUpdatedElement.textContent = message;
-      }
-    }
-
-    setInterval(updateTime, 60000);
-    updateTime();
+    fetch(url)
+      .then(response => response.json())
+      .then(commits => {
+        if (commits && commits.length > 0) {
+          const lastCommitDate = new Date(commits[0].commit.author.date);
+          setLastUpdated(lastCommitDate);
+        }
+      })
+      .catch(error => console.error('Error fetching commit data: ', error));
   }
 
-  displayLastUpdatedTime();
+  useEffect(() => {
+    fetchLastCommitTime();
+    const apiIntervalId = setInterval(fetchLastCommitTime, 600000); // API call every 10 minutes
+    const displayIntervalId = setInterval(() => {
+      setLastUpdated(prev => new Date(prev!.getTime())); // Trigger re-render every minute
+    }, 60000);
+    return () => {
+      clearInterval(apiIntervalId);
+      clearInterval(displayIntervalId);
+    }; // Cleanup intervals on component unmount
+  }, []);
+
+  function displayLastUpdatedTime() {
+    if (!lastUpdated) return 'Calculating...';
+
+    const currentTime = new Date();
+    const differenceInMinutes = Math.floor((currentTime.getTime() - lastUpdated.getTime()) / 60000);
+
+    if (differenceInMinutes < 1) return "Last updated less than a minute ago";
+    else if (differenceInMinutes === 1) return "Last updated 1 minute ago";
+    else return `Last updated ${differenceInMinutes} minutes ago`;
+  }
 
   return (
     <div
@@ -44,7 +53,7 @@ const Footer = () => {
       }}
     >
       <p>
-        Fall 2024 | <span id="lastUpdated"></span> | Created by Andy Chen |{" "}
+        Fall 2024 | <span id="lastUpdated">{displayLastUpdatedTime()}</span> | Created by Andy Chen |{" "}
         <a
           href="/about"
           style={{ color: "inherit", textDecoration: "underline" }}
