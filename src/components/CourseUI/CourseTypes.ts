@@ -25,7 +25,14 @@ export type Section = {
   selected: boolean;
   courseName: string;
   color: string;
+  waitList: WaitList;
 };
+
+export type WaitList = {
+  cap: number;
+  isEligible: string;
+  total: number;
+}
 
 export type Course = {
   code: string;

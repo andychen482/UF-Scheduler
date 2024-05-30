@@ -28,6 +28,13 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
 
   const { icons, minusicons } = DropdownClasses;
 
+  const waitListAvailable = (section: Section) => {
+    if (section.waitList.total === section.waitList.cap) {
+      return "Full";
+    }
+    return section.waitList.total + "/" + section.waitList.cap;
+  };
+
   const isSectionSelected = (section: Section) => {
     const selectedCourse = selectedCourses.find((c) => c.code === course.code);
     if (selectedCourse) {
@@ -100,9 +107,9 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
 
   const getRatingColor = (rating: number | null): string => {
     if (rating === null) return "text-gray-200 dark:text-gray-200"; // Default
-    if (rating <= 2) return "text-red-500"; // Red
-    if (rating < 4) return "text-yellow-500"; // Yellow
-    return "text-green-500"; // Green
+    if (rating <= 2) return "text-red-400"; // Red
+    if (rating < 4) return "text-yellow-400"; // Yellow
+    return "text-green-400"; // Green
   };
 
   const renderSectionInformation = (section: Section) => {
@@ -182,7 +189,12 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
             <div className="space-y-2 p-2">
               <div className="flex justify-between items-center">
                 <div className="font-bold text-gray-200 dark:text-gray-200 flex items-center">
-                  Class # {section.classNumber}:
+                  Class # {section.classNumber} -{" "}
+                  {section.waitList.total === 0 ? (
+                    <span className="text-green-400 ml-1">Space Available</span>
+                  ) : (
+                    <span className="text-blue-400 ml-1">Wait List: {waitListAvailable(section)}</span>
+                  )}
                 </div>
                 {/* Star Icon based on section selected status */}
                 {isSectionSelected(section) ? (

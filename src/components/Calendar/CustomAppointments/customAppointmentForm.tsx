@@ -86,6 +86,11 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
       selected: false,
       courseName,
       color,
+      waitList: {
+        cap: 0,
+        isEligible: "",
+        total: 0,
+      }
     };
 
     setCustomAppointments([...customAppointments, newAppointment]);
