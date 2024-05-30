@@ -268,13 +268,14 @@ const Main = () => {
     };
 
     const container = cyContainerRef.current;
+    const options = { passive: false };
     if (container) {
-      container.addEventListener("touchstart", handleTouchStart);
+      container.addEventListener("touchstart", handleTouchStart, options);
       container.addEventListener("touchend", handleTouchEnd);
       container.addEventListener("mousedown", handleMouseDown);
       container.addEventListener("mouseup", handleMouseUpOrLeave);
       container.addEventListener("mouseleave", handleMouseUpOrLeave);
-      container.addEventListener("wheel", handleWheel);
+      container.addEventListener("wheel", handleWheel, options);
     }
 
     return () => {
@@ -360,13 +361,14 @@ const Main = () => {
     };
 
     const container = cyContainerRef.current;
+    const options = { passive: false };
     if (container) {
-      container.addEventListener("touchstart", handleTouchStart);
+      container.addEventListener("touchstart", handleTouchStart, options);
       container.addEventListener("touchend", handleTouchEnd);
       container.addEventListener("mousedown", handleMouseDown);
       container.addEventListener("mouseup", handleMouseUpOrLeave);
       container.addEventListener("mouseleave", handleMouseUpOrLeave);
-      container.addEventListener("wheel", handleWheel);
+      container.addEventListener("wheel", handleWheel, options);
     }
 
     return () => {
