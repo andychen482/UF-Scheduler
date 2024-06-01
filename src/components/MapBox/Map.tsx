@@ -71,7 +71,7 @@ const Map = () => {
             const { Longitude, Latitude } =
               buildingCoords.features[buildingCode].properties;
             coords.push({
-              name: "P" + meet.meetPeriodBegin + " - " + section.display,
+              name: "P" + meet.meetPeriodBegin + " - " + section.courseCode,
               location: { longitude: Longitude, latitude: Latitude },
             });
           }

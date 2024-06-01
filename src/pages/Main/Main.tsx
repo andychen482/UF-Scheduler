@@ -60,6 +60,13 @@ const Main = () => {
     }
   });
 
+  // ADJUST HERE FOR LOCAL STORAGE RESET
+  const version = JSON.parse(localStorage.getItem("version") || "0");
+  if (version === 0) {
+    localStorage.clear();
+    localStorage.setItem("version", JSON.stringify(1));
+  }
+
   useEffect(() => {
     // Check if the user has been shown the instructions before
     if (!sessionStorage.getItem("hasShownInstructions")) {
