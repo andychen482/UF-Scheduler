@@ -10,6 +10,7 @@ import {
   PiCaretDownBold,
   PiCaretUpBold,
 } from "react-icons/pi";
+import "./ShowFilteredCourses.css";
 
 interface ShowFilteredCoursesProps {
   debouncedSearchTerm: string;
@@ -179,7 +180,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   }, [debouncedSearchTerm]);
 
   return (
-    <div className="max-h-[calc(100vh-12.5rem)] overflow-auto mt-3">
+    <div className="filtered-courses-container overflow-auto mt-3">
       <InfiniteScroll
         pageStart={0}
         loadMore={loadMore}

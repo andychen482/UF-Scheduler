@@ -79,36 +79,6 @@ const getDesignTokens = (mode: PaletteMode) => ({
 
 const darkModeTheme = createTheme(getDesignTokens("dark"));
 
-//For calendar ICS to stop on final exam (add back when final exam dates are finalized)
-function convertToICSFormat(dateStr?: string): string | null {
-  if (typeof dateStr !== "string") {
-    console.error("Invalid input to convertToICSFormat:", dateStr);
-    return null;
-  }
-
-  // Extract the date and time parts from the input string
-  const [datePart, timePart] = dateStr.split(" @ ");
-  const [month, day, year] = datePart.split("/").map(Number);
-  const [startTime] = timePart.split(" - ");
-  const [hourPart, period] = startTime.split(" ");
-  let [hours, minutes] = hourPart.split(":").map(Number);
-
-  // Adjust hours based on AM/PM
-  if (period === "PM" && hours !== 12) {
-    hours += 12;
-  } else if (period === "AM" && hours === 12) {
-    hours = 0;
-  }
-
-  // Convert to ICS format
-  const icsDate = `${year}${String(month).padStart(2, "0")}${String(
-    day
-  ).padStart(2, "0")}T${String(hours).padStart(2, "0")}${String(
-    minutes
-  ).padStart(2, "0")}00`;
-  return icsDate;
-}
-
 const generateICSContent = (appointments: any[]) => {
   let icsContent =
     "BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nPRODID:-//YourCompany//YourApp//EN\n";
@@ -772,7 +742,7 @@ const Calendar: React.FC<CalendarProps> = ({
             {/* Step 3: If selectedCalendar is not empty, display it first */}
             {selectedCalendar && (
               <>
-                <div className="bg-gray-800 pt-4 pb-[1px]">
+                <div className="bg-gray-800 pt-4 pb-[1px] rounded-md mx-[20px]">
                   <p className="text-white text-lg font-bold ml-[30px] mb-[10px]">
                     Selected Calendar
                   </p>

@@ -1,0 +1,11 @@
+@media (max-width: 1000px) {
+  .filtered-courses-container {
+    max-height: calc(80vh - 8rem);
+  }
+}
+
+@media (min-width: 1001px) {
+  .filtered-courses-container {
+    max-height: calc(100vh - 172px);
+  }
+}

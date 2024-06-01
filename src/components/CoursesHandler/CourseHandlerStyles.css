@@ -1,5 +1,13 @@
 @media (max-width: 1000px) {
     .course-handler {
-        height: 91vh !important;
+        height: 80vh !important;
+        padding: 2rem;
+    }
+}
+
+@media (min-width: 1001px) {
+    .course-handler {
+        height: calc(100vh - 43px) !important;
+        padding: 1rem;
     }
 }

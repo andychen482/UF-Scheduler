@@ -13,7 +13,6 @@ import LikedSelectedCourses from "../../components/CoursesHandler/LikedSelectedC
 import { AiOutlineClose } from "react-icons/ai";
 import Footer from "../../components/Footer/Footer";
 import MapBox from "../../components/MapBox/Map";
-import { set } from "lodash";
 
 cytoscape.use(klay);
 
@@ -505,7 +504,7 @@ const Main = () => {
         onClick={() => setIsDrawerOpen(false)}
       ></div>
       <div className="content-wrapper">
-        <div className="flex flexImage course-display bg-gray-900">
+        <div className="flex flexImage course-display bg-gray-[920]">
           {windowWidth < 1001 ? (
             <div
               className={`drawer overflow-auto ${isDrawerOpen ? "" : "closed"}`}
@@ -545,7 +544,7 @@ const Main = () => {
             </div>
           )}
           <div
-            className={`flex flex-col items-start basis-full dark:bg-gray-800 transition-colors duration-500 overflow-y-auto p-0 rounded-none courses-handler`}
+            className={`flex flex-col items-start basis-full dark:bg-gray-800 transition-colors duration-500 overflow-y-hidden p-0 rounded-none courses-handler`}
           >
             <CoursesHandler
               selectedCourses={selectedCourses}
