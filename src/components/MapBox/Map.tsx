@@ -53,6 +53,35 @@ const Map = () => {
         // cooperativeGestures: true,
       });
 
+      map.on('load', function () {
+        if (map) {
+        map.addLayer({
+          'id': 'add-3d-buildings',
+          'source': 'composite',
+          'source-layer': 'building',
+          'filter': ['==', 'extrude', 'true'],
+          'type': 'fill-extrusion',
+          'minzoom': 14.1,
+          'paint': {
+            'fill-extrusion-color': '#aaa',
+            'fill-extrusion-height': [
+              "interpolate",
+              ["linear"],
+              ["zoom"],
+              14.1, 0,
+              14.15, ["get", "height"]
+            ],
+            'fill-extrusion-base': [
+              "interpolate",
+              ["linear"],
+              ["zoom"],
+              14.1, 0,
+              14.15, ["get", "min_height"]
+            ],
+            'fill-extrusion-opacity': 0.6
+          }
+        })};
+
       const selectedCalendar = JSON.parse(
         localStorage.getItem("selectedCalendar") || "{}"
       );
@@ -122,8 +151,9 @@ const Map = () => {
       });
 
       // Add navigation control (the +/- zoom buttons)
-      map.addControl(new mapboxgl.NavigationControl(), "top-right");
-    }
+      if (map) map.addControl(new mapboxgl.NavigationControl(), "top-right");
+    });
+  }
 
     // Clean up on unmount
     return () => {
