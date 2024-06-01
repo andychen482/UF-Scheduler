@@ -19,6 +19,14 @@
   display: none !important;
 }
 
+.mapboxgl-touch-pan-blocker {
+  font-size: 0px !important; 
+}
+
+.mapboxgl-scroll-zoom-blocker {
+  font-size: 0px !important; 
+}
+
 .mapboxgl-popup {
   max-width: none !important;
 }
