@@ -47,7 +47,6 @@ const Map = () => {
     const selectedCalendar = JSON.parse(
       localStorage.getItem("selectedCalendar") || "{}"
     );
-    const { combination } = selectedCalendar;
 
     if (mapContainerRef.current) {
       map = new mapboxgl.Map({
@@ -57,6 +56,10 @@ const Map = () => {
         zoom: 14.6,
         cooperativeGestures: true,
       });
+
+      if (selectedCalendar === null) return;
+
+      const { combination } = selectedCalendar;
 
       const coords: coordsProps[] = [];
 
@@ -96,17 +99,19 @@ const Map = () => {
           closeOnClick: false,
           offset: 25,
           className: "custom-popup",
-        }).setText(coord.name)
-        .setHTML(coord.name.replace(/\n/g, '<br/>'));  // Replace newline characters with HTML line breaks
-
+        })
+          .setText(coord.name)
+          .setHTML(coord.name.replace(/\n/g, "<br/>")); // Replace newline characters with HTML line breaks
 
         new mapboxgl.Marker()
           .setLngLat([coord.location.longitude, coord.location.latitude])
           .setPopup(popup)
           .addTo(map!);
-        
+
         if (map)
-          popup.setLngLat([coord.location.longitude, coord.location.latitude]).addTo(map);
+          popup
+            .setLngLat([coord.location.longitude, coord.location.latitude])
+            .addTo(map);
       });
 
       // Add navigation control (the +/- zoom buttons)
