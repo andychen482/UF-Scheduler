@@ -44,10 +44,6 @@ const Map = () => {
   useEffect(() => {
     let map: mapboxgl.Map | null = null;
 
-    const selectedCalendar = JSON.parse(
-      localStorage.getItem("selectedCalendar") || "{}"
-    );
-
     if (mapContainerRef.current) {
       map = new mapboxgl.Map({
         container: mapContainerRef.current,
@@ -57,7 +53,11 @@ const Map = () => {
         cooperativeGestures: true,
       });
 
-      if (selectedCalendar === null) return;
+      const selectedCalendar = JSON.parse(
+        localStorage.getItem("selectedCalendar") || "{}"
+      );
+
+      if (!selectedCalendar || !Array.isArray(selectedCalendar.combination)) return;
 
       const { combination } = selectedCalendar;
 
