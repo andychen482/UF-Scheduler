@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import ReactGA from 'react-ga4';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-ReactGA.initialize("G-9KSSSDD2TJ");
+ReactGA.initialize(process.env.REACT_APP_GA_TOKEN as string);
 root.render(
   <React.StrictMode>
     <BrowserRouter>

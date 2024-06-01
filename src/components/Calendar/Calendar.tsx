@@ -7,7 +7,7 @@ import { PaletteMode } from "@mui/material";
 import { grey, indigo } from "@mui/material/colors";
 import { useEffect, useState, useMemo, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import Select from "react-select";
+import Select, { CSSObjectWithLabel } from "react-select";
 import { addDays, format, startOfWeek } from "date-fns";
 import IntervalTree, { Interval } from "@flatten-js/interval-tree";
 import CustomAppointmentForm from "./CustomAppointments/customAppointmentForm";
@@ -728,11 +728,11 @@ const Calendar: React.FC<CalendarProps> = ({
             className="w-[80%] mt-2"
             menuPortalTarget={document.body} // Append the dropdown to the body element
             styles={{
-              menuPortal: (base) => ({ ...base, zIndex: 999 }), // Adjust the z-index to a value lower than the drawer's but higher than other elements
+              menuPortal: (base) => ({ ...base, zIndex: 999 }) as CSSObjectWithLabel, // Adjust the z-index to a value lower than the drawer's but higher than other elements
               control: (base) => ({
                 ...base,
                 borderRadius: "4px", // Adjust this value to control the border radius of the control
-              }),
+              }) as CSSObjectWithLabel,
             }}
           />
           <button

@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { PiGraphFill } from "react-icons/pi";
 import { BiMenu } from "react-icons/bi";
+import { IoMapOutline } from "react-icons/io5";
 import { Course } from "../CourseUI/CourseTypes";
 
 interface HeaderProps {
   calendarView: () => void;
   graphView: () => void;
-  showDisplayWrite: boolean;
+  mapView: () => void;
+  currentView: string;
   selectedCourses: Course[];
   isDrawerOpen: boolean;
   setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,7 +22,8 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({
   calendarView,
   graphView,
-  showDisplayWrite,
+  mapView,
+  currentView,
   selectedCourses,
   isDrawerOpen,
   setIsDrawerOpen,
@@ -56,8 +59,12 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <header className="header flex gap-x-5">
       {windowWidth < 1001 && (
-        <BiMenu className={`menu-button cursor-pointer mt-1 ${isDrawerOpen ? 'faded' : ''}`} onClick={() => setIsDrawerOpen((prev) => !prev)}>
-        </BiMenu>
+        <BiMenu
+          className={`menu-button cursor-pointer mt-1 ${
+            isDrawerOpen ? "faded" : ""
+          }`}
+          onClick={() => setIsDrawerOpen((prev) => !prev)}
+        ></BiMenu>
       )}
       <div className="credits-container mt-1 text-white">
         Credits: {totalCredits}
@@ -66,35 +73,48 @@ const Header: React.FC<HeaderProps> = ({
       <div className="button-container gap-x-4">
         <button
           className={`Button cursor-pointer text-gray-400 ${
-            showDisplayWrite ? "show" : "grayed"
+            currentView === "graph" ? "show" : "grayed"
           }`}
           onClick={graphView}
         >
           <div className="button-content">
             <div className="icon-text-container">
-              <PiGraphFill />
+            <PiGraphFill size={24} style={{ minWidth: '24px', minHeight: '24px' }}/>
               <span className="text-[1.0rem] ml-2 overflow-hidden">Graph</span>
             </div>
           </div>
         </button>
         <button
           className={`Button cursor-pointer text-gray-400 ${
-            showDisplayWrite ? "grayed" : "show"
+            currentView === "calendar" ? "show" : "grayed"
           }`}
           onClick={handleCalendarButtonClick}
         >
           <div className="button-content">
             <div className="icon-text-container">
-              <AiOutlineCalendar />
+            <AiOutlineCalendar size={24} style={{ minWidth: '24px', minHeight: '24px' }}/>
               <span className="text-[1.0rem] ml-2">Calendar</span>
+            </div>
+          </div>
+        </button>
+        <button
+          className={`Button cursor-pointer text-gray-400 ${
+            currentView === "map" ? "show" : "grayed"
+          }`}
+          onClick={mapView} // use the mapView prop here
+        >
+          <div className="button-content">
+            <div className="icon-text-container">
+            <IoMapOutline size={24} style={{ minWidth: '24px', minHeight: '24px' }}/>
+              <span className="text-[1.0rem] ml-2">Map</span>
             </div>
           </div>
         </button>
       </div>
       <div className="mr-2">
         <a href="/">
-        <span className="title font-semibold text-blue-500">UF</span>
-        <span className="title font-semibold text-orange-500">Scheduler</span>
+          <span className="title font-semibold text-blue-500">UF</span>
+          <span className="title font-semibold text-orange-500">Scheduler</span>
         </a>
       </div>
     </header>

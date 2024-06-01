@@ -1,0 +1,173 @@
+
+$calendar-height: 920px;
+$calendar-width: 720px;
+$time-width: 48px;
+$day-height: 40px;
+$header-height: 64px;
+
+$desktop-breakpoint: 1024px;
+$large-mobile-breakpoint: 600px;
+
+$color-neutral: #808080;
+$color-border: rgba($color-neutral, 0.2);
+$theme-light-background: #ffffff;
+$theme-dark-background: #333333;
+$theme-light-card-background: #e5e5e5;
+$theme-dark-card-background: #434343;
+$theme-light-foreground: $theme-dark-background;
+$theme-dark-foreground: $theme-light-background;
+$color-background-light: #f8f9fa;
+$account-accent: #0C797D;
+
+$opacity-inactive: 0.6;
+$opacity-disabled: 0.38;
+$opacity-divider: 0.4;
+
+$theme-switch-transition-duration: 0.2s;
+
+$modal-backdrop-color: #00000099;
+$modal-foreground-color-dark: #cccccc;
+$modal-foreground-color-light: #555555;
+$modal-strong-foreground-color-dark: #dddddd;
+$modal-strong-foreground-color-light: #444444;
+
+@mixin card {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+    0 2px 1px -1px rgba(0, 0, 0, 0.12);
+  margin: 4px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+@mixin popup {
+  border-radius: 5px;
+
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), 4px 4px 20px rgba(0, 0, 0, 0.15);
+
+  @include dark {
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.25),
+      4px 4px 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@mixin light($property: null, $value: null) {
+  @if $property == null {
+    body.light & {
+      @content;
+    }
+  } @else {
+    body.light & {
+      #{$property}: $value;
+    }
+  }
+}
+
+@mixin dark($property: null, $value: null) {
+  @if $property == null {
+    body.dark & {
+      @content;
+    }
+  } @else {
+    body.dark & {
+      #{$property}: $value;
+    }
+  }
+}
+
+// Causes inner `a` elements to be styled as standard web links
+%colored-link-container {
+  a {
+    @include dark {
+      color: #70a8ff;
+    }
+
+    @include light {
+      color: #1b61d1;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+
+.mapbox {
+  height: 100%;
+  width: 100%;
+
+  .pin-text {
+    // right: svg width
+    // up: 3/2 * svg height + 0.5 * text height
+    transform: translate(18px, -65px);
+    font-weight: bold;
+    cursor: pointer;
+    padding: 8px;
+    margin: 0;
+
+    @extend %floating-box;
+  }
+
+  .pin {
+    display: flex;
+    align-items: center;
+
+    svg {
+      filter: drop-shadow(0px 0px 3px #00000080);
+    }
+  }
+
+  .pin-icon {
+    // svg icon is 18px x 32px
+    transform: translate(-9px, -32px);
+    cursor: pointer;
+    font-size: 2rem;
+    color: #c54848;
+  }
+
+  .unknown-container {
+    padding: 15px;
+    margin-top: 20px;
+    margin-left: 20px;
+    width: max-content;
+    position: relative;
+    font-size: 14px;
+    z-index: 0;
+
+    @extend %floating-box;
+
+    @media (max-width: 900px) {
+      margin-top: 8px;
+      margin-left: 8px;
+    }
+
+    .class:first-of-type {
+      margin-top: 8px;
+    }
+    .class:not(:first-of-type) {
+      margin-top: 3px;
+    }
+  }
+
+  .navigation {
+    position: absolute;
+    bottom: 30px;
+    right: 10px;
+  }
+}
+
+%floating-box {
+  border-radius: 8px;
+  box-shadow: 0px 0px 3px #00000080;
+  background: white;
+  color: #333333;
+
+  // Include theme switch transition
+  transition-duration: $theme-switch-transition-duration;
+  transition-property: color, background-color;
+
+  @include dark {
+    background: #111111;
+    color: #eeeeee;
+  }
+}

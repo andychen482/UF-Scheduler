@@ -1,5 +1,5 @@
 import React from 'react';
-import Select from 'react-select';
+import Select, { CSSObjectWithLabel } from 'react-select';
 import majorsData from '../../../courses/depts_clean.json'; // Import the JSON data from the file
 
 interface MajorSearchProps {
@@ -34,11 +34,11 @@ const MajorSelect: React.FC<MajorSearchProps> = ({ selectedMajor, setSelectedMaj
         className="mb-4 text-black bg-gray-200 placeholder-gray-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-500 w-[100%] h-8 rounded"
         menuPortalTarget={document.body} // Append the dropdown to the body element
         styles={{
-          menuPortal: base => ({ ...base, zIndex: 999 }), // Adjust the z-index to a value lower than the drawer's but higher than other elements
+          menuPortal: base => ({ ...base, zIndex: 999 }) as CSSObjectWithLabel, // Adjust the z-index to a value lower than the drawer's but higher than other elements
           control: (base) => ({
             ...base,
             borderRadius: "4px",  // Adjust this value to control the border radius of the control
-          }),
+          }) as CSSObjectWithLabel,
         }}
       />
     </div>

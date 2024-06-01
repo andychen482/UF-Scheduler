@@ -90,7 +90,7 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
         cap: 0,
         isEligible: "",
         total: 0,
-      }
+      },
     };
 
     setCustomAppointments([...customAppointments, newAppointment]);

@@ -12,6 +12,8 @@ import Header from "../../components/Header/Header";
 import LikedSelectedCourses from "../../components/CoursesHandler/LikedSelectedCourses";
 import { AiOutlineClose } from "react-icons/ai";
 import Footer from "../../components/Footer/Footer";
+import MapBox from "../../components/MapBox/Map";
+import { set } from "lodash";
 
 cytoscape.use(klay);
 
@@ -32,7 +34,9 @@ const Main = () => {
   const cyContainerRef = useRef<HTMLDivElement | null>(null);
   const [graphData, setGraphData] = useState<GraphData | null>(null);
   const cyRef = useRef<cytoscape.Core | null>(null);
-  const [showDisplayWrite, setShowDisplayWrite] = useState(true);
+  const [currentView, setCurrentView] = useState<"calendar" | "graph" | "map">(
+    "graph"
+  );
   const [hasShownCalendar, setHasShownCalendar] = useState(false);
   const [loadedOnce, setLoadedOnce] = useState(false);
   const [hasBeenLoaded, setLoaded] = useState(false);
@@ -87,20 +91,25 @@ const Main = () => {
   };
 
   const calendarView = () => {
-    setShowDisplayWrite(false);
+    setCurrentView("calendar");
     setHasShownCalendar(true);
   };
 
   const graphView = () => {
-    setShowDisplayWrite(true);
+    setCurrentView("graph");
+  };
+
+  const mapView = () => {
+    setCurrentView("map");
+    setHasShownCalendar(true);
   };
 
   //Renders graph after calendar is switched away from
   useEffect(() => {
-    if (showDisplayWrite && hasShownCalendar) {
+    if (currentView === "graph" && hasShownCalendar) {
       initializeCytoscape();
     }
-  }, [showDisplayWrite]);
+  }, [currentView]);
 
   const handleLoading = async (callback: () => Promise<void>) => {
     try {
@@ -475,7 +484,8 @@ const Main = () => {
       <Header
         calendarView={calendarView}
         graphView={graphView}
-        showDisplayWrite={showDisplayWrite}
+        mapView={mapView}
+        currentView={currentView}
         selectedCourses={selectedCourses}
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
@@ -545,14 +555,15 @@ const Main = () => {
               setCustomAppointments={setCustomAppointments}
             />
           </div>
-          {showDisplayWrite ? (
+          {currentView === "graph" && (
             <div id="display-write">
               <div ref={cyContainerRef} id="cytoscape-container"></div>
               <div className={`loader-container ${loading ? "show" : ""}`}>
                 <ClipLoader color="#ffffff" loading={loading} size={150} />
               </div>
             </div>
-          ) : (
+          )}
+          {currentView === "calendar" && (
             <div className="calendar-container bg-[rgb(27,27,27)]">
               <Calendar
                 selectedCourses={selectedCourses}
@@ -561,6 +572,13 @@ const Main = () => {
               />
             </div>
           )}
+          {currentView === "map" && (
+            // Add the map component here
+            <div className="map-container bg-[rgb(27,27,27)]">
+              <MapBox />
+            </div>
+            )
+          }
         </div>
       </div>
       <Footer />

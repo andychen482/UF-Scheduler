@@ -2,7 +2,7 @@
   position: relative;
   max-height: calc(100vh - 43px);
   min-height: calc(100vh - 43px);
-  width: 55%;
+  width: 52%;
   overflow-y: auto;
 }
 

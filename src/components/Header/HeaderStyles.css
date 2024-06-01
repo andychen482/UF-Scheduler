@@ -22,6 +22,9 @@
 
 .button-container {
   display: flex;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
 }
 
 .Button {
@@ -35,12 +38,16 @@
   margin-top: 8px;
   cursor: pointer;
   transition: opacity 0.2s ease;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
 }
 
 .icon-text-container {
   display: flex;
   align-items: center;
-  overflow: auto;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .Button:first-child {
