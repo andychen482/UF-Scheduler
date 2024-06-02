@@ -4,7 +4,7 @@ import rawCoords from "../../data/buildingCoords.json";
 import parkingInfo from "../../data/parking_polys.json";
 import { MdOutlinePedalBike } from "react-icons/md";
 import { FaPersonWalking } from "react-icons/fa6";
-import { PiMopedBold } from "react-icons/pi";
+import { PiMopedFill } from "react-icons/pi";
 import "./MapStyles.css";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN as string;
@@ -314,7 +314,7 @@ const Map = () => {
               fontSize: "1.25rem",
             }}
           >
-            {mode === "walking" ? <FaPersonWalking /> : mode === "cycling" ? <MdOutlinePedalBike /> : mode === "driving" && <PiMopedBold />}
+            {mode === "walking" ? <FaPersonWalking /> : mode === "cycling" ? <MdOutlinePedalBike /> : mode === "driving" && <PiMopedFill />}
           </button>
         ))}
       </div>
