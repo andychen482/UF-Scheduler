@@ -63,9 +63,9 @@
   }
 }
 
-.MainLayout-flexRow.MainLayout-stickyElement.MainLayout-leftPanel.MainLayout-ordinaryLeftPanelBorder {
+/* .MainLayout-flexRow.MainLayout-stickyElement.MainLayout-leftPanel.MainLayout-ordinaryLeftPanelBorder {
   max-width: 65px;
-}
+} */
 
 .spinner {
   border: 8px solid #0021a5;
