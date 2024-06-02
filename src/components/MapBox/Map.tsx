@@ -88,7 +88,7 @@ const Map = () => {
     if (mapContainerRef.current) {
       map = new mapboxgl.Map({
         container: mapContainerRef.current,
-        style: "mapbox://styles/gt-scheduler/cktc4yzhm018w17ql65xa802o",
+        style: "mapbox://styles/andycn7/clwx0n886012q01qm97lpaudg",
         center: [-82.347, 29.645],
         zoom: 14.6,
         // cooperativeGestures: true,
@@ -105,7 +105,7 @@ const Map = () => {
             type: "fill",
             source: "parking",
             paint: {
-              "fill-color": "#0021a5",
+              "fill-color": "#3249a6",
               "fill-opacity": 0.5,
             },
           });
