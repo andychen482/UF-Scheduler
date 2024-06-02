@@ -45,6 +45,7 @@ const Map = () => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const [selectedDay, setSelectedDay] = useState<string>("M"); // Example selected day, could be set based on user input
   const [transportMode, setTransportMode] = useState<string>("walking");
+  const [showHelp, setShowHelp] = useState(false);
 
   // Function to fetch isochrone data and create a layer
   const fetchIsochrone = async (
@@ -275,11 +276,7 @@ const Map = () => {
 
   return (
     <div>
-      <div
-        className="mappp"
-        ref={mapContainerRef}
-        style={{ width: "100%" }}
-      />
+      <div className="mappp" ref={mapContainerRef} style={{ width: "100%" }} />
       <div className="day-selector">
         {["M", "T", "W", "R", "F"].map((day) => (
           <button
@@ -323,6 +320,44 @@ const Map = () => {
           </button>
         ))}
       </div>
+      <div
+        className="help-overlay"
+        style={{ display: showHelp ? "block" : "none" }}
+        onClick={() => setShowHelp(!showHelp)}
+      />
+      <div
+        className="help-content"
+        style={{ display: showHelp ? "block" : "none" }}
+      >
+        <p>
+          Select the day of the week to view your class locations.
+          <hr style={{ height: "1px", borderWidth: "0", color: "gray", backgroundColor: "gray", marginTop: "2px", marginBottom: "2px" }} />
+          Select your mode of transportation and click on the markers to view the
+          reachable area within 15 minutes (passing).
+        </p>
+      </div>
+      <button
+        type="button"
+        className="inline-block rounded-full bg-primary p-2 uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
+        style={{
+          position: "absolute",
+          bottom: "1rem",
+          right: "1rem",
+          backgroundColor: "#3b71ca",
+        }}
+        onClick={() => setShowHelp(!showHelp)}
+      >
+        <svg
+          viewBox="0 0 48 48"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#ffffff"
+          width="24px"
+          height="24px"
+        >
+          <path d="M24.3,6A11.2,11.2,0,0,0,16,9.3a11,11,0,0,0-3.5,8.2,2.5,2.5,0,0,0,5,0,6.5,6.5,0,0,1,2-4.7A6.2,6.2,0,0,1,24.2,11a6.5,6.5,0,0,1,1,12.9,4.4,4.4,0,0,0-3.7,4.4v3.2a2.5,2.5,0,0,0,5,0V28.7a11.6,11.6,0,0,0,9-11.5A11.7,11.7,0,0,0,24.3,6Z" />
+          <circle cx="24" cy="39.5" r="2.5" />
+        </svg>
+      </button>
     </div>
   );
 };
