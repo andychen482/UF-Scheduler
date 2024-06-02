@@ -47,6 +47,14 @@ function convert24to12(time: string) {
   return `${hour}:${minutes.toString().padStart(2, "0")}`;
 }
 
+function getContrastYIQ(hexcolor: string){
+  var r = parseInt(hexcolor.substring(1,3),16);
+  var g = parseInt(hexcolor.substring(3,5),16);
+  var b = parseInt(hexcolor.substring(5,7),16);
+  var yiq = ((r*299)+(g*587)+(b*114))/1000;
+  return (yiq >= 128) ? 'black' : 'white';
+}
+
 const Map = () => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const [selectedDay, setSelectedDay] = useState<string>("M"); // Example selected day, could be set based on user input
@@ -106,7 +114,7 @@ const Map = () => {
         layout: {
           "text-field": "15 MIN",
           "text-size": 12,
-          "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+          "text-font": ["DIN Offc Pro Bold", "Arial Unicode MS Bold"],
           "text-offset": [0, 0],
           "text-anchor": "center",
           "symbol-placement": "line",
@@ -114,8 +122,8 @@ const Map = () => {
         },
         paint: {
           "text-color": color,
-          "text-halo-color": "#000000",
-          "text-halo-width": 1,
+          "text-halo-color": getContrastYIQ(color),
+          "text-halo-width": 0.5,
         },
       });
     }
