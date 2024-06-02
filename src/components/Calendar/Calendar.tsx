@@ -344,7 +344,7 @@ const Calendar: React.FC<CalendarProps> = ({
             const location = `${building} ${room}`;
 
             // Adding the current appointment to the interval tree
-            intervalTree.insert(interval, { title, color });
+            intervalTree.insert(interval);
             appointments.push({
               startDate,
               endDate,

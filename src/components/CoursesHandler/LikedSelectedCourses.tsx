@@ -13,13 +13,22 @@ interface LikedSelectedCoursesProps {
 }
 
 const colorHash = new ColorHash({
-  saturation: [0.4],
+  saturation: [0.6, 0.61, 0.62, 0.63, 0.64, 0.65, 0.66, 0.67, 0.68, 0.69, 0.7],
   lightness: [0.4, 0.5, 0.6],
 });
 
 const getHashedColor = (course: Course) => {
   return colorHash.hex(course.code + course.name);
 };
+
+// Function to get the contrast color of the text based on the background color hex
+function getContrastYIQ(hexcolor: string){
+  var r = parseInt(hexcolor.substring(1,3),16);
+  var g = parseInt(hexcolor.substring(3,5),16);
+  var b = parseInt(hexcolor.substring(5,7),16);
+  var yiq = ((r*299)+(g*587)+(b*114))/1000;
+  return (yiq >= 128) ? 'black' : 'white';
+}
 
 const getSelectedSection = (course: Course): Section | undefined => {
   return course.sections.find((section: Section) => section.selected === true);
@@ -103,7 +112,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                     <div
                       id="badge"
                       key={index}
-                      className={`flex-1 p-[0.6rem] rounded-md mb-2 text-black dark:text-white cursor-pointer w-full h-full overflow-hidden`}
+                      className={`flex-1 p-[0.6rem] rounded-md mb-2 text-${getContrastYIQ(getHashedColor(course))} dark:text-white cursor-pointer w-full h-full overflow-hidden`}
                       style={getCourseBackgroundColor(course)}
                       onClick={() => handleBadgeClick(course)}
                     >
@@ -122,7 +131,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                                 {course.code.replace(/([A-Z]+)/g, "$1 ")}
                               </strong>
                             )}
-                            <span className="text-white mt-[0.12rem] font-bold text-sm">
+                            <span className="mt-[0.12rem] font-bold text-sm">
                               {course.sections[0].credits}
                             </span>
                           </div>

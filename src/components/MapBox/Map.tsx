@@ -94,9 +94,9 @@ const Map = () => {
         source: sourceId,
         layout: {},
         paint: {
-          "line-color": color,  // Set the border color; adjust as needed
-          "line-width": 2        // Set the border width; adjust as needed
-        }
+          "line-color": color, // Set the border color; adjust as needed
+          "line-width": 2, // Set the border width; adjust as needed
+        },
       });
 
       map.addLayer({
@@ -110,13 +110,13 @@ const Map = () => {
           "text-offset": [0, 0],
           "text-anchor": "center",
           "symbol-placement": "line",
-          "text-allow-overlap": false
+          "text-allow-overlap": false,
         },
         paint: {
           "text-color": color,
           "text-halo-color": "#000000",
           "text-halo-width": 1,
-        }
+        },
       });
     }
   };
@@ -158,7 +158,7 @@ const Map = () => {
             type: "fill-extrusion",
             minzoom: 14.1,
             paint: {
-              "fill-extrusion-color": "#292929",
+              "fill-extrusion-color": "#2F2F2F",
               "fill-extrusion-height": [
                 "interpolate",
                 ["linear"],
@@ -230,7 +230,12 @@ const Map = () => {
               const { Longitude, Latitude } =
                 buildingCoords.features[buildingCode].properties;
               coords.push({
-                name: section.courseCode + " " + convert24to12(meet.meetTimeBegin) + " - " + convert24to12(meet.meetTimeEnd),
+                name:
+                  section.courseCode +
+                  " " +
+                  convert24to12(meet.meetTimeBegin) +
+                  " - " +
+                  convert24to12(meet.meetTimeEnd),
                 location: { longitude: Longitude, latitude: Latitude },
                 color: section.color,
               });
@@ -256,10 +261,11 @@ const Map = () => {
         mergedCoords.forEach((coord, index) => {
           const el = document.createElement("div");
           el.className = "marker";
-          el.innerHTML =
-            `<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="map-pin" class="svg-inline--fa fa-map-pin pin-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="${coord.color}" stroke="white" stroke-width="8px" d="M320 144c0 79.5-64.5 144-144 144S32 223.5 32 144S96.5 0 176 0s144 64.5 144 144zM176 80c8.8 0 16-7.2 16-16s-7.2-16-16-16c-53 0-96 43-96 96c0 8.8 7.2 16 16 16s16-7.2 16-16c0-35.3 28.7-64 64-64zM144 480V317.1c10.4 1.9 21.1 2.9 32 2.9s21.6-1 32-2.9V480c0 17.7-14.3 32-32 32s-32-14.3-32-32z"></path></svg>`;
-          el.style.width = "20px";
-          el.style.height = "20px";
+          el.innerHTML = `<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="map-pin" class="svg-inline--fa fa-map-pin pin-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 180"><path fill="${coord.color}" shape-rendering="geometricPrecision" d="M136,127.42V232a8,8,0,0,1-16,0V127.42a56,56,0,1,1,16,0Z"></path></svg>`;
+          el.style.width = "50px";
+          el.style.height = "50px";
+          (el.children[0] as HTMLElement).style.stroke = "black";
+          (el.children[0] as HTMLElement).style.strokeWidth = "4px";
 
           const popup = new mapboxgl.Popup({
             closeButton: false,
@@ -286,16 +292,38 @@ const Map = () => {
                 const visibility = map.getLayoutProperty(layerId, "visibility");
                 if (visibility === "visible" || !visibility) {
                   map.setLayoutProperty(layerId, "visibility", "none");
-                  map.setLayoutProperty(`isochrone-border-${index}`, "visibility", "none");
-                  map.setLayoutProperty(`isochrone-label-${index}`, "visibility", "none");
+                  map.setLayoutProperty(
+                    `isochrone-border-${index}`,
+                    "visibility",
+                    "none"
+                  );
+                  map.setLayoutProperty(
+                    `isochrone-label-${index}`,
+                    "visibility",
+                    "none"
+                  );
+                  (el.children[0] as HTMLElement).style.stroke = "black";
+                  (el.children[0] as HTMLElement).style.strokeWidth = "4px";
                 } else {
                   map.setLayoutProperty(layerId, "visibility", "visible");
-                  map.setLayoutProperty(`isochrone-border-${index}`, "visibility", "visible");
-                  map.setLayoutProperty(`isochrone-label-${index}`, "visibility", "visible");
+                  map.setLayoutProperty(
+                    `isochrone-border-${index}`,
+                    "visibility",
+                    "visible"
+                  );
+                  map.setLayoutProperty(
+                    `isochrone-label-${index}`,
+                    "visibility",
+                    "visible"
+                  );
+                  (el.children[0] as HTMLElement).style.stroke = "white";
+                  (el.children[0] as HTMLElement).style.strokeWidth = "10px";
                 }
               } else {
                 // Fetch and display new isochrone
                 fetchIsochrone(map!, coord, index, coord.color);
+                (el.children[0] as HTMLElement).style.stroke = "white";
+                (el.children[0] as HTMLElement).style.strokeWidth = "10px";
               }
             }
             popup.remove();
@@ -376,9 +404,18 @@ const Map = () => {
       >
         <p>
           Select the day of the week to view your class locations.
-          <hr style={{ height: "1px", borderWidth: "0", color: "gray", backgroundColor: "gray", marginTop: "2px", marginBottom: "2px" }} />
-          Select your mode of transportation and click on the markers to view the
-          reachable area within 15 minutes (passing).
+          <hr
+            style={{
+              height: "1px",
+              borderWidth: "0",
+              color: "gray",
+              backgroundColor: "gray",
+              marginTop: "2px",
+              marginBottom: "2px",
+            }}
+          />
+          Select your mode of transportation and click on the markers to view
+          the reachable area within 15 minutes (passing).
         </p>
       </div>
       <button
