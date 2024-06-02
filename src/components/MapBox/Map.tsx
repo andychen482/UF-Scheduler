@@ -142,6 +142,35 @@ const Map = () => {
           });
         }
 
+        if (map) {
+          map.on("click", "parking-fill", function (e) {
+            if (e.features && e.features.length > 0) {
+              const feature = e.features[0];
+              // Ensure the geometry is a Polygon for accessing coordinates
+              if (feature.geometry.type === "Polygon") {
+                const description = feature.properties!.CUSTOM_POPUP;
+
+                new mapboxgl.Popup()
+                  .setLngLat([e.lngLat.lng, e.lngLat.lat])
+                  .setHTML(description)
+                  .addTo(map!);
+              }
+            }
+          });
+
+          // Change the cursor to a pointer when the mouse is over the parking-fill layer.
+          map.on("mouseenter", "parking-fill", function () {
+            map!.getCanvas().style.cursor = "pointer";
+          });
+
+          // Change it back to a pointer when it leaves.
+          map.on("mouseleave", "parking-fill", function () {
+            map!.getCanvas().style.cursor = "";
+          });
+        }
+
+        if (map) map.addControl(new mapboxgl.NavigationControl(), "top-right");
+
         const selectedCalendar = JSON.parse(
           localStorage.getItem("selectedCalendar") || "{}"
         );
@@ -233,36 +262,6 @@ const Map = () => {
               .setLngLat([coord.location.longitude, coord.location.latitude])
               .addTo(map);
         });
-
-        // Add navigation control (the +/- zoom buttons)
-        if (map) map.addControl(new mapboxgl.NavigationControl(), "top-right");
-
-        if (map) {
-          map.on("click", "parking-fill", function (e) {
-            if (e.features && e.features.length > 0) {
-              const feature = e.features[0];
-              // Ensure the geometry is a Polygon for accessing coordinates
-              if (feature.geometry.type === "Polygon") {
-                const description = feature.properties!.CUSTOM_POPUP;
-
-                new mapboxgl.Popup()
-                  .setLngLat([e.lngLat.lng, e.lngLat.lat])
-                  .setHTML(description)
-                  .addTo(map!);
-              }
-            }
-          });
-
-          // Change the cursor to a pointer when the mouse is over the parking-fill layer.
-          map.on("mouseenter", "parking-fill", function () {
-            map!.getCanvas().style.cursor = "pointer";
-          });
-
-          // Change it back to a pointer when it leaves.
-          map.on("mouseleave", "parking-fill", function () {
-            map!.getCanvas().style.cursor = "";
-          });
-        }
       });
     }
 
@@ -314,7 +313,13 @@ const Map = () => {
               fontSize: "1.25rem",
             }}
           >
-            {mode === "walking" ? <FaPersonWalking /> : mode === "cycling" ? <MdOutlinePedalBike /> : mode === "driving" && <PiMopedFill />}
+            {mode === "walking" ? (
+              <FaPersonWalking />
+            ) : mode === "cycling" ? (
+              <MdOutlinePedalBike />
+            ) : (
+              mode === "driving" && <PiMopedFill />
+            )}
           </button>
         ))}
       </div>
