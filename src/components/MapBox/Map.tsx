@@ -67,6 +67,8 @@ const Map = () => {
     if (map && data.features) {
       const sourceId = `isochrone-source-${index}`;
       const layerId = `isochrone-layer-${index}`;
+      const borderLayerId = `isochrone-border-${index}`;
+      const borderLabelId = `isochrone-label-${index}`;
 
       // Add source for isochrone
       map.addSource(sourceId, {
@@ -84,6 +86,37 @@ const Map = () => {
           "fill-color": color,
           "fill-opacity": 0.5,
         },
+      });
+
+      map.addLayer({
+        id: borderLayerId,
+        type: "line",
+        source: sourceId,
+        layout: {},
+        paint: {
+          "line-color": color,  // Set the border color; adjust as needed
+          "line-width": 2        // Set the border width; adjust as needed
+        }
+      });
+
+      map.addLayer({
+        id: borderLabelId,
+        type: "symbol",
+        source: sourceId,
+        layout: {
+          "text-field": "15 MIN",
+          "text-size": 12,
+          "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+          "text-offset": [0, 0],
+          "text-anchor": "center",
+          "symbol-placement": "line",
+          "text-allow-overlap": false
+        },
+        paint: {
+          "text-color": color,
+          "text-halo-color": "#000000",
+          "text-halo-width": 1,
+        }
       });
     }
   };
@@ -253,8 +286,12 @@ const Map = () => {
                 const visibility = map.getLayoutProperty(layerId, "visibility");
                 if (visibility === "visible" || !visibility) {
                   map.setLayoutProperty(layerId, "visibility", "none");
+                  map.setLayoutProperty(`isochrone-border-${index}`, "visibility", "none");
+                  map.setLayoutProperty(`isochrone-label-${index}`, "visibility", "none");
                 } else {
                   map.setLayoutProperty(layerId, "visibility", "visible");
+                  map.setLayoutProperty(`isochrone-border-${index}`, "visibility", "visible");
+                  map.setLayoutProperty(`isochrone-label-${index}`, "visibility", "visible");
                 }
               } else {
                 // Fetch and display new isochrone
@@ -284,7 +321,7 @@ const Map = () => {
     <div>
       <div className="mappp" ref={mapContainerRef} style={{ width: "100%" }} />
       <div className="day-selector">
-        <p className="text-center">Day</p>
+        {/* <p className="text-center">Day</p> */}
         {["M", "T", "W", "R", "F"].map((day) => (
           <button
             key={day}
@@ -303,7 +340,7 @@ const Map = () => {
         ))}
       </div>
       <div className="mode-selector">
-        <p className="text-center">Transportation</p>
+        {/* <p className="text-center">Transportation</p> */}
         {["walking", "cycling", "driving"].map((mode) => (
           <button
             key={mode}
