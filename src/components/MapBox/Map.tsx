@@ -118,7 +118,7 @@ const Map = () => {
             type: "fill-extrusion",
             minzoom: 14.1,
             paint: {
-              "fill-extrusion-color": "#aaa",
+              "fill-extrusion-color": "#292929",
               "fill-extrusion-height": [
                 "interpolate",
                 ["linear"],
