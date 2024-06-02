@@ -41,11 +41,17 @@ type coordsProps = {
   color: string;
 };
 
+function convert24to12(time: string) {
+  const [hours, minutes] = time.split(":").map(Number);
+  const hour = hours % 12 || 12;
+  return `${hour}:${minutes.toString().padStart(2, "0")}`;
+}
+
 const Map = () => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const [selectedDay, setSelectedDay] = useState<string>("M"); // Example selected day, could be set based on user input
   const [transportMode, setTransportMode] = useState<string>("walking");
-  const [showHelp, setShowHelp] = useState(false);
+  const [showHelp, setShowHelp] = useState(true);
 
   // Function to fetch isochrone data and create a layer
   const fetchIsochrone = async (
@@ -191,7 +197,7 @@ const Map = () => {
               const { Longitude, Latitude } =
                 buildingCoords.features[buildingCode].properties;
               coords.push({
-                name: "P" + meet.meetPeriodBegin + " - " + section.courseCode,
+                name: section.courseCode + " " + convert24to12(meet.meetTimeBegin) + " - " + convert24to12(meet.meetTimeEnd),
                 location: { longitude: Longitude, latitude: Latitude },
                 color: section.color,
               });
@@ -278,6 +284,7 @@ const Map = () => {
     <div>
       <div className="mappp" ref={mapContainerRef} style={{ width: "100%" }} />
       <div className="day-selector">
+        <p className="text-center">Day</p>
         {["M", "T", "W", "R", "F"].map((day) => (
           <button
             key={day}
@@ -296,6 +303,7 @@ const Map = () => {
         ))}
       </div>
       <div className="mode-selector">
+        <p className="text-center">Transportation</p>
         {["walking", "cycling", "driving"].map((mode) => (
           <button
             key={mode}
