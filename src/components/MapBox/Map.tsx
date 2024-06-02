@@ -2,6 +2,9 @@ import { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import rawCoords from "../../data/buildingCoords.json";
 import parkingInfo from "../../data/parking_polys.json";
+import { MdOutlinePedalBike } from "react-icons/md";
+import { FaPersonWalking } from "react-icons/fa6";
+import { PiMopedBold } from "react-icons/pi";
 import "./MapStyles.css";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN as string;
@@ -35,11 +38,48 @@ type MapLocation = {
 type coordsProps = {
   name: string;
   location: MapLocation;
+  color: string;
 };
 
 const Map = () => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const [selectedDay, setSelectedDay] = useState<string>("M"); // Example selected day, could be set based on user input
+  const [transportMode, setTransportMode] = useState<string>("walking");
+
+  // Function to fetch isochrone data and create a layer
+  const fetchIsochrone = async (
+    map: mapboxgl.Map,
+    coord: coordsProps,
+    index: number,
+    color: string
+  ) => {
+    const url = `https://api.mapbox.com/isochrone/v1/mapbox/${transportMode}/${coord.location.longitude},${coord.location.latitude}?contours_minutes=15&polygons=true&access_token=${mapboxgl.accessToken}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (map && data.features) {
+      const sourceId = `isochrone-source-${index}`;
+      const layerId = `isochrone-layer-${index}`;
+
+      // Add source for isochrone
+      map.addSource(sourceId, {
+        type: "geojson",
+        data: data,
+      });
+
+      // Add layer for isochrone
+      map.addLayer({
+        id: layerId,
+        type: "fill",
+        source: sourceId,
+        layout: {},
+        paint: {
+          "fill-color": color,
+          "fill-opacity": 0.5,
+        },
+      });
+    }
+  };
 
   // Initialize map when component mounts
   useEffect(() => {
@@ -65,7 +105,7 @@ const Map = () => {
             type: "fill",
             source: "parking",
             paint: {
-              "fill-color": "#c54848",
+              "fill-color": "#0021a5",
               "fill-opacity": 0.5,
             },
           });
@@ -123,6 +163,7 @@ const Map = () => {
               coords.push({
                 name: "P" + meet.meetPeriodBegin + " - " + section.courseCode,
                 location: { longitude: Longitude, latitude: Latitude },
+                color: section.color,
               });
             }
           });
@@ -143,7 +184,7 @@ const Map = () => {
           return acc;
         }, []);
 
-        mergedCoords.forEach((coord) => {
+        mergedCoords.forEach((coord, index) => {
           const el = document.createElement("div");
           el.className = "marker";
           el.innerHTML =
@@ -165,6 +206,28 @@ const Map = () => {
             .setPopup(popup)
             .addTo(map!);
 
+          const layerId = `isochrone-layer-${index}`;
+
+          // Adding the click event to the marker
+          el.addEventListener("click", () => {
+            if (map) {
+              if (map.getLayer(layerId)) {
+                // Toggle visibility of the existing layer
+                console.log(map.getLayoutProperty(layerId, "visibility"));
+                const visibility = map.getLayoutProperty(layerId, "visibility");
+                if (visibility === "visible" || !visibility) {
+                  map.setLayoutProperty(layerId, "visibility", "none");
+                } else {
+                  map.setLayoutProperty(layerId, "visibility", "visible");
+                }
+              } else {
+                // Fetch and display new isochrone
+                fetchIsochrone(map!, coord, index, coord.color);
+              }
+            }
+            popup.remove();
+          });
+
           if (map)
             popup
               .setLngLat([coord.location.longitude, coord.location.latitude])
@@ -174,14 +237,14 @@ const Map = () => {
         // Add navigation control (the +/- zoom buttons)
         if (map) map.addControl(new mapboxgl.NavigationControl(), "top-right");
 
-        if (map){
-          map.on('click', 'parking-fill', function (e) {
+        if (map) {
+          map.on("click", "parking-fill", function (e) {
             if (e.features && e.features.length > 0) {
               const feature = e.features[0];
               // Ensure the geometry is a Polygon for accessing coordinates
               if (feature.geometry.type === "Polygon") {
                 const description = feature.properties!.CUSTOM_POPUP;
-      
+
                 new mapboxgl.Popup()
                   .setLngLat([e.lngLat.lng, e.lngLat.lat])
                   .setHTML(description)
@@ -189,17 +252,17 @@ const Map = () => {
               }
             }
           });
-      
-        // Change the cursor to a pointer when the mouse is over the parking-fill layer.
-        map.on('mouseenter', 'parking-fill', function () {
-            map!.getCanvas().style.cursor = 'pointer';
-        });
-      
-        // Change it back to a pointer when it leaves.
-        map.on('mouseleave', 'parking-fill', function () {
-            map!.getCanvas().style.cursor = '';
-        });
-      }
+
+          // Change the cursor to a pointer when the mouse is over the parking-fill layer.
+          map.on("mouseenter", "parking-fill", function () {
+            map!.getCanvas().style.cursor = "pointer";
+          });
+
+          // Change it back to a pointer when it leaves.
+          map.on("mouseleave", "parking-fill", function () {
+            map!.getCanvas().style.cursor = "";
+          });
+        }
       });
     }
 
@@ -209,7 +272,7 @@ const Map = () => {
         map.remove();
       }
     };
-  }, [selectedDay]);
+  }, [selectedDay, transportMode]);
 
   return (
     <div>
@@ -218,28 +281,40 @@ const Map = () => {
         ref={mapContainerRef}
         style={{ width: "100%" }}
       />
-      <div
-        style={{
-          position: "absolute",
-          top: 10,
-          right: 50,
-          background: "#fff",
-          padding: "5px",
-          borderRadius: "5px",
-        }}
-      >
+      <div className="day-selector">
         {["M", "T", "W", "R", "F"].map((day) => (
           <button
             key={day}
             onClick={() => setSelectedDay(day)}
             style={{
               margin: "0 4px",
+              padding: "0 4px",
               backgroundColor: selectedDay === day ? "grey" : "initial",
               color: selectedDay === day ? "white" : "black",
               fontWeight: "bold",
+              borderRadius: "4px",
             }}
           >
             {day}
+          </button>
+        ))}
+      </div>
+      <div className="mode-selector">
+        {["walking", "cycling", "driving"].map((mode) => (
+          <button
+            key={mode}
+            onClick={() => setTransportMode(mode)}
+            style={{
+              margin: "0 4px",
+              padding: "4px 4px",
+              backgroundColor: transportMode === mode ? "grey" : "initial",
+              color: transportMode === mode ? "white" : "black",
+              fontWeight: "bold",
+              borderRadius: "4px",
+              fontSize: "1.25rem",
+            }}
+          >
+            {mode === "walking" ? <FaPersonWalking /> : mode === "cycling" ? <MdOutlinePedalBike /> : mode === "driving" && <PiMopedBold />}
           </button>
         ))}
       </div>

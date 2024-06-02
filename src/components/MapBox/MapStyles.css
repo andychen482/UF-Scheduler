@@ -26,11 +26,11 @@
 }
 
 .mapboxgl-touch-pan-blocker {
-  font-size: 0px !important; 
+  font-size: 0px !important;
 }
 
 .mapboxgl-scroll-zoom-blocker {
-  font-size: 0px !important; 
+  font-size: 0px !important;
 }
 
 .mapboxgl-popup {
@@ -45,10 +45,42 @@
   .mappp {
     height: 80vh !important;
   }
+  .day-selector {
+    position: absolute;
+    top: 40px;
+    right: 50px;
+    background: #fff;
+    padding: 5px 3px;
+    border-radius: 5px;
+  }
+  .mode-selector {
+    top: 40px;
+    position: absolute;
+    left: 10px;
+    background: #fff;
+    padding: 5px 3px;
+    border-radius: 5px;
+  }
 }
 
 @media (min-width: 1001px) {
   .mappp {
     height: calc(100vh - 43px) !important;
+  }
+  .day-selector {
+    top: 10px;
+    position: absolute;
+    right: 50px;
+    background: #fff;
+    padding: 5px 3px;
+    border-radius: 5px;
+  }
+  .mode-selector {
+    top: 10px;
+    position: absolute;
+    left: 10px;
+    background: #fff;
+    padding: 5px 3px;
+    border-radius: 5px;
   }
 }
