@@ -27,8 +27,11 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   z-index: 10000;
   width: fit-content;
-  min-width: 300px;
+  max-width: 90%;
+  /* min-width: 300px; */
   border-radius: 5px;
+  max-height: 90%;
+  overflow-y: auto;
 }
 
 .inline-content {
