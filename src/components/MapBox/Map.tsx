@@ -338,12 +338,9 @@ const Map = () => {
       </div>
       <button
         type="button"
-        className="inline-block rounded-full bg-primary p-2 uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
+        className="question-mark-button inline-block rounded-full bg-primary p-2 uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#ff7f1f] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(255,127,31,0.3),0_4px_18px_0_rgba(255,127,31,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(255,127,31,0.3),0_4px_18px_0_rgba(255,127,31,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(255,127,31,0.3),0_4px_18px_0_rgba(255,127,31,0.2)]"
         style={{
-          position: "absolute",
-          bottom: "1rem",
-          right: "1rem",
-          backgroundColor: "#3b71ca",
+          backgroundColor: "#d46919",
         }}
         onClick={() => setShowHelp(!showHelp)}
       >
