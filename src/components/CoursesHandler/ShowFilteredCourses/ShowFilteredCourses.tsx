@@ -228,7 +228,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                             {firstCourse.code.replace(/([A-Z]+)/g, "$1 ")}
                           </div>
                         )}
-                        <div className="text-sm font-normal text-gray-300 mr-6 h-5 mb-[0.3rem]  whitespace-nowrap overflow-hidden text-overflow-ellipsis">
+                        <div className="text-sm font-normal text-gray-300 mr-6 h-5 mb-[0.3rem] whitespace-nowrap overflow-hidden text-overflow-ellipsis">
                           Credits: {firstCourse.sections[0].credits}
                         </div>
                         <div className="mx-1 h-9">
@@ -286,7 +286,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                           )}
                         </div>
                       </div>
-                      <div className="text-sm font-normal text-gray-300 dark:text-white mx-1 line-clamp-1 overflow-ellipsis overflow-hidden">
+                      <div className="text-sm font-normal text-gray-300 dark:text-white mx-1 line-clamp-2 overflow-ellipsis overflow-hidden">
                         {firstCourse.name}
                       </div>
                     </div>
