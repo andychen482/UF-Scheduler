@@ -181,11 +181,13 @@
     width: calc(100vw - 60px);
     border-top: 0.5px solid #ccc;
     padding-top: 30px;
+    padding-bottom: 30px;
   }
 
   #cytoscape-container {
     width: 100%;
     height: 80vh;
+    border-radius: 8px;
   }
 
   .flex.flex-col.items-start.basis-full.p-0.dark\:bg-gray-800.transition-colors.duration-500 {
@@ -294,11 +296,13 @@
     width: calc(100vw - 60px);
     border-top: 0.5px solid #ccc;
     padding-top: 30px;
+    padding-bottom: 30px;
   }
 
   #cytoscape-container {
     width: 100%;
     height: 80vh;
+    border-radius: 8px;
   }
 
   .flex.flex-col.items-start.basis-full.p-0.dark\:bg-gray-800.transition-colors.duration-500 {
@@ -426,12 +430,26 @@
   /* text-decoration: underline; */
 }
 
+.instruction-headers {
+  font-weight: bold;
+  font-size: larger;
+  line-height: 1.5;
+}
+
+.instruction-desc {
+  line-height: 1.25;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  font-size:medium;
+}
+
 @media (max-width: 1000px) {
   .map-container {
     position: relative;
     border-top: 0.5px solid #ccc;
     width: calc(100vw - 60px);
     padding-top: 30px;
+    padding-bottom: 30px;
     max-height: 100%;
     order: 3;
   }

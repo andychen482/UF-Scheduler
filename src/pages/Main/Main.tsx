@@ -448,27 +448,38 @@ const Main = () => {
             <span className="text-blue-500">UF</span>
             <span className="text-orange-500">Scheduler!</span>
           </div>
-          <ul className="list-[circle] list-inside mb-2 space-y-2">
-            <span className="text-center">
-              <b className="instruction-title">How to Use:</b>
-            </span>
-            <li>
-              The Graph tab visualizes the prerequisites for each department.
-            </li>
-            <li>
-              The Calendar tab generates all possible schedules with options to
-              sort and download.
-            </li>
-            <li>
-              To add courses, type in the search box and press on the{" "}
-              <span className="font-bold text-xl">+ </span>buttons.
-            </li>
-            <li>
-              Courses can be removed by clicking on the course badges in the{" "}
-              <span className="underline">Courses</span> list on the left.
-            </li>
-            <li>Custom events and ICS downloads are supported.</li>
-          </ul>
+          <div className="mb-2">
+            <h2 className="instruction-headers">Select Your Major</h2>
+            <p className="instruction-desc">
+              Select your major from the left panel to view all related courses
+              and their prerequisites. This visualization helps you understand
+              the sequence of courses and plan your academic trajectory.{" "}
+            </p>
+            <p className="instruction-headers">View Courses and Availability</p>
+            <p className="instruction-desc">
+              Explore available course sections directly from your major’s
+              course list. Check real-time availability, see if sections are on
+              a waitlist, and register for open spots with just a few clicks.{" "}
+            </p>
+            <p className="instruction-headers">Graph</p>
+            <p className="instruction-desc">
+              See a visual representation of the prerequisites for all courses
+              within your selected major.{" "}
+            </p>
+            <p className="instruction-headers">Calendar</p>
+            <p className="instruction-desc">
+              Generate and customize your course schedule. Sort by start times,
+              end times, or compactness to fit your daily routine and
+              preferences.
+            </p>
+            <p className="instruction-headers">Map</p>
+            <p className="instruction-desc">
+              See a detailed view of your daily class locations. Click on any
+              class marker to see travel options from that location, including
+              walking, biking, and driving times. You can also view parking
+              locations and required pass levels for each.{" "}
+            </p>
+          </div>
         </div>
       )}
       {showInstructions && (
@@ -479,14 +490,14 @@ const Main = () => {
           ></div>
         </>
       )}
-      {showArrow && (
+      {/* {showArrow && (
         <>
           <div className="arrow-container" style={{ userSelect: "none" }}>
             <img src={"images/white-arrow.png"} alt="" className="arrow"></img>
             <figcaption className="caption">Calendar here!</figcaption>
           </div>
         </>
-      )}
+      )} */}
       <Header
         calendarView={calendarView}
         graphView={graphView}
@@ -583,8 +594,7 @@ const Main = () => {
             <div className="map-container bg-[rgb(27,27,27)]">
               <MapBox />
             </div>
-            )
-          }
+          )}
         </div>
       </div>
       <Footer />

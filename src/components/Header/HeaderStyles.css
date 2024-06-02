@@ -25,6 +25,7 @@
   white-space: nowrap;
   overflow: hidden;
   width: 100%;
+  justify-content: flex-end;
 }
 
 .Button {

@@ -276,7 +276,7 @@ const Map = () => {
   return (
     <div>
       <div
-        className="mappp h-[calc(100vh-100px)]"
+        className="mappp"
         ref={mapContainerRef}
         style={{ width: "100%" }}
       />
