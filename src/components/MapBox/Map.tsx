@@ -88,7 +88,7 @@ const Map = () => {
     if (mapContainerRef.current) {
       map = new mapboxgl.Map({
         container: mapContainerRef.current,
-        style: "mapbox://styles/andycn7/clwx0n886012q01qm97lpaudg",
+        style: "mapbox://styles/andycn7/clwx270uy005701nm9xs3eq9o",
         center: [-82.347, 29.645],
         zoom: 14.6,
         // cooperativeGestures: true,
