@@ -41,10 +41,12 @@ type coordsProps = {
   color: string;
 };
 
-function convert24to12(time: string) {
+function convert24to12(time: string, num: number) {
   const [hours, minutes] = time.split(":").map(Number);
   const hour = hours % 12 || 12;
-  return `${hour}:${minutes.toString().padStart(2, "0")}`;
+  const suffix = hour < 12 ? "AM" : "PM";
+  if (num === 0) return `${hour}:${minutes.toString().padStart(2, "0")}`;
+  if (num === 1) return `${hour}:${minutes.toString().padStart(2, "0")} ${suffix}`;
 }
 
 function getContrastYIQ(hexcolor: string){
@@ -241,9 +243,9 @@ const Map = () => {
                 name:
                   section.courseCode +
                   " " +
-                  convert24to12(meet.meetTimeBegin) +
+                  convert24to12(meet.meetTimeBegin, 0) +
                   " - " +
-                  convert24to12(meet.meetTimeEnd),
+                  convert24to12(meet.meetTimeEnd, 1),
                 location: { longitude: Longitude, latitude: Latitude },
                 color: section.color,
               });
