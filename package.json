@@ -6,7 +6,7 @@
   "dependencies": {
     "@devexpress/dx-react-core": "^4.0.5",
     "@devexpress/dx-react-scheduler": "^4.0.5",
-    "@devexpress/dx-react-scheduler-material-ui": "^4.0.5",
+    "@devexpress/dx-react-scheduler-material-ui": "github:andychen482/scheduler-material-ui#main",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@flatten-js/interval-tree": "^1.1.0",
@@ -37,7 +37,6 @@
     "lodash": "^4.17.21",
     "mapbox-gl": "^3.4.0",
     "moment": "^2.29.4",
-    "pyscript-react": "^0.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-ga4": "^2.1.0",
