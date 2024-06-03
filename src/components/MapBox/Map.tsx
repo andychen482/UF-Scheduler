@@ -43,8 +43,8 @@ type coordsProps = {
 
 function convert24to12(time: string, num: number) {
   const [hours, minutes] = time.split(":").map(Number);
+  const suffix = hours < 12 ? "AM" : "PM";
   const hour = hours % 12 || 12;
-  const suffix = hour < 12 ? "AM" : "PM";
   if (num === 0) return `${hour}:${minutes.toString().padStart(2, "0")}`;
   if (num === 1) return `${hour}:${minutes.toString().padStart(2, "0")} ${suffix}`;
 }
