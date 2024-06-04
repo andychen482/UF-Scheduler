@@ -8,4 +8,4 @@ Created with React, TypeScript, Python, Flask, and NetworkX
 Enter your selected major and completed classes 
 to generate a graph of prerequisite classes.
 
-### Created by Andy Chen, Surya Karthikeyan Vijayalakshmi, and Weedguet Mildort
+### Created by Andy Chen
