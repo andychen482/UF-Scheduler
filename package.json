@@ -6,7 +6,7 @@
   "dependencies": {
     "@devexpress/dx-react-core": "^4.0.5",
     "@devexpress/dx-react-scheduler": "^4.0.5",
-    "@devexpress/dx-react-scheduler-material-ui": "^4.0.5",
+    "@devexpress/dx-react-scheduler-material-ui": "github:andychen482/scheduler-material-ui",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@flatten-js/interval-tree": "^1.1.0",
