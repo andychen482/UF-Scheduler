@@ -195,7 +195,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
                     {!section.waitList.total && section.waitList.cap > 0 ? (
                       <span className="text-green-400 ml-1">Open Seats</span>
                     ) : !section.waitList.total && !section.waitList.cap ? (
-                      <span className="text-red-400 ml-1">Status Unknown</span>
+                      <span className="text-red-400 ml-1">Seats Unknown</span>
                     ) : section.waitList.total && section.waitList.cap && (
                       <span className="text-blue-400 ml-1">
                         Wait List: {waitListAvailable(section)}
