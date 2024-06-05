@@ -9,3 +9,7 @@ Enter your selected major and completed classes
 to generate a graph of prerequisite classes.
 
 ### Created by Andy Chen
+
+# Contributing
+
+Feel free to fork and make pull requests!
