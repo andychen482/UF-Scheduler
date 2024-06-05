@@ -1,6 +1,6 @@
 # UFScheduler.com
 
-Launched at https://www.ufscheduler.com
+Launched at https://ufscheduler.com
 Created with React, TypeScript, Python, Flask, and NetworkX
 
 ### Description
