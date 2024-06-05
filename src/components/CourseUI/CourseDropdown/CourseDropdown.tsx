@@ -181,38 +181,44 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
       className={`bg-[#43464d] dark:bg-gray-800 rounded-lg space-y-2 text-[15px]`}
     >
       <div className="list-none">
-        {course.sections.sort((a, b) => a.waitList.total - b.waitList.total).map((section, index) => (
-          <li
-            key={index}
-            className="my-2 rounded-sm bg-gray-800 border-gray-400 dark:border-gray-700"
-          >
-            <div className="space-y-2 p-2">
-              <div className="flex justify-between items-center">
-                <div className="font-bold text-gray-200 dark:text-gray-200 flex items-center">
-                  Class # {section.classNumber} -{" "}
-                  {section.waitList.total === 0 ? (
-                    <span className="text-green-400 ml-1">Open Seats</span>
+        {course.sections
+          .sort((a, b) => a.waitList.total - b.waitList.total)
+          .map((section, index) => (
+            <li
+              key={index}
+              className="my-2 rounded-sm bg-gray-800 border-gray-400 dark:border-gray-700"
+            >
+              <div className="space-y-2 p-2">
+                <div className="flex justify-between items-center">
+                  <div className="font-bold text-gray-200 dark:text-gray-200 flex items-center">
+                    Class # {section.classNumber} -{" "}
+                    {!section.waitList.total && section.waitList.cap > 0 ? (
+                      <span className="text-green-400 ml-1">Open Seats</span>
+                    ) : !section.waitList.total && !section.waitList.cap ? (
+                      <span className="text-red-400 ml-1">Status Unknown</span>
+                    ) : section.waitList.total && section.waitList.cap && (
+                      <span className="text-blue-400 ml-1">
+                        Wait List: {waitListAvailable(section)}
+                      </span>
+                    )}
+                  </div>
+                  {/* Star Icon based on section selected status */}
+                  {isSectionSelected(section) ? (
+                    <BiSolidLockAlt
+                      className={`${minusicons}`}
+                      onClick={() => toggleSectionSelected(section)}
+                    />
                   ) : (
-                    <span className="text-blue-400 ml-1">Wait List: {waitListAvailable(section)}</span>
+                    <BiSolidLockOpen
+                      className={`${icons}`}
+                      onClick={() => toggleSectionSelected(section)}
+                    />
                   )}
                 </div>
-                {/* Star Icon based on section selected status */}
-                {isSectionSelected(section) ? (
-                  <BiSolidLockAlt
-                    className={`${minusicons}`}
-                    onClick={() => toggleSectionSelected(section)}
-                  />
-                ) : (
-                  <BiSolidLockOpen
-                    className={`${icons}`}
-                    onClick={() => toggleSectionSelected(section)}
-                  />
-                )}
+                {renderSectionInformation(section)}
               </div>
-              {renderSectionInformation(section)}
-            </div>
-          </li>
-        ))}
+            </li>
+          ))}
         {course.sections.length === 0 && (
           <div
             className={`${listItem} ${content} text-gray-200 dark:text-gray-200`}

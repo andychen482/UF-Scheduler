@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Course } from "../../CourseUI/CourseTypes";
 import CourseDropdown from "../../CourseUI/CourseDropdown/CourseDropdown";
 import { ShowFilteredCoursesClasses } from "./ShowFilteredCoursesClasses";
@@ -42,6 +42,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   }>({});
 
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const { minusIcon, plusIcon, caretDownIcon, caretUpIcon, courseCard } =
     ShowFilteredCoursesClasses;
@@ -126,6 +127,12 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     setrecords(itemsPerPage);
   }, [debouncedSearchTerm]);
 
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = 0;
+    }
+  }, [debouncedSearchTerm]);
+
   const loadMore = async () => {
     // if (debouncedSearchTerm !== "" && debouncedSearchTerm !== null) {
     try {
@@ -180,7 +187,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   }, [debouncedSearchTerm]);
 
   return (
-    <div className="filtered-courses-container overflow-auto mt-3">
+    <div ref={containerRef} className="filtered-courses-container overflow-auto mt-3">
       <InfiniteScroll
         pageStart={0}
         loadMore={loadMore}
