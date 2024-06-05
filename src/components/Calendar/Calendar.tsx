@@ -252,8 +252,8 @@ const Calendar: React.FC<CalendarProps> = ({
         }
         for (let meetTime of section.meetTimes) {
           locations.push({
-            id: `${meetTime.meetBuilding} ${meetTime.meetBldgCode}`,
-            text: `${meetTime.meetBuilding} ${meetTime.meetBldgCode}`,
+            id: `${meetTime.meetBuilding} ${meetTime.meetRoom}`,
+            text: `${meetTime.meetBuilding} ${meetTime.meetRoom}`,
             color: `${section.color}`,
           });
         }
@@ -305,12 +305,12 @@ const Calendar: React.FC<CalendarProps> = ({
           meetTimeBegin,
           meetTimeEnd,
           meetBuilding,
-          meetBldgCode,
+          meetRoom,
         } of meetTimes) {
           const startDateBase = meetTimeBegin;
           const endDateBase = meetTimeEnd;
           const building = meetBuilding;
-          const room = meetBldgCode;
+          const room = meetRoom;
 
           for (let day of meetDays) {
             const date = dayMapping.get(day);
