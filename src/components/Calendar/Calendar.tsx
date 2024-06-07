@@ -85,13 +85,13 @@ const generateICSContent = (appointments: any[]) => {
 
   // Mapping between the days of the week and the corresponding dates in the target week
   const dayToDateMapping: { [key: number]: string } = {
-    0: "20240107", // Sunday
-    1: "20240108", // Monday
-    2: "20240109", // Tuesday
-    3: "20240110", // Wednesday
-    4: "20240111", // Thursday
-    5: "20240112", // Friday
-    6: "20240113", // Saturday
+    0: "20240825", // Sunday
+    1: "20240826", // Monday
+    2: "20240827", // Tuesday
+    3: "20240828", // Wednesday
+    4: "20240822", // Thursday
+    5: "20240823", // Friday
+    6: "20240824", // Saturday
   };
 
   for (let appointment of appointments) {
@@ -108,7 +108,7 @@ const generateICSContent = (appointments: any[]) => {
     icsContent += `DTEND:${newEndDate.replace(/[-:]/g, "")}00\n`; // Append "00" for seconds
     //wait until final exam dates are finalized
     // icsContent += `RRULE:FREQ=WEEKLY;UNTIL=${convertToICSFormat(appointment.finalExam)}\n`
-    icsContent += "RRULE:FREQ=WEEKLY;UNTIL=20240503T115900\n";
+    icsContent += "RRULE:FREQ=WEEKLY;UNTIL=20241204T115900\n";
     icsContent += `UID:${appointment.id.replace(" ", "")}@ufscheduler.com\n`;
     icsContent += `SUMMARY:${appointment.title}\n`;
     icsContent += `LOCATION:${appointment.location}\n`;
