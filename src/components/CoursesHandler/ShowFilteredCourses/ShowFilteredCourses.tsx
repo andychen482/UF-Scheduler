@@ -137,7 +137,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     // if (debouncedSearchTerm !== "" && debouncedSearchTerm !== null) {
     try {
       const response = await axios.post(
-        "https://ufscheduler.onrender.com/api/get_courses",
+        "https://api.ufscheduler.com/api/get_courses",
         {
           // const response = await axios.post("http://localhost:5000/api/get_courses", {
           searchTerm: debouncedSearchTerm,
@@ -161,7 +161,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          "https://ufscheduler.onrender.com/api/get_courses",
+          "https://api.ufscheduler.com/api/get_courses",
           {
             // const response = await axios.post("http://localhost:5000/api/get_courses", {
             searchTerm: debouncedSearchTerm,
