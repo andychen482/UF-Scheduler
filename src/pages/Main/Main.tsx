@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import CoursesHandler from "../../components/CoursesHandler/CoursesHandler";
 import "./CourseDisplay.css";
@@ -66,19 +66,15 @@ const Main = () => {
     localStorage.setItem("version", JSON.stringify(1));
   }
 
-  useEffect(() => {
-    // Check if the user has been shown the instructions before
-    if (!sessionStorage.getItem("hasShownInstructions")) {
-      setShowInstructions(true);
-    }
-  }, []);
-
   const handleCloseInstructions = () => {
     setShowInstructions(false);
     sessionStorage.setItem("hasShownInstructions", "true");
   };
 
   useEffect(() => {
+    if (!sessionStorage.getItem("hasShownInstructions")) {
+      setShowInstructions(true);
+    }
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
@@ -96,19 +92,19 @@ const Main = () => {
     );
   };
 
-  const calendarView = () => {
+  const calendarView = useCallback(() => {
     setCurrentView("calendar");
     setHasShownCalendar(true);
-  };
+  }, []);
 
-  const graphView = () => {
+  const graphView = useCallback(() => {
     setCurrentView("graph");
-  };
+  }, []);
 
-  const mapView = () => {
+  const mapView = useCallback(() => {
     setCurrentView("map");
     setHasShownCalendar(true);
-  };
+  }, []);
 
   //Renders graph after calendar is switched away from
   useEffect(() => {
