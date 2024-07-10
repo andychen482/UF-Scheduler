@@ -387,12 +387,13 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   const loadMoreCalendars = () => {
-    if (isLoading) {
-      return; // Exit if already loading
-    }
-
-    setIsLoading(true); // Set loading state to true
-
+    // if (isLoading) {
+    //   return; // Exit if already loading
+    // }
+    
+    // setIsLoading(true); // Set loading state to true
+    
+    // console.log("Loading more calendars...");
     const newCalendars = createCalendars(lastIndex, 5); // Assuming you want to generate 5 calendars at a time
 
     if (newCalendars.length === 0) {
@@ -401,8 +402,20 @@ const Calendar: React.FC<CalendarProps> = ({
       return;
     }
     setCurrentCalendars([...currentCalendars, ...newCalendars]);
-    setIsLoading(false); // Set loading state to false
+    // setIsLoading(false); // Set loading state to false
   };
+
+  const debounce = (func: (...args: any[]) => void, delay: number) => {
+    let debounceTimer: NodeJS.Timeout;
+    return (...args: any[]) => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => func(...args), delay);
+    };
+  };
+  
+  const loadMoreCalendarsDebounced = debounce(loadMoreCalendars, 50);
+  
+  
 
   // Step 4: Render calendars
   const renderCalendar = (
@@ -659,7 +672,7 @@ const Calendar: React.FC<CalendarProps> = ({
 
   useEffect(() => {
     // Load initial calendars when the component mounts
-    loadMoreCalendars();
+    loadMoreCalendarsDebounced();
   }, []); // Empty dependency array means this useEffect runs once when component mounts
 
   return (
@@ -751,14 +764,10 @@ const Calendar: React.FC<CalendarProps> = ({
           {/* Add this container with defined height and overflow */}
           <InfiniteScroll
             pageStart={0}
-            loadMore={loadMoreCalendars}
+            loadMore={loadMoreCalendarsDebounced}
             hasMore={hasMoreItems}
-            loader={
-              <div className="loader text-gray-300 ml-[20px]" key={0}>
-                Loading ...
-              </div>
-            }
             useWindow={false}
+            key={0}
           >
             {/* Step 3: If selectedCalendar is not empty, display it first */}
             {selectedCalendar && (
@@ -782,7 +791,7 @@ const Calendar: React.FC<CalendarProps> = ({
                 </div>
               ))}
               {currentCalendars.length === 0 && (
-                <div className="text-white ml-[20px]">
+                <div className="text-white text-lg text-center align-middle leading-[50vh] fade-text-in">
                   No possible calendars.
                 </div>
               )}

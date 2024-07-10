@@ -298,7 +298,7 @@ const Map = () => {
             if (map) {
               if (map.getLayer(layerId)) {
                 // Toggle visibility of the existing layer
-                console.log(map.getLayoutProperty(layerId, "visibility"));
+                // console.log(map.getLayoutProperty(layerId, "visibility"));
                 const visibility = map.getLayoutProperty(layerId, "visibility");
                 if (visibility === "visible" || !visibility) {
                   map.setLayoutProperty(layerId, "visibility", "none");
