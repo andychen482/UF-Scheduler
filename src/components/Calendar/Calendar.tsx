@@ -100,8 +100,14 @@ const generateICSContent = (appointments: any[]) => {
     const endDateParts = appointment.endDate.split("T");
 
     // Replace the date part with the corresponding date in the target week
-    const newStartDate = dayToDateMapping[new Date(appointment.startDate).getUTCDay()] + "T" + startDateParts[1];
-    const newEndDate = dayToDateMapping[new Date(appointment.endDate).getUTCDay()] + "T" + endDateParts[1];
+    const newStartDate =
+      dayToDateMapping[new Date(appointment.startDate).getUTCDay()] +
+      "T" +
+      startDateParts[1];
+    const newEndDate =
+      dayToDateMapping[new Date(appointment.endDate).getUTCDay()] +
+      "T" +
+      endDateParts[1];
 
     icsContent += "BEGIN:VEVENT\n";
     icsContent += `DTSTART:${newStartDate.replace(/[-:]/g, "")}00\n`; // Append "00" for seconds
@@ -160,7 +166,9 @@ const Calendar: React.FC<CalendarProps> = ({
         try {
           const parsedValue: SelectedCalendarType = JSON.parse(storedValue);
           if (
-            parsedValue && Array.isArray(parsedValue.appointments) && Array.isArray(parsedValue.combination)
+            parsedValue &&
+            Array.isArray(parsedValue.appointments) &&
+            Array.isArray(parsedValue.combination)
           ) {
             return parsedValue;
           }
@@ -211,21 +219,23 @@ const Calendar: React.FC<CalendarProps> = ({
       );
       if (selectedSection) {
         selectedSection.courseName = course.name;
+        selectedSection.courseCode = course.code;
         return [selectedSection];
       } else {
         course.sections.forEach((section) => {
           section.courseName = course.name;
+          section.courseCode = course.code;
         });
 
         let allowedNoMeetTimeSection = true;
 
         return course.sections.filter((section) => {
-            if (section.meetTimes && section.meetTimes.length > 0) {
-              return true;
-            } else if (allowedNoMeetTimeSection) {
-              allowedNoMeetTimeSection = false;
-              return true;
-            }
+          if (section.meetTimes && section.meetTimes.length > 0) {
+            return true;
+          } else if (allowedNoMeetTimeSection) {
+            allowedNoMeetTimeSection = false;
+            return true;
+          }
           return false;
         });
       }
@@ -251,11 +261,13 @@ const Calendar: React.FC<CalendarProps> = ({
           });
         }
         for (let meetTime of section.meetTimes) {
-          locations.push({
-            id: `${meetTime.meetBuilding} ${meetTime.meetRoom}`,
-            text: `${meetTime.meetBuilding} ${meetTime.meetRoom}`,
-            color: `${section.color}`,
-          });
+          if (meetTime.meetBuilding !== "") {
+            locations.push({
+              id: `${meetTime.meetBuilding} ${meetTime.meetRoom}`,
+              text: `${meetTime.meetBuilding} ${meetTime.meetRoom}`,
+              color: `${section.color}`,
+            });
+          }
         }
       }
     }
@@ -297,7 +309,12 @@ const Calendar: React.FC<CalendarProps> = ({
       const intervalTree = new IntervalTree();
 
       combinationLoop: for (let section of combination) {
-        const title = `${section.courseName}`;
+        let title = "";
+        if (section.courseCode) {
+          title = `${section.courseCode}`;
+        } else {
+          title = `${section.courseName}`;
+        }
         const { color, meetTimes } = section;
 
         for (let {
@@ -642,7 +659,6 @@ const Calendar: React.FC<CalendarProps> = ({
     // Load initial calendars when the component mounts
     loadMoreCalendars();
   }, []); // Empty dependency array means this useEffect runs once when component mounts
-  
 
   return (
     <div className="calendar-container">
@@ -664,7 +680,8 @@ const Calendar: React.FC<CalendarProps> = ({
               backgroundColor: "#252422",
               marginLeft: "0%", // Adjust to center horizontally
               marginTop: "-15%", // Adjust to center vertically
-              border: "1px solid #ccc",
+              border: "2px solid #F5F5F5",
+              borderRadius: "4px",
             }}
           ></CustomAppointmentForm>
         )}
@@ -698,11 +715,13 @@ const Calendar: React.FC<CalendarProps> = ({
             className="w-[80%] mt-2"
             menuPortalTarget={document.body} // Append the dropdown to the body element
             styles={{
-              menuPortal: (base) => ({ ...base, zIndex: 999 }) as CSSObjectWithLabel, // Adjust the z-index to a value lower than the drawer's but higher than other elements
-              control: (base) => ({
-                ...base,
-                borderRadius: "4px", // Adjust this value to control the border radius of the control
-              }) as CSSObjectWithLabel,
+              menuPortal: (base) =>
+                ({ ...base, zIndex: 999 } as CSSObjectWithLabel), // Adjust the z-index to a value lower than the drawer's but higher than other elements
+              control: (base) =>
+                ({
+                  ...base,
+                  borderRadius: "4px", // Adjust this value to control the border radius of the control
+                } as CSSObjectWithLabel),
             }}
           />
           <button

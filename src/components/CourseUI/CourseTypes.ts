@@ -26,6 +26,7 @@ export type Section = {
   courseName: string;
   color: string;
   waitList: WaitList;
+  courseCode: string;
 };
 
 export type WaitList = {

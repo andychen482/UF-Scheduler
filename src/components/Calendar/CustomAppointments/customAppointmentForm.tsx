@@ -86,6 +86,7 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
       selected: false,
       courseName,
       color,
+      courseCode: "",
       waitList: {
         cap: 0,
         isEligible: "",
@@ -201,6 +202,7 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
             type="color"
             value={color}
             onChange={(e) => setColor(e.target.value)}
+            style={{ borderRadius: "4px" }}
           />
         </div>
       </div>
