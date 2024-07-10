@@ -9,7 +9,7 @@
   text-align: right;
   font-size: large;
   z-index: 1000;
-  border-bottom: 0.5px solid #ccc;
+  border-bottom: 0.5px solid #a9a9a9;
   align-items: center;
   display: flex;
   padding: 0 10px; /* Added padding */

@@ -68,11 +68,11 @@ const Main = () => {
 
   const handleCloseInstructions = () => {
     setShowInstructions(false);
-    sessionStorage.setItem("hasShownInstructions", "true");
+    localStorage.setItem("hasShownInstructions", "true");
   };
 
   useEffect(() => {
-    if (!sessionStorage.getItem("hasShownInstructions")) {
+    if (!localStorage.getItem("hasShownInstructions")) {
       setShowInstructions(true);
     }
     const handleResize = () => {

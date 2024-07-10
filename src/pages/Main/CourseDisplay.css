@@ -23,7 +23,7 @@
   background-color: black;
   color: white;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #a9a9a9;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   z-index: 10000;
   width: fit-content;
@@ -182,7 +182,7 @@
   #display-write {
     order: 3;
     width: calc(100vw - 60px);
-    border-top: 0.5px solid #ccc;
+    border-top: 0.5px solid #636363;
     padding-top: 30px;
     padding-bottom: 30px;
   }
@@ -242,12 +242,12 @@
   .selected-courses {
     max-width: 12%;
     min-width: 12%;
-    border-right: 0.5px solid #ccc;
+    border-right: 0.5px solid #a9a9a9;
   }
 
   #display-write {
     max-height: 100vh;
-    border-left: 0.5px solid #ccc;
+    border-left: 0.5px solid #a9a9a9;
     position: sticky;
     top: 0;
     bottom: 0;
@@ -297,7 +297,7 @@
   #display-write {
     order: 3;
     width: calc(100vw - 60px);
-    border-top: 0.5px solid #ccc;
+    border-top: 0.5px solid #a9a9a9;
     padding-top: 30px;
     padding-bottom: 30px;
   }
@@ -449,7 +449,7 @@
 @media (max-width: 1000px) {
   .map-container {
     position: relative;
-    border-top: 0.5px solid #ccc;
+    border-top: 0.5px solid #a9a9a9;
     width: calc(100vw - 60px);
     padding-top: 30px;
     padding-bottom: 30px;
@@ -460,7 +460,7 @@
 
 @media (min-width: 1001px) {
   .map-container {
-    border-left: 0.5px solid #ccc;
+    border-left: 0.5px solid #a9a9a9;
     max-height: calc(100vh - 43px);
     min-height: calc(100vh - 43px);
     position: fixed;
