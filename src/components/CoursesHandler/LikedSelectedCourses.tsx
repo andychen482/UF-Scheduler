@@ -170,7 +170,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                   <div
                     id="badge"
                     key={index}
-                    className={`flex-1 p-[0.6rem] rounded-md mb-2 text-black dark:text-white cursor-pointer w-full h-full overflow-hidden`}
+                    className={`flex-1 p-[0.6rem] rounded-md mb-2 text-${getContrastYIQ(appointment.color)} dark:text-white cursor-pointer w-full h-full overflow-hidden`}
                     style={{ backgroundColor: appointment.color }}
                     onClick={() => handleAppointmentBadgeClick(appointment)}
                   >
@@ -182,7 +182,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                             {appointment.courseName}
                           </strong>
                           <div>
-                            <strong className="block truncate text-white text-sm mt-[0.12rem]">
+                            <strong className="block truncate text-sm mt-[0.12rem]">
                               {appointment.meetTimes
                                 .map((meetTime: any) => meetTime.meetDays)
                                 .join(", ")}
