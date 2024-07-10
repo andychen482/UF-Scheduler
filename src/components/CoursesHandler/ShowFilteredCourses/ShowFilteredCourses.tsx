@@ -341,7 +341,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
             );
           })
         ) : (
-          <div className="text-gray-300">No courses found.</div>
+          <div className="text-gray-300 fade-text-in">No courses found.</div>
         )}
       </InfiniteScroll>
     </div>
