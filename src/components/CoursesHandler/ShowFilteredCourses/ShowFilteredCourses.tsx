@@ -41,6 +41,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     [key: string]: boolean;
   }>({});
 
+  const [animationKey, setAnimationKey] = useState<string>(debouncedSearchTerm);
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -125,6 +126,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   useMemo(() => {
     setHasMore(true);
     setrecords(itemsPerPage);
+    setAnimationKey(debouncedSearchTerm);
   }, [debouncedSearchTerm]);
 
   useEffect(() => {
@@ -187,7 +189,10 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   }, [debouncedSearchTerm]);
 
   return (
-    <div ref={containerRef} className="filtered-courses-container overflow-auto mt-3">
+    <div
+      ref={containerRef}
+      className="filtered-courses-container overflow-auto mt-3"
+    >
       <InfiniteScroll
         pageStart={0}
         loadMore={loadMore}
@@ -212,11 +217,12 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
 
             return (
               <React.Fragment key={index}>
-                <div className="flex items-center w-full justify-between">
-                  <div
-                    className={`${courseCard}`}
-                    // onClick={(e) => handleCourseCardClick(e, firstCourse)}
-                  >
+                <div
+                  key={`${animationKey}`}
+                  className="flex items-center w-full justify-between fade-in-wave"
+                  style={{ animationDelay: `${index * 35}ms` }}
+                >
+                  <div className={`${courseCard}`}>
                     <div
                       className="cursor-pointer"
                       onClick={(e) => handleCourseCardClick(e, firstCourse)}

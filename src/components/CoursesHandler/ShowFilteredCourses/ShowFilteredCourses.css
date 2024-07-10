@@ -9,3 +9,19 @@
     max-height: calc(100vh - 172px);
   }
 }
+
+@keyframes fadeInWave {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-wave {
+  opacity: 0;
+  animation: fadeInWave 0.5s forwards;
+}

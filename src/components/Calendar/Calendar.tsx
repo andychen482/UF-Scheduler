@@ -158,6 +158,7 @@ const Calendar: React.FC<CalendarProps> = ({
   const [locations, setLocations] = useState<any[]>([]);
   const prevSelectedCoursesRef = useRef<Course[]>();
   const prevCustomAppointmentsRef = useRef<any[]>();
+  const [animationKey, setAnimationKey] = useState<string>(Date.now().toString());
 
   const [selectedCalendar, setSelectedCalendar] =
     useState<SelectedCalendarType>(() => {
@@ -292,6 +293,7 @@ const Calendar: React.FC<CalendarProps> = ({
   useEffect(() => {
     const newCombinations = generateAllCombinations(allSelectedSections);
     setAllCombinations(newCombinations);
+    setAnimationKey(Date.now().toString());
   }, [allSelectedSections, customAppointments]);
 
   // Step 3: Create calendars
@@ -771,7 +773,11 @@ const Calendar: React.FC<CalendarProps> = ({
             )}
             <div className="flex flex-col mt-2">
               {currentCalendars.map(({ appointments, combination }, index) => (
-                <div key={index}>
+                <div
+                  key={`${animationKey}-${index}`}
+                  className="fade-in-wave"
+                  style={{ animationDelay: `${index * 35}ms` }}
+                >
                   {renderCalendar({ appointments, combination }, index)}
                 </div>
               ))}
