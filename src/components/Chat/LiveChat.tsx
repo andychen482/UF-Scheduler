@@ -26,7 +26,7 @@ interface ChatProps {
 
 let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string;
 
-const socket: Socket = io(`http://${backendServer}:5000`);
+const socket: Socket = io(`https://${backendServer}`);
 
 const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -92,7 +92,7 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
   const fetchUsername = async (googleId: string) => {
     try {
       const response = await fetch(
-        `http://${backendServer}:5000/username/${googleId}`
+        `https://${backendServer}/username/${googleId}`
       );
       const data = await response.json();
       if (data.username) {
@@ -128,7 +128,7 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
     if (username.trim() && user) {
       try {
         const response = await fetch(
-          `http://${backendServer}:5000/set-username`,
+          `https://${backendServer}/set-username`,
           {
             method: "POST",
             headers: {
