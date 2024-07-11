@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import CoursesHandler from "../../components/CoursesHandler/CoursesHandler";
-import "./CourseDisplay.css";
+import "./MainStyles.css";
 import { Course } from "../../components/CourseUI/CourseTypes";
 import cytoscape from "cytoscape";
 import { GraphData } from "../../components/Cytoscape/cytoscapeTypes";
@@ -10,9 +10,11 @@ import klay from "cytoscape-klay";
 import ClipLoader from "react-spinners/ClipLoader";
 import Header from "../../components/Header/Header";
 import LikedSelectedCourses from "../../components/CoursesHandler/LikedSelectedCourses";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineMessage } from "react-icons/ai";
+import { IoClose } from "react-icons/io5";
 import Footer from "../../components/Footer/Footer";
 import MapBox from "../../components/MapBox/Map";
+import Chat from "../../components/Chat/LiveChat";
 
 cytoscape.use(klay);
 
@@ -41,6 +43,10 @@ const Main = () => {
   const [hasBeenLoaded, setLoaded] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const [isChatVisible, setIsChatVisible] = useState(true);
+
+
   const [customAppointments, setCustomAppointments] = useState<any[]>(() => {
     const storedCustomAppointment = localStorage.getItem("customAppointments");
     if (storedCustomAppointment) {
@@ -433,67 +439,17 @@ const Main = () => {
 
   return (
     <div>
-      {showInstructions && (
-        <div className="instructions-popup">
-          <AiOutlineClose
-            className="close-icon"
-            onClick={handleCloseInstructions}
-          />
-          <div className="text-center font-bold mb-2 text-[2.25rem]">
-            <span>Welcome to </span>
-            <span className="text-blue-500">UF</span>
-            <span className="text-orange-500">Scheduler!</span>
-          </div>
-          <div className="mb-2">
-            <h2 className="instruction-headers">Select Your Major</h2>
-            <p className="instruction-desc">
-              Select your major from the left panel to view all related courses
-              and their prerequisites. This visualization helps you understand
-              the sequence of courses and plan your academic trajectory.{" "}
-            </p>
-            <p className="instruction-headers">View Courses and Availability</p>
-            <p className="instruction-desc">
-              Explore available course sections directly from your major’s
-              course list. Check real-time availability, see if sections are on
-              a waitlist, and register for open spots with just a few clicks.{" "}
-            </p>
-            <p className="instruction-headers">Graph</p>
-            <p className="instruction-desc">
-              See a visual representation of the prerequisites for all courses
-              within your selected major.{" "}
-            </p>
-            <p className="instruction-headers">Calendar</p>
-            <p className="instruction-desc">
-              Generate and customize your course schedule. Sort by start times,
-              end times, or compactness to fit your daily routine and
-              preferences.
-            </p>
-            <p className="instruction-headers">Map</p>
-            <p className="instruction-desc">
-              See a detailed view of your daily class locations. Click on any
-              class marker to see travel options from that location, including
-              walking, biking, and driving times. You can also view parking
-              locations and required pass levels for each.{" "}
-            </p>
-          </div>
-        </div>
-      )}
-      {showInstructions && (
-        <>
-          <div
-            className={`overlay ${showInstructions ? "open" : "closed"}`}
-            onClick={handleCloseInstructions}
-          ></div>
-        </>
-      )}
-      {/* {showArrow && (
-        <>
-          <div className="arrow-container" style={{ userSelect: "none" }}>
-            <img src={"images/white-arrow.png"} alt="" className="arrow"></img>
-            <figcaption className="caption">Calendar here!</figcaption>
-          </div>
-        </>
-      )} */}
+      <div
+        className={`chat ${isChatVisible ? "visible" : "hidden"}`}
+      >
+        <Chat isChatVisible={isChatVisible} setIsChatVisible={setIsChatVisible}/>
+      </div>
+      <button
+        className={`chat-toggle-button ${isChatVisible ? "hide" : "visible"}`}
+        onClick={() => setIsChatVisible(!isChatVisible)}
+      >
+        <AiOutlineMessage size={30}/>
+      </button>
       <Header
         calendarView={calendarView}
         graphView={graphView}
@@ -520,7 +476,7 @@ const Main = () => {
                 className="drawer-close-button"
                 onClick={() => setIsDrawerOpen(false)}
               >
-                <AiOutlineClose className="mt-1 text-white" size={18} />
+                <IoClose className="mt-1 text-white" size={18} />
               </button>
 
               <LikedSelectedCourses

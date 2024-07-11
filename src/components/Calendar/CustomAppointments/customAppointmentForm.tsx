@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Section } from "../../CourseUI/CourseTypes"; // adjust the path as necessary
 import "./AppointmentStyling.css";
-import { AiOutlineClose } from "react-icons/ai";
+import { IoClose } from "react-icons/io5";
 
 interface CustomAppointmentProps {
   customAppointments: Section[];
@@ -167,12 +167,14 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
           </div>
         </div>
       </div>
-      <AiOutlineClose
+      <IoClose
         style={{
           position: "absolute",
           right: "2%",
           top: "10px",
-          color: "#FF605C",
+          fontSize: "25px",
+          cursor: "pointer",
+          color: "#FFFFFF",
         }}
         onClick={() => setIsAppointmentFormVisible((prev) => !prev)}
         className="close-button"

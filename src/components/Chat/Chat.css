@@ -1,0 +1,100 @@
+.google-auth {}
+
+.chat-panel {
+  position: relative;
+  padding: 10px; /* Adjust this value to your needs */
+  height: 100%; /* Adjust this value to fit your layout */
+  display: flex;
+  flex-direction: column;
+}
+
+.close-icon {
+  position: absolute;
+  top: 0px; /* Adjust this value to be the negative of the padding value */
+  right: -10px; /* Adjust this value to be the negative of the padding value */
+  font-size: 25px;
+  cursor: pointer;
+  color: white;
+}
+
+.chat-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden; /* Hide overflow to allow scrolling within the chat-messages-container */
+}
+
+.chat-messages-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow-y: auto; /* Enable vertical scrolling */
+  margin-bottom: 10px; /* Adjust this value to your needs */
+}
+
+.chat-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.chat-input-container {
+  display: flex;
+  align-items: center;
+  padding-top: 10px; /* Adjust this value to your needs */
+  z-index: 10002;
+  margin-bottom: 2px;
+  margin-left: 2px;
+}
+
+.username-input-container {
+  display: flex;
+  align-items: center;
+  margin-left: 2px;
+}
+
+.choose-username-text {
+  position: absolute;
+  top: calc(50% - 12px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-wrap:nowrap;
+}
+
+.text-input {
+  flex-grow: 1;
+  margin-right: 10px; /* Adjust this value to your needs */
+  /* outline-style: none; */
+  border-radius: 2px;
+  padding-left: 5px;
+}
+
+.text-input::placeholder {
+  color: #8893a2;
+}
+
+.text-white {
+  color: white;
+}
+
+.message-container {
+  margin-bottom: 5px; /* Adjust this value to your needs */
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.timestamp {
+  font-size: 0.8em;
+  color: #ccc; /* Adjust color to your preference */
+  display: inline-block;
+  vertical-align: bottom;
+  align-self:center;
+}
+
+
+.message-content {
+  margin-top: 0px; /* Adjust this value to your needs */
+  overflow-wrap: break-word;
+}

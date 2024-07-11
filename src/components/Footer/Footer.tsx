@@ -60,6 +60,13 @@ const Footer = () => {
         >
           About
         </a>
+        {" | "}
+        <a
+          href="/privacy"
+          style={{ color: "inherit", textDecoration: "underline" }}
+        >
+          Privacy
+        </a>
       </p>
     </div>
   );

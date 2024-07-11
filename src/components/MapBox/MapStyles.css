@@ -91,8 +91,9 @@
   }
   .question-mark-button {
     position: absolute;
-    bottom: 1rem;
-    right: 1rem;
+    bottom: 20px;
+    left: 1rem;
+    z-index: 998;
   }
 }
 

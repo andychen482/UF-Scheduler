@@ -15,23 +15,56 @@
   min-height: calc(100vh - 43px);
 }
 
-.instructions-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.chat {
+  position: absolute;
+  bottom: 0;
+  right: 2px;
+  width: 300px;
+  height: 400px;
+  bottom: 20px;
   background-color: black;
-  color: white;
-  padding: 20px;
+  /* color: white; */
+  padding: 10px 15px 10px 15px;
   border: 1px solid #a9a9a9;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   z-index: 10000;
-  width: fit-content;
-  max-width: 90%;
-  /* min-width: 300px; */
   border-radius: 5px;
-  max-height: 90%;
-  overflow-y: auto;
+  /* transition: right 0.3s ease-in-out; */
+}
+
+.chat.visible {
+  right: 2px;
+}
+
+.chat.hidden {
+  right: -350px;
+}
+
+.chat-toggle-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #0021a5;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  z-index: 10001;
+  transition: transform 0.3s ease-in-out;
+}
+
+.chat-toggle-button:hover {
+  transform: scale(1.1);
+}
+
+.chat-toggle-button.hide {
+  visibility: hidden;
+}
+
+.chat-toggle-button.visible {
+  visibility: visible;
 }
 
 .inline-content {
@@ -174,7 +207,7 @@
   display: block;
 }
 
-@media (max-width: 1000px) and (min-width: 501px){
+@media (max-width: 1000px) and (min-width: 501px) {
   .flexImage {
     flex-direction: column; /* Reverse the order of flex items */
     align-items: center; /* Center align items horizontally */
@@ -443,7 +476,7 @@
   line-height: 1.25;
   margin-top: 0px;
   margin-bottom: 10px;
-  font-size:medium;
+  font-size: medium;
 }
 
 @media (max-width: 1000px) {

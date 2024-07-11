@@ -1,0 +1,26 @@
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 1.25em;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style-type: disc; /* This will ensure bullet points are shown */
+    padding-left: 20px; /* This will add some padding to the left for better readability */
+    margin-bottom: 10px; /* Add some space after each list */
+  }
+  
+  li {
+    margin-bottom: 5px; /* Add some space between list items */
+  }
+  
