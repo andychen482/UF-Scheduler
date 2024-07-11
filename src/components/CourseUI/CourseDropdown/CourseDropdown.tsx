@@ -1,5 +1,5 @@
 import React from "react";
-import { Course, Section } from "../CourseTypes";
+import { Course, Section, websiteURL } from "../CourseTypes";
 import { courseUIClasses } from "../CourseUIClasses";
 import { BiSolidLockOpen, BiSolidLockAlt } from "react-icons/bi";
 import { DropdownClasses } from "./DropdownClasses";
@@ -130,14 +130,14 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
                 <>
                   {" "}
                   -
-                  <span
+                  {" "}
+                  <a
                     className={`font-bold whitespace-nowrap ${getRatingColor(
                       instructor.avgRating
-                    )}`}
+                    )} underline`} href={`${websiteURL}${instructor.professorID}`} target="_blank"
                   >
-                    {" "}
-                    {instructor.avgRating}/5
-                  </span>
+                    {instructor.avgRating.toFixed(1)}/5
+                  </a>
                 </>
               )}
               {index < section.instructors.length - 1 ? ", " : ""}

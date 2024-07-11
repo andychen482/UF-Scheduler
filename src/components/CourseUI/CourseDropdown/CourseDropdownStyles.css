@@ -13,3 +13,8 @@
 .minusicons:hover {
   transform: scale(1.1);
 }
+
+a {
+  text-decoration-line: underline !important;
+  text-decoration: underline !important;
+}

@@ -2,6 +2,7 @@ export type Instructor = {
   name: string;
   avgRating: number;
   avgDifficulty: number;
+  professorID: number;
 };
 
 export type MeetingTime = {
@@ -45,3 +46,4 @@ export type Course = {
   sections: Section[];
 };
 
+export const websiteURL: string = "https://www.ratemyprofessors.com/professor/";
