@@ -130,45 +130,46 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
           ) : (
             <strong>Instructor: </strong>
           )}
-{section.instructors.map((instructor, index) => (
-  <div
-    key={index}
-    className="text-gray-200 dark:text-gray-200 flex justify-between"
-  >
-    <div className="instructor-name ml-2 flex-1">
-      {instructor.name}
-    </div>
-    {instructor.avgRating != null && (
-      <>
-        <div className="instructor-rating flex-1">
-          {"Rating: "}
-          <a
-            className={`font-bold whitespace-nowrap ${getRatingColor(
-              instructor.avgRating
-            )} underline`}
-            href={`${websiteURL}${instructor.professorID}`}
-            target="_blank"
-          >
-            {instructor.avgRating.toFixed(1)}/5
-          </a>
-        </div>
-        <div className="instructor-difficulty flex-1">
-          {"Difficulty: "}
-          <a
-            className={`font-bold whitespace-nowrap ${getDifficultyColor(
-              instructor.avgDifficulty
-            )} underline`}
-            href={`${websiteURL}${instructor.professorID}`}
-            target="_blank"
-          >
-            {instructor.avgDifficulty.toFixed(1)}/5
-          </a>
-        </div>
-      </>
-    )}
-  </div>
-))}
-
+          {section.instructors.map((instructor, index) => (
+            <div
+              key={index}
+              className="text-gray-200 dark:text-gray-200 flex justify-between"
+            >
+              <div className="instructor-name ml-2 flex-1">
+                {instructor.name}
+              </div>
+              {instructor.avgRating != null && (
+                <>
+                  <div className="instructor-rating flex-1">
+                    {"Rating: "}
+                    <a
+                      className={`font-bold whitespace-nowrap ${getRatingColor(
+                        instructor.avgRating
+                      )} underline`}
+                      href={`${websiteURL}${instructor.professorID}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {instructor.avgRating.toFixed(1)}/5
+                    </a>
+                  </div>
+                  <div className="instructor-difficulty flex-1">
+                    {"Difficulty: "}
+                    <a
+                      className={`font-bold whitespace-nowrap ${getDifficultyColor(
+                        instructor.avgDifficulty
+                      )} underline`}
+                      href={`${websiteURL}${instructor.professorID}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {instructor.avgDifficulty.toFixed(1)}/5
+                    </a>
+                  </div>
+                </>
+              )}
+            </div>
+          ))}
         </div>
 
         {/* Meeting Times */}
