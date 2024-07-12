@@ -50,27 +50,18 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
     }
 
     socket.on("load messages", (data: Message[]) => {
-      const formattedMessages = data.map((msg) => ({
-        ...msg,
-        timestamp: new Date(msg.timestamp || "").toLocaleTimeString("en-GB", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        }),
-      }));
-      setMessages(formattedMessages);
+      setMessages(data);
     });
 
     socket.on("receive message", (data: Message) => {
-      const formattedMessage = {
-        ...data,
-        timestamp: new Date(data.timestamp || "").toLocaleTimeString("en-GB", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        }),
-      };
-      setMessages((prevMessages) => [...prevMessages, formattedMessage]);
+      const userAtBottom = isUserAtBottom();
+      setMessages((prevMessages) => [...prevMessages, data]);
+
+      if (userAtBottom) {
+        setTimeout(() => {
+          scrollToBottom();
+        }, 50);
+      }
     });
 
     return () => {
@@ -78,13 +69,6 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
       socket.off("receive message");
     };
   }, []);
-
-  useEffect(() => {
-    // if (isUserAtBottom()) {
-    //   scrollToBottom();
-    // }
-    scrollToBottom();
-  }, [messages]);
 
   const fetchUsername = async (googleId: string) => {
     try {
@@ -180,7 +164,7 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
       return (
         chatMessagesRef.current.scrollHeight -
           chatMessagesRef.current.scrollTop <=
-        350
+        chatMessagesRef.current.clientHeight + 20
       );
     }
     return false;
@@ -199,15 +183,29 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
       <div className="chat-content">
         <div className="chat-messages-container">
           <div className="chat-messages" ref={chatMessagesRef}>
-            {user && !isUsernameSet ? null : (messages.map((msg, index) => (
-              <div key={index} className="message-container text-white">
-                <div className="message-header">
-                  <strong>{msg.user}</strong>
-                  <span className="timestamp">{msg.timestamp}</span>
-                </div>
-                <div className="message-content">{msg.message}</div>
-              </div>
-            )))}
+            {user && !isUsernameSet
+              ? null
+              : messages.map((msg, index) => (
+                  <div
+                    key={msg.timestamp + msg.user}
+                    className="message-container text-white"
+                  >
+                    <div className="message-header">
+                      <strong>{msg.user}</strong>
+                      <span className="timestamp">
+                        {new Date(msg.timestamp || "").toLocaleTimeString(
+                          "en-GB",
+                          {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: false,
+                          }
+                        )}
+                      </span>
+                    </div>
+                    <div className="message-content">{msg.message}</div>
+                  </div>
+                ))}
             <div ref={messagesEndRef} />
           </div>
           {!user ? (
@@ -216,7 +214,9 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
             </div>
           ) : !isUsernameSet ? (
             <div>
-              <h2 className="text-white text-center choose-username-text">Choose a Username</h2>
+              <h2 className="text-white text-center choose-username-text">
+                Choose a Username
+              </h2>
               <div className="chat-input-container">
                 <input
                   type="text"
@@ -226,7 +226,10 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
                   onKeyDown={handleUserNameKeyDown}
                   placeholder="Enter your username"
                 />
-                <IoSend onClick={handleUsernameSubmit} className="text-white cursor-pointer" />
+                <IoSend
+                  onClick={handleUsernameSubmit}
+                  className="text-white cursor-pointer"
+                />
               </div>
             </div>
           ) : (
@@ -239,7 +242,10 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
                 onKeyDown={handleKeyDown}
                 placeholder="Send a message"
               />
-              <IoSend onClick={handleSendMessage} className="text-white cursor-pointer" />
+              <IoSend
+                onClick={handleSendMessage}
+                className="text-white cursor-pointer"
+              />
             </div>
           )}
         </div>
