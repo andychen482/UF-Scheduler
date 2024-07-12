@@ -170,7 +170,7 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
     if (containerRef.current) {
       setTimeout(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      }, 200);
+      }, 500);
     }
   }, [isChatVisible]);
 
