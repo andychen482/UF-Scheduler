@@ -123,23 +123,24 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
 
   const handleUsernameSubmit = async () => {
     if (username.trim() && user) {
+      if (username.includes(" ")) {
+        alert("Username cannot contain spaces.");
+        return;
+      }
       try {
-        const response = await fetch(
-          `https://${backendServer}/set-username`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              googleId: user.sub,
-              username,
-              email: user.email,
-              name: user.name,
-              profilePic: user.picture,
-            }),
-          }
-        );
+        const response = await fetch(`https://${backendServer}/set-username`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            googleId: user.sub,
+            username,
+            email: user.email,
+            name: user.name,
+            profilePic: user.picture,
+          }),
+        });
 
         const result = await response.json();
         if (response.status === 200) {
