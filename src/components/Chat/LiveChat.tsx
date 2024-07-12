@@ -167,12 +167,23 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
   };
 
   useEffect(() => {
-    if (containerRef.current) {
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      }, 500);
+    const observer = new MutationObserver(() => {
+      if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ behavior: "auto" });
+        observer.disconnect();
+      }
+    });
+
+    if (chatMessagesRef.current) {
+      observer.observe(chatMessagesRef.current, { childList: true });
     }
-  }, [isChatVisible]);
+
+    return () => {
+      if (chatMessagesRef.current) {
+        observer.disconnect();
+      }
+    };
+  }, []);
 
   return (
     <div className="chat-panel" ref={containerRef}>
