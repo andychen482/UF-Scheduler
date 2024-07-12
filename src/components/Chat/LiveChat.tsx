@@ -93,6 +93,7 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
       };
       socket.emit("send message", newMessage);
       setMessage("");
+      scrollToBottom();
     }
   };
 
@@ -184,6 +185,15 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (isUsernameSet) {
+      setTimeout(() => {
+        if (messagesEndRef.current)
+          messagesEndRef.current.scrollIntoView({ behavior: "auto" });
+      }, 0);
+    }
+  }, [isUsernameSet]);
 
   return (
     <div className="chat-panel" ref={containerRef}>

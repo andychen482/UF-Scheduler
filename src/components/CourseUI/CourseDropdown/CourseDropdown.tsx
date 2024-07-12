@@ -124,7 +124,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
             <strong>Instructor: </strong>
           )}
           {section.instructors.map((instructor, index) => (
-            <span key={index} className="text-gray-200 dark:text-gray-200">
+            <div key={index} className="text-gray-200 dark:text-gray-200">
               {instructor.name}
               {instructor.avgRating != null && (
                 <>
@@ -139,7 +139,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
                 </>
               )}
               {index < section.instructors.length - 1 ? ", " : ""}
-            </span>
+            </div>
           ))}
         </div>
 
