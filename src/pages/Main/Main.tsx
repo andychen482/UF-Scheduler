@@ -15,6 +15,7 @@ import { IoClose } from "react-icons/io5";
 import Footer from "../../components/Footer/Footer";
 import MapBox from "../../components/MapBox/Map";
 import Chat from "../../components/Chat/LiveChat";
+import ModelPlan from "../../components/ModelPlan/ModelPlan";
 
 cytoscape.use(klay);
 
@@ -35,7 +36,7 @@ const Main = () => {
   const cyContainerRef = useRef<HTMLDivElement | null>(null);
   const [graphData, setGraphData] = useState<GraphData | null>(null);
   const cyRef = useRef<cytoscape.Core | null>(null);
-  const [currentView, setCurrentView] = useState<"calendar" | "graph" | "map">(
+  const [currentView, setCurrentView] = useState<"calendar" | "graph" | "map" | "plan">(
     "graph"
   );
   const [hasShownCalendar, setHasShownCalendar] = useState(false);
@@ -109,6 +110,11 @@ const Main = () => {
 
   const mapView = useCallback(() => {
     setCurrentView("map");
+    setHasShownCalendar(true);
+  }, []);
+
+  const planView = useCallback(() => {
+    setCurrentView("plan");
     setHasShownCalendar(true);
   }, []);
 
@@ -454,6 +460,7 @@ const Main = () => {
         calendarView={calendarView}
         graphView={graphView}
         mapView={mapView}
+        planView={planView}
         currentView={currentView}
         selectedCourses={selectedCourses}
         isDrawerOpen={isDrawerOpen}
@@ -492,7 +499,7 @@ const Main = () => {
             <div
               className="selected-courses overflow-auto"
               style={{
-                height: "calc(100vh - 40px)",
+                height: "calc(100vh - 43px)",
                 background: "rgb(27,27,27)",
               }}
             >
@@ -545,6 +552,11 @@ const Main = () => {
             // Add the map component here
             <div className="map-container bg-[rgb(27,27,27)]">
               <MapBox />
+            </div>
+          )}
+          {currentView === "plan" && (
+            <div className="plan-container bg-[rgb(27,27,27)]">
+              <ModelPlan />
             </div>
           )}
         </div>

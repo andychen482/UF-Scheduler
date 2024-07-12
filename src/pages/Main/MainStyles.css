@@ -6,7 +6,7 @@
 }
 
 .content-wrapper {
-  margin-top: 40px;
+  margin-top: 43px;
 }
 
 .course-display {
@@ -492,6 +492,33 @@
 
 @media (min-width: 1001px) {
   .map-container {
+    border-left: 0.5px solid #a9a9a9;
+    max-height: calc(100vh - 43px);
+    min-height: calc(100vh - 43px);
+    position: fixed;
+    top: 43px;
+    left: 48%;
+    flex: 1;
+    min-width: 52%;
+    max-width: 52%;
+    order: 3;
+  }
+}
+
+@media (max-width: 1000px) {
+  .plan-container {
+    position: relative;
+    border-top: 0.5px solid #a9a9a9;
+    width: calc(100vw - 60px);
+    padding-top: 30px;
+    padding-bottom: 30px;
+    max-height: 100%;
+    order: 3;
+  }
+}
+
+@media (min-width: 1001px) {
+  .plan-container {
     border-left: 0.5px solid #a9a9a9;
     max-height: calc(100vh - 43px);
     min-height: calc(100vh - 43px);

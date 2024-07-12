@@ -1,6 +1,6 @@
 import "./HeaderStyles.css";
 import { useEffect, useState } from "react";
-import { AiOutlineCalendar } from "react-icons/ai";
+import { AiOutlineCalendar, AiOutlineSchedule } from "react-icons/ai";
 import { PiGraphFill } from "react-icons/pi";
 import { BiMenu } from "react-icons/bi";
 import { IoMapOutline } from "react-icons/io5";
@@ -10,6 +10,7 @@ interface HeaderProps {
   calendarView: () => void;
   graphView: () => void;
   mapView: () => void;
+  planView: () => void;
   currentView: string;
   selectedCourses: Course[];
   isDrawerOpen: boolean;
@@ -23,6 +24,7 @@ const Header: React.FC<HeaderProps> = ({
   calendarView,
   graphView,
   mapView,
+  planView,
   currentView,
   selectedCourses,
   isDrawerOpen,
@@ -81,6 +83,19 @@ const Header: React.FC<HeaderProps> = ({
             <div className="icon-text-container">
             <PiGraphFill size={24} style={{ minWidth: '24px', minHeight: '24px' }}/>
               <span className="text-[1.0rem] ml-2 overflow-hidden">Graph</span>
+            </div>
+          </div>
+        </button>
+        <button
+          className={`Button cursor-pointer text-gray-400 ${
+            currentView === "plan" ? "show" : "grayed"
+          }`}
+          onClick={planView}
+        >
+          <div className="button-content">
+            <div className="icon-text-container">
+            <AiOutlineSchedule size={24} style={{ minWidth: '24px', minHeight: '24px' }}/>
+              <span className="text-[1.0rem] ml-2 overflow-hidden">Model Plans</span>
             </div>
           </div>
         </button>

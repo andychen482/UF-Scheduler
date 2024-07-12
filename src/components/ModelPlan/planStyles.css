@@ -1,0 +1,38 @@
+.model-plan {
+  color: white;
+  position: relative;
+  border-collapse: collapse;
+}
+
+.model-plan th, .model-plan td {
+    border: 1px solid white; /* Add border to table cells */
+    padding: 8px; /* Add some padding for better readability */
+  }
+
+@media (max-width: 1000px) {
+  .model-plan-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    padding-bottom: 60px;
+  }
+}
+
+@media (min-width: 1001px) {
+  .model-plan-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: calc(100vh - 43px);
+    width: 52vw;
+    overflow-y: auto;
+    position: relative;
+    /* padding: 4\3px 0px 0px 0px; */
+    padding: 0px 5px 80px 5px;
+  }
+}
