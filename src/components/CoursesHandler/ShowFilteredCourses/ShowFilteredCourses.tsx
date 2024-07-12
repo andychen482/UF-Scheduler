@@ -54,35 +54,24 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
       (event.target as HTMLElement).closest(".minus-icon") !== null ||
       (event.target as HTMLElement).closest(".carets") !== null;
 
-    // const currentTime = new Date().getTime();
-
     if (!isButtonClick) {
-      // eslint-disable-next-line
-
       toggleCourseDropdown(`${course.code}|${course.name}`);
-
-      // Update last click time
-      // setLastClick(currentTime);
     }
   };
 
   const toggleCourseDropdown = (courseCode: string) => {
     setOpenCourseCode((prevOpenCourseCodes = []) => {
       if (prevOpenCourseCodes === null) {
-        // If prevOpenCourseCodes is null, initialize it with the current course code
         return [courseCode];
       } else {
         const isOpen = prevOpenCourseCodes.includes(courseCode);
-        // Update the courseAnimation state
         setCourseAnimation((prevCourseAnimation) => ({
           ...prevCourseAnimation,
           [courseCode]: !isOpen,
         }));
         if (!isOpen) {
-          // Course is closed, add it to the array
           return [...prevOpenCourseCodes, courseCode];
         } else {
-          // Course is already open, remove it from the array
           return prevOpenCourseCodes.filter((code) => code !== courseCode);
         }
       }
@@ -98,7 +87,6 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     );
 
     if (isSelected) {
-      // Remove the course from the list of selected courses if it's already selected.
       setSelectedCourses((prevSelectedCourses) =>
         prevSelectedCourses.filter(
           (selectedCourse) =>
@@ -107,7 +95,6 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
         )
       );
     } else {
-      // Add the course to the list of selected courses if it's not already selected.
       setSelectedCourses((prevSelectedCourses) => [
         ...prevSelectedCourses,
         course,
@@ -117,7 +104,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
 
   const itemsPerPage = 20;
   const [hasMore, setHasMore] = useState(true);
-  const [records, setrecords] = useState(itemsPerPage);
+  const [records, setRecords] = useState(itemsPerPage);
 
   const groupedFilteredCourses = useMemo(() => {
     return groupByCourseCodeAndName(filteredCourses);
@@ -125,7 +112,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
 
   useMemo(() => {
     setHasMore(true);
-    setrecords(itemsPerPage);
+    setRecords(itemsPerPage);
     setAnimationKey(debouncedSearchTerm);
   }, [debouncedSearchTerm]);
 
@@ -136,24 +123,22 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   }, [debouncedSearchTerm]);
 
   const loadMore = async () => {
-    // if (debouncedSearchTerm !== "" && debouncedSearchTerm !== null) {
     try {
       const response = await axios.post(
         "https://api.ufscheduler.com/api/get_courses",
         {
-          // const response = await axios.post("http://localhost:5000/api/get_courses", {
           searchTerm: debouncedSearchTerm,
           itemsPerPage: itemsPerPage,
-          startFrom: records, // start from current record count
+          startFrom: records,
         }
       );
 
       setFilteredCourses((prevCourses) => [...prevCourses, ...response.data]);
-      setrecords(records + itemsPerPage);
+      setRecords(records + itemsPerPage);
     } catch (error) {
       console.error("Error loading more data", error);
     }
-    // }
+
     if (records >= 2 * itemsPerPage + filteredCourses.length) {
       setHasMore(false);
     }
@@ -165,7 +150,6 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
         const response = await axios.post(
           "https://api.ufscheduler.com/api/get_courses",
           {
-            // const response = await axios.post("http://localhost:5000/api/get_courses", {
             searchTerm: debouncedSearchTerm,
             itemsPerPage: itemsPerPage,
             startFrom: 0,
@@ -177,14 +161,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
         console.error("Error fetching data", error);
       }
     };
-    // if (debouncedSearchTerm !== "" && debouncedSearchTerm !== null) {
     fetchData();
-    // }
-    // else {
-    //   setFilteredCourses([]);
-    // }
-
-    // Reset the open courses when the search term changes
     setOpenCourseCode(null);
   }, [debouncedSearchTerm]);
 
@@ -214,13 +191,14 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
             const isOpen = openCourseCode?.includes(
               `${firstCourse.code}|${firstCourse.name}`
             );
+            const currentBatchIndex = index % itemsPerPage;
 
             return (
               <React.Fragment key={index}>
                 <div
                   key={`${animationKey}`}
                   className="flex items-center w-full justify-between fade-in-wave"
-                  style={{ animationDelay: `${index * 35}ms` }}
+                  style={{ animationDelay: `${currentBatchIndex * 35}ms` }}
                 >
                   <div className={`${courseCard}`}>
                     <div
