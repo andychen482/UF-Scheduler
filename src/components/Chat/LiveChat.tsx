@@ -107,10 +107,6 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
 
   const handleUsernameSubmit = async () => {
     if (username.trim() && user) {
-      // if (username.includes(" ")) {
-      //   alert("Username cannot contain spaces.");
-      //   return;
-      // }
       try {
         const response = await fetch(`https://${backendServer}/set-username`, {
           method: "POST",
@@ -172,7 +168,9 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
 
   useEffect(() => {
     if (containerRef.current && isUsernameSet) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 0);
     }
   }, [isChatVisible, isUsernameSet]);
 
