@@ -167,12 +167,12 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
   };
 
   useEffect(() => {
-    if (containerRef.current && isUsernameSet) {
+    if (containerRef.current) {
       setTimeout(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      }, 0);
+      }, 200);
     }
-  }, [isChatVisible, isUsernameSet]);
+  }, [isChatVisible]);
 
   return (
     <div className="chat-panel" ref={containerRef}>
