@@ -17,6 +17,8 @@ interface UserInfo {
   given_name: string;
   exp: number; // Token expiry time
   sub: string; // Google user ID
+  email: string;
+  picture: string;
 }
 
 interface ChatProps {
@@ -132,6 +134,9 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
             body: JSON.stringify({
               googleId: user.sub,
               username,
+              email: user.email,
+              name: user.name,
+              profilePic: user.picture,
             }),
           }
         );
