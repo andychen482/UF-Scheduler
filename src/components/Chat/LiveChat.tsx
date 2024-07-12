@@ -43,13 +43,8 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const userInfo: UserInfo = JSON.parse(storedUser);
-      const currentTime = Math.floor(Date.now() / 1000);
-      if (userInfo.exp > currentTime) {
-        setUser(userInfo);
-        fetchUsername(userInfo.sub);
-      } else {
-        localStorage.removeItem("user");
-      }
+      setUser(userInfo);
+      fetchUsername(userInfo.sub);
     }
 
     socket.on("load messages", (data: Message[]) => {
@@ -195,61 +190,54 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
     <div className="chat-panel" ref={containerRef}>
       <IoClose className="close-icon" onClick={() => setIsChatVisible(false)} />
       <h1 className="text-white text-xl">Chat</h1>
-      {!user ? (
-        <div className="google-auth">
-          <GoogleAuth onSuccess={handleLoginSuccess} />
-        </div>
-      ) : (
-        <div className="chat-content">
-          {!isUsernameSet ? (
-            <div className="mt-auto mb-[12px]">
+      <div className="chat-content">
+        <div className="chat-messages-container">
+          <div className="chat-messages" ref={chatMessagesRef}>
+            {user && !isUsernameSet ? null : (messages.map((msg, index) => (
+              <div key={index} className="message-container text-white">
+                <div className="message-header">
+                  <strong>{msg.user}</strong>
+                  <span className="timestamp">{msg.timestamp}</span>
+                </div>
+                <div className="message-content">{msg.message}</div>
+              </div>
+            )))}
+            <div ref={messagesEndRef} />
+          </div>
+          {!user ? (
+            <div className="google-auth">
+              <GoogleAuth onSuccess={handleLoginSuccess} />
+            </div>
+          ) : !isUsernameSet ? (
+            <div>
               <h2 className="text-white text-center choose-username-text">Choose a Username</h2>
-              <div className="username-input-container">
+              <div className="chat-input-container">
                 <input
                   type="text"
                   className="text-input"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   onKeyDown={handleUserNameKeyDown}
+                  placeholder="Enter your username"
                 />
-                {/* <button onClick={handleUsernameSubmit} className="text-white">
-                Sub
-              </button> */}
                 <IoSend onClick={handleUsernameSubmit} className="text-white" />
               </div>
             </div>
           ) : (
-            <div className="chat-messages-container">
-              <div className="chat-messages" ref={chatMessagesRef}>
-                {messages.map((msg, index) => (
-                  <div key={index} className="message-container text-white">
-                    <div className="message-header">
-                      <strong>{msg.user}</strong>
-                      <span className="timestamp">{msg.timestamp}</span>
-                    </div>
-                    <div className="message-content">{msg.message}</div>
-                  </div>
-                ))}
-                <div ref={messagesEndRef} />
-              </div>
-              <div className="chat-input-container">
-                <input
-                  type="text"
-                  className="text-input"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Send a message"
-                />
-                {/* <button onClick={handleSendMessage} className="text-white">
-                  Send
-                </button> */}
-                <IoSend onClick={handleSendMessage} className="text-white" />
-              </div>
+            <div className="chat-input-container">
+              <input
+                type="text"
+                className="text-input"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Send a message"
+              />
+              <IoSend onClick={handleSendMessage} className="text-white" />
             </div>
           )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

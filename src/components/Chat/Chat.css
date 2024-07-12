@@ -1,4 +1,7 @@
-.google-auth {}
+.google-auth {
+  margin-bottom: 2px;
+  margin-left: 5px;
+}
 
 .chat-panel {
   position: relative;
@@ -28,7 +31,7 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-y: hidden;
   margin-bottom: 10px; /* Adjust this value to your needs */
 }
 
@@ -43,12 +46,6 @@
   padding-top: 10px; /* Adjust this value to your needs */
   z-index: 10002;
   margin-bottom: 2px;
-  margin-left: 2px;
-}
-
-.username-input-container {
-  display: flex;
-  align-items: center;
   margin-left: 2px;
 }
 

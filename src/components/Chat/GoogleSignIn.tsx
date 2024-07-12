@@ -13,7 +13,7 @@ const GoogleAuth: React.FC<GoogleAuthProps> = ({ onSuccess }) => {
         onError={() => {
           console.log('Login Failed');
         }}
-        width={245}
+        width={228}
         theme="outline"
       />
     </GoogleOAuthProvider>
