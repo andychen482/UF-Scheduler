@@ -112,7 +112,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                     <div
                       id="badge"
                       key={index}
-                      className={`flex-1 p-[0.6rem] rounded-md mb-2 text-${getContrastYIQ(getHashedColor(course))} dark:text-white cursor-pointer w-full h-full overflow-hidden`}
+                      className={`flex-1 p-[0.6rem] rounded-md mb-2 text-${getContrastYIQ(getHashedColor(course))} dark:text-white cursor-pointer w-full h-full overflow-hidden fade-in`}
                       style={getCourseBackgroundColor(course)}
                       onClick={() => handleBadgeClick(course)}
                     >
@@ -170,7 +170,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                   <div
                     id="badge"
                     key={index}
-                    className={`flex-1 p-[0.6rem] rounded-md mb-2 text-${getContrastYIQ(appointment.color)} dark:text-white cursor-pointer w-full h-full overflow-hidden`}
+                    className={`flex-1 p-[0.6rem] rounded-md mb-2 text-${getContrastYIQ(appointment.color)} dark:text-white cursor-pointer w-full h-full overflow-hidden fade-in`}
                     style={{ backgroundColor: appointment.color }}
                     onClick={() => handleAppointmentBadgeClick(appointment)}
                   >

@@ -129,8 +129,6 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
               {instructor.avgRating != null && (
                 <>
                   {" "}
-                  -
-                  {" "}
                   <a
                     className={`font-bold whitespace-nowrap ${getRatingColor(
                       instructor.avgRating
