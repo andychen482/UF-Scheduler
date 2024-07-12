@@ -112,6 +112,13 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
     return "text-green-400"; // Green
   };
 
+  const getDifficultyColor = (difficulty: number | null): string => {
+    if (difficulty === null) return "text-gray-200 dark:text-gray-200"; // Default
+    if (difficulty <= 2) return "text-green-400"; // Red
+    if (difficulty < 4) return "text-yellow-400"; // Yellow
+    return "text-red-400"; // Green
+  };
+
   const renderSectionInformation = (section: Section) => {
     return (
       <div>
@@ -123,24 +130,45 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
           ) : (
             <strong>Instructor: </strong>
           )}
-          {section.instructors.map((instructor, index) => (
-            <div key={index} className="text-gray-200 dark:text-gray-200">
-              {instructor.name}
-              {instructor.avgRating != null && (
-                <>
-                  {" "}
-                  <a
-                    className={`font-bold whitespace-nowrap ${getRatingColor(
-                      instructor.avgRating
-                    )} underline`} href={`${websiteURL}${instructor.professorID}`} target="_blank"
-                  >
-                    {instructor.avgRating.toFixed(1)}/5
-                  </a>
-                </>
-              )}
-              {index < section.instructors.length - 1 ? ", " : ""}
-            </div>
-          ))}
+{section.instructors.map((instructor, index) => (
+  <div
+    key={index}
+    className="text-gray-200 dark:text-gray-200 flex justify-between"
+  >
+    <div className="instructor-name ml-2 flex-1">
+      {instructor.name}
+    </div>
+    {instructor.avgRating != null && (
+      <>
+        <div className="instructor-rating flex-1">
+          {"Rating: "}
+          <a
+            className={`font-bold whitespace-nowrap ${getRatingColor(
+              instructor.avgRating
+            )} underline`}
+            href={`${websiteURL}${instructor.professorID}`}
+            target="_blank"
+          >
+            {instructor.avgRating.toFixed(1)}/5
+          </a>
+        </div>
+        <div className="instructor-difficulty flex-1">
+          {"Difficulty: "}
+          <a
+            className={`font-bold whitespace-nowrap ${getDifficultyColor(
+              instructor.avgDifficulty
+            )} underline`}
+            href={`${websiteURL}${instructor.professorID}`}
+            target="_blank"
+          >
+            {instructor.avgDifficulty.toFixed(1)}/5
+          </a>
+        </div>
+      </>
+    )}
+  </div>
+))}
+
         </div>
 
         {/* Meeting Times */}
@@ -194,10 +222,13 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
                       <span className="text-green-400 ml-1">Open Seats</span>
                     ) : !section.waitList.total && !section.waitList.cap ? (
                       <span className="text-red-400 ml-1">Seats Unknown</span>
-                    ) : section.waitList.total && section.waitList.cap && (
-                      <span className="text-blue-400 ml-1">
-                        Wait List: {waitListAvailable(section)}
-                      </span>
+                    ) : (
+                      section.waitList.total &&
+                      section.waitList.cap && (
+                        <span className="text-blue-400 ml-1">
+                          Wait List: {waitListAvailable(section)}
+                        </span>
+                      )
                     )}
                   </div>
                   {/* Star Icon based on section selected status */}
