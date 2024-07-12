@@ -225,7 +225,7 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
                   onKeyDown={handleUserNameKeyDown}
                   placeholder="Enter your username"
                 />
-                <IoSend onClick={handleUsernameSubmit} className="text-white" />
+                <IoSend onClick={handleUsernameSubmit} className="text-white cursor-pointer" />
               </div>
             </div>
           ) : (
@@ -238,7 +238,7 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
                 onKeyDown={handleKeyDown}
                 placeholder="Send a message"
               />
-              <IoSend onClick={handleSendMessage} className="text-white" />
+              <IoSend onClick={handleSendMessage} className="text-white cursor-pointer" />
             </div>
           )}
         </div>
