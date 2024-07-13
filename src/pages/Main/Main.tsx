@@ -534,6 +534,7 @@ const Main = () => {
           {currentView === "graph" && (
             <div id="display-write">
               <div ref={cyContainerRef} id="cytoscape-container"></div>
+              {/* <div className="text-overlay unselectable">Prerequisite Graph</div> */}
               <div className={`loader-container ${loading ? "show" : ""}`}>
                 <ClipLoader color="#ffffff" loading={loading} size={150} />
               </div>

@@ -108,7 +108,7 @@ const Header: React.FC<HeaderProps> = ({
           <div className="button-content">
             <div className="icon-text-container">
             <AiOutlineCalendar size={24} style={{ minWidth: '24px', minHeight: '24px' }}/>
-              <span className="text-[1.0rem] ml-2">Calendar</span>
+              <span className="text-[1.0rem] ml-2">Scheduler</span>
             </div>
           </div>
         </button>
