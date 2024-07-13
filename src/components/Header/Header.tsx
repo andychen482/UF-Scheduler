@@ -175,10 +175,10 @@ const Header: React.FC<HeaderProps> = ({
           >
             <div className="button-content">
               <div className="icon-text-container">
-                <AiOutlineCalendar
+                {/* <AiOutlineCalendar
                   size={24}
                   style={{ minWidth: "24px", minHeight: "24px" }}
-                />
+                /> */}
                 <span className="text-[1.0rem] ml-2">Scheduler</span>
               </div>
             </div>
@@ -191,10 +191,10 @@ const Header: React.FC<HeaderProps> = ({
           >
             <div className="button-content">
               <div className="icon-text-container">
-                <PiGraphFill
+                {/* <PiGraphFill
                   size={24}
                   style={{ minWidth: "24px", minHeight: "24px" }}
-                />
+                /> */}
                 <span className="text-[1.0rem] ml-2 overflow-hidden">
                   Prerequisites
                 </span>
@@ -209,11 +209,11 @@ const Header: React.FC<HeaderProps> = ({
           >
             <div className="button-content">
               <div className="icon-text-container">
-                <AiOutlineSchedule
+                {/* <AiOutlineSchedule
                   size={24}
                   style={{ minWidth: "24px", minHeight: "24px" }}
-                />
-                <span className="text-[1.0rem] ml-2 overflow-hidden">
+                /> */}
+                <span className="text-[1.0rem] ml-2 overflow-hidden whitespace-nowrap">
                   Model Plans
                 </span>
               </div>
@@ -227,10 +227,10 @@ const Header: React.FC<HeaderProps> = ({
           >
             <div className="button-content">
               <div className="icon-text-container">
-                <IoMapOutline
+                {/* <IoMapOutline
                   size={24}
                   style={{ minWidth: "24px", minHeight: "24px" }}
-                />
+                /> */}
                 <span className="text-[1.0rem] ml-2">Map</span>
               </div>
             </div>
