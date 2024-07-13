@@ -158,7 +158,9 @@ const Calendar: React.FC<CalendarProps> = ({
   const [locations, setLocations] = useState<any[]>([]);
   const prevSelectedCoursesRef = useRef<Course[]>();
   const prevCustomAppointmentsRef = useRef<any[]>();
-  const [animationKey, setAnimationKey] = useState<string>(Date.now().toString());
+  const [animationKey, setAnimationKey] = useState<string>(
+    Date.now().toString()
+  );
 
   const [selectedCalendar, setSelectedCalendar] =
     useState<SelectedCalendarType>(() => {
@@ -390,9 +392,9 @@ const Calendar: React.FC<CalendarProps> = ({
     // if (isLoading) {
     //   return; // Exit if already loading
     // }
-    
+
     // setIsLoading(true); // Set loading state to true
-    
+
     // console.log("Loading more calendars...");
     const newCalendars = createCalendars(lastIndex, 5); // Assuming you want to generate 5 calendars at a time
 
@@ -412,10 +414,8 @@ const Calendar: React.FC<CalendarProps> = ({
       debounceTimer = setTimeout(() => func(...args), delay);
     };
   };
-  
+
   const loadMoreCalendarsDebounced = debounce(loadMoreCalendars, 50);
-  
-  
 
   // Step 4: Render calendars
   const renderCalendar = (
@@ -781,15 +781,19 @@ const Calendar: React.FC<CalendarProps> = ({
               </>
             )}
             <div className="flex flex-col mt-2">
-              {currentCalendars.map(({ appointments, combination }, index) => (
-                <div
-                  key={`${animationKey}-${index}`}
-                  className="fade-in-wave"
-                  style={{ animationDelay: `${index * 35}ms` }}
-                >
-                  {renderCalendar({ appointments, combination }, index)}
-                </div>
-              ))}
+              {currentCalendars.map(({ appointments, combination }, index) => {
+                const currentBatchIndex = index % 5;
+
+                return (
+                  <div
+                    key={`${animationKey}-${index}`}
+                    className="fade-in-wave"
+                    style={{ animationDelay: `${currentBatchIndex * 100}ms` }}
+                  >
+                    {renderCalendar({ appointments, combination }, index)}
+                  </div>
+                );
+              })}
               {currentCalendars.length === 0 && (
                 <div className="text-white text-lg text-center align-middle leading-[50vh] fade-text-in">
                   No possible calendars.
