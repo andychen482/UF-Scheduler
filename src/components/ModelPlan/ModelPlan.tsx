@@ -113,7 +113,7 @@ const ModelPlan: React.FC = () => {
 
   return (
     <div className="model-plan-container">
-      <h1 className="text-3xl font-bold text-white mt-2">Model Plans</h1>
+      <h1 className="text-[26px] font-bold text-white mt-2">Model Semester Plans</h1>
       <Select
         options={options}
         value={
