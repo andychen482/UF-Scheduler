@@ -555,7 +555,7 @@ const Main = () => {
             </div>
           )}
           {currentView === "plan" && (
-            <div className="plan-container bg-[rgb(27,27,27)]">
+            <div className="plan-container bg-[rgb(20,20,20)]">
               <ModelPlan />
             </div>
           )}

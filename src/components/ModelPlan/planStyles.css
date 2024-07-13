@@ -6,7 +6,7 @@
 
 .model-plan th, .model-plan td {
     border: 1px solid white; /* Add border to table cells */
-    padding: 8px; /* Add some padding for better readability */
+    padding: 6px; /* Add some padding for better readability */
   }
 
 @media (max-width: 1000px) {
@@ -33,6 +33,6 @@
     overflow-y: auto;
     position: relative;
     /* padding: 4\3px 0px 0px 0px; */
-    padding: 0px 5px 80px 5px;
+    padding: 0px 12px 80px 12px;
   }
 }

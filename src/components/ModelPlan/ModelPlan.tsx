@@ -35,8 +35,11 @@ const ModelPlan: React.FC = () => {
       <table className="model-plan">
         <tbody>
           <tr>
-            <td colSpan={3} style={{ textAlign: "center", fontWeight: "bold" }}>
+            <td colSpan={2} style={{ textAlign: "center", fontWeight: "bold", fontSize: "18px" }}>
               Semester One
+            </td>
+            <td colSpan={1} style={{ textAlign: "center", fontWeight: "bold", fontSize: "18px" }}>
+              Credits
             </td>
           </tr>
           {plans[major].map((course, index) => {
@@ -83,10 +86,12 @@ const ModelPlan: React.FC = () => {
             return semesterText ? (
               <tr key={index} style={isLastRow ? { fontWeight: "bold" } : {}}>
                 <td
-                  colSpan={3}
-                  style={{ textAlign: "center", fontWeight: "bold" }}
+                  colSpan={2}
+                  style={{ textAlign: "center", fontWeight: "bold", fontSize: "18px" }}
                 >
                   {courseText}
+                </td>
+                <td colSpan={1} style={{ textAlign: "center", fontWeight: "bold", fontSize: "18px" }}>
                 </td>
               </tr>
             ) : (
@@ -96,7 +101,7 @@ const ModelPlan: React.FC = () => {
                   <td colSpan={descriptionSpan}>{descriptionText}</td>
                 )}
                 {creditsSpan > 0 && (
-                  <td colSpan={creditsSpan} style={{ textAlign: "right" }}>{creditsText}</td>
+                  <td colSpan={creditsSpan} style={{ textAlign: "center" }}>{creditsText}</td>
                 )}
               </tr>
             );
