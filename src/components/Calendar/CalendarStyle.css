@@ -40,7 +40,7 @@
 
 @media (max-width: 1000px) {
   .calendar-container {
-    border-top: 0.5px solid #ccc;
+    border-top: 0.5px solid #a9a9a9;
     width: calc(100vw - 60px);
     max-height: 100%;
   }
@@ -52,7 +52,7 @@
 
 @media (min-width: 1001px) {
   .calendar-container {
-    border-left: 0.5px solid #ccc;
+    border-left: 0.5px solid #a9a9a9;
     max-height: calc(100vh - 43px);
     min-height: calc(100vh - 43px);
     position: fixed;

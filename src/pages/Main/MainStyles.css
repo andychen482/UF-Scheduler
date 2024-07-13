@@ -5,8 +5,16 @@
   font-style: normal;
 }
 
-.content-wrapper {
-  margin-top: 43px;
+@media (max-width: 1000px) {
+  .content-wrapper {
+    margin-top: 0px;
+  }
+}
+
+@media (min-width: 1001px) {
+  .content-wrapper {
+    margin-top: 43px;
+  }
 }
 
 .course-display {
@@ -214,8 +222,8 @@
   #display-write {
     order: 3;
     width: calc(100vw - 60px);
-    border-top: 0.5px solid #636363;
-    padding-top: 30px;
+    border-top: 0.5px solid #a9a9a9;
+    /* padding-top: 30px; */
     padding-bottom: 30px;
   }
 
@@ -223,11 +231,6 @@
     width: 100%;
     height: 80vh;
     border-radius: 8px;
-  }
-
-  .flex.flex-col.items-start.basis-full.p-0.dark\:bg-gray-800.transition-colors.duration-500 {
-    max-width: 100%;
-    width: 100%;
   }
 
   .courses-handler {
@@ -289,12 +292,12 @@
 
   #cytoscape-container {
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 108px);
   }
-  .flex.flex-col.items-start.basis-full.p-0.dark\:bg-gray-800.transition-colors.duration-500 {
+  /* .flex.flex-col.items-start.basis-full.p-0.dark\:bg-gray-800.transition-colors.duration-500 {
     max-width: 36%;
     min-width: 36%;
-  }
+  } */
 
   .arrow {
     position: absolute;
@@ -330,7 +333,7 @@
     order: 3;
     width: calc(100vw - 60px);
     border-top: 0.5px solid #a9a9a9;
-    padding-top: 30px;
+    /* padding-top: 30px; */
     padding-bottom: 30px;
   }
 
@@ -338,11 +341,6 @@
     width: 100%;
     height: 80vh;
     border-radius: 8px;
-  }
-
-  .flex.flex-col.items-start.basis-full.p-0.dark\:bg-gray-800.transition-colors.duration-500 {
-    max-width: 100%;
-    width: 100%;
   }
 
   .courses-handler {
@@ -508,12 +506,14 @@
 @media (max-width: 1000px) {
   .plan-container {
     position: relative;
-    border-top: 0.5px solid #a9a9a9;
     width: calc(100vw - 60px);
-    padding-top: 30px;
+    margin-top: 30px;
     padding-bottom: 30px;
     max-height: 100%;
-    order: 3;
+    border-radius: 8px;
+  }
+  .plan-container-container-lol {
+    border-top: 0.5px solid #a9a9a9;
   }
 }
 
@@ -528,6 +528,28 @@
     flex: 1;
     min-width: 52%;
     max-width: 52%;
-    order: 3;
+  }
+}
+
+@media (min-width: 760px) and (max-width: 1000px) {
+  .flex.flex-col.items-start.basis-full.p-0.dark\:bg-gray-800.transition-colors.duration-500 {
+    max-width: 100%;
+    width: 100%;
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 759px) {
+  .flex.flex-col.items-start.basis-full.p-0.dark\:bg-gray-800.transition-colors.duration-500 {
+    max-width: 100%;
+    width: 100%;
+    margin-top: 80px;
+  }
+}
+
+@media (min-width: 1001px) {
+  .flex.flex-col.items-start.basis-full.p-0.dark\:bg-gray-800.transition-colors.duration-500 {
+    max-width: 36%;
+    min-width: 36%;
   }
 }

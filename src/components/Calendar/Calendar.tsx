@@ -676,7 +676,7 @@ const Calendar: React.FC<CalendarProps> = ({
   }, []); // Empty dependency array means this useEffect runs once when component mounts
 
   return (
-    <div className="calendar-container">
+    <div className="calendar-container-2">
       {isLoadingSort && <div className="spinner"></div>}
       <div className="calendar-display">
         {isAppointmentFormVisible && (

@@ -78,10 +78,10 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
         setSelectedCourses={setSelectedCourses}
         setLoaded={setLoaded}
       /> */}
-      <MajorSelect 
+      {/* <MajorSelect 
         selectedMajor={selectedMajor}
         setSelectedMajor={setSelectedMajor}
-      />
+      /> */}
       <CourseSearch
         setDebouncedSearchTerm={setDebouncedSearchTerm}
         searchTerm={searchTerm}

@@ -59,80 +59,185 @@ const Header: React.FC<HeaderProps> = ({
   }, [selectedCourses]);
 
   return (
-    <header className="header flex gap-x-5">
-      {windowWidth < 1001 && (
-        <BiMenu
-          className={`menu-button cursor-pointer mt-1 ${
-            isDrawerOpen ? "faded" : ""
-          }`}
-          onClick={() => setIsDrawerOpen((prev) => !prev)}
-        ></BiMenu>
+    <div className="header-container">
+      <div className="header flex gap-x-5">
+        {windowWidth < 1001 && (
+          <BiMenu
+            className={`menu-button cursor-pointer mt-1 ${
+              isDrawerOpen ? "faded" : ""
+            }`}
+            onClick={() => setIsDrawerOpen((prev) => !prev)}
+          ></BiMenu>
+        )}
+        <div className="credits-container mt-1 text-white">
+          Credits: {totalCredits}
+        </div>
+        {windowWidth >= 760 && (
+          <div className="flex">
+            <div className="button-container gap-x-4">
+              <button
+                className={`Button cursor-pointer text-gray-400 ${
+                  currentView === "calendar" ? "show" : "grayed"
+                }`}
+                onClick={handleCalendarButtonClick}
+              >
+                <div className="button-content">
+                  <div className="icon-text-container">
+                    <AiOutlineCalendar
+                      size={24}
+                      style={{ minWidth: "24px", minHeight: "24px" }}
+                    />
+                    <span className="text-[1.0rem] ml-2">Scheduler</span>
+                  </div>
+                </div>
+              </button>
+              <button
+                className={`Button cursor-pointer text-gray-400 ${
+                  currentView === "graph" ? "show" : "grayed"
+                }`}
+                onClick={graphView}
+              >
+                <div className="button-content">
+                  <div className="icon-text-container">
+                    <PiGraphFill
+                      size={24}
+                      style={{ minWidth: "24px", minHeight: "24px" }}
+                    />
+                    <span className="text-[1.0rem] ml-2 overflow-hidden">
+                      Prerequisites
+                    </span>
+                  </div>
+                </div>
+              </button>
+              <button
+                className={`Button cursor-pointer text-gray-400 ${
+                  currentView === "plan" ? "show" : "grayed"
+                }`}
+                onClick={planView}
+              >
+                <div className="button-content">
+                  <div className="icon-text-container">
+                    <AiOutlineSchedule
+                      size={24}
+                      style={{ minWidth: "24px", minHeight: "24px" }}
+                    />
+                    <span className="text-[1.0rem] ml-2 overflow-hidden">
+                      Model Plans
+                    </span>
+                  </div>
+                </div>
+              </button>
+              <button
+                className={`Button cursor-pointer text-gray-400 ${
+                  currentView === "map" ? "show" : "grayed"
+                }`}
+                onClick={mapView} // use the mapView prop here
+              >
+                <div className="button-content">
+                  <div className="icon-text-container">
+                    <IoMapOutline
+                      size={24}
+                      style={{ minWidth: "24px", minHeight: "24px" }}
+                    />
+                    <span className="text-[1.0rem] ml-2">Map</span>
+                  </div>
+                </div>
+              </button>
+            </div>
+            <div className="mx-2 self-center">
+              <a href="/">
+                <span className="title font-semibold text-blue-500">UF</span>
+                <span className="title font-semibold text-orange-500">
+                  Scheduler
+                </span>
+              </a>
+            </div>
+          </div>
+        )}
+        {windowWidth < 760 && (
+          <div className="mx-2 self-center">
+            <a href="/">
+              <span className="title font-semibold text-blue-500">UF</span>
+              <span className="title font-semibold text-orange-500">
+                Scheduler
+              </span>
+            </a>
+          </div>
+        )}
+      </div>
+      {windowWidth < 760 && (
+        <div className="button-container">
+          <button
+            className={`Button cursor-pointer text-gray-400 ${
+              currentView === "calendar" ? "show" : "grayed"
+            }`}
+            onClick={handleCalendarButtonClick}
+          >
+            <div className="button-content">
+              <div className="icon-text-container">
+                <AiOutlineCalendar
+                  size={24}
+                  style={{ minWidth: "24px", minHeight: "24px" }}
+                />
+                <span className="text-[1.0rem] ml-2">Scheduler</span>
+              </div>
+            </div>
+          </button>
+          <button
+            className={`Button cursor-pointer text-gray-400 ${
+              currentView === "graph" ? "show" : "grayed"
+            }`}
+            onClick={graphView}
+          >
+            <div className="button-content">
+              <div className="icon-text-container">
+                <PiGraphFill
+                  size={24}
+                  style={{ minWidth: "24px", minHeight: "24px" }}
+                />
+                <span className="text-[1.0rem] ml-2 overflow-hidden">
+                  Prerequisites
+                </span>
+              </div>
+            </div>
+          </button>
+          <button
+            className={`Button cursor-pointer text-gray-400 ${
+              currentView === "plan" ? "show" : "grayed"
+            }`}
+            onClick={planView}
+          >
+            <div className="button-content">
+              <div className="icon-text-container">
+                <AiOutlineSchedule
+                  size={24}
+                  style={{ minWidth: "24px", minHeight: "24px" }}
+                />
+                <span className="text-[1.0rem] ml-2 overflow-hidden">
+                  Model Plans
+                </span>
+              </div>
+            </div>
+          </button>
+          <button
+            className={`Button cursor-pointer text-gray-400 ${
+              currentView === "map" ? "show" : "grayed"
+            }`}
+            onClick={mapView} // use the mapView prop here
+          >
+            <div className="button-content">
+              <div className="icon-text-container">
+                <IoMapOutline
+                  size={24}
+                  style={{ minWidth: "24px", minHeight: "24px" }}
+                />
+                <span className="text-[1.0rem] ml-2">Map</span>
+              </div>
+            </div>
+          </button>
+        </div>
       )}
-      <div className="credits-container mt-1 text-white">
-        Credits: {totalCredits}
-      </div>
-
-      <div className="button-container gap-x-4">
-        <button
-          className={`Button cursor-pointer text-gray-400 ${
-            currentView === "graph" ? "show" : "grayed"
-          }`}
-          onClick={graphView}
-        >
-          <div className="button-content">
-            <div className="icon-text-container">
-            <PiGraphFill size={24} style={{ minWidth: '24px', minHeight: '24px' }}/>
-              <span className="text-[1.0rem] ml-2 overflow-hidden">Graph</span>
-            </div>
-          </div>
-        </button>
-        <button
-          className={`Button cursor-pointer text-gray-400 ${
-            currentView === "plan" ? "show" : "grayed"
-          }`}
-          onClick={planView}
-        >
-          <div className="button-content">
-            <div className="icon-text-container">
-            <AiOutlineSchedule size={24} style={{ minWidth: '24px', minHeight: '24px' }}/>
-              <span className="text-[1.0rem] ml-2 overflow-hidden">Model Plans</span>
-            </div>
-          </div>
-        </button>
-        <button
-          className={`Button cursor-pointer text-gray-400 ${
-            currentView === "calendar" ? "show" : "grayed"
-          }`}
-          onClick={handleCalendarButtonClick}
-        >
-          <div className="button-content">
-            <div className="icon-text-container">
-            <AiOutlineCalendar size={24} style={{ minWidth: '24px', minHeight: '24px' }}/>
-              <span className="text-[1.0rem] ml-2">Scheduler</span>
-            </div>
-          </div>
-        </button>
-        <button
-          className={`Button cursor-pointer text-gray-400 ${
-            currentView === "map" ? "show" : "grayed"
-          }`}
-          onClick={mapView} // use the mapView prop here
-        >
-          <div className="button-content">
-            <div className="icon-text-container">
-            <IoMapOutline size={24} style={{ minWidth: '24px', minHeight: '24px' }}/>
-              <span className="text-[1.0rem] ml-2">Map</span>
-            </div>
-          </div>
-        </button>
-      </div>
-      <div className="mr-2">
-        <a href="/">
-          <span className="title font-semibold text-blue-500">UF</span>
-          <span className="title font-semibold text-orange-500">Scheduler</span>
-        </a>
-      </div>
-    </header>
+    </div>
   );
 };
 

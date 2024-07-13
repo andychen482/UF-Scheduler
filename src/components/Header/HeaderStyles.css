@@ -1,9 +1,23 @@
-.header {
+.header-container {
   position: fixed;
-  top: 0;
+  top:0;
   left: 0;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  background-color: rgb(32,34,37);
+  height: auto;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  margin-left: 0px;
+  z-index: 1000;
+}
+
+.header {
+  /* position: fixed;
+  top: 0;
+  left: 0; */
+  width: 100%;
+  background-color: rgb(32, 34, 37);
   color: white;
   height: 43px;
   text-align: right;
@@ -13,6 +27,7 @@
   align-items: center;
   display: flex;
   padding: 0 10px; /* Added padding */
+  justify-content: space-evenly;
 }
 
 .credits-container {
@@ -20,28 +35,51 @@
   white-space: nowrap;
 }
 
-.button-container {
-  display: flex;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 100%;
-  justify-content: flex-end;
+@media (min-width: 760px ) {
+  .button-container {
+    display: flex;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    justify-content: center;
+  }
+  .Button {
+    background-color: #393c42;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 5px 10px;
+    min-width: 10vw;
+    color: white;
+    font-size: 20px;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+  }
 }
 
-.Button {
-  background-color: #393c42;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  padding: 5px 10px;
-  min-width: 10vw;
-  color: white;
-  font-size: 20px;
-  margin-top: 8px;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: clip;
+@media (max-width: 759px) {
+  .button-container {
+    display: flex;
+    width: 100%;
+    border-bottom: 0.5px solid #a9a9a9;
+    background-color: #202225;
+  }
+  
+  .Button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: 16px;
+    border-left: 1px solid #a9a9a9;
+    border-right: 1px solid #a9a9a9;
+    width: 100%; /* Ensure buttons take full width of their flex container */
+  }
 }
 
 .icon-text-container {
@@ -49,14 +87,17 @@
   align-items: center;
   overflow: hidden;
   flex-shrink: 0;
+  padding: 0 5px;
 }
 
 .Button:first-child {
   margin-left: 0;
+  border-left: none;
 }
 
 .Button:last-child {
   margin-right: 0;
+  border-right: none;
 }
 
 .Button.grayed {
@@ -64,12 +105,6 @@
 }
 .Button.show {
   opacity: 1;
-}
-
-@media (max-width: 500px) {
-  .title {
-    display: none;
-  }
 }
 
 .menu-button {
@@ -81,4 +116,3 @@
 .faded {
   opacity: 0.5;
 }
-

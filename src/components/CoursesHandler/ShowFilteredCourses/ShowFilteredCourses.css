@@ -6,7 +6,7 @@
 
 @media (min-width: 1001px) {
   .filtered-courses-container {
-    max-height: calc(100vh - 172px);
+    max-height: calc(100vh - 128px);
   }
 }
 
