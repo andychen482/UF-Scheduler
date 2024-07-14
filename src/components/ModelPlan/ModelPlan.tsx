@@ -46,8 +46,10 @@ const ModelPlan: React.FC = () => {
               colSpan={2}
               style={{
                 textAlign: "center",
-                fontWeight: "bold",
+                fontWeight: "600",
                 fontSize: "18px",
+                borderTop: "2px solid white",
+                borderBottom: "2px solid white",
               }}
             >
               Semester One
@@ -56,8 +58,10 @@ const ModelPlan: React.FC = () => {
               colSpan={1}
               style={{
                 textAlign: "center",
-                fontWeight: "bold",
+                fontWeight: "600",
                 fontSize: "18px",
+                borderTop: "2px solid white",
+                borderBottom: "2px solid white",
               }}
             >
               Credits
@@ -114,14 +118,15 @@ const ModelPlan: React.FC = () => {
             }
 
             const isLastRow = index === plans[major].length - 1;
+            const rowClassName = semesterText ? "thicker-border" : "";
 
             return semesterText ? (
-              <tr key={index} style={isLastRow ? { fontWeight: "bold" } : rowStyle}>
+              <tr key={index} className={rowClassName} style={isLastRow ? { fontWeight: "bold" } : rowStyle}>
                 <td
                   colSpan={2}
                   style={{
                     textAlign: "center",
-                    fontWeight: "bold",
+                    fontWeight: "600",
                     fontSize: "18px",
                   }}
                 >
@@ -131,7 +136,7 @@ const ModelPlan: React.FC = () => {
                   colSpan={1}
                   style={{
                     textAlign: "center",
-                    fontWeight: "bold",
+                    fontWeight: "600",
                     fontSize: "18px",
                   }}
                 ></td>
@@ -157,7 +162,7 @@ const ModelPlan: React.FC = () => {
 
   return (
     <div className="model-plan-container overflow-y-scroll">
-      <h1 className="text-[26px] font-bold text-white mt-2">
+      <h1 className="text-[26px] font-[600] text-white mt-2">
         Model Semester Plans
       </h1>
       <Select

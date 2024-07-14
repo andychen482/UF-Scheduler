@@ -17,6 +17,11 @@
   background-color: rgb(28, 28, 28);
 }
 
+.model-plan .thicker-border td {
+  border-top: 2px solid white;
+  border-bottom: 2px solid white;
+}
+
 @media (max-width: 1000px) {
   .model-plan-container {
     display: flex;
@@ -40,7 +45,6 @@
     width: 52vw;
     overflow-y: auto;
     position: relative;
-    /* padding: 4\3px 0px 0px 0px; */
     padding: 0px 12px 80px 12px;
   }
 }
