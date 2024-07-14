@@ -5,9 +5,17 @@
 }
 
 .model-plan th, .model-plan td {
-    border: 1px solid white; /* Add border to table cells */
-    padding: 6px; /* Add some padding for better readability */
-  }
+  border: 1px solid white; /* Add border to table cells */
+  padding: 6px; /* Add some padding for better readability */
+}
+
+.model-plan tr:nth-child(even) {
+  background-color: black;
+}
+
+.model-plan tr:nth-child(odd) {
+  background-color: rgb(28, 28, 28);
+}
 
 @media (max-width: 1000px) {
   .model-plan-container {

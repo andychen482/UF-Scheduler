@@ -36,6 +36,8 @@ const ModelPlan: React.FC = () => {
     const plans: MajorPlans = fullTables;
     if (!plans[major]) return null;
 
+    let lastRowColor = "gray";
+
     return (
       <table className="model-plan">
         <tbody>
@@ -72,6 +74,10 @@ const ModelPlan: React.FC = () => {
 
             let semesterText = false;
 
+            let rowStyle = {
+              backgroundColor: index % 2 === 0 ? "black" : "rgb(28, 28, 28)",
+            };
+
             // Check for merging conditions
             if (
               courseText === descriptionText &&
@@ -81,29 +87,36 @@ const ModelPlan: React.FC = () => {
               descriptionSpan = 0; // Skip rendering
               creditsSpan = 0; // Skip rendering
               semesterText = true;
+              lastRowColor = index % 2 === 0 ? "black" : "rgb(28, 28, 28)";
             } else if (courseText === descriptionText) {
               courseSpan = 2;
               descriptionSpan = 0; // Skip rendering
+              lastRowColor = index % 2 === 0 ? "black" : "rgb(28, 28, 28)";
             } else if (descriptionText === creditsText) {
               descriptionSpan = 2;
               creditsSpan = 0; // Skip rendering
+              lastRowColor = index % 2 === 0 ? "black" : "rgb(28, 28, 28)";
             } else if (!courseText && descriptionText) {
               courseSpan = 2;
               courseText = descriptionText;
               descriptionSpan = 0; // Skip rendering
               creditsSpan = 1;
+              lastRowColor = index % 2 === 0 ? "black" : "rgb(28, 28, 28)";
             } else if (!creditsText && descriptionText) {
               descriptionSpan = 2;
               creditsSpan = 0;
               descriptionText = courseText + ": " + descriptionText;
               courseText = "";
               courseSpan = 1;
+              rowStyle = {
+                backgroundColor: lastRowColor,
+              };
             }
 
             const isLastRow = index === plans[major].length - 1;
 
             return semesterText ? (
-              <tr key={index} style={isLastRow ? { fontWeight: "bold" } : {}}>
+              <tr key={index} style={isLastRow ? { fontWeight: "bold" } : rowStyle}>
                 <td
                   colSpan={2}
                   style={{
@@ -124,7 +137,7 @@ const ModelPlan: React.FC = () => {
                 ></td>
               </tr>
             ) : (
-              <tr key={index} style={isLastRow ? { fontWeight: "bold" } : {}}>
+              <tr key={index} style={isLastRow ? { fontWeight: "bold" } : rowStyle}>
                 {courseSpan > 0 && <td colSpan={courseSpan}>{courseText}</td>}
                 {descriptionSpan > 0 && (
                   <td colSpan={descriptionSpan}>{descriptionText}</td>
