@@ -25447,6 +25447,580 @@
             "Credits": "120"
         }
     ],
+    "Geology | BA": [
+        {
+            "Semester One": "Quest 1 (Gen Ed Humanities)",
+            "Semester One.1": "Quest 1 (Gen Ed Humanities)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "State Core Gen Ed Composition; Writing Requirement",
+            "Semester One.1": "State Core Gen Ed Composition; Writing Requirement",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "State Core Gen Ed Mathematics (Critical Tracking)",
+            "Semester One.1": "State Core Gen Ed Mathematics (Critical Tracking)",
+            "Credits": "3-4"
+        },
+        {
+            "Semester One": "Foreign language",
+            "Semester One.1": "Foreign language",
+            "Credits": "4-5"
+        },
+        {
+            "Semester One": "Select one elective",
+            "Semester One.1": "Select one elective",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "16-18"
+        },
+        {
+            "Semester One": "Semester Two",
+            "Semester One.1": "Semester Two",
+            "Credits": "Semester Two"
+        },
+        {
+            "Semester One": "Select one:",
+            "Semester One.1": "Select one:",
+            "Credits": "3-4"
+        },
+        {
+            "Semester One": "GLY\u00a02010C",
+            "Semester One.1": "Physical Geology (Critical Tracking; Gen Ed Physical Sciences)",
+            "Credits": null
+        },
+        {
+            "Semester One": "ESC\u00a01000",
+            "Semester One.1": "Introduction to Earth Science (Critical Tracking; Gen Ed Physical Sciences)",
+            "Credits": null
+        },
+        {
+            "Semester One": "GLY\u00a01000",
+            "Semester One.1": "Exploring the Geological Sciences (Critical Tracking; Gen Ed Physical Sciences)",
+            "Credits": null
+        },
+        {
+            "Semester One": "OCE\u00a01001",
+            "Semester One.1": "Introduction to Oceanography (Critical Tracking; Gen Ed Physical Sciences)",
+            "Credits": null
+        },
+        {
+            "Semester One": "State Core Gen Ed Biological Sciences",
+            "Semester One.1": "State Core Gen Ed Biological Sciences",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "State Core Gen Ed Social and Behavioral Sciences",
+            "Semester One.1": "State Core Gen Ed Social and Behavioral Sciences",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Foreign language",
+            "Semester One.1": "Foreign language",
+            "Credits": "3-5"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "12-15"
+        },
+        {
+            "Semester One": "Semester Three",
+            "Semester One.1": "Semester Three",
+            "Credits": "Semester Three"
+        },
+        {
+            "Semester One": "Quest 2 (Gen Ed Social and Behavioral Sciences)",
+            "Semester One.1": "Quest 2 (Gen Ed Social and Behavioral Sciences)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Select one:",
+            "Semester One.1": "Select one:",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "GLY\u00a02100C",
+            "Semester One.1": "Historical Geology (Critical Tracking; Gen Ed Physical Sciences)",
+            "Credits": null
+        },
+        {
+            "Semester One": "GLY\u00a03105C",
+            "Semester One.1": "Evolution of Earth and Life (Critical Tracking; Gen Ed Physical Sciences)",
+            "Credits": null
+        },
+        {
+            "Semester One": "Elective or foreign language if 4-3-3 option",
+            "Semester One.1": "Elective or foreign language if 4-3-3 option",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Electives",
+            "Semester One.1": "Electives",
+            "Credits": "6"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "16"
+        },
+        {
+            "Semester One": "Semester Four",
+            "Semester One.1": "Semester Four",
+            "Credits": "Semester Four"
+        },
+        {
+            "Semester One": "GLY\u00a03202C",
+            "Semester One.1": "Earth Materials (Critical Tracking)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Gen Ed Biological Sciences",
+            "Semester One.1": "Gen Ed Biological Sciences",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "State Core Gen Ed Humanities",
+            "Semester One.1": "State Core Gen Ed Humanities",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Gen Ed Mathematics 1",
+            "Semester One.1": "Gen Ed Mathematics 1",
+            "Credits": "3-4"
+        },
+        {
+            "Semester One": "Gen Ed Social and Behavioral Sciences",
+            "Semester One.1": "Gen Ed Social and Behavioral Sciences",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "15-16"
+        },
+        {
+            "Semester One": "Semester Five",
+            "Semester One.1": "Semester Five",
+            "Credits": "Semester Five"
+        },
+        {
+            "Semester One": "Gen Ed Composition",
+            "Semester One.1": "Gen Ed Composition",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Electives (3000 level or above, not in major)",
+            "Semester One.1": "Electives (3000 level or above, not in major)",
+            "Credits": "6"
+        },
+        {
+            "Semester One": "Geology elective (Critical Tracking; 3000 level or above)",
+            "Semester One.1": "Geology elective (Critical Tracking; 3000 level or above)",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "Gen Ed Humanities",
+            "Semester One.1": "Gen Ed Humanities",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "16"
+        },
+        {
+            "Semester One": "Semester Six",
+            "Semester One.1": "Semester Six",
+            "Credits": "Semester Six"
+        },
+        {
+            "Semester One": "Geology electives (3000 level or above)",
+            "Semester One.1": "Geology electives (3000 level or above)",
+            "Credits": "8"
+        },
+        {
+            "Semester One": "Electives (3000 level or above, not in major)",
+            "Semester One.1": "Electives (3000 level or above, not in major)",
+            "Credits": "6"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "14"
+        },
+        {
+            "Semester One": "Semester Seven",
+            "Semester One.1": "Semester Seven",
+            "Credits": "Semester Seven"
+        },
+        {
+            "Semester One": "Geology electives (3000 level or above)",
+            "Semester One.1": "Geology electives (3000 level or above)",
+            "Credits": "7"
+        },
+        {
+            "Semester One": "Electives",
+            "Semester One.1": "Electives",
+            "Credits": "9"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "16"
+        },
+        {
+            "Semester One": "Semester Eight",
+            "Semester One.1": "Semester Eight",
+            "Credits": "Semester Eight"
+        },
+        {
+            "Semester One": "GLY\u00a04155C",
+            "Semester One.1": "Geology of Florida (Critical Tracking)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Geology elective",
+            "Semester One.1": "Geology elective",
+            "Credits": "2"
+        },
+        {
+            "Semester One": "Electives (3000 level or above, not in major)",
+            "Semester One.1": "Electives (3000 level or above, not in major)",
+            "Credits": "6"
+        },
+        {
+            "Semester One": "Electives",
+            "Semester One.1": "Electives",
+            "Credits": "4"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "15"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Total Credits",
+            "Credits": "120"
+        }
+    ],
+    "Geology | BS": [
+        {
+            "Semester One": "MAC\u00a02311",
+            "Semester One.1": "Analytic Geometry and Calculus 1 (Critical Tracking; State Core Gen Ed Mathematics)",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "Quest 1 (Gen Ed Humanities)",
+            "Semester One.1": "Quest 1 (Gen Ed Humanities)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "State Core Gen Ed Composition; Writing Requirement",
+            "Semester One.1": "State Core Gen Ed Composition; Writing Requirement",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Foreign language",
+            "Semester One.1": "Foreign language",
+            "Credits": "4-5"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "14-15"
+        },
+        {
+            "Semester One": "Semester Two",
+            "Semester One.1": "Semester Two",
+            "Credits": "Semester Two"
+        },
+        {
+            "Semester One": "CHM\u00a02045 &\u00a02045L",
+            "Semester One.1": "General Chemistry 1 and General Chemistry 1 Laboratory (Critical Tracking; State Core Gen Ed Physical Sciences)",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "Select one:",
+            "Semester One.1": "Select one:",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "MAC\u00a02312",
+            "Semester One.1": "Analytic Geometry and Calculus 2 (Gen Ed Mathematics )",
+            "Credits": null
+        },
+        {
+            "Semester One": "PHY\u00a02004 &\u00a02004L",
+            "Semester One.1": "Applied Physics 1 and Laboratory for Applied Physics 1 (Gen Ed Physical Sciences)",
+            "Credits": null
+        },
+        {
+            "Semester One": "Foreign language",
+            "Semester One.1": "Foreign language",
+            "Credits": "3-5"
+        },
+        {
+            "Semester One": "State Core Gen Ed Social and Behavioral Sciences",
+            "Semester One.1": "State Core Gen Ed Social and Behavioral Sciences",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "14-16"
+        },
+        {
+            "Semester One": "Semester Three",
+            "Semester One.1": "Semester Three",
+            "Credits": "Semester Three"
+        },
+        {
+            "Semester One": "Quest 2",
+            "Semester One.1": "Quest 2",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Select one:",
+            "Semester One.1": "Select one:",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "CHM\u00a02046 &\u00a02046L",
+            "Semester One.1": "General Chemistry 2 and General Chemistry 2 Laboratory (Gen Ed Physical Sciences)",
+            "Credits": null
+        },
+        {
+            "Semester One": "Approved science course (Gen Ed Physical Sciences)",
+            "Semester One.1": "Approved science course (Gen Ed Physical Sciences)",
+            "Credits": null
+        },
+        {
+            "Semester One": "Select one:",
+            "Semester One.1": "Select one:",
+            "Credits": "3-4"
+        },
+        {
+            "Semester One": "GLY\u00a02010C",
+            "Semester One.1": "Physical Geology (Critical Tracking; Gen Ed Physical Sciences)",
+            "Credits": null
+        },
+        {
+            "Semester One": "Introductory GLY course (Critical Tracking; Gen Ed Physical Sciences)",
+            "Semester One.1": "Introductory GLY course (Critical Tracking; Gen Ed Physical Sciences)",
+            "Credits": null
+        },
+        {
+            "Semester One": "Select one:",
+            "Semester One.1": "Select one:",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "PHY\u00a02005 &\u00a02005L",
+            "Semester One.1": "Applied Physics 2 and Laboratory for Applied Physics 2 (Gen Ed Physical Sciences)",
+            "Credits": null
+        },
+        {
+            "Semester One": "Approved science course (Gen Ed Physical Sciences)",
+            "Semester One.1": "Approved science course (Gen Ed Physical Sciences)",
+            "Credits": null
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "14-15"
+        },
+        {
+            "Semester One": "Semester Four",
+            "Semester One.1": "Semester Four",
+            "Credits": "Semester Four"
+        },
+        {
+            "Semester One": "Select one:",
+            "Semester One.1": "Select one:",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "GLY\u00a02100C",
+            "Semester One.1": "Historical Geology (Critical Tracking; Gen Ed Physical Sciences)",
+            "Credits": null
+        },
+        {
+            "Semester One": "GLY\u00a03105C",
+            "Semester One.1": "Evolution of Earth and Life (Critical Tracking)",
+            "Credits": null
+        },
+        {
+            "Semester One": "Gen Ed Biological Sciences",
+            "Semester One.1": "Gen Ed Biological Sciences",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "State Core Gen Ed Humanities",
+            "Semester One.1": "State Core Gen Ed Humanities",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Gen Ed Mathematics (or elective if Calculus 2 taken in semester two)",
+            "Semester One.1": "Gen Ed Mathematics (or elective if Calculus 2 taken in semester two)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Gen Ed Social and Behavioral Sciences",
+            "Semester One.1": "Gen Ed Social and Behavioral Sciences",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "16"
+        },
+        {
+            "Semester One": "Semester Five",
+            "Semester One.1": "Semester Five",
+            "Credits": "Semester Five"
+        },
+        {
+            "Semester One": "GLY\u00a03200C",
+            "Semester One.1": "Principles of Mineralogy (Critical Tracking; Gen Ed Physical Sciences)",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "GLY\u00a04750L",
+            "Semester One.1": "Geological Field Methods",
+            "Credits": "2"
+        },
+        {
+            "Semester One": "Electives (3000 level or above, not in major)",
+            "Semester One.1": "Electives (3000 level or above, not in major)",
+            "Credits": "5"
+        },
+        {
+            "Semester One": "Gen Ed Humanities",
+            "Semester One.1": "Gen Ed Humanities",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "14"
+        },
+        {
+            "Semester One": "Semester Six",
+            "Semester One.1": "Semester Six",
+            "Credits": "Semester Six"
+        },
+        {
+            "Semester One": "GLY\u00a04310C",
+            "Semester One.1": "Igneous and Metamorphic Petrology (Critical Tracking; Gen Ed Physical Sciences)",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "GLY\u00a04400C",
+            "Semester One.1": "Structural Geology and Tectonics (Critical Tracking)",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "Gen Ed Biological Sciences",
+            "Semester One.1": "Gen Ed Biological Sciences",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Geology elective (any GLY course 3000 level or above)",
+            "Semester One.1": "Geology elective (any GLY course 3000 level or above)",
+            "Credits": "2"
+        },
+        {
+            "Semester One": "Elective (3000 level or above, not in major)",
+            "Semester One.1": "Elective (3000 level or above, not in major)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "16"
+        },
+        {
+            "Semester One": "Summer After Semester Six",
+            "Semester One.1": "Summer After Semester Six",
+            "Credits": "Summer After Semester Six"
+        },
+        {
+            "Semester One": "GLY\u00a04790",
+            "Semester One.1": "Geology Summer Field Camp (Critical Tracking)",
+            "Credits": "6"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "6"
+        },
+        {
+            "Semester One": "Semester Seven",
+            "Semester One.1": "Semester Seven",
+            "Credits": "Semester Seven"
+        },
+        {
+            "Semester One": "GLY\u00a04552C",
+            "Semester One.1": "Sedimentary Geology (Critical Tracking)",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "Gen Ed Composition",
+            "Semester One.1": "Gen Ed Composition",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Geology elective (any GLY course 3000 level or above)",
+            "Semester One.1": "Geology elective (any GLY course 3000 level or above)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Elective (3000 level or above, not in major)",
+            "Semester One.1": "Elective (3000 level or above, not in major)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "13"
+        },
+        {
+            "Semester One": "Semester Eight",
+            "Semester One.1": "Semester Eight",
+            "Credits": "Semester Eight"
+        },
+        {
+            "Semester One": "GLY\u00a03603C",
+            "Semester One.1": "Paleontology (Gen Ed Physical Sciences)",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "GLY\u00a04905",
+            "Semester One.1": "Individual Work (or one elective)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Electives (3000 level or above, not in major)",
+            "Semester One.1": "Electives (3000 level or above, not in major)",
+            "Credits": "6"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "13"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Total Credits",
+            "Credits": "120"
+        }
+    ],
     "Geospatial Analysis": [
         {
             "Semester One": "Quest 1 (Gen Ed Humanities)",
@@ -33809,6 +34383,535 @@
             "Semester One": null,
             "Semester One.1": "Total Credits",
             "Credits": "125"
+        }
+    ],
+    "Mathematics | BA": [
+        {
+            "Semester One": "Quest 1 (Gen Ed Humanities)",
+            "Semester One.1": "Quest 1 (Gen Ed Humanities)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "MAC\u00a02311",
+            "Semester One.1": "Analytic Geometry and Calculus 1 (Critical Tracking; State Core Gen Ed Mathematics)",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "State Core Gen Ed Biological or Physical Sciences",
+            "Semester One.1": "State Core Gen Ed Biological or Physical Sciences",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "State Core Gen Ed Social and Behavioral Sciences",
+            "Semester One.1": "State Core Gen Ed Social and Behavioral Sciences",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "13"
+        },
+        {
+            "Semester One": "Semester Two",
+            "Semester One.1": "Semester Two",
+            "Credits": "Semester Two"
+        },
+        {
+            "Semester One": "MAC\u00a02312",
+            "Semester One.1": "Analytic Geometry and Calculus 2 (Critical Tracking; Gen Ed Mathematics)",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "Gen Ed Biological or Physical Sciences (area not taken in semester 1)",
+            "Semester One.1": "Gen Ed Biological or Physical Sciences (area not taken in semester 1)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "State Core Gen Ed Composition; Writing Requirement",
+            "Semester One.1": "State Core Gen Ed Composition; Writing Requirement",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Elective",
+            "Semester One.1": "Elective",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "State Core Gen Ed Humanities",
+            "Semester One.1": "State Core Gen Ed Humanities",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "16"
+        },
+        {
+            "Semester One": "Semester Three",
+            "Semester One.1": "Semester Three",
+            "Credits": "Semester Three"
+        },
+        {
+            "Semester One": "MAC\u00a02313",
+            "Semester One.1": "Analytic Geometry and Calculus 3 (Critical Tracking; Gen Ed Mathematics)",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "MHF\u00a03202",
+            "Semester One.1": "Sets and Logic (Critical Tracking)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Gen Ed Biological or Physical Sciences 1",
+            "Semester One.1": "Gen Ed Biological or Physical Sciences 1",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Gen Ed Humanities",
+            "Semester One.1": "Gen Ed Humanities",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Science laboratory (Gen Ed Physical or Biological Sciences)",
+            "Semester One.1": "Science laboratory (Gen Ed Physical or Biological Sciences)",
+            "Credits": "1"
+        },
+        {
+            "Semester One": "Gen Ed Social and Behavioral Sciences 1",
+            "Semester One.1": "Gen Ed Social and Behavioral Sciences 1",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "17"
+        },
+        {
+            "Semester One": "Semester Four",
+            "Semester One.1": "Semester Four",
+            "Credits": "Semester Four"
+        },
+        {
+            "Semester One": "MAP\u00a02302",
+            "Semester One.1": "Elementary Differential Equations (Gen Ed Mathematics)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "MAS\u00a04105",
+            "Semester One.1": "Linear Algebra 1 (Critical Tracking)",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "Gen Ed Biological or Physical Sciences (area not taken in semester 3)",
+            "Semester One.1": "Gen Ed Biological or Physical Sciences (area not taken in semester 3)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Gen Ed Composition; Writing Requirement",
+            "Semester One.1": "Gen Ed Composition; Writing Requirement",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Gen Ed Social and Behavioral Sciences",
+            "Semester One.1": "Gen Ed Social and Behavioral Sciences",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "16"
+        },
+        {
+            "Semester One": "Semester Five",
+            "Semester One.1": "Semester Five",
+            "Credits": "Semester Five"
+        },
+        {
+            "Semester One": "MAS\u00a04301",
+            "Semester One.1": "Abstract Algebra 1",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Mathematics elective",
+            "Semester One.1": "Mathematics elective",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Elective (3000 level or higher, not in major)",
+            "Semester One.1": "Elective (3000 level or higher, not in major)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Foreign language course",
+            "Semester One.1": "Foreign language course",
+            "Credits": "4-5"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "13-14"
+        },
+        {
+            "Semester One": "Semester Six",
+            "Semester One.1": "Semester Six",
+            "Credits": "Semester Six"
+        },
+        {
+            "Semester One": "Mathematics elective (Critical Tracking)",
+            "Semester One.1": "Mathematics elective (Critical Tracking)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Foreign language course",
+            "Semester One.1": "Foreign language course",
+            "Credits": "3-5"
+        },
+        {
+            "Semester One": "Electives (3000 level or higher, not in major)",
+            "Semester One.1": "Electives (3000 level or higher, not in major)",
+            "Credits": "6"
+        },
+        {
+            "Semester One": "Elective",
+            "Semester One.1": "Elective",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "15-17"
+        },
+        {
+            "Semester One": "Semester Seven",
+            "Semester One.1": "Semester Seven",
+            "Credits": "Semester Seven"
+        },
+        {
+            "Semester One": "MAA\u00a04102",
+            "Semester One.1": "Introduction to Real Analysis 1 (Critical Tracking) 2",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Mathematics elective (Critical Tracking)",
+            "Semester One.1": "Mathematics elective (Critical Tracking)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Elective or foreign language if 4-3-3 option",
+            "Semester One.1": "Elective or foreign language if 4-3-3 option",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Electives (3000 level or higher, not in major)",
+            "Semester One.1": "Electives (3000 level or higher, not in major)",
+            "Credits": "6"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "15"
+        },
+        {
+            "Semester One": "Semester Eight",
+            "Semester One.1": "Semester Eight",
+            "Credits": "Semester Eight"
+        },
+        {
+            "Semester One": "MAA\u00a04103",
+            "Semester One.1": "Introduction to Real Analysis 2 2",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Mathematics elective (Critical Tracking)",
+            "Semester One.1": "Mathematics elective (Critical Tracking)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Electives (3000 level or higher, not in major)",
+            "Semester One.1": "Electives (3000 level or higher, not in major)",
+            "Credits": "6"
+        },
+        {
+            "Semester One": "Elective",
+            "Semester One.1": "Elective",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "15"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Total Credits",
+            "Credits": "120"
+        }
+    ],
+    "Mathematics | BS": [
+        {
+            "Semester One": "MAC\u00a02311",
+            "Semester One.1": "Analytic Geometry and Calculus 1 (Critical Tracking; State Core Gen Ed Mathematics)",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "Quest 1 (Gen Ed Humanities)",
+            "Semester One.1": "Quest 1 (Gen Ed Humanities)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "State Core Gen Ed Biological or Physical Sciences",
+            "Semester One.1": "State Core Gen Ed Biological or Physical Sciences",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "State Core Gen Ed Social and Behavioral Sciences",
+            "Semester One.1": "State Core Gen Ed Social and Behavioral Sciences",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "13"
+        },
+        {
+            "Semester One": "Semester Two",
+            "Semester One.1": "Semester Two",
+            "Credits": "Semester Two"
+        },
+        {
+            "Semester One": "MAC\u00a02312",
+            "Semester One.1": "Analytic Geometry and Calculus 2 (Critical Tracking; Gen Ed Mathematics)",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "Gen Ed Biological or Physical Sciences (area not taken in semester 1)",
+            "Semester One.1": "Gen Ed Biological or Physical Sciences (area not taken in semester 1)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "State Core Gen Ed Composition; Writing Requirement",
+            "Semester One.1": "State Core Gen Ed Composition; Writing Requirement",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "State Core Gen Ed Humanities",
+            "Semester One.1": "State Core Gen Ed Humanities",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Elective",
+            "Semester One.1": "Elective",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "16"
+        },
+        {
+            "Semester One": "Semester Three",
+            "Semester One.1": "Semester Three",
+            "Credits": "Semester Three"
+        },
+        {
+            "Semester One": "MAC\u00a02313",
+            "Semester One.1": "Analytic Geometry and Calculus 3 (Critical Tracking; Gen Ed Mathematics)",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "MHF\u00a03202",
+            "Semester One.1": "Sets and Logic (Critical Tracking)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Gen Ed Biological or Physical Sciences 1",
+            "Semester One.1": "Gen Ed Biological or Physical Sciences 1",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Gen Ed Humanities",
+            "Semester One.1": "Gen Ed Humanities",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Science laboratory (Gen Ed Physical or Biological Sciences)",
+            "Semester One.1": "Science laboratory (Gen Ed Physical or Biological Sciences)",
+            "Credits": "1"
+        },
+        {
+            "Semester One": "Gen Ed Social and Behavioral Sciences 1",
+            "Semester One.1": "Gen Ed Social and Behavioral Sciences 1",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "17"
+        },
+        {
+            "Semester One": "Semester Four",
+            "Semester One.1": "Semester Four",
+            "Credits": "Semester Four"
+        },
+        {
+            "Semester One": "MAP\u00a02302",
+            "Semester One.1": "Elementary Differential Equations (Gen Ed Mathematics)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "MAS\u00a04105",
+            "Semester One.1": "Linear Algebra 1 (Critical Tracking)",
+            "Credits": "4"
+        },
+        {
+            "Semester One": "Gen Ed Biological or Physical Sciences (area not taken in semester 3)",
+            "Semester One.1": "Gen Ed Biological or Physical Sciences (area not taken in semester 3)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Gen Ed Composition; Writing Requirement",
+            "Semester One.1": "Gen Ed Composition; Writing Requirement",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Gen Ed Social and Behavioral Sciences",
+            "Semester One.1": "Gen Ed Social and Behavioral Sciences",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "16"
+        },
+        {
+            "Semester One": "Semester Five",
+            "Semester One.1": "Semester Five",
+            "Credits": "Semester Five"
+        },
+        {
+            "Semester One": "MAA\u00a04211",
+            "Semester One.1": "Real Analysis and Advanced Calculus 1 (Critical Tracking) 2",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "MAS\u00a04301",
+            "Semester One.1": "Abstract Algebra 1",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Elective (3000 level or higher, not in major)",
+            "Semester One.1": "Elective (3000 level or higher, not in major)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Foreign language",
+            "Semester One.1": "Foreign language",
+            "Credits": "4-5"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "13-14"
+        },
+        {
+            "Semester One": "Semester Six",
+            "Semester One.1": "Semester Six",
+            "Credits": "Semester Six"
+        },
+        {
+            "Semester One": "MAA\u00a04212",
+            "Semester One.1": "Real Analysis and Advanced Calculus 2 2",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Mathematics elective (Critical Tracking)",
+            "Semester One.1": "Mathematics elective (Critical Tracking)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Foreign language",
+            "Semester One.1": "Foreign language",
+            "Credits": "3-5"
+        },
+        {
+            "Semester One": "Elective (3000 level or higher, not in major)",
+            "Semester One.1": "Elective (3000 level or higher, not in major)",
+            "Credits": "3-4"
+        },
+        {
+            "Semester One": "Elective",
+            "Semester One.1": "Elective",
+            "Credits": "3"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "15-18"
+        },
+        {
+            "Semester One": "Semester Seven",
+            "Semester One.1": "Semester Seven",
+            "Credits": "Semester Seven"
+        },
+        {
+            "Semester One": "MAA\u00a04226",
+            "Semester One.1": "Introduction to Modern Analysis 1 (or another math elective; Critical Tracking)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "MAS\u00a05311",
+            "Semester One.1": "Introductory Algebra I (or another math elective)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Elective or foreign language if 4-3-3 option",
+            "Semester One.1": "Elective or foreign language if 4-3-3 option",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Electives (3000 level or higher, not in major)",
+            "Semester One.1": "Electives (3000 level or higher, not in major)",
+            "Credits": "6"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "15"
+        },
+        {
+            "Semester One": "Semester Eight",
+            "Semester One.1": "Semester Eight",
+            "Credits": "Semester Eight"
+        },
+        {
+            "Semester One": "MAA\u00a04227",
+            "Semester One.1": "Introduction to Modern Analysis 2 (or another math elective)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Mathematics elective (Critical Tracking)",
+            "Semester One.1": "Mathematics elective (Critical Tracking)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Elective (inside or outside major)",
+            "Semester One.1": "Elective (inside or outside major)",
+            "Credits": "3"
+        },
+        {
+            "Semester One": "Electives (3000 level or higher, not in major)",
+            "Semester One.1": "Electives (3000 level or higher, not in major)",
+            "Credits": "6"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Credits",
+            "Credits": "15"
+        },
+        {
+            "Semester One": null,
+            "Semester One.1": "Total Credits",
+            "Credits": "120"
         }
     ],
     "Mechanical Engineering": [
