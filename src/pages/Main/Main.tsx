@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import axios from "axios";
+import { useState, useEffect, useCallback } from "react";
 import CoursesHandler from "../../components/CoursesHandler/CoursesHandler";
 import "./MainStyles.css";
 import { Course } from "../../components/CourseUI/CourseTypes";
@@ -29,12 +28,14 @@ const Main = () => {
   const [currentView, setCurrentView] = useState<
     "calendar" | "graph" | "map" | "plan" | ""
   >("");
-  const [hasShownCalendar, setHasShownCalendar] = useState(false);
   const [hasBeenLoaded, setLoaded] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  const [isChatVisible, setIsChatVisible] = useState(true);
+  const [isChatVisible, setIsChatVisible] = useState<boolean>(() => {
+    const hasClosedChat = localStorage.getItem("hasClosedChat");
+    return hasClosedChat ? false : true;
+  });
 
   const [customAppointments, setCustomAppointments] = useState<any[]>(() => {
     const storedCustomAppointment = localStorage.getItem("customAppointments");
@@ -93,7 +94,6 @@ const Main = () => {
 
   const calendarView = useCallback(() => {
     setCurrentView("calendar");
-    setHasShownCalendar(true);
   }, []);
 
   const graphView = useCallback(() => {
@@ -102,12 +102,10 @@ const Main = () => {
 
   const mapView = useCallback(() => {
     setCurrentView("map");
-    setHasShownCalendar(true);
   }, []);
 
   const planView = useCallback(() => {
     setCurrentView("plan");
-    setHasShownCalendar(true);
   }, []);
 
   return (
@@ -120,7 +118,7 @@ const Main = () => {
       </div>
       <button
         className={`chat-toggle-button ${isChatVisible ? "hide" : "visible"}`}
-        onClick={() => setIsChatVisible(!isChatVisible)}
+        onClick={() => setIsChatVisible(true)}
       >
         <AiOutlineMessage size={30} />
       </button>

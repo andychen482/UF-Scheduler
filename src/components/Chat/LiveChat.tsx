@@ -186,6 +186,11 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
     };
   }, []);
 
+  const handleToggleChat = () => {
+    setIsChatVisible(false);
+    localStorage.setItem("hasClosedChat", "true");
+  };
+
   useEffect(() => {
     if (isUsernameSet) {
       setTimeout(() => {
@@ -197,7 +202,7 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
 
   return (
     <div className="chat-panel" ref={containerRef}>
-      <IoClose className="close-icon" onClick={() => setIsChatVisible(false)} />
+      <IoClose className="close-icon" onClick={handleToggleChat} />
       <h1 className="text-white text-xl">Chat</h1>
       <div className="chat-content">
         <div className="chat-messages-container">
