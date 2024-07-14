@@ -211,6 +211,10 @@ const Chat: React.FC<ChatProps> = ({
     };
   }, []);
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+  }, [isChatVisible]);
+
   const handleToggleChat = () => {
     setIsChatVisible(false);
     localStorage.setItem("hasClosedChat", "true");
