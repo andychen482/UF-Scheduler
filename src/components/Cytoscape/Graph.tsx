@@ -9,7 +9,6 @@ import axios from "axios";
 import "./GraphStyles.css";
 
 interface GraphProps {
-  currentView: string;
   setDebouncedSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   isMobile: () => boolean;
@@ -21,7 +20,6 @@ interface GraphProps {
 cytoscape.use(klay);
 
 const Graph: React.FC<GraphProps> = ({
-  currentView,
   setDebouncedSearchTerm,
   setSearchTerm,
   isMobile,

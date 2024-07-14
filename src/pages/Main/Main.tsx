@@ -36,6 +36,11 @@ const Main = () => {
     const hasClosedChat = localStorage.getItem("hasClosedChat");
     return hasClosedChat ? false : true;
   });
+  const [newMessage, setNewMessage] = useState(false);
+  const [hasNewMessage, setHasNewMessage] = useState<boolean>(() => {
+    const hasNewMessage = localStorage.getItem("hasNewMessage");
+    return hasNewMessage === "true";
+  });
 
   const [customAppointments, setCustomAppointments] = useState<any[]>(() => {
     const storedCustomAppointment = localStorage.getItem("customAppointments");
@@ -108,19 +113,44 @@ const Main = () => {
     setCurrentView("plan");
   }, []);
 
+  const handleNewMessage = () => {
+    setNewMessage(true);
+    setIsChatVisible((prevIsChatVisible) => {
+      if (!prevIsChatVisible) {
+        setHasNewMessage(true);
+      } else {
+        setHasNewMessage(false);
+      }
+      return prevIsChatVisible;
+    });
+    localStorage.setItem("hasNewMessage", "true");
+    setTimeout(() => setNewMessage(false), 650); // reset wiggle after 1 second
+  };
+  
+
+  const handleOpenChat = () => {
+    setIsChatVisible(true);
+    setHasNewMessage(false);
+    localStorage.setItem("hasNewMessage", "false");
+  };
+
   return (
     <div>
       <div className={`chat ${isChatVisible ? "visible" : "hidden"}`}>
         <Chat
           isChatVisible={isChatVisible}
           setIsChatVisible={setIsChatVisible}
+          onNewMessage={handleNewMessage}
         />
       </div>
       <button
-        className={`chat-toggle-button ${isChatVisible ? "hide" : "visible"}`}
-        onClick={() => setIsChatVisible(true)}
+        className={`chat-toggle-button ${isChatVisible ? "hide" : "visible"} ${
+          newMessage ? "wiggle" : ""
+        }`}
+        onClick={handleOpenChat}
       >
-        <AiOutlineMessage size={30} />
+        <AiOutlineMessage size={30} style={{ transform: "scaleX(-1)" }} />
+        {hasNewMessage && <span className="badge"></span>}
       </button>
       <Header
         calendarView={calendarView}
@@ -200,7 +230,6 @@ const Main = () => {
           {currentView === "graph" && (
             <div id="display-write">
               <Graph
-                currentView={currentView}
                 setDebouncedSearchTerm={setDebouncedSearchTerm}
                 setSearchTerm={setSearchTerm}
                 isMobile={isMobile}
@@ -227,7 +256,7 @@ const Main = () => {
           )}
           {currentView === "plan" && (
             <div className="order-3 plan-container-container-lol">
-              <div className="plan-container bg-[rgb(20,20,20)]">
+              <div className="plan-container bg-[rgb(27,27,27)]">
                 <ModelPlan />
               </div>
             </div>

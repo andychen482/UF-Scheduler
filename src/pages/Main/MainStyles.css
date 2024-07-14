@@ -74,6 +74,34 @@
   visibility: visible;
 }
 
+.chat-toggle-button.wiggle {
+  animation: wiggle 0.2s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+  0%, 50%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+}
+
+.badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 16px;
+  height: 16px;
+  background-color: red;
+  border-radius: 50%;
+  border: 2px solid white; /* Optional: adds a white border around the badge */
+}
+
+
 .inline-content {
   display: flex;
   align-items: center;
@@ -100,7 +128,7 @@
 }
 
 #cytoscape-container {
-  background-color: rgb(20, 20, 20);
+  background-color: rgb(27, 27, 27);
 }
 
 .course-filter {

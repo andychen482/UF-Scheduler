@@ -24,13 +24,14 @@ interface UserInfo {
 interface ChatProps {
   setIsChatVisible: React.Dispatch<React.SetStateAction<boolean>>;
   isChatVisible: boolean;
+  onNewMessage: () => void; // Add this prop for new message notification
 }
 
 let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string;
 
 const socket: Socket = io(`https://${backendServer}`);
 
-const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
+const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible, onNewMessage }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
   const [user, setUser] = useState<UserInfo | null>(null);
@@ -56,6 +57,8 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible }) => {
     socket.on("receive message", (data: Message) => {
       const userAtBottom = isUserAtBottom();
       setMessages((prevMessages) => [...prevMessages, data]);
+
+      onNewMessage(); // Notify parent component about the new message
 
       if (userAtBottom) {
         setTimeout(() => {
