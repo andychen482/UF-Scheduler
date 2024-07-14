@@ -87,7 +87,7 @@ const Header: React.FC<HeaderProps> = ({
                       size={24}
                       style={{ minWidth: "24px", minHeight: "24px" }}
                     />
-                    <span className="text-[1.0rem] ml-2">Scheduler</span>
+                    <span className="text-[1.0rem] overflow-hidden label">Scheduler</span>
                   </div>
                 </div>
               </button>
@@ -103,7 +103,7 @@ const Header: React.FC<HeaderProps> = ({
                       size={24}
                       style={{ minWidth: "24px", minHeight: "24px" }}
                     />
-                    <span className="text-[1.0rem] ml-2 overflow-hidden">
+                    <span className="text-[1.0rem] overflow-hidden label">
                       Prerequisites
                     </span>
                   </div>
@@ -121,7 +121,7 @@ const Header: React.FC<HeaderProps> = ({
                       size={24}
                       style={{ minWidth: "24px", minHeight: "24px" }}
                     />
-                    <span className="text-[1.0rem] ml-2 overflow-hidden">
+                    <span className="text-[1.0rem] overflow-hidden whitespace-nowrap label">
                       Model Plans
                     </span>
                   </div>
@@ -139,7 +139,7 @@ const Header: React.FC<HeaderProps> = ({
                       size={24}
                       style={{ minWidth: "24px", minHeight: "24px" }}
                     />
-                    <span className="text-[1.0rem] ml-2">Map</span>
+                    <span className="text-[1.0rem] overflow-hidden label">Map</span>
                   </div>
                 </div>
               </button>
@@ -179,7 +179,7 @@ const Header: React.FC<HeaderProps> = ({
                   size={24}
                   style={{ minWidth: "24px", minHeight: "24px" }}
                 /> */}
-                <span className="text-[1.0rem] ml-2">Scheduler</span>
+                <span className="text-[1.0rem] overflow-hidden label">Scheduler</span>
               </div>
             </div>
           </button>
@@ -195,7 +195,7 @@ const Header: React.FC<HeaderProps> = ({
                   size={24}
                   style={{ minWidth: "24px", minHeight: "24px" }}
                 /> */}
-                <span className="text-[1.0rem] ml-2 overflow-hidden">
+                <span className="text-[1.0rem] overflow-hidden label">
                   Prerequisites
                 </span>
               </div>
@@ -213,7 +213,7 @@ const Header: React.FC<HeaderProps> = ({
                   size={24}
                   style={{ minWidth: "24px", minHeight: "24px" }}
                 /> */}
-                <span className="text-[1.0rem] ml-2 overflow-hidden whitespace-nowrap">
+                <span className="text-[1.0rem] overflow-hidden whitespace-nowrap label">
                   Model Plans
                 </span>
               </div>
@@ -231,7 +231,7 @@ const Header: React.FC<HeaderProps> = ({
                   size={24}
                   style={{ minWidth: "24px", minHeight: "24px" }}
                 /> */}
-                <span className="text-[1.0rem] ml-2">Map</span>
+                <span className="text-[1.0rem] overflow-hidden label">Map</span>
               </div>
             </div>
           </button>
