@@ -72,7 +72,7 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
   }, [selectedMajor]);
 
   return (
-    <div className="bg-[rgb(27,27,27)] dark:bg-gray-800 shadow-md transition-shadow duration-300 min-w-full min-h-full course-handler">
+    <div className="bg-[rgb(0,0,0)] dark:bg-gray-800 shadow-md transition-shadow duration-300 min-w-full min-h-full course-handler">
       {/* <LikedSelectedCourses
         selectedCourses={selectedCourses}
         setSelectedCourses={setSelectedCourses}

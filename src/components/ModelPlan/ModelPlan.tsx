@@ -143,7 +143,7 @@ const ModelPlan: React.FC = () => {
   };
 
   return (
-    <div className="model-plan-container">
+    <div className="model-plan-container overflow-y-scroll">
       <h1 className="text-[26px] font-bold text-white mt-2">
         Model Semester Plans
       </h1>

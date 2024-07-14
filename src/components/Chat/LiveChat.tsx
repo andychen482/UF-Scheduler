@@ -25,13 +25,19 @@ interface ChatProps {
   setIsChatVisible: React.Dispatch<React.SetStateAction<boolean>>;
   isChatVisible: boolean;
   onNewMessage: () => void; // Add this prop for new message notification
+  setHasNewMessage: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string;
 
 const socket: Socket = io(`https://${backendServer}`);
 
-const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible, onNewMessage }) => {
+const Chat: React.FC<ChatProps> = ({
+  setIsChatVisible,
+  isChatVisible,
+  onNewMessage,
+  setHasNewMessage,
+}) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
   const [user, setUser] = useState<UserInfo | null>(null);
@@ -52,6 +58,7 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible, onNewMessa
 
     socket.on("load messages", (data: Message[]) => {
       setMessages(data);
+      handleLoadMessages(data);
     });
 
     socket.on("receive message", (data: Message) => {
@@ -72,6 +79,19 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible, onNewMessa
       socket.off("receive message");
     };
   }, []);
+
+  const handleLoadMessages = (data: Message[]) => {
+    const lastReadTimestamp = localStorage.getItem("lastReadTimestamp") ? Date.parse(localStorage.getItem("lastReadTimestamp") as string) : 0;
+    if (lastReadTimestamp) {
+      const newMessages = data.filter((message: Message) => {
+        return message.timestamp && Date.parse(message.timestamp) > lastReadTimestamp;
+      });
+      if (newMessages.length > 0) {
+        setHasNewMessage(true);
+        localStorage.setItem("hasNewMessage", "true");
+      }
+    }
+  };
 
   const fetchUsername = async (googleId: string) => {
     try {
@@ -192,6 +212,8 @@ const Chat: React.FC<ChatProps> = ({ setIsChatVisible, isChatVisible, onNewMessa
   const handleToggleChat = () => {
     setIsChatVisible(false);
     localStorage.setItem("hasClosedChat", "true");
+    const now = new Date().toISOString();
+    localStorage.setItem("lastReadTimestamp", now);
   };
 
   useEffect(() => {

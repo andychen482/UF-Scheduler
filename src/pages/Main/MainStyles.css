@@ -51,7 +51,7 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #0021a5;
+  background-color: #fa4616;
   color: white;
   border: none;
   border-radius: 50%;
@@ -128,7 +128,7 @@
 }
 
 #cytoscape-container {
-  background-color: rgb(27, 27, 27);
+  background-color: rgb(0, 0, 0);
 }
 
 .course-filter {
@@ -418,7 +418,7 @@
   width: 300px;
   height: 100vh;
   padding-bottom: 60px;
-  background-color: #23252a;
+  background-color: #000000;
   overflow-x: hidden;
   overflow-y: visible;
   transition: 0.5s;

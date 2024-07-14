@@ -205,7 +205,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
 
   return (
     <div
-      className={`bg-[#43464d] dark:bg-gray-800 rounded-lg space-y-2 text-[15px]`}
+      className={`bg-[#292929] dark:bg-gray-800 rounded-lg space-y-2 text-[15px]`}
     >
       <div className="list-none">
         {course.sections
@@ -213,7 +213,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
           .map((section, index) => (
             <li
               key={index}
-              className="my-2 rounded-sm bg-gray-800 border-gray-400 dark:border-gray-700"
+              className="my-2 rounded-sm bg-[#212121] border-gray-400 dark:border-gray-700"
             >
               <div className="space-y-2 p-2">
                 <div className="flex justify-between items-center">

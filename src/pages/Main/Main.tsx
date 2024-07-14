@@ -134,6 +134,7 @@ const Main = () => {
           isChatVisible={isChatVisible}
           setIsChatVisible={setIsChatVisible}
           onNewMessage={handleNewMessage}
+          setHasNewMessage={setHasNewMessage}
         />
       </div>
       <button
@@ -163,10 +164,10 @@ const Main = () => {
         onClick={() => setIsDrawerOpen(false)}
       ></div>
       <div className="content-wrapper">
-        <div className="flex flexImage course-display bg-gray-[920]">
+        <div className="flex flexImage course-display bg-[rgb(0,0,0)]">
           {windowWidth < 1001 ? (
             <div
-              className={`drawer overflow-auto ${isDrawerOpen ? "" : "closed"}`}
+              className={`drawer overflow-y-auto ${isDrawerOpen ? "" : "closed"}`}
             >
               <button
                 className="drawer-close-button"
@@ -186,10 +187,10 @@ const Main = () => {
             </div>
           ) : (
             <div
-              className="selected-courses overflow-auto"
+              className="selected-courses overflow-y-auto"
               style={{
                 height: "calc(100vh - 43px)",
-                background: "rgb(27,27,27)",
+                background: "rgb(0,0,0)",
               }}
             >
               <LikedSelectedCourses
@@ -233,7 +234,7 @@ const Main = () => {
             </div>
           )}
           {currentView === "calendar" && (
-            <div className="calendar-container bg-[rgb(27,27,27)]">
+            <div className="calendar-container bg-[rgb(0,0,0)]">
               <Calendar
                 selectedCourses={selectedCourses}
                 customAppointments={customAppointments}
@@ -243,13 +244,13 @@ const Main = () => {
           )}
           {currentView === "map" && (
             // Add the map component here
-            <div className="map-container bg-[rgb(27,27,27)]">
+            <div className="map-container bg-[rgb(0,0,0)]">
               <MapBox />
             </div>
           )}
           {currentView === "plan" && (
             <div className="order-3 plan-container-container-lol">
-              <div className="plan-container bg-[rgb(27,27,27)]">
+              <div className="plan-container bg-[rgb(0,0,0)]">
                 <ModelPlan />
               </div>
             </div>

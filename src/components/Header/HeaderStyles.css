@@ -17,7 +17,7 @@
   top: 0;
   left: 0; */
   width: 100%;
-  background-color: rgb(32, 34, 37);
+  background-color: rgb(0, 0, 0);
   color: white;
   height: 43px;
   text-align: right;
@@ -44,7 +44,7 @@
     justify-content: center;
   }
   .Button {
-    background-color: #393c42;
+    background-color: #292929;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     padding: 5px 10px;
@@ -65,13 +65,14 @@
     display: flex;
     width: 100%;
     border-bottom: 0.5px solid #a9a9a9;
-    background-color: #202225;
+    background-color: black;
     overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
   
   .Button {
+    background-color: #292929;
     flex: 1;
     display: flex;
     align-items: center;
@@ -104,7 +105,7 @@
 }
 
 .Button.grayed {
-  opacity: 0.6;
+  opacity: 0.3;
 }
 .Button.show {
   opacity: 1;

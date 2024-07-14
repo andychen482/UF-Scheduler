@@ -12,5 +12,5 @@ export const ShowFilteredCoursesClasses = {
   caretUpIcon:
     "cursor-pointer mr-1 mt-2 text-[1.0rem] text-gray-400 dark:text-white hover:opacity-60",
   courseCard:
-    "bg-[#43464d] dark:bg-gray-700 rounded-sm p-4 my-1 w-[100%] shadow-md transition-shadow duration-300",
+    "bg-[#292929] dark:bg-gray-700 rounded-sm p-4 my-1 w-[100%] shadow-md transition-shadow duration-300",
 };

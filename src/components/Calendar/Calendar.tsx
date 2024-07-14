@@ -759,7 +759,7 @@ const Calendar: React.FC<CalendarProps> = ({
             Add Events
           </button>
         </div>
-        <div style={{ height: "calc(100vh - 123px)", overflow: "auto" }}>
+        <div style={{ height: "calc(100vh - 123px)", overflowY: "scroll" }}>
           {" "}
           {/* Add this container with defined height and overflow */}
           <InfiniteScroll
