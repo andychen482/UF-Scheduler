@@ -1,27 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 const Footer = () => {
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   function fetchLastCommitTime() {
-    const url = 'https://api.github.com/repos/andychen482/UF-Scheduler-Backend/commits?path=courses&per_page=1';
+    const url =
+      "https://api.github.com/repos/andychen482/UF-Scheduler-Backend/commits?path=courses&per_page=1";
 
     fetch(url)
-      .then(response => response.json())
-      .then(commits => {
+      .then((response) => response.json())
+      .then((commits) => {
         if (commits && commits.length > 0) {
           const lastCommitDate = new Date(commits[0].commit.author.date);
           setLastUpdated(lastCommitDate);
         }
       })
-      .catch(error => console.error('Error fetching commit data: ', error));
+      .catch((error) => console.error("Error fetching commit data: ", error));
   }
 
   useEffect(() => {
     fetchLastCommitTime();
     const apiIntervalId = setInterval(fetchLastCommitTime, 600000); // API call every 10 minutes
     const displayIntervalId = setInterval(() => {
-      setLastUpdated(prev => new Date(prev!.getTime())); // Trigger re-render every minute
+      setLastUpdated((prev) => new Date(prev!.getTime())); // Trigger re-render every minute
     }, 60000);
     return () => {
       clearInterval(apiIntervalId);
@@ -30,10 +31,12 @@ const Footer = () => {
   }, []);
 
   function displayLastUpdatedTime() {
-    if (!lastUpdated) return 'Calculating...';
+    if (!lastUpdated) return "Calculating...";
 
     const currentTime = new Date();
-    const differenceInMinutes = Math.floor((currentTime.getTime() - lastUpdated.getTime()) / 60000);
+    const differenceInMinutes = Math.floor(
+      (currentTime.getTime() - lastUpdated.getTime()) / 60000
+    );
 
     if (differenceInMinutes < 1) return "Updated less than a minute ago";
     else if (differenceInMinutes === 1) return "Updated 1 minute ago";
@@ -53,12 +56,15 @@ const Footer = () => {
       }}
     >
       <p>
-        Fall 2024 | <span id="lastUpdated">{displayLastUpdatedTime()}</span> | By Andy Chen |{" "}
+        Fall 2024 | <span id="lastUpdated">{displayLastUpdatedTime()}</span>
+        {" | By "}
         <a
-          href="/about"
+          href="https://www.linkedin.com/in/andy-chen67/"
+          target="_blank"
+          rel="noreferrer"
           style={{ color: "inherit", textDecoration: "underline" }}
         >
-          About
+          Andy Chen
         </a>
         {" | "}
         <a
@@ -66,6 +72,13 @@ const Footer = () => {
           style={{ color: "inherit", textDecoration: "underline" }}
         >
           Privacy
+        </a>
+        {" | "}
+        <a
+          href="/about"
+          style={{ color: "inherit", textDecoration: "underline" }}
+        >
+          About
         </a>
       </p>
     </div>
