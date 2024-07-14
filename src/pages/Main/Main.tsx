@@ -50,7 +50,7 @@ const Main = () => {
       return [];
     }
   });
-  const [showInstructions, setShowInstructions] = useState(false);
+  
   const [showArrow, setShowArrow] = useState<boolean>(() => {
     const storedShowArrow = localStorage.getItem("hasClickedCalendar");
     if (storedShowArrow) {
@@ -71,15 +71,8 @@ const Main = () => {
     localStorage.setItem("version", JSON.stringify(1));
   }
 
-  const handleCloseInstructions = () => {
-    setShowInstructions(false);
-    localStorage.setItem("hasShownInstructions", "true");
-  };
-
   useEffect(() => {
-    if (!localStorage.getItem("hasShownInstructions")) {
-      setShowInstructions(true);
-    }
+    localStorage.removeItem("hasShownInstructions");
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
