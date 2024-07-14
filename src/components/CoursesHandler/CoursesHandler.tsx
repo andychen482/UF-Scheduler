@@ -63,11 +63,11 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
   // }, [setSelectedMajor]);
 
   useEffect(() => {
-    if (selectedMajor !== undefined && selectedMajor !== null){
+    if (selectedMajor){
       localStorage.setItem("selectedMajor", selectedMajor);
     }
     else {
-      localStorage.setItem("selectedMajor", "");
+      localStorage.removeItem("selectedMajor");
     }
   }, [selectedMajor]);
 

@@ -15,7 +15,12 @@ const ModelPlan: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedMajor) localStorage.setItem("selectedMajorPlan", selectedMajor);
+    if (selectedMajor) {
+      localStorage.setItem("selectedMajorPlan", selectedMajor);
+    }
+    else {
+      localStorage.removeItem("selectedMajorPlan");
+    }
   }, [selectedMajor]);
 
   const options = Object.keys(fullTables).map((major) => ({
@@ -35,10 +40,24 @@ const ModelPlan: React.FC = () => {
       <table className="model-plan">
         <tbody>
           <tr>
-            <td colSpan={2} style={{ textAlign: "center", fontWeight: "bold", fontSize: "18px" }}>
+            <td
+              colSpan={2}
+              style={{
+                textAlign: "center",
+                fontWeight: "bold",
+                fontSize: "18px",
+              }}
+            >
               Semester One
             </td>
-            <td colSpan={1} style={{ textAlign: "center", fontWeight: "bold", fontSize: "18px" }}>
+            <td
+              colSpan={1}
+              style={{
+                textAlign: "center",
+                fontWeight: "bold",
+                fontSize: "18px",
+              }}
+            >
               Credits
             </td>
           </tr>
@@ -87,12 +106,22 @@ const ModelPlan: React.FC = () => {
               <tr key={index} style={isLastRow ? { fontWeight: "bold" } : {}}>
                 <td
                   colSpan={2}
-                  style={{ textAlign: "center", fontWeight: "bold", fontSize: "18px" }}
+                  style={{
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                  }}
                 >
                   {courseText}
                 </td>
-                <td colSpan={1} style={{ textAlign: "center", fontWeight: "bold", fontSize: "18px" }}>
-                </td>
+                <td
+                  colSpan={1}
+                  style={{
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                  }}
+                ></td>
               </tr>
             ) : (
               <tr key={index} style={isLastRow ? { fontWeight: "bold" } : {}}>
@@ -101,7 +130,9 @@ const ModelPlan: React.FC = () => {
                   <td colSpan={descriptionSpan}>{descriptionText}</td>
                 )}
                 {creditsSpan > 0 && (
-                  <td colSpan={creditsSpan} style={{ textAlign: "center" }}>{creditsText}</td>
+                  <td colSpan={creditsSpan} style={{ textAlign: "center" }}>
+                    {creditsText}
+                  </td>
                 )}
               </tr>
             );
@@ -113,9 +144,12 @@ const ModelPlan: React.FC = () => {
 
   return (
     <div className="model-plan-container">
-      <h1 className="text-[26px] font-bold text-white mt-2">Model Semester Plans</h1>
+      <h1 className="text-[26px] font-bold text-white mt-2">
+        Model Semester Plans
+      </h1>
       <Select
         options={options}
+        isClearable={true}
         value={
           selectedMajor ? { value: selectedMajor, label: selectedMajor } : null
         }
