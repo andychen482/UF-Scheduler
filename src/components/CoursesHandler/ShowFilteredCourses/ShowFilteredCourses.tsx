@@ -168,7 +168,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   return (
     <div
       ref={containerRef}
-      className="filtered-courses-container overflow-auto mt-3"
+      className="filtered-courses-container overflow-y-scroll mt-3"
     >
       <InfiniteScroll
         pageStart={0}
