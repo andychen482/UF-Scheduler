@@ -81,15 +81,17 @@ const Chat: React.FC<ChatProps> = ({
   }, []);
 
   const handleLoadMessages = (data: Message[]) => {
-    const lastReadTimestamp = localStorage.getItem("lastReadTimestamp") ? Date.parse(localStorage.getItem("lastReadTimestamp") as string) : 0;
-    if (lastReadTimestamp) {
-      const newMessages = data.filter((message: Message) => {
-        return message.timestamp && Date.parse(message.timestamp) > lastReadTimestamp;
-      });
-      if (newMessages.length > 0) {
-        setHasNewMessage(true);
-        localStorage.setItem("hasNewMessage", "true");
-      }
+    const lastReadTimestamp = localStorage.getItem("lastReadTimestamp")
+      ? Date.parse(localStorage.getItem("lastReadTimestamp") as string)
+      : 0;
+    const newMessages = data.filter((message: Message) => {
+      return (
+        message.timestamp && Date.parse(message.timestamp) > lastReadTimestamp
+      );
+    });
+    if (newMessages.length > 0) {
+      setHasNewMessage(true);
+      localStorage.setItem("hasNewMessage", "true");
     }
   };
 
