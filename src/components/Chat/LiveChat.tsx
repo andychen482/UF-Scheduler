@@ -220,6 +220,8 @@ const Chat: React.FC<ChatProps> = ({
     localStorage.setItem("hasClosedChat", "true");
     const now = new Date().toISOString();
     localStorage.setItem("lastReadTimestamp", now);
+    setHasNewMessage(false);
+    localStorage.setItem("hasNewMessage", "false");
   };
 
   useEffect(() => {

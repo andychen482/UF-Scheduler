@@ -123,8 +123,6 @@ const Main = () => {
 
   const handleOpenChat = () => {
     setIsChatVisible(true);
-    setHasNewMessage(false);
-    localStorage.setItem("hasNewMessage", "false");
   };
 
   return (
