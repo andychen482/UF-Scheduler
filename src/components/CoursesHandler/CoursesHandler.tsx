@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import CourseSearch from "./CourseSearch/CourseSearch";
 import ShowFilteredCourses from "./ShowFilteredCourses/ShowFilteredCourses";
 import { Course } from "../CourseUI/CourseTypes";
-import MajorSelect from "./MajorSearch/MajorSearch";
 import "./CourseHandlerStyles.css"
 
 interface CoursesHandlerProps {
@@ -48,6 +47,7 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
   useEffect(() => {
     if ((selectedCourses.length > 0) || hasBeenLoaded){
       localStorage.setItem("selectedCourses", JSON.stringify(selectedCourses));
+      
     }
   }, [selectedCourses, hasBeenLoaded]);
 

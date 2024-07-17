@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import fullTables from "../../data/fullTables.json";
 import { MajorPlans } from "./planTypes";
 import Select, { CSSObjectWithLabel } from "react-select";
+import ReactGA from "react-ga4";
 import "./planStyles.css";
 
 const ModelPlan: React.FC = () => {
@@ -29,7 +30,14 @@ const ModelPlan: React.FC = () => {
   }));
 
   const handleMajorChange = (selectedOption: any) => {
-    setSelectedMajor(selectedOption ? selectedOption.value : null);
+    const selectedMajorValue = selectedOption ? selectedOption.value : null;
+    setSelectedMajor(selectedMajorValue);
+
+    ReactGA.event({
+      category: "Model Plan",
+      action: "Select Major",
+      label: selectedMajorValue,
+    });
   };
 
   const renderTable = (major: string) => {

@@ -114,9 +114,9 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
 
   const getDifficultyColor = (difficulty: number | null): string => {
     if (difficulty === null) return "text-gray-200 dark:text-gray-200"; // Default
-    if (difficulty <= 2) return "text-green-400"; // Red
+    if (difficulty <= 2) return "text-green-400"; // Green
     if (difficulty < 4) return "text-yellow-400"; // Yellow
-    return "text-red-400"; // Green
+    return "text-red-400"; // Red
   };
 
   const renderSectionInformation = (section: Section) => {

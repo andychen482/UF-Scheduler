@@ -11,6 +11,7 @@ import {
   PiCaretUpBold,
 } from "react-icons/pi";
 import "./ShowFilteredCourses.css";
+import ReactGA from "react-ga4";
 
 interface ShowFilteredCoursesProps {
   debouncedSearchTerm: string;
@@ -99,6 +100,11 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
         ...prevSelectedCourses,
         course,
       ]);
+      ReactGA.event({
+        category: "Courses",
+        action: "Select Course",
+        label: `${course.code}|${course.name}`,
+      });
     }
   };
 
