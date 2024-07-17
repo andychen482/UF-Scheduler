@@ -103,7 +103,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
       ReactGA.event({
         category: "Courses",
         action: "Select Course",
-        label: `${course.code}|${course.name}`,
+        label: `${course.code} | ${course.name}`,
       });
     }
   };
