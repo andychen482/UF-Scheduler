@@ -76,6 +76,7 @@ const Header: React.FC<HeaderProps> = ({
         className="buyButton"
         target="_blank"
         href="https://www.buymeacoffee.com/ufscheduler"
+        rel="noreferrer"
       >
         <span className="gatorEmoji">🐊</span>
         <span className="coffeeButtonText">Donate</span>
