@@ -50,7 +50,7 @@ const Main = () => {
       return [];
     }
   });
-  
+
   const [showArrow, setShowArrow] = useState<boolean>(() => {
     const storedShowArrow = localStorage.getItem("hasClickedCalendar");
     if (storedShowArrow) {
@@ -119,7 +119,6 @@ const Main = () => {
     localStorage.setItem("hasNewMessage", "true");
     setTimeout(() => setNewMessage(false), 650); // reset wiggle after 1 second
   };
-  
 
   const handleOpenChat = () => {
     setIsChatVisible(true);
@@ -165,7 +164,9 @@ const Main = () => {
         <div className="flex flexImage course-display bg-[rgb(0,0,0)]">
           {windowWidth < 1001 ? (
             <div
-              className={`drawer overflow-y-auto ${isDrawerOpen ? "" : "closed"}`}
+              className={`drawer overflow-y-auto ${
+                isDrawerOpen ? "" : "closed"
+              }`}
             >
               <button
                 className="drawer-close-button"

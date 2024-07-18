@@ -61,6 +61,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <div className="header-container">
       <div className="header flex gap-x-5">
+        <div className="credits-container text-white">
         {windowWidth < 1001 && (
           <BiMenu
             className={`menu-button cursor-pointer mt-1 ${
@@ -69,10 +70,17 @@ const Header: React.FC<HeaderProps> = ({
             onClick={() => setIsDrawerOpen((prev) => !prev)}
           ></BiMenu>
         )}
-        <div className="credits-container mt-1 text-white">
-          Credits: {totalCredits}
+          <span className="mt-1">Credits: {totalCredits}</span>
         </div>
-        {windowWidth >= 760 && (
+        <a
+        className="buyButton"
+        target="_blank"
+        href="https://www.buymeacoffee.com/ufscheduler"
+      >
+        <span className="gatorEmoji">🐊</span>
+        <span className="coffeeButtonText">Donate</span>
+      </a>
+        {windowWidth >= 965 && (
           <div className="flex">
             <div className="button-container gap-x-4">
               <button
@@ -87,7 +95,9 @@ const Header: React.FC<HeaderProps> = ({
                       size={24}
                       style={{ minWidth: "24px", minHeight: "24px" }}
                     />
-                    <span className="text-[1.0rem] overflow-hidden label">Scheduler</span>
+                    <span className="text-[1.0rem] overflow-hidden label">
+                      Scheduler
+                    </span>
                   </div>
                 </div>
               </button>
@@ -139,7 +149,9 @@ const Header: React.FC<HeaderProps> = ({
                       size={24}
                       style={{ minWidth: "24px", minHeight: "24px" }}
                     />
-                    <span className="text-[1.0rem] overflow-hidden label">Map</span>
+                    <span className="text-[1.0rem] overflow-hidden label">
+                      Map
+                    </span>
                   </div>
                 </div>
               </button>
@@ -154,7 +166,7 @@ const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
         )}
-        {windowWidth < 760 && (
+        {windowWidth < 965 && (
           <div className="mx-2 self-center">
             <a href="/">
               <span className="title font-semibold text-blue-500">UF</span>
@@ -165,7 +177,7 @@ const Header: React.FC<HeaderProps> = ({
           </div>
         )}
       </div>
-      {windowWidth < 760 && (
+      {windowWidth < 965 && (
         <div className="button-container">
           <button
             className={`Button cursor-pointer text-gray-400 ${
@@ -179,7 +191,9 @@ const Header: React.FC<HeaderProps> = ({
                   size={24}
                   style={{ minWidth: "24px", minHeight: "24px" }}
                 /> */}
-                <span className="text-[1.0rem] overflow-hidden label">Scheduler</span>
+                <span className="text-[1.0rem] overflow-hidden label">
+                  Scheduler
+                </span>
               </div>
             </div>
           </button>
