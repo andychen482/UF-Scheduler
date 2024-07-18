@@ -20,6 +20,8 @@ interface ShowFilteredCoursesProps {
   setLoaded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string;
+
 const groupByCourseCodeAndName = (courses: Course[]) => {
   return courses.reduce((grouped: { [key: string]: Course[] }, course) => {
     const key = `${course.code}|${course.name}`;
@@ -105,6 +107,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
         action: "Select Course",
         label: `${course.code} | ${course.name}`,
       });
+      sendCourseMetrics(course);
     }
   };
 
@@ -147,6 +150,21 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
 
     if (records >= 2 * itemsPerPage + filteredCourses.length) {
       setHasMore(false);
+    }
+  };
+
+  const sendCourseMetrics = async (course: Course) => {
+    try {
+      await axios.post(
+        `https://${backendServer}/metrics/course`,
+        {
+          code: course.code,
+          name: course.name,
+        }
+      );
+    }
+    catch (error) {
+      console.error("Error sending course metrics", error);
     }
   };
 

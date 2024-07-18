@@ -4,6 +4,10 @@ import { MajorPlans } from "./planTypes";
 import Select, { CSSObjectWithLabel } from "react-select";
 import ReactGA from "react-ga4";
 import "./planStyles.css";
+import axios from "axios";
+
+let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string;
+
 
 const ModelPlan: React.FC = () => {
   const [selectedMajor, setSelectedMajor] = useState<string>("");
@@ -29,6 +33,19 @@ const ModelPlan: React.FC = () => {
     label: major,
   }));
 
+  const sendMajorMetrics = async (major: string) => {
+    try {
+      await axios.post(
+        `https://${backendServer}/metrics/major`,
+        {
+          major: major,
+        }
+      );
+    } catch (error) {
+      console.error("Error sending major metrics", error);
+    }
+  };
+
   const handleMajorChange = (selectedOption: any) => {
     const selectedMajorValue = selectedOption ? selectedOption.value : null;
     setSelectedMajor(selectedMajorValue);
@@ -38,6 +55,8 @@ const ModelPlan: React.FC = () => {
       action: "Select Major",
       label: selectedMajorValue,
     });
+
+    sendMajorMetrics(selectedMajorValue);
   };
 
   const renderTable = (major: string) => {
