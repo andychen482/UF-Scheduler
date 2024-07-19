@@ -50,11 +50,11 @@ const ModelPlan: React.FC = () => {
     const selectedMajorValue = selectedOption ? selectedOption.value : null;
     setSelectedMajor(selectedMajorValue);
 
-    ReactGA.event({
-      category: "Model Plan",
-      action: "Select Major",
-      label: selectedMajorValue,
-    });
+    // ReactGA.event({
+    //   category: "Model Plan",
+    //   action: "Select Major",
+    //   label: selectedMajorValue,
+    // });
 
     sendMajorMetrics(selectedMajorValue);
   };
