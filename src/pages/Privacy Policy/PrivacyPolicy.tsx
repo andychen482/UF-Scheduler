@@ -35,6 +35,7 @@ const Privacy: React.FC = () => {
             <a
               href="https://www.freeprivacypolicy.com/free-privacy-policy-generator/"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Free Privacy Policy Generator
             </a>
@@ -127,7 +128,7 @@ const Privacy: React.FC = () => {
                 <strong>Website</strong> refers to UFScheduler, accessible from{" "}
                 <a
                   href="https://ufscheduler.com"
-                  rel="external nofollow noopener"
+                  rel="external nofollow noopener noreferrer"
                   target="_blank"
                 >
                   https://ufscheduler.com
@@ -222,6 +223,7 @@ const Privacy: React.FC = () => {
             <a
               href="https://www.freeprivacypolicy.com/blog/sample-privacy-policy-template/#Use_Of_Cookies_And_Tracking"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Free Privacy Policy website
             </a>{" "}
