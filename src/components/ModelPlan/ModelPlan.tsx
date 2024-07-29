@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import fullTables from "../../data/fullTables.json";
 import { MajorPlans } from "./planTypes";
 import Select, { CSSObjectWithLabel } from "react-select";
-import ReactGA from "react-ga4";
+// import ReactGA from "react-ga4";
 import "./planStyles.css";
 import axios from "axios";
 
@@ -36,7 +36,7 @@ const ModelPlan: React.FC = () => {
   const sendMajorMetrics = async (major: string) => {
     try {
       await axios.post(
-        `https://${backendServer}/metrics/major`,
+        `https://${backendServer}/major`,
         {
           major: major,
         }

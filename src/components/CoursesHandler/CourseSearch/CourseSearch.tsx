@@ -1,5 +1,8 @@
 import React, { useRef } from "react";
-import "./styles.css"
+import axios from "axios";
+import "./styles.css";
+
+let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string; 
 
 interface CourseSearchProps {
   setDebouncedSearchTerm: (searchTerm: string) => void;
@@ -40,7 +43,20 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
     }
     debounceRef.current = setTimeout(() => {
       setDebouncedSearchTerm(formattedInput);
+      if (formattedInput !== "" && formattedInput.length > 2) {
+        handleSearchMetrics(formattedInput);
+      }
     }, 200); // 300ms delay
+  };
+
+  const handleSearchMetrics = async (formattedInput: string) => {
+    try {
+      await axios.post(`https://${backendServer}/search`, {
+        searchTerm: formattedInput,
+      });
+    } catch (error) {
+      console.error("Error sending search metrics", error);
+    }
   };
 
   return (

@@ -559,7 +559,15 @@
   }
 }
 
-@media (min-width: 760px) and (max-width: 1000px) {
+@media (min-width: 760px) and (max-width: 964px) {
+  .flex.flex-col.items-start.basis-full.p-0.dark\:bg-gray-800.transition-colors.duration-500 {
+    max-width: 100%;
+    width: 100%;
+    margin-top: 80px;
+  }
+}
+
+@media (min-width: 965px) and (max-width: 1000px) {
   .flex.flex-col.items-start.basis-full.p-0.dark\:bg-gray-800.transition-colors.duration-500 {
     max-width: 100%;
     width: 100%;

@@ -156,7 +156,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   const sendCourseMetrics = async (course: Course) => {
     try {
       await axios.post(
-        `https://${backendServer}/metrics/course`,
+        `https://${backendServer}/course`,
         {
           code: course.code,
           name: course.name,
