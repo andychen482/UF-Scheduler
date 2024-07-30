@@ -49,7 +49,7 @@
 
 .chat-toggle-button {
   position: fixed;
-  bottom: 20px;
+  bottom: 25px;
   right: 20px;
   background-color: #fa4616;
   color: white;
@@ -96,12 +96,14 @@
 
 .floating-text {
   position: fixed;
-  bottom: 20px;
-  left: 5px;
+  bottom: 0px;
+  right: 0px;
   background-color: rgba(0, 0, 0, 0.4);
+  font-size: small;
   color: white;
   padding: 5px 10px;
-  border-radius: 5px;
+  /* border-radius: 5px; */
+  border-radius: 5px 5px 0 0;
   display: flex;
   align-items: center;
   z-index: 999;
