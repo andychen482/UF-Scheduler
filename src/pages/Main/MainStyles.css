@@ -75,19 +75,45 @@
 }
 
 .chat-toggle-button.wiggle {
-  animation: wiggle 0.2s ease-in-out infinite;
+  animation: wiggle 2s ease-in-out infinite;
 }
 
 @keyframes wiggle {
-  0%, 50%, 100% {
+  0%, 100% {
     transform: rotate(0deg);
   }
-  25% {
-    transform: rotate(-5deg);
+  10%, 20% {
+    transform: rotate(-10deg);
   }
-  75% {
-    transform: rotate(5deg);
+  15%, 25% {
+    transform: rotate(10deg);
   }
+  35%, 50%, 60%, 70%, 80%, 90% {
+    transform: rotate(0deg);
+  }
+}
+
+
+.floating-text {
+  position: fixed;
+  bottom: 20px;
+  left: 5px;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  z-index: 999;
+}
+
+.green-circle {
+  width: 10px;
+  height: 10px;
+  background-color: green;
+  border-radius: 50%;
+  margin-right: 8px;
+  display: inline-block;
 }
 
 .badge {

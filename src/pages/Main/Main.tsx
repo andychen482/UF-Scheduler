@@ -36,7 +36,6 @@ const Main = () => {
     const hasClosedChat = localStorage.getItem("hasClosedChat");
     return hasClosedChat ? false : true;
   });
-  const [newMessage, setNewMessage] = useState(false);
   const [hasNewMessage, setHasNewMessage] = useState<boolean>(() => {
     const hasNewMessage = localStorage.getItem("hasNewMessage");
     return hasNewMessage === "true";
@@ -59,6 +58,8 @@ const Main = () => {
       return true;
     }
   });
+
+  const [activeUsers, setActiveUsers] = useState<number>(0);
 
   useEffect(() => {
     setCurrentView("calendar");
@@ -107,7 +108,6 @@ const Main = () => {
   }, []);
 
   const handleNewMessage = () => {
-    setNewMessage(true);
     setIsChatVisible((prevIsChatVisible) => {
       if (!prevIsChatVisible) {
         setHasNewMessage(true);
@@ -117,11 +117,14 @@ const Main = () => {
       return prevIsChatVisible;
     });
     localStorage.setItem("hasNewMessage", "true");
-    setTimeout(() => setNewMessage(false), 650); // reset wiggle after 1 second
   };
 
   const handleOpenChat = () => {
     setIsChatVisible(true);
+  };
+
+  const handleActiveUsersUpdate = (count: number) => {
+    setActiveUsers(count);
   };
 
   return (
@@ -132,11 +135,12 @@ const Main = () => {
           setIsChatVisible={setIsChatVisible}
           onNewMessage={handleNewMessage}
           setHasNewMessage={setHasNewMessage}
+          onActiveUsersUpdate={handleActiveUsersUpdate}
         />
       </div>
       <button
         className={`chat-toggle-button ${isChatVisible ? "hide" : "visible"} ${
-          newMessage ? "wiggle" : ""
+          hasNewMessage ? "wiggle" : ""
         }`}
         onClick={handleOpenChat}
       >
@@ -257,6 +261,9 @@ const Main = () => {
         </div>
       </div>
       <Footer />
+      <div className="floating-text">
+        <div className="green-circle"></div>Online: {activeUsers}
+      </div>
     </div>
   );
 };

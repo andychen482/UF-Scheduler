@@ -26,6 +26,7 @@ interface ChatProps {
   isChatVisible: boolean;
   onNewMessage: () => void; // Add this prop for new message notification
   setHasNewMessage: React.Dispatch<React.SetStateAction<boolean>>;
+  onActiveUsersUpdate: (count: number) => void;
 }
 
 let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string;
@@ -37,12 +38,14 @@ const Chat: React.FC<ChatProps> = ({
   isChatVisible,
   onNewMessage,
   setHasNewMessage,
+  onActiveUsersUpdate,
 }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
   const [user, setUser] = useState<UserInfo | null>(null);
   const [username, setUsername] = useState<string>("");
   const [isUsernameSet, setIsUsernameSet] = useState<boolean>(false);
+  const [activeUsers, setActiveUsers] = useState<number>(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatMessagesRef = useRef<HTMLDivElement>(null);
 
@@ -74,9 +77,15 @@ const Chat: React.FC<ChatProps> = ({
       }
     });
 
+    socket.on("active users", (data: { activeUsers: number }) => {
+      // setActiveUsers(data.activeUsers);
+      onActiveUsersUpdate(data.activeUsers);
+    });
+
     return () => {
       socket.off("load messages");
       socket.off("receive message");
+      socket.off("active users");
     };
   }, []);
 
@@ -152,7 +161,6 @@ const Chat: React.FC<ChatProps> = ({
         if (response.status === 200) {
           setIsUsernameSet(true);
         } else if (response.status === 409) {
-          // Conflict status for username taken
           alert(result.error); // Display an error message to the user
         }
       } catch (error) {
@@ -305,6 +313,9 @@ const Chat: React.FC<ChatProps> = ({
               />
             </div>
           )}
+          {/* <div className="active-users text-white">
+            Active users: {activeUsers}
+          </div> */}
         </div>
       </div>
     </div>
