@@ -262,7 +262,7 @@ const Main = () => {
       </div>
       <Footer />
       <div className="floating-text">
-        <div className="green-circle"></div>Online: {activeUsers}
+        <div className="green-circle"></div>{activeUsers} online
       </div>
     </div>
   );
