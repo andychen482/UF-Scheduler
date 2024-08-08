@@ -125,7 +125,7 @@ const generateICSContent = (appointments: any[]) => {
   return icsContent;
 };
 
-type SelectedCalendarType = {
+export type SelectedCalendarType = {
   appointments: any[];
   combination: Section[];
 } | null;
@@ -171,8 +171,8 @@ const Calendar: React.FC<CalendarProps> = ({
     return appointments.map((appointment) => {
       const dayOfWeek = new Date(appointment.startDate).getDay();
       const currentWeekDate = getCurrentWeekDayDate(dayOfWeek);
-      const startTime = new Date(appointment.startDate).toISOString().split("T")[1];
-      const endTime = new Date(appointment.endDate).toISOString().split("T")[1];
+      const startTime = appointment.startDate.split("T")[1];
+      const endTime = appointment.endDate.split("T")[1];
       
       const newStartDate = `${currentWeekDate.toISOString().split("T")[0]}T${startTime}`;
       const newEndDate = `${currentWeekDate.toISOString().split("T")[0]}T${endTime}`;
@@ -196,7 +196,7 @@ const Calendar: React.FC<CalendarProps> = ({
           Array.isArray(parsedValue.combination)
         ) {
           const adjustedAppointments = adjustAppointmentsToCurrentWeek(parsedValue.appointments);
-          return { ...parsedValue, appointments: adjustedAppointments };
+          return { appointments: adjustedAppointments, combination: parsedValue.combination };
         }
       } catch (error) {
         return null;
