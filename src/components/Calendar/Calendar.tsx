@@ -162,25 +162,49 @@ const Calendar: React.FC<CalendarProps> = ({
     Date.now().toString()
   );
 
-  const [selectedCalendar, setSelectedCalendar] =
-    useState<SelectedCalendarType>(() => {
-      const storedValue = localStorage.getItem("selectedCalendar");
-      if (storedValue) {
-        try {
-          const parsedValue: SelectedCalendarType = JSON.parse(storedValue);
-          if (
-            parsedValue &&
-            Array.isArray(parsedValue.appointments) &&
-            Array.isArray(parsedValue.combination)
-          ) {
-            return parsedValue;
-          }
-        } catch (error) {
-          return null;
-        }
-      }
-      return null;
+  const getCurrentWeekDayDate = (dayIndex: number) => {
+    const start = startOfWeek(new Date(), { weekStartsOn: 0 });
+    return addDays(start, dayIndex);
+  };
+  
+  const adjustAppointmentsToCurrentWeek = (appointments: any[]) => {
+    return appointments.map((appointment) => {
+      const dayOfWeek = new Date(appointment.startDate).getDay();
+      const currentWeekDate = getCurrentWeekDayDate(dayOfWeek);
+      const startTime = new Date(appointment.startDate).toISOString().split("T")[1];
+      const endTime = new Date(appointment.endDate).toISOString().split("T")[1];
+      
+      const newStartDate = `${currentWeekDate.toISOString().split("T")[0]}T${startTime}`;
+      const newEndDate = `${currentWeekDate.toISOString().split("T")[0]}T${endTime}`;
+  
+      return {
+        ...appointment,
+        startDate: newStartDate,
+        endDate: newEndDate,
+      };
     });
+  };
+  
+  const [selectedCalendar, setSelectedCalendar] = useState<SelectedCalendarType>(() => {
+    const storedValue = localStorage.getItem("selectedCalendar");
+    if (storedValue) {
+      try {
+        const parsedValue: SelectedCalendarType = JSON.parse(storedValue);
+        if (
+          parsedValue &&
+          Array.isArray(parsedValue.appointments) &&
+          Array.isArray(parsedValue.combination)
+        ) {
+          const adjustedAppointments = adjustAppointmentsToCurrentWeek(parsedValue.appointments);
+          return { ...parsedValue, appointments: adjustedAppointments };
+        }
+      } catch (error) {
+        return null;
+      }
+    }
+    return null;
+  });
+  
 
   let resources: any[] = [
     {
