@@ -151,15 +151,123 @@ const Map = () => {
             type: "geojson",
             data: parkingInfo as mapboxgl.GeoJSONSourceRaw["data"],
           });
+
+          map.loadImage("/images/orange-blue-stripes-smaller.png", function (error, image) {
+            if (error) throw error;
+
+            if (map && image) map.addImage("orange-blue-stripes", image);
+          });
+
+          map.loadImage("/images/gold-stripes.png", function (error, image) {
+            if (error) throw error;
+
+            if (map && image) map.addImage("gold-stripes", image);
+          });
+          // Define colors based on ZONE_DES
+          const zoneColors = {
+            Red: "#e74c3c",
+            RedOne: "#ff0000",
+            Brown: "#784212",
+            Brown3: "#784212",
+            Brown3XOB: "#784212",
+            Green: "#2ecc71",
+            Orange: "#e67e22",
+            Blue: "#2980b9",
+            OrangeAndBlue: "#FFA500",
+            GoldAndSilver: "#C0C0C0",
+            GreenAndBrown: "#008000",
+            ParkAndRide: "#8B4513",
+            Service: "#CCCCCC",
+            ServiceXOB: "#CCCCCC",
+            Reserved: "#ffffff",
+            Visitor: "#f8bbd0",
+            ShandsSouth: "#f9e79f",
+            AnyPermit: "#fad7a0",
+            MedRes: "#3249a6",
+            StaffCommuter: "#3249a6",
+          };
+
           map.addLayer({
             id: "parking-fill",
             type: "fill",
             source: "parking",
             paint: {
-              "fill-color": "#3249a6",
+              "fill-color": [
+                "match",
+                ["get", "ZONE_DES"],
+                "Red",
+                zoneColors.Red,
+                "Red One",
+                zoneColors.RedOne,
+                "Brown",
+                zoneColors.Brown,
+                "Brown 3",
+                zoneColors.Brown3,
+                "Brown 3 XOB",
+                zoneColors.Brown3XOB,
+                "Green",
+                zoneColors.Green,
+                "Orange",
+                zoneColors.Orange,
+                "Blue",
+                zoneColors.Blue,
+                "Orange/Blue",
+                zoneColors.OrangeAndBlue,
+                "Gold/Silver",
+                zoneColors.GoldAndSilver,
+                "Green/Brown",
+                zoneColors.GreenAndBrown,
+                "Park and Ride",
+                zoneColors.ParkAndRide,
+                "Service",
+                zoneColors.Service,
+                "Service XOB",
+                zoneColors.ServiceXOB,
+                "Reserved",
+                zoneColors.Reserved,
+                "Visitor",
+                zoneColors.Visitor,
+                "Shands South",
+                zoneColors.ShandsSouth,
+                "Any Permit",
+                zoneColors.AnyPermit,
+                "Any Permit*",
+                zoneColors.AnyPermit,
+                "Med Res",
+                zoneColors.MedRes,
+                "Staff Commuter",
+                zoneColors.StaffCommuter,
+                "#3249a6", // Default color if no match
+              ],
               "fill-opacity": 0.5,
             },
           });
+
+          map.addLayer({
+            id: "parking-stripes",
+            type: "fill",
+            source: "parking",
+            paint: {
+              "fill-pattern": [
+                "match",
+                ["get", "ZONE_DES"],
+                "Orange/Blue",
+                "orange-blue-stripes",
+                "Gold/Silver",
+                "gold-stripes",
+                "",
+              ],
+              "fill-opacity": [
+                "match",
+                ["get", "ZONE_DES"],
+                "Orange/Blue",
+                1,
+                "Gold/Silver",
+                0.5,
+                1,
+              ]
+            }
+          })
 
           map.addLayer({
             id: "add-3d-buildings",
