@@ -163,8 +163,13 @@ const Calendar: React.FC<CalendarProps> = ({
   );
 
   const getCurrentWeekDayDate = (dayIndex: number) => {
-    const start = startOfWeek(new Date(), { weekStartsOn: 0 });
-    return addDays(start, dayIndex);
+    const today = new Date();
+    const isSaturday = today.getDay() === 6;
+    const start = startOfWeek(today, { weekStartsOn: 0 });
+  
+    // If it's Saturday, adjust the start to the next week
+    const adjustedStart = isSaturday ? addDays(start, 7) : start;
+    return addDays(adjustedStart, dayIndex);
   };
   
   const adjustAppointmentsToCurrentWeek = (appointments: any[]) => {
