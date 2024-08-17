@@ -8,7 +8,6 @@ import axios from "axios";
 
 let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string;
 
-
 const ModelPlan: React.FC = () => {
   const [selectedMajor, setSelectedMajor] = useState<string>("");
 
@@ -22,8 +21,7 @@ const ModelPlan: React.FC = () => {
   useEffect(() => {
     if (selectedMajor) {
       localStorage.setItem("selectedMajorPlan", selectedMajor);
-    }
-    else {
+    } else {
       localStorage.removeItem("selectedMajorPlan");
     }
   }, [selectedMajor]);
@@ -35,12 +33,9 @@ const ModelPlan: React.FC = () => {
 
   const sendMajorMetrics = async (major: string) => {
     try {
-      await axios.post(
-        `https://${backendServer}/major`,
-        {
-          major: major,
-        }
-      );
+      await axios.post(`https://${backendServer}/major`, {
+        major: major,
+      });
     } catch (error) {
       console.error("Error sending major metrics", error);
     }
@@ -148,7 +143,11 @@ const ModelPlan: React.FC = () => {
             const rowClassName = semesterText ? "thicker-border" : "";
 
             return semesterText ? (
-              <tr key={index} className={rowClassName} style={isLastRow ? { fontWeight: "bold" } : rowStyle}>
+              <tr
+                key={index}
+                className={rowClassName}
+                style={isLastRow ? { fontWeight: "bold" } : rowStyle}
+              >
                 <td
                   colSpan={2}
                   style={{
@@ -169,7 +168,10 @@ const ModelPlan: React.FC = () => {
                 ></td>
               </tr>
             ) : (
-              <tr key={index} style={isLastRow ? { fontWeight: "bold" } : rowStyle}>
+              <tr
+                key={index}
+                style={isLastRow ? { fontWeight: "bold" } : rowStyle}
+              >
                 {courseSpan > 0 && <td colSpan={courseSpan}>{courseText}</td>}
                 {descriptionSpan > 0 && (
                   <td colSpan={descriptionSpan}>{descriptionText}</td>
@@ -212,7 +214,9 @@ const ModelPlan: React.FC = () => {
             } as CSSObjectWithLabel),
         }}
       />
-      {selectedMajor && renderTable(selectedMajor)}
+      <div className="table-container">
+        {selectedMajor && renderTable(selectedMajor)}
+      </div>
     </div>
   );
 };

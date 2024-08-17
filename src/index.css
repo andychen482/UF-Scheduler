@@ -266,8 +266,15 @@ html, body {
   @apply bg-transparent w-2.5;
 }
 
+::-webkit-scrollbar:horizontal {
+  @apply bg-transparent h-2.5;
+}
+
+::-webkit-scrollbar-corner {
+  @apply bg-transparent;
+}
+
 ::-webkit-scrollbar-thumb {
-  border-radius: 10px;
   @apply bg-gray-500 dark:bg-slate-500;
 }
 
