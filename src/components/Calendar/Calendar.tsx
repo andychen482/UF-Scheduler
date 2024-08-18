@@ -149,7 +149,6 @@ const Calendar: React.FC<CalendarProps> = ({
     useState(false);
   const [instancesThis, setInstances] = useState<any[]>([]);
   const [lastIndex, setLastIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
   const [selectedSortOption, setSelectedSortOption] = useState<{
     value: string;
     label: string;
@@ -418,22 +417,13 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   const loadMoreCalendars = () => {
-    // if (isLoading) {
-    //   return; // Exit if already loading
-    // }
-
-    // setIsLoading(true); // Set loading state to true
-
-    // console.log("Loading more calendars...");
     const newCalendars = createCalendars(lastIndex, 5); // Assuming you want to generate 5 calendars at a time
 
     if (newCalendars.length === 0) {
       setHasMoreItems(false); // No more valid combinations, stop loading
-      setIsLoading(false);
       return;
     }
     setCurrentCalendars([...currentCalendars, ...newCalendars]);
-    // setIsLoading(false); // Set loading state to false
   };
 
   const debounce = (func: (...args: any[]) => void, delay: number) => {
