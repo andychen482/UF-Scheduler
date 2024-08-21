@@ -88,7 +88,7 @@
         "Latitude": 30.774827
       }
     },
-    "0": {
+    "": {
       "properties": {
         "PropName": "0",
         "PropCID": "0",
@@ -120,7 +120,7 @@
         "Latitude": 29.786136
       }
     },
-    "0924": {
+    "924": {
       "properties": {
         "PropName": "Planer Shed, Forestry-Acmf",
         "PropCID": "0924",
@@ -128,7 +128,7 @@
         "Latitude": 29.749763
       }
     },
-    "0220": {
+    "220": {
       "properties": {
         "PropName": "Va Education Building #14",
         "PropCID": "0220",
@@ -168,7 +168,7 @@
         "Latitude": 29.780837
       }
     },
-    "0670": {
+    "670": {
       "properties": {
         "PropName": "Pump House (Mlhpr)",
         "PropCID": "0670",
@@ -184,7 +184,7 @@
         "Latitude": 29.641266
       }
     },
-    "0149": {
+    "149": {
       "properties": {
         "PropName": "Pump House",
         "PropCID": "0149",
@@ -192,7 +192,7 @@
         "Latitude": 29.743756
       }
     },
-    "0144": {
+    "144": {
       "properties": {
         "PropName": "Wauburg North Cypress Lodge",
         "PropCID": "0144",
@@ -224,7 +224,7 @@
         "Latitude": 29.523308
       }
     },
-    "0196": {
+    "196": {
       "properties": {
         "PropName": "Equipment Storage",
         "PropCID": "0196",
@@ -256,7 +256,7 @@
         "Latitude": 29.631862
       }
     },
-    "0079": {
+    "79": {
       "properties": {
         "PropName": "Residence",
         "PropCID": "0079",
@@ -272,7 +272,7 @@
         "Latitude": 29.78067
       }
     },
-    "0673": {
+    "673": {
       "properties": {
         "PropName": "Warehouse, Forestry-Acmf",
         "PropCID": "0673",
@@ -304,7 +304,7 @@
         "Latitude": 29.743297
       }
     },
-    "0174": {
+    "174": {
       "properties": {
         "PropName": "WRUF Transmitter Building",
         "PropCID": "0174",
@@ -320,7 +320,7 @@
         "Latitude": 29.925326
       }
     },
-    "0143": {
+    "143": {
       "properties": {
         "PropName": "Field Lab/Storage, Forestry-Acmf",
         "PropCID": "0143",
@@ -344,7 +344,7 @@
         "Latitude": 29.78024
       }
     },
-    "0438": {
+    "438": {
       "properties": {
         "PropName": "Equipment Storage",
         "PropCID": "0438",
@@ -360,7 +360,7 @@
         "Latitude": 29.77892
       }
     },
-    "0797": {
+    "797": {
       "properties": {
         "PropName": "Shade Feed Barn (Hague)",
         "PropCID": "0797",
@@ -368,7 +368,7 @@
         "Latitude": 29.779801
       }
     },
-    "0571": {
+    "571": {
       "properties": {
         "PropName": "Coastal Engineering Wave Tank",
         "PropCID": "0571",
@@ -376,7 +376,7 @@
         "Latitude": 29.638575
       }
     },
-    "0481": {
+    "481": {
       "properties": {
         "PropName": "Residence (Mlhpr)",
         "PropCID": "0481",
@@ -392,7 +392,7 @@
         "Latitude": 29.79407
       }
     },
-    "0800": {
+    "800": {
       "properties": {
         "PropName": "Storage Building (Hague)",
         "PropCID": "0800",
@@ -400,7 +400,7 @@
         "Latitude": 29.79981
       }
     },
-    "0895": {
+    "895": {
       "properties": {
         "PropName": "Residence",
         "PropCID": "0895",
@@ -448,7 +448,7 @@
         "Latitude": 29.795145
       }
     },
-    "0533": {
+    "533": {
       "properties": {
         "PropName": "Tanglewood",
         "PropCID": "0533",
@@ -464,7 +464,7 @@
         "Latitude": 29.801975
       }
     },
-    "0129": {
+    "129": {
       "properties": {
         "PropName": "Wauburg North Storage Shed",
         "PropCID": "0129",
@@ -496,7 +496,7 @@
         "Latitude": 29.743164
       }
     },
-    "0783": {
+    "783": {
       "properties": {
         "PropName": "Turf Building (Mlhpr)",
         "PropCID": "0783",
@@ -528,7 +528,7 @@
         "Latitude": 29.655343
       }
     },
-    "0536": {
+    "536": {
       "properties": {
         "PropName": "Tanglewood",
         "PropCID": "0536",
@@ -544,7 +544,7 @@
         "Latitude": 29.743288
       }
     },
-    "0527": {
+    "527": {
       "properties": {
         "PropName": "Tanglewood",
         "PropCID": "0527",
@@ -552,7 +552,7 @@
         "Latitude": 29.623142
       }
     },
-    "0312": {
+    "312": {
       "properties": {
         "PropName": "Wauburg South Mobile Home",
         "PropCID": "0312",
@@ -560,7 +560,7 @@
         "Latitude": 29.52256
       }
     },
-    "0948": {
+    "948": {
       "properties": {
         "PropName": "Agronomy Scale Shed (Bru)",
         "PropCID": "0948",
@@ -584,7 +584,7 @@
         "Latitude": 29.785728
       }
     },
-    "0313": {
+    "313": {
       "properties": {
         "PropName": "Wauburg South Gatehouse",
         "PropCID": "0313",
@@ -600,7 +600,7 @@
         "Latitude": 29.52413
       }
     },
-    "0140": {
+    "140": {
       "properties": {
         "PropName": "Field Lab/Storage, Forestry-Acmf",
         "PropCID": "0140",
@@ -616,7 +616,7 @@
         "Latitude": 29.709816
       }
     },
-    "0186": {
+    "186": {
       "properties": {
         "PropName": "Research Facility (Hague)",
         "PropCID": "0186",
@@ -640,7 +640,7 @@
         "Latitude": 29.72753
       }
     },
-    "0854": {
+    "854": {
       "properties": {
         "PropName": "Feed Barn (Hague)",
         "PropCID": "0854",
@@ -648,7 +648,7 @@
         "Latitude": 29.779275
       }
     },
-    "0453": {
+    "453": {
       "properties": {
         "PropName": "Equipment Storage, Forestry-Acmf",
         "PropCID": "0453",
@@ -656,7 +656,7 @@
         "Latitude": 29.74959
       }
     },
-    "0259": {
+    "259": {
       "properties": {
         "PropName": "Treeo Center",
         "PropCID": "0259",
@@ -664,7 +664,7 @@
         "Latitude": 29.620001
       }
     },
-    "0565": {
+    "565": {
       "properties": {
         "PropName": "Greenhouse (Mlhpr)",
         "PropCID": "0565",
@@ -672,7 +672,7 @@
         "Latitude": 29.720842
       }
     },
-    "0439": {
+    "439": {
       "properties": {
         "PropName": "Residence",
         "PropCID": "0439",
@@ -680,7 +680,7 @@
         "Latitude": 29.744638
       }
     },
-    "0479": {
+    "479": {
       "properties": {
         "PropName": "Equipment Storage (Mlhpr)",
         "PropCID": "0479",
@@ -696,7 +696,7 @@
         "Latitude": 29.522266
       }
     },
-    "0991": {
+    "991": {
       "properties": {
         "PropName": "Sam Wall Animal Sci North Barn",
         "PropCID": "0991",
@@ -704,7 +704,7 @@
         "Latitude": 29.59894
       }
     },
-    "0566": {
+    "566": {
       "properties": {
         "PropName": "Greenhouse (Mlhpr)",
         "PropCID": "0566",
@@ -712,7 +712,7 @@
         "Latitude": 29.720761
       }
     },
-    "0535": {
+    "535": {
       "properties": {
         "PropName": "Tanglewood",
         "PropCID": "0535",
@@ -720,7 +720,7 @@
         "Latitude": 29.622713
       }
     },
-    "0563": {
+    "563": {
       "properties": {
         "PropName": "Greenhouse (Mlhpr)",
         "PropCID": "0563",
@@ -728,7 +728,7 @@
         "Latitude": 29.720849
       }
     },
-    "0905": {
+    "905": {
       "properties": {
         "PropName": "Drying & Grinding Bldg (Bru)",
         "PropCID": "0905",
@@ -752,7 +752,7 @@
         "Latitude": 29.779145
       }
     },
-    "0121": {
+    "121": {
       "properties": {
         "PropName": "Wauburg North Picnic Shelter",
         "PropCID": "0121",
@@ -776,7 +776,7 @@
         "Latitude": 29.72062
       }
     },
-    "0915": {
+    "915": {
       "properties": {
         "PropName": "Silo (Hague)",
         "PropCID": "0915",
@@ -832,7 +832,7 @@
         "Latitude": 29.523164
       }
     },
-    "0480": {
+    "480": {
       "properties": {
         "PropName": "Greenhouse (Mlhpr)",
         "PropCID": "0480",
@@ -840,7 +840,7 @@
         "Latitude": 29.720876
       }
     },
-    "0139": {
+    "139": {
       "properties": {
         "PropName": "Field Lab, Forestry-Acmf",
         "PropCID": "0139",
@@ -856,7 +856,7 @@
         "Latitude": 29.59888
       }
     },
-    "0530": {
+    "530": {
       "properties": {
         "PropName": "Tanglewood",
         "PropCID": "0530",
@@ -864,7 +864,7 @@
         "Latitude": 29.623116
       }
     },
-    "0909": {
+    "909": {
       "properties": {
         "PropName": "Agronomy Field Lab (Bru)",
         "PropCID": "0909",
@@ -872,7 +872,7 @@
         "Latitude": 29.73931
       }
     },
-    "0919": {
+    "919": {
       "properties": {
         "PropName": "Dehorning Facility (Hague)",
         "PropCID": "0919",
@@ -880,7 +880,7 @@
         "Latitude": 29.799612
       }
     },
-    "0793": {
+    "793": {
       "properties": {
         "PropName": "Storage Bldg (Mlhpr)",
         "PropCID": "0793",
@@ -912,7 +912,7 @@
         "Latitude": 29.6944
       }
     },
-    "0993": {
+    "993": {
       "properties": {
         "PropName": "Sam Wall Animal Sci Hay Stor",
         "PropCID": "0993",
@@ -920,7 +920,7 @@
         "Latitude": 29.598624
       }
     },
-    "0691": {
+    "691": {
       "properties": {
         "PropName": "Storage Bldg (Mlhpr)",
         "PropCID": "0691",
@@ -968,7 +968,7 @@
         "Latitude": 29.597281
       }
     },
-    "0629": {
+    "629": {
       "properties": {
         "PropName": "Equipment Storage (Hague)",
         "PropCID": "0629",
@@ -976,7 +976,7 @@
         "Latitude": 29.776698
       }
     },
-    "0567": {
+    "567": {
       "properties": {
         "PropName": "Greenhouse (Mlhpr)",
         "PropCID": "0567",
@@ -984,7 +984,7 @@
         "Latitude": 29.720757
       }
     },
-    "0133": {
+    "133": {
       "properties": {
         "PropName": "Wauburg North Residence ",
         "PropCID": "0133",
@@ -992,7 +992,7 @@
         "Latitude": 29.533267
       }
     },
-    "0646": {
+    "646": {
       "properties": {
         "PropName": "Equipment Storage",
         "PropCID": "0646",
@@ -1000,7 +1000,7 @@
         "Latitude": 29.743424
       }
     },
-    "0436": {
+    "436": {
       "properties": {
         "PropName": "Sawmill, Forestry-Acmf",
         "PropCID": "0436",
@@ -1024,7 +1024,7 @@
         "Latitude": 29.802184
       }
     },
-    "0672": {
+    "672": {
       "properties": {
         "PropName": "Nursery Shed, Forestry-Acmf",
         "PropCID": "0672",
@@ -1032,7 +1032,7 @@
         "Latitude": 29.75344
       }
     },
-    "0314": {
+    "314": {
       "properties": {
         "PropName": "Wauburg South Comfortstation",
         "PropCID": "0314",
@@ -1040,7 +1040,7 @@
         "Latitude": 29.523219
       }
     },
-    "0195": {
+    "195": {
       "properties": {
         "PropName": "Scale Building",
         "PropCID": "0195",
@@ -1048,7 +1048,7 @@
         "Latitude": 29.744959
       }
     },
-    "0504": {
+    "504": {
       "properties": {
         "PropName": "Lab/Storage Facility (Mlhpr)",
         "PropCID": "0504",
@@ -1072,7 +1072,7 @@
         "Latitude": 29.672094
       }
     },
-    "0482": {
+    "482": {
       "properties": {
         "PropName": "Equipment Storage (Mlhpr)",
         "PropCID": "0482",
@@ -1080,7 +1080,7 @@
         "Latitude": 29.724383
       }
     },
-    "0529": {
+    "529": {
       "properties": {
         "PropName": "Tanglewood",
         "PropCID": "0529",
@@ -1088,7 +1088,7 @@
         "Latitude": 29.623191
       }
     },
-    "0583": {
+    "583": {
       "properties": {
         "PropName": "Field Support (Mlhpr)",
         "PropCID": "0583",
@@ -1096,7 +1096,7 @@
         "Latitude": 29.72145
       }
     },
-    "0786": {
+    "786": {
       "properties": {
         "PropName": "Office Building (Mlhpr)",
         "PropCID": "0786",
@@ -1104,7 +1104,7 @@
         "Latitude": 29.720505
       }
     },
-    "0460": {
+    "460": {
       "properties": {
         "PropName": "Aquatic Weeds Res Ctr (Mlhpr)",
         "PropCID": "0460",
@@ -1144,7 +1144,7 @@
         "Latitude": 29.522219
       }
     },
-    "0569": {
+    "569": {
       "properties": {
         "PropName": "Storage Bldg (Mlhpr)",
         "PropCID": "0569",
@@ -1152,7 +1152,7 @@
         "Latitude": 29.721397
       }
     },
-    "0606": {
+    "606": {
       "properties": {
         "PropName": "PKY Develop.Research School Q",
         "PropCID": "0606",
@@ -1184,7 +1184,7 @@
         "Latitude": 29.524004
       }
     },
-    "0534": {
+    "534": {
       "properties": {
         "PropName": "Tanglewood",
         "PropCID": "0534",
@@ -1192,7 +1192,7 @@
         "Latitude": 29.622973
       }
     },
-    "0188": {
+    "188": {
       "properties": {
         "PropName": "Residence (Hague)",
         "PropCID": "0188",
@@ -1200,7 +1200,7 @@
         "Latitude": 29.778696
       }
     },
-    "0785": {
+    "785": {
       "properties": {
         "PropName": "Storage Bldg (Mlhpr)",
         "PropCID": "0785",
@@ -1216,7 +1216,7 @@
         "Latitude": 29.779485
       }
     },
-    "0564": {
+    "564": {
       "properties": {
         "PropName": "Greenhouse (Mlhpr)",
         "PropCID": "0564",
@@ -1232,7 +1232,7 @@
         "Latitude": 29.781398
       }
     },
-    "0539": {
+    "539": {
       "properties": {
         "PropName": "Tanglewood",
         "PropCID": "0539",
@@ -1240,7 +1240,7 @@
         "Latitude": 29.623846
       }
     },
-    "0992": {
+    "992": {
       "properties": {
         "PropName": "Sam Wall Animal Sci West Barn",
         "PropCID": "0992",
@@ -1248,7 +1248,7 @@
         "Latitude": 29.599611
       }
     },
-    "0943": {
+    "943": {
       "properties": {
         "PropName": "Silo (Hague)",
         "PropCID": "0943",
@@ -1256,7 +1256,7 @@
         "Latitude": 29.778563
       }
     },
-    "0910": {
+    "910": {
       "properties": {
         "PropName": "Garage (Bru)",
         "PropCID": "0910",
@@ -1320,7 +1320,7 @@
         "Latitude": 29.524462
       }
     },
-    "0528": {
+    "528": {
       "properties": {
         "PropName": "Tanglewood",
         "PropCID": "0528",
@@ -1336,7 +1336,7 @@
         "Latitude": 29.727373
       }
     },
-    "0532": {
+    "532": {
       "properties": {
         "PropName": "Tanglewood",
         "PropCID": "0532",
@@ -1352,7 +1352,7 @@
         "Latitude": 29.522188
       }
     },
-    "0311": {
+    "311": {
       "properties": {
         "PropName": "Wauburg South Pumphouse",
         "PropCID": "0311",
@@ -1376,7 +1376,7 @@
         "Latitude": 29.779451
       }
     },
-    "0545": {
+    "545": {
       "properties": {
         "PropName": "Chemical Storage (Mlhpr)",
         "PropCID": "0545",
@@ -1384,7 +1384,7 @@
         "Latitude": 29.727389
       }
     },
-    "0784": {
+    "784": {
       "properties": {
         "PropName": "Greenhouse (Mlphr)",
         "PropCID": "0784",
@@ -1400,7 +1400,7 @@
         "Latitude": 29.727484
       }
     },
-    "0123": {
+    "123": {
       "properties": {
         "PropName": "Wauburg North Boathouse ",
         "PropCID": "0123",
@@ -1408,7 +1408,7 @@
         "Latitude": 29.533667
       }
     },
-    "0538": {
+    "538": {
       "properties": {
         "PropName": "Tanglewood",
         "PropCID": "0538",
@@ -1416,7 +1416,7 @@
         "Latitude": 29.62385
       }
     },
-    "0146": {
+    "146": {
       "properties": {
         "PropName": "Wauburg North Pumphouse",
         "PropCID": "0146",
@@ -1432,7 +1432,7 @@
         "Latitude": 29.796508
       }
     },
-    "0873": {
+    "873": {
       "properties": {
         "PropName": "Equipment Storage (Mlhpr)",
         "PropCID": "0873",
@@ -1440,7 +1440,7 @@
         "Latitude": 29.727353
       }
     },
-    "0542": {
+    "542": {
       "properties": {
         "PropName": "Research Lab (Mlhpr)",
         "PropCID": "0542",
@@ -1448,7 +1448,7 @@
         "Latitude": 29.727446
       }
     },
-    "0990": {
+    "990": {
       "properties": {
         "PropName": "Sam Wall Animal Sci South Barn",
         "PropCID": "0990",
@@ -1472,7 +1472,7 @@
         "Latitude": 29.72743
       }
     },
-    "0405": {
+    "405": {
       "properties": {
         "PropName": "Woodshop, Forestry-ACMF",
         "PropCID": "0405",
@@ -1488,7 +1488,7 @@
         "Latitude": 29.77672
       }
     },
-    "0531": {
+    "531": {
       "properties": {
         "PropName": "Tanglewood",
         "PropCID": "0531",
@@ -1512,7 +1512,7 @@
         "Latitude": 29.7275
       }
     },
-    "0690": {
+    "690": {
       "properties": {
         "PropName": "Feed Storage Building (Hague)",
         "PropCID": "0690",
@@ -1520,7 +1520,7 @@
         "Latitude": 29.778833
       }
     },
-    "0472": {
+    "472": {
       "properties": {
         "PropName": "Equipment Storage (Mlhpr)",
         "PropCID": "0472",
@@ -1536,7 +1536,7 @@
         "Latitude": 29.523428
       }
     },
-    "0443": {
+    "443": {
       "properties": {
         "PropName": "Storage Building (Hague)",
         "PropCID": "0443",
@@ -1544,7 +1544,7 @@
         "Latitude": 29.778798
       }
     },
-    "0568": {
+    "568": {
       "properties": {
         "PropName": "Greenhouse (Mlhpr)",
         "PropCID": "0568",
@@ -1552,7 +1552,7 @@
         "Latitude": 29.720754
       }
     },
-    "0828": {
+    "828": {
       "properties": {
         "PropName": "Feeding Barn (Hague)",
         "PropCID": "0828",
@@ -1568,7 +1568,7 @@
         "Latitude": 29.794695
       }
     },
-    "0138": {
+    "138": {
       "properties": {
         "PropName": "Roland T. Stern Learning Center at Austin Cary Forest",
         "PropCID": "0138",
@@ -1592,7 +1592,7 @@
         "Latitude": 29.779728
       }
     },
-    "0537": {
+    "537": {
       "properties": {
         "PropName": "Tanglewood Commons",
         "PropCID": "0537",
@@ -1640,7 +1640,7 @@
         "Latitude": 29.635905
       }
     },
-    "0404": {
+    "404": {
       "properties": {
         "PropName": "Fire Pump House",
         "PropCID": "0404",
@@ -1656,7 +1656,7 @@
         "Latitude": 29.782424
       }
     },
-    "0994": {
+    "994": {
       "properties": {
         "PropName": "Sam Wall Residence",
         "PropCID": "0994",
@@ -1792,7 +1792,7 @@
         "Latitude": 29.634567
       }
     },
-    "0524": {
+    "524": {
       "properties": {
         "PropName": "PKY Develop.Research School A",
         "PropCID": "0524",
@@ -1816,7 +1816,7 @@
         "Latitude": 29.778684
       }
     },
-    "0926": {
+    "926": {
       "properties": {
         "PropName": "Field Lab/Tank, Forestry-Acmf",
         "PropCID": "0926",
@@ -1872,7 +1872,7 @@
         "Latitude": 29.63496
       }
     },
-    "0792": {
+    "792": {
       "properties": {
         "PropName": "Equipment Storage (Mlhpr)",
         "PropCID": "0792",
@@ -1912,7 +1912,7 @@
         "Latitude": 29.635713
       }
     },
-    "0581": {
+    "581": {
       "properties": {
         "PropName": "Greenhouse (Mlhpr)",
         "PropCID": "0581",
@@ -1928,7 +1928,7 @@
         "Latitude": 29.745408
       }
     },
-    "0787": {
+    "787": {
       "properties": {
         "PropName": "Support Building (Mlhpr)",
         "PropCID": "0787",
@@ -1936,7 +1936,7 @@
         "Latitude": 29.721819
       }
     },
-    "0512": {
+    "512": {
       "properties": {
         "PropName": "PKY Develop.Research School E",
         "PropCID": "0512",
@@ -1976,7 +1976,7 @@
         "Latitude": 29.608885
       }
     },
-    "0779": {
+    "779": {
       "properties": {
         "PropName": "Herbert Wertheim Laboratory for Engineering Excellence",
         "PropCID": "0779",
@@ -1984,7 +1984,7 @@
         "Latitude": 29.64712
       }
     },
-    "0925": {
+    "925": {
       "properties": {
         "PropName": "Lake Mize Restrms, Forestry-Acmf",
         "PropCID": "0925",
@@ -2064,7 +2064,7 @@
         "Latitude": 29.704205
       }
     },
-    "0521": {
+    "521": {
       "properties": {
         "PropName": "PKY Develop.Research School N",
         "PropCID": "0521",
@@ -2080,7 +2080,7 @@
         "Latitude": 29.634021
       }
     },
-    "0509": {
+    "509": {
       "properties": {
         "PropName": "PKY School Covered Court",
         "PropCID": "0509",
@@ -2088,7 +2088,7 @@
         "Latitude": 29.64182
       }
     },
-    "0523": {
+    "523": {
       "properties": {
         "PropName": "PKY Develop.Research School P",
         "PropCID": "0523",
@@ -2192,7 +2192,7 @@
         "Latitude": 29.651615
       }
     },
-    "0396": {
+    "396": {
       "properties": {
         "PropName": "Shade House (Hague)",
         "PropCID": "0396",
@@ -2232,7 +2232,7 @@
         "Latitude": 29.679482
       }
     },
-    "0452": {
+    "452": {
       "properties": {
         "PropName": "BABY GATOR STORAGE",
         "PropCID": "0452",
@@ -2264,7 +2264,7 @@
         "Latitude": 29.727777
       }
     },
-    "0761": {
+    "761": {
       "properties": {
         "PropName": "Equipment Storage (Hague)",
         "PropCID": "0761",
@@ -2312,7 +2312,7 @@
         "Latitude": 29.780923
       }
     },
-    "0178": {
+    "178": {
       "properties": {
         "PropName": "Residence (Hague)",
         "PropCID": "0178",
@@ -2408,7 +2408,7 @@
         "Latitude": 29.7421
       }
     },
-    "0402": {
+    "402": {
       "properties": {
         "PropName": "Workshop, Forestry-ACMF",
         "PropCID": "0402",
@@ -2424,7 +2424,7 @@
         "Latitude": 29.73266
       }
     },
-    "0435": {
+    "435": {
       "properties": {
         "PropName": "Picnic Shelter, Forestry-Acmf",
         "PropCID": "0435",
@@ -2440,7 +2440,7 @@
         "Latitude": 29.924013
       }
     },
-    "0782": {
+    "782": {
       "properties": {
         "PropName": "Office Building",
         "PropCID": "0782",
@@ -2448,7 +2448,7 @@
         "Latitude": 29.720532
       }
     },
-    "0145": {
+    "145": {
       "properties": {
         "PropName": "Wauburg North Comfortstation",
         "PropCID": "0145",
@@ -2592,7 +2592,7 @@
         "Latitude": 29.648523
       }
     },
-    "0891": {
+    "891": {
       "properties": {
         "PropName": "Beef Teaching Facility Dorms",
         "PropCID": "0891",
@@ -2616,7 +2616,7 @@
         "Latitude": 29.638447
       }
     },
-    "0544": {
+    "544": {
       "properties": {
         "PropName": "Aquatic Weeds Annex (Mlhpr)",
         "PropCID": "0544",
@@ -2624,7 +2624,7 @@
         "Latitude": 29.727278
       }
     },
-    "0558": {
+    "558": {
       "properties": {
         "PropName": "Wuft Transmitter Building",
         "PropCID": "0558",
@@ -2656,7 +2656,7 @@
         "Latitude": 29.597593
       }
     },
-    "0137": {
+    "137": {
       "properties": {
         "PropName": "Education Bldg, Forestry-ACMF",
         "PropCID": "0137",
@@ -2728,7 +2728,7 @@
         "Latitude": 29.649958
       }
     },
-    "0966": {
+    "966": {
       "properties": {
         "PropName": "0",
         "PropCID": "0966",
@@ -2736,7 +2736,7 @@
         "Latitude": 29.634226
       }
     },
-    "0965": {
+    "965": {
       "properties": {
         "PropName": "0",
         "PropCID": "0965",
@@ -2744,7 +2744,7 @@
         "Latitude": 29.634034
       }
     },
-    "0899": {
+    "899": {
       "properties": {
         "PropName": "Cattle Handling Facility",
         "PropCID": "0899",
@@ -2752,7 +2752,7 @@
         "Latitude": 29.622955
       }
     },
-    "0884": {
+    "884": {
       "properties": {
         "PropName": "Farm Operations/Conference",
         "PropCID": "0884",
@@ -2904,7 +2904,7 @@
         "Latitude": 26.66561
       }
     },
-    "0500": {
+    "500": {
       "properties": {
         "PropName": "Fiber Hut CSE",
         "PropCID": "0500",
@@ -2920,7 +2920,7 @@
         "Latitude": 25.88248
       }
     },
-    "0918": {
+    "918": {
       "properties": {
         "PropName": "Equipment Storage",
         "PropCID": "0918",
@@ -2992,7 +2992,7 @@
         "Latitude": 26.08333
       }
     },
-    "0788": {
+    "788": {
       "properties": {
         "PropName": "AQUATIC WEED SUPPORT FACILITY",
         "PropCID": "0788",
@@ -3048,7 +3048,7 @@
         "Latitude": 29.625522
       }
     },
-    "0936": {
+    "936": {
       "properties": {
         "PropName": "Boat Shelter",
         "PropCID": "0936",
@@ -3056,7 +3056,7 @@
         "Latitude": 29.626567
       }
     },
-    "0798": {
+    "798": {
       "properties": {
         "PropName": "Greenhouse, Entomology",
         "PropCID": "0798",
@@ -3064,7 +3064,7 @@
         "Latitude": 29.626911
       }
     },
-    "0913": {
+    "913": {
       "properties": {
         "PropName": "Storage Bldg",
         "PropCID": "0913",
@@ -3072,7 +3072,7 @@
         "Latitude": 29.627055
       }
     },
-    "0940": {
+    "940": {
       "properties": {
         "PropName": "Honey Lab",
         "PropCID": "0940",
@@ -3080,7 +3080,7 @@
         "Latitude": 29.627187
       }
     },
-    "0957": {
+    "957": {
       "properties": {
         "PropName": "Equipment Storage Building",
         "PropCID": "0957",
@@ -3088,7 +3088,7 @@
         "Latitude": 29.627411
       }
     },
-    "0946": {
+    "946": {
       "properties": {
         "PropName": "Entomology Implement Shed",
         "PropCID": "0946",
@@ -3096,7 +3096,7 @@
         "Latitude": 29.62741
       }
     },
-    "0662": {
+    "662": {
       "properties": {
         "PropName": "Storage Bldg",
         "PropCID": "0662",
@@ -3104,7 +3104,7 @@
         "Latitude": 29.627874
       }
     },
-    "0147": {
+    "147": {
       "properties": {
         "PropName": "Agronomy Plant Intro Lab",
         "PropCID": "0147",
@@ -3112,7 +3112,7 @@
         "Latitude": 29.627976
       }
     },
-    "0658": {
+    "658": {
       "properties": {
         "PropName": "Agronomy Plant Introduct. Lab",
         "PropCID": "0658",
@@ -3120,7 +3120,7 @@
         "Latitude": 29.62831
       }
     },
-    "0824": {
+    "824": {
       "properties": {
         "PropName": "Greenhouse, Agronomy",
         "PropCID": "0824",
@@ -3128,7 +3128,7 @@
         "Latitude": 29.628426
       }
     },
-    "0433": {
+    "433": {
       "properties": {
         "PropName": "IFAS Pump House",
         "PropCID": "0433",
@@ -3136,7 +3136,7 @@
         "Latitude": 29.628697
       }
     },
-    "0819": {
+    "819": {
       "properties": {
         "PropName": "Agric Engineering Field Lab",
         "PropCID": "0819",
@@ -3144,7 +3144,7 @@
         "Latitude": 29.628872
       }
     },
-    "0766": {
+    "766": {
       "properties": {
         "PropName": "Swine Unit Methane Shed",
         "PropCID": "0766",
@@ -3152,7 +3152,7 @@
         "Latitude": 29.629373
       }
     },
-    "0825": {
+    "825": {
       "properties": {
         "PropName": "Agric Engineering Field Lab",
         "PropCID": "0825",
@@ -3160,7 +3160,7 @@
         "Latitude": 29.629465
       }
     },
-    "0829": {
+    "829": {
       "properties": {
         "PropName": "Field Storage",
         "PropCID": "0829",
@@ -3168,7 +3168,7 @@
         "Latitude": 29.629493
       }
     },
-    "0767": {
+    "767": {
       "properties": {
         "PropName": "Swine Unit Feed Processing",
         "PropCID": "0767",
@@ -3184,7 +3184,7 @@
         "Latitude": 29.629914
       }
     },
-    "0744": {
+    "744": {
       "properties": {
         "PropName": "Swine Unit Feed Mill",
         "PropCID": "0744",
@@ -3192,7 +3192,7 @@
         "Latitude": 29.630079
       }
     },
-    "0890": {
+    "890": {
       "properties": {
         "PropName": "Swine Unit Pole Barn",
         "PropCID": "0890",
@@ -3200,7 +3200,7 @@
         "Latitude": 29.630386
       }
     },
-    "0772": {
+    "772": {
       "properties": {
         "PropName": "Neurobiological Surge #6",
         "PropCID": "0772",
@@ -3208,7 +3208,7 @@
         "Latitude": 29.630647
       }
     },
-    "0770": {
+    "770": {
       "properties": {
         "PropName": "Swine Unit Barn",
         "PropCID": "0770",
@@ -3216,7 +3216,7 @@
         "Latitude": 29.63046
       }
     },
-    "0889": {
+    "889": {
       "properties": {
         "PropName": "Swine Unit Finishing Barn",
         "PropCID": "0889",
@@ -3224,7 +3224,7 @@
         "Latitude": 29.630621
       }
     },
-    "0226": {
+    "226": {
       "properties": {
         "PropName": "SMMRL East",
         "PropCID": "0226",
@@ -3232,7 +3232,7 @@
         "Latitude": 29.630792
       }
     },
-    "0771": {
+    "771": {
       "properties": {
         "PropName": "SMMRL West",
         "PropCID": "0771",
@@ -3240,7 +3240,7 @@
         "Latitude": 29.630799
       }
     },
-    "0769": {
+    "769": {
       "properties": {
         "PropName": "Swine Unit Pole Barn",
         "PropCID": "0769",
@@ -3248,7 +3248,7 @@
         "Latitude": 29.630709
       }
     },
-    "0887": {
+    "887": {
       "properties": {
         "PropName": "Multipurpose Facility",
         "PropCID": "0887",
@@ -3256,7 +3256,7 @@
         "Latitude": 29.630652
       }
     },
-    "0250": {
+    "250": {
       "properties": {
         "PropName": "SMMRL Utility Annex",
         "PropCID": "0250",
@@ -3264,7 +3264,7 @@
         "Latitude": 29.630928
       }
     },
-    "0742": {
+    "742": {
       "properties": {
         "PropName": "Comm & Neurbio Sci Surge #5",
         "PropCID": "0742",
@@ -3272,7 +3272,7 @@
         "Latitude": 29.630926
       }
     },
-    "0888": {
+    "888": {
       "properties": {
         "PropName": "Swine Unit Pig Research Barn",
         "PropCID": "0888",
@@ -3280,7 +3280,7 @@
         "Latitude": 29.630837
       }
     },
-    "0499": {
+    "499": {
       "properties": {
         "PropName": "Animal Sciences \nBuilding",
         "PropCID": "0499",
@@ -3296,7 +3296,7 @@
         "Latitude": 29.630889
       }
     },
-    "0698": {
+    "698": {
       "properties": {
         "PropName": "Health Center Surge #2",
         "PropCID": "0698",
@@ -3304,7 +3304,7 @@
         "Latitude": 29.631122
       }
     },
-    "0684": {
+    "684": {
       "properties": {
         "PropName": "Health Center Surge #4",
         "PropCID": "0684",
@@ -3312,7 +3312,7 @@
         "Latitude": 29.631174
       }
     },
-    "0683": {
+    "683": {
       "properties": {
         "PropName": "EH&S Program Support",
         "PropCID": "0683",
@@ -3320,7 +3320,7 @@
         "Latitude": 29.631131
       }
     },
-    "0668": {
+    "668": {
       "properties": {
         "PropName": "Electronic Communications Lab",
         "PropCID": "0668",
@@ -3328,7 +3328,7 @@
         "Latitude": 29.631105
       }
     },
-    "0547": {
+    "547": {
       "properties": {
         "PropName": "Animal Science Storage",
         "PropCID": "0547",
@@ -3384,7 +3384,7 @@
         "Latitude": 29.631411
       }
     },
-    "0848": {
+    "848": {
       "properties": {
         "PropName": "Storage",
         "PropCID": "0848",
@@ -3392,7 +3392,7 @@
         "Latitude": 29.631862
       }
     },
-    "0459": {
+    "459": {
       "properties": {
         "PropName": "Animal Sciences",
         "PropCID": "0459",
@@ -3408,7 +3408,7 @@
         "Latitude": 29.63149
       }
     },
-    "0222": {
+    "222": {
       "properties": {
         "PropName": "Pole Barn",
         "PropCID": "0222",
@@ -3424,7 +3424,7 @@
         "Latitude": 29.631439
       }
     },
-    "0831": {
+    "831": {
       "properties": {
         "PropName": "Waste Management Facility",
         "PropCID": "0831",
@@ -3440,7 +3440,7 @@
         "Latitude": 29.63161
       }
     },
-    "0541": {
+    "541": {
       "properties": {
         "PropName": "Housing Furniture Shop",
         "PropCID": "0541",
@@ -3448,7 +3448,7 @@
         "Latitude": 29.631847
       }
     },
-    "0554": {
+    "554": {
       "properties": {
         "PropName": "Field Bldg",
         "PropCID": "0554",
@@ -3456,7 +3456,7 @@
         "Latitude": 29.631909
       }
     },
-    "0892": {
+    "892": {
       "properties": {
         "PropName": "HealthStreet",
         "PropCID": "0892",
@@ -3464,7 +3464,7 @@
         "Latitude": 29.63186
       }
     },
-    "0218": {
+    "218": {
       "properties": {
         "PropName": "Vet Med Equine Barn",
         "PropCID": "0218",
@@ -3480,7 +3480,7 @@
         "Latitude": 29.63182
       }
     },
-    "0216": {
+    "216": {
       "properties": {
         "PropName": "Vet Med Food \nAnimal Clinic",
         "PropCID": "0216",
@@ -3488,7 +3488,7 @@
         "Latitude": 29.631824
       }
     },
-    "0896": {
+    "896": {
       "properties": {
         "PropName": "Clinical & Translational Sci Inst",
         "PropCID": "0896",
@@ -3512,7 +3512,7 @@
         "Latitude": 29.632434
       }
     },
-    "0628": {
+    "628": {
       "properties": {
         "PropName": "Animal Science \nFeeding Barn",
         "PropCID": "0628",
@@ -3520,7 +3520,7 @@
         "Latitude": 29.632235
       }
     },
-    "0483": {
+    "483": {
       "properties": {
         "PropName": "Animal Science Preparation",
         "PropCID": "0483",
@@ -3528,7 +3528,7 @@
         "Latitude": 29.632371
       }
     },
-    "0942": {
+    "942": {
       "properties": {
         "PropName": "Animal Sciences Pole Barn",
         "PropCID": "0942",
@@ -3536,7 +3536,7 @@
         "Latitude": 29.63235
       }
     },
-    "0743": {
+    "743": {
       "properties": {
         "PropName": "Sheep Unit Feed Shed",
         "PropCID": "0743",
@@ -3552,7 +3552,7 @@
         "Latitude": 29.63243
       }
     },
-    "0867": {
+    "867": {
       "properties": {
         "PropName": "Animal Sci Security",
         "PropCID": "0867",
@@ -3560,7 +3560,7 @@
         "Latitude": 29.632583
       }
     },
-    "0478": {
+    "478": {
       "properties": {
         "PropName": "Animal Building",
         "PropCID": "0478",
@@ -3568,7 +3568,7 @@
         "Latitude": 29.632574
       }
     },
-    "0794": {
+    "794": {
       "properties": {
         "PropName": "Facilities Services Storage #1",
         "PropCID": "0794",
@@ -3584,7 +3584,7 @@
         "Latitude": 29.632375
       }
     },
-    "0484": {
+    "484": {
       "properties": {
         "PropName": "Conference \nCenter",
         "PropCID": "0484",
@@ -3592,7 +3592,7 @@
         "Latitude": 29.632535
       }
     },
-    "0850": {
+    "850": {
       "properties": {
         "PropName": "Facilities Services Storage #2",
         "PropCID": "0850",
@@ -3616,7 +3616,7 @@
         "Latitude": 29.632878
       }
     },
-    "0466": {
+    "466": {
       "properties": {
         "PropName": "Animal Sci Physiology Barn",
         "PropCID": "0466",
@@ -3624,7 +3624,7 @@
         "Latitude": 29.632786
       }
     },
-    "0217": {
+    "217": {
       "properties": {
         "PropName": "Vet Med \nMetabolic Building",
         "PropCID": "0217",
@@ -3632,7 +3632,7 @@
         "Latitude": 29.632756
       }
     },
-    "0882": {
+    "882": {
       "properties": {
         "PropName": "Animal Sciences Horse Barn",
         "PropCID": "0882",
@@ -3640,7 +3640,7 @@
         "Latitude": 29.632982
       }
     },
-    "0648": {
+    "648": {
       "properties": {
         "PropName": "Field Storage",
         "PropCID": "0648",
@@ -3648,7 +3648,7 @@
         "Latitude": 29.633317
       }
     },
-    "0795": {
+    "795": {
       "properties": {
         "PropName": "Natl Storage",
         "PropCID": "0795",
@@ -3656,7 +3656,7 @@
         "Latitude": 29.633339
       }
     },
-    "0834": {
+    "834": {
       "properties": {
         "PropName": "Greenhouse",
         "PropCID": "0834",
@@ -3664,7 +3664,7 @@
         "Latitude": 29.633091
       }
     },
-    "0550": {
+    "550": {
       "properties": {
         "PropName": "Research Laboratory",
         "PropCID": "0550",
@@ -3672,7 +3672,7 @@
         "Latitude": 29.633164
       }
     },
-    "0360": {
+    "360": {
       "properties": {
         "PropName": "Greenhouse, Agronomy",
         "PropCID": "0360",
@@ -3680,7 +3680,7 @@
         "Latitude": 29.633138
       }
     },
-    "0627": {
+    "627": {
       "properties": {
         "PropName": "Animal Science Hay Barn",
         "PropCID": "0627",
@@ -3712,7 +3712,7 @@
         "Latitude": 29.63297
       }
     },
-    "0883": {
+    "883": {
       "properties": {
         "PropName": "Animal Science Storage",
         "PropCID": "0883",
@@ -3720,7 +3720,7 @@
         "Latitude": 29.633129
       }
     },
-    "0068": {
+    "68": {
       "properties": {
         "PropName": "Research Laboratory",
         "PropCID": "0068",
@@ -3728,7 +3728,7 @@
         "Latitude": 29.633171
       }
     },
-    "0071": {
+    "71": {
       "properties": {
         "PropName": "Field Support",
         "PropCID": "0071",
@@ -3768,7 +3768,7 @@
         "Latitude": 29.633662
       }
     },
-    "0342": {
+    "342": {
       "properties": {
         "PropName": "IFAS Storage (Agy)",
         "PropCID": "0342",
@@ -3784,7 +3784,7 @@
         "Latitude": 29.633658
       }
     },
-    "0492": {
+    "492": {
       "properties": {
         "PropName": "Greenhouse, Entomology",
         "PropCID": "0492",
@@ -3808,7 +3808,7 @@
         "Latitude": 29.633693
       }
     },
-    "0338": {
+    "338": {
       "properties": {
         "PropName": "Agro Field Lab",
         "PropCID": "0338",
@@ -3816,7 +3816,7 @@
         "Latitude": 29.633502
       }
     },
-    "0345": {
+    "345": {
       "properties": {
         "PropName": "IFAS Agro Lab",
         "PropCID": "0345",
@@ -3824,7 +3824,7 @@
         "Latitude": 29.633497
       }
     },
-    "0343": {
+    "343": {
       "properties": {
         "PropName": "Agro Field Lab",
         "PropCID": "0343",
@@ -3832,7 +3832,7 @@
         "Latitude": 29.633497
       }
     },
-    "0344": {
+    "344": {
       "properties": {
         "PropName": "IFAS Conference Ctr (AGY)",
         "PropCID": "0344",
@@ -3848,7 +3848,7 @@
         "Latitude": 29.633461
       }
     },
-    "0491": {
+    "491": {
       "properties": {
         "PropName": "Greenhouse, Entomology",
         "PropCID": "0491",
@@ -3896,7 +3896,7 @@
         "Latitude": 29.63369
       }
     },
-    "0350": {
+    "350": {
       "properties": {
         "PropName": "IFAS Agro Lab",
         "PropCID": "0350",
@@ -3904,7 +3904,7 @@
         "Latitude": 29.633509
       }
     },
-    "0215": {
+    "215": {
       "properties": {
         "PropName": "Veterinary \nClinical Sciences",
         "PropCID": "0215",
@@ -3912,7 +3912,7 @@
         "Latitude": 29.633271
       }
     },
-    "0075": {
+    "75": {
       "properties": {
         "PropName": "Small Animal Hospital",
         "PropCID": "0075",
@@ -3936,7 +3936,7 @@
         "Latitude": 29.634325
       }
     },
-    "0228": {
+    "228": {
       "properties": {
         "PropName": "Schiebler CMS",
         "PropCID": "0228",
@@ -3952,7 +3952,7 @@
         "Latitude": 29.635411
       }
     },
-    "0315": {
+    "315": {
       "properties": {
         "PropName": "Phillips Center",
         "PropCID": "0315",
@@ -3960,7 +3960,7 @@
         "Latitude": 29.635281
       }
     },
-    "0308": {
+    "308": {
       "properties": {
         "PropName": "Powell Hall (FLMNH)",
         "PropCID": "0308",
@@ -3976,7 +3976,7 @@
         "Latitude": 29.636048
       }
     },
-    "0341": {
+    "341": {
       "properties": {
         "PropName": "Mcguire Center",
         "PropCID": "0341",
@@ -3992,7 +3992,7 @@
         "Latitude": 29.63631
       }
     },
-    "0166": {
+    "166": {
       "properties": {
         "PropName": "Parking Garage 9 (Archer)",
         "PropCID": "0166",
@@ -4000,7 +4000,7 @@
         "Latitude": 29.636166
       }
     },
-    "0470": {
+    "470": {
       "properties": {
         "PropName": "Center for Environmental \n& Human Tox",
         "PropCID": "0470",
@@ -4016,7 +4016,7 @@
         "Latitude": 29.636595
       }
     },
-    "0173": {
+    "173": {
       "properties": {
         "PropName": "Parking Garage 9 (Archer)",
         "PropCID": "0173",
@@ -4024,7 +4024,7 @@
         "Latitude": 29.636492
       }
     },
-    "0309": {
+    "309": {
       "properties": {
         "PropName": "Harn Museum of Art",
         "PropCID": "0309",
@@ -4048,7 +4048,7 @@
         "Latitude": 29.637341
       }
     },
-    "0096": {
+    "96": {
       "properties": {
         "PropName": "Storage Bldg",
         "PropCID": "0096",
@@ -4064,7 +4064,7 @@
         "Latitude": 29.637524
       }
     },
-    "0078": {
+    "78": {
       "properties": {
         "PropName": "Conferences and Institutes",
         "PropCID": "0078",
@@ -4072,7 +4072,7 @@
         "Latitude": 29.637954
       }
     },
-    "0057": {
+    "57": {
       "properties": {
         "PropName": "Facilities Office",
         "PropCID": "0057",
@@ -4096,7 +4096,7 @@
         "Latitude": 29.638017
       }
     },
-    "0063": {
+    "63": {
       "properties": {
         "PropName": "IFAS Office / Lab",
         "PropCID": "0063",
@@ -4104,7 +4104,7 @@
         "Latitude": 29.638507
       }
     },
-    "0717": {
+    "717": {
       "properties": {
         "PropName": "Fifield Hall",
         "PropCID": "0717",
@@ -4112,7 +4112,7 @@
         "Latitude": 29.638409
       }
     },
-    "0316": {
+    "316": {
       "properties": {
         "PropName": "Southwest Recreation Center",
         "PropCID": "0316",
@@ -4120,7 +4120,7 @@
         "Latitude": 29.638407
       }
     },
-    "0089": {
+    "89": {
       "properties": {
         "PropName": "IFAS Admin Services",
         "PropCID": "0089",
@@ -4128,7 +4128,7 @@
         "Latitude": 29.638774
       }
     },
-    "0069": {
+    "69": {
       "properties": {
         "PropName": "IFAS Communication Services",
         "PropCID": "0069",
@@ -4136,7 +4136,7 @@
         "Latitude": 29.638755
       }
     },
-    "0056": {
+    "56": {
       "properties": {
         "PropName": "IFAS Restroom",
         "PropCID": "0056",
@@ -4144,7 +4144,7 @@
         "Latitude": 29.639064
       }
     },
-    "0047": {
+    "47": {
       "properties": {
         "PropName": "Greenhouse, Plant Pathology",
         "PropCID": "0047",
@@ -4152,7 +4152,7 @@
         "Latitude": 29.639124
       }
     },
-    "0055": {
+    "55": {
       "properties": {
         "PropName": "Greenhouse, Plant Pathology",
         "PropCID": "0055",
@@ -4160,7 +4160,7 @@
         "Latitude": 29.639124
       }
     },
-    "0090": {
+    "90": {
       "properties": {
         "PropName": "Greenhouse, Plant Pathology",
         "PropCID": "0090",
@@ -4168,7 +4168,7 @@
         "Latitude": 29.639194
       }
     },
-    "0088": {
+    "88": {
       "properties": {
         "PropName": "Greenhouse, Plant Pathology",
         "PropCID": "0088",
@@ -4176,7 +4176,7 @@
         "Latitude": 29.639195
       }
     },
-    "0097": {
+    "97": {
       "properties": {
         "PropName": "Equipment Storage",
         "PropCID": "0097",
@@ -4184,7 +4184,7 @@
         "Latitude": 29.639277
       }
     },
-    "0060": {
+    "60": {
       "properties": {
         "PropName": "Communication/Extension Annex",
         "PropCID": "0060",
@@ -4192,7 +4192,7 @@
         "Latitude": 29.639325
       }
     },
-    "0364": {
+    "364": {
       "properties": {
         "PropName": "Parking Garage 3 \n(Shands West)",
         "PropCID": "0364",
@@ -4200,7 +4200,7 @@
         "Latitude": 29.638668
       }
     },
-    "0209": {
+    "209": {
       "properties": {
         "PropName": "Parking Garage 2\n(Shands West)",
         "PropCID": "0209",
@@ -4208,7 +4208,7 @@
         "Latitude": 29.638877
       }
     },
-    "0124": {
+    "124": {
       "properties": {
         "PropName": "Facilities Office",
         "PropCID": "0124",
@@ -4216,7 +4216,7 @@
         "Latitude": 29.639392
       }
     },
-    "0074": {
+    "74": {
       "properties": {
         "PropName": "Greenhouse",
         "PropCID": "0074",
@@ -4224,7 +4224,7 @@
         "Latitude": 29.640077
       }
     },
-    "0205": {
+    "205": {
       "properties": {
         "PropName": "Dental Science",
         "PropCID": "0205",
@@ -4240,7 +4240,7 @@
         "Latitude": 29.639884
       }
     },
-    "0981": {
+    "981": {
       "properties": {
         "PropName": "Microbiology/Cell\nScience",
         "PropCID": "0981",
@@ -4248,7 +4248,7 @@
         "Latitude": 29.639959
       }
     },
-    "0204": {
+    "204": {
       "properties": {
         "PropName": "General\nServices",
         "PropCID": "0204",
@@ -4256,7 +4256,7 @@
         "Latitude": 29.640099
       }
     },
-    "0462": {
+    "462": {
       "properties": {
         "PropName": "Shepard \nBroad",
         "PropCID": "0462",
@@ -4264,7 +4264,7 @@
         "Latitude": 29.640277
       }
     },
-    "0641": {
+    "641": {
       "properties": {
         "PropName": "ACS Housing",
         "PropCID": "0641",
@@ -4272,7 +4272,7 @@
         "Latitude": 29.640887
       }
     },
-    "0206": {
+    "206": {
       "properties": {
         "PropName": "Basic Science",
         "PropCID": "0206",
@@ -4280,7 +4280,7 @@
         "Latitude": 29.640208
       }
     },
-    "0446": {
+    "446": {
       "properties": {
         "PropName": "Shands Teaching \nHospital",
         "PropCID": "0446",
@@ -4288,7 +4288,7 @@
         "Latitude": 29.640014
       }
     },
-    "0202": {
+    "202": {
       "properties": {
         "PropName": "Shands Patient Svs",
         "PropCID": "0202",
@@ -4296,7 +4296,7 @@
         "Latitude": 29.640076
       }
     },
-    "0254": {
+    "254": {
       "properties": {
         "PropName": "Parking Garage Complex",
         "PropCID": "0254",
@@ -4304,7 +4304,7 @@
         "Latitude": 29.640549
       }
     },
-    "0213": {
+    "213": {
       "properties": {
         "PropName": "Biomedical \nSciences",
         "PropCID": "0213",
@@ -4312,7 +4312,7 @@
         "Latitude": 29.640616
       }
     },
-    "0454": {
+    "454": {
       "properties": {
         "PropName": "Human Development \nCenter",
         "PropCID": "0454",
@@ -4328,7 +4328,7 @@
         "Latitude": 29.641135
       }
     },
-    "0445": {
+    "445": {
       "properties": {
         "PropName": "Stetson Medical \nSciences",
         "PropCID": "0445",
@@ -4336,7 +4336,7 @@
         "Latitude": 29.640487
       }
     },
-    "0208": {
+    "208": {
       "properties": {
         "PropName": "Parking Garage 10 \n(Shands E)",
         "PropCID": "0208",
@@ -4352,7 +4352,7 @@
         "Latitude": 29.641342
       }
     },
-    "0203": {
+    "203": {
       "properties": {
         "PropName": "Communicore",
         "PropCID": "0203",
@@ -4360,7 +4360,7 @@
         "Latitude": 29.640874
       }
     },
-    "0207": {
+    "207": {
       "properties": {
         "PropName": "Parking Garage 1 \n(Shands East)",
         "PropCID": "0207",
@@ -4376,7 +4376,7 @@
         "Latitude": 29.641523
       }
     },
-    "0201": {
+    "201": {
       "properties": {
         "PropName": "Academic \nResearch \nBuilding",
         "PropCID": "0201",
@@ -4384,7 +4384,7 @@
         "Latitude": 29.641172
       }
     },
-    "0271": {
+    "271": {
       "properties": {
         "PropName": "Shands Facilities \nAdministration",
         "PropCID": "0271",
@@ -4408,7 +4408,7 @@
         "Latitude": 29.641857
       }
     },
-    "0746": {
+    "746": {
       "properties": {
         "PropName": "Particle Science \n& Technology",
         "PropCID": "0746",
@@ -4424,7 +4424,7 @@
         "Latitude": 29.641812
       }
     },
-    "0724": {
+    "724": {
       "properties": {
         "PropName": "Black Hall",
         "PropCID": "0724",
@@ -4440,7 +4440,7 @@
         "Latitude": 29.64202
       }
     },
-    "0081": {
+    "81": {
       "properties": {
         "PropName": "Counseling And Wellness",
         "PropCID": "0081",
@@ -4448,7 +4448,7 @@
         "Latitude": 29.642461
       }
     },
-    "0212": {
+    "212": {
       "properties": {
         "PropName": "Health Prof, \nNursing, Pharmacy",
         "PropCID": "0212",
@@ -4456,7 +4456,7 @@
         "Latitude": 29.641652
       }
     },
-    "0214": {
+    "214": {
       "properties": {
         "PropName": "Harrell Medical\nEducation Building",
         "PropCID": "0214",
@@ -4464,7 +4464,7 @@
         "Latitude": 29.642014
       }
     },
-    "0046": {
+    "46": {
       "properties": {
         "PropName": "Greenhouse",
         "PropCID": "0046",
@@ -4472,7 +4472,7 @@
         "Latitude": 29.642543
       }
     },
-    "0059": {
+    "59": {
       "properties": {
         "PropName": "Mcknight Brain Institute",
         "PropCID": "0059",
@@ -4480,7 +4480,7 @@
         "Latitude": 29.641861
       }
     },
-    "0302": {
+    "302": {
       "properties": {
         "PropName": "Diamond Apartments",
         "PropCID": "0302",
@@ -4488,7 +4488,7 @@
         "Latitude": 29.642245
       }
     },
-    "0044": {
+    "44": {
       "properties": {
         "PropName": "Greenhouse",
         "PropCID": "0044",
@@ -4496,7 +4496,7 @@
         "Latitude": 29.642617
       }
     },
-    "0076": {
+    "76": {
       "properties": {
         "PropName": "Head house",
         "PropCID": "0076",
@@ -4504,7 +4504,7 @@
         "Latitude": 29.64271
       }
     },
-    "0958": {
+    "958": {
       "properties": {
         "PropName": "Chemical Engineering \nStudent Center",
         "PropCID": "0958",
@@ -4512,7 +4512,7 @@
         "Latitude": 29.642419
       }
     },
-    "0306": {
+    "306": {
       "properties": {
         "PropName": "Diamond Apartments",
         "PropCID": "0306",
@@ -4520,7 +4520,7 @@
         "Latitude": 29.642232
       }
     },
-    "0033": {
+    "33": {
       "properties": {
         "PropName": "Engineering Building",
         "PropCID": "0033",
@@ -4528,7 +4528,7 @@
         "Latitude": 29.642294
       }
     },
-    "0715": {
+    "715": {
       "properties": {
         "PropName": "U.F. Mail & \nDocuments Services",
         "PropCID": "0715",
@@ -4536,7 +4536,7 @@
         "Latitude": 29.642842
       }
     },
-    "0303": {
+    "303": {
       "properties": {
         "PropName": "Diamond Apartments",
         "PropCID": "0303",
@@ -4544,7 +4544,7 @@
         "Latitude": 29.642529
       }
     },
-    "0705": {
+    "705": {
       "properties": {
         "PropName": "Facilities Serveices \nCentral Stores",
         "PropCID": "0705",
@@ -4552,7 +4552,7 @@
         "Latitude": 29.642962
       }
     },
-    "0723": {
+    "723": {
       "properties": {
         "PropName": "Chemical\nEngineering",
         "PropCID": "0723",
@@ -4560,7 +4560,7 @@
         "Latitude": 29.642713
       }
     },
-    "0304": {
+    "304": {
       "properties": {
         "PropName": "Diamond Apartments",
         "PropCID": "0304",
@@ -4568,7 +4568,7 @@
         "Latitude": 29.642688
       }
     },
-    "0299": {
+    "299": {
       "properties": {
         "PropName": "Diamond Apartments",
         "PropCID": "0299",
@@ -4576,7 +4576,7 @@
         "Latitude": 29.642852
       }
     },
-    "0067": {
+    "67": {
       "properties": {
         "PropName": "Observatory",
         "PropCID": "0067",
@@ -4584,7 +4584,7 @@
         "Latitude": 29.643032
       }
     },
-    "0070": {
+    "70": {
       "properties": {
         "PropName": "Nanoscale Research",
         "PropCID": "0070",
@@ -4592,7 +4592,7 @@
         "Latitude": 29.642765
       }
     },
-    "0300": {
+    "300": {
       "properties": {
         "PropName": "Diamond Apartments",
         "PropCID": "0300",
@@ -4600,7 +4600,7 @@
         "Latitude": 29.642875
       }
     },
-    "0722": {
+    "722": {
       "properties": {
         "PropName": "Larsen Hall",
         "PropCID": "0722",
@@ -4608,7 +4608,7 @@
         "Latitude": 29.643117
       }
     },
-    "0301": {
+    "301": {
       "properties": {
         "PropName": "Diamond Apartments",
         "PropCID": "0301",
@@ -4616,7 +4616,7 @@
         "Latitude": 29.642975
       }
     },
-    "0714": {
+    "714": {
       "properties": {
         "PropName": "Surplus/Facilities\nAnnex",
         "PropCID": "0714",
@@ -4624,7 +4624,7 @@
         "Latitude": 29.643328
       }
     },
-    "0465": {
+    "465": {
       "properties": {
         "PropName": "Elmore Hall ",
         "PropCID": "0465",
@@ -4632,7 +4632,7 @@
         "Latitude": 29.64348
       }
     },
-    "0296": {
+    "296": {
       "properties": {
         "PropName": "Diamond Apartments",
         "PropCID": "0296",
@@ -4640,7 +4640,7 @@
         "Latitude": 29.6432
       }
     },
-    "0298": {
+    "298": {
       "properties": {
         "PropName": "Diamond Apartments",
         "PropCID": "0298",
@@ -4648,7 +4648,7 @@
         "Latitude": 29.643272
       }
     },
-    "0902": {
+    "902": {
       "properties": {
         "PropName": "Kappa Sigma",
         "PropCID": "0902",
@@ -4656,7 +4656,7 @@
         "Latitude": 29.643191
       }
     },
-    "0297": {
+    "297": {
       "properties": {
         "PropName": "Diamond Apartments",
         "PropCID": "0297",
@@ -4664,7 +4664,7 @@
         "Latitude": 29.643245
       }
     },
-    "0721": {
+    "721": {
       "properties": {
         "PropName": "Benton Hall",
         "PropCID": "0721",
@@ -4672,7 +4672,7 @@
         "Latitude": 29.643411
       }
     },
-    "0397": {
+    "397": {
       "properties": {
         "PropName": "Parking Garage 5",
         "PropCID": "0397",
@@ -4680,7 +4680,7 @@
         "Latitude": 29.643271
       }
     },
-    "0725": {
+    "725": {
       "properties": {
         "PropName": "MAE A",
         "PropCID": "0725",
@@ -4688,7 +4688,7 @@
         "Latitude": 29.643299
       }
     },
-    "0749": {
+    "749": {
       "properties": {
         "PropName": "Psychology",
         "PropCID": "0749",
@@ -4696,7 +4696,7 @@
         "Latitude": 29.643412
       }
     },
-    "0903": {
+    "903": {
       "properties": {
         "PropName": "Delta Zeta",
         "PropCID": "0903",
@@ -4704,7 +4704,7 @@
         "Latitude": 29.643396
       }
     },
-    "0657": {
+    "657": {
       "properties": {
         "PropName": "Delta Phi Epsilon",
         "PropCID": "0657",
@@ -4712,7 +4712,7 @@
         "Latitude": 29.643436
       }
     },
-    "0179": {
+    "179": {
       "properties": {
         "PropName": "EHS",
         "PropCID": "0179",
@@ -4720,7 +4720,7 @@
         "Latitude": 29.643534
       }
     },
-    "0702": {
+    "702": {
       "properties": {
         "PropName": "Facilities Services \nMaintenance",
         "PropCID": "0702",
@@ -4728,7 +4728,7 @@
         "Latitude": 29.644034
       }
     },
-    "0595": {
+    "595": {
       "properties": {
         "PropName": "Jennings Hall C ",
         "PropCID": "0595",
@@ -4736,7 +4736,7 @@
         "Latitude": 29.643728
       }
     },
-    "0084": {
+    "84": {
       "properties": {
         "PropName": "Bat House 2",
         "PropCID": "0084",
@@ -4744,7 +4744,7 @@
         "Latitude": 29.644234
       }
     },
-    "0748": {
+    "748": {
       "properties": {
         "PropName": "Carr Hall",
         "PropCID": "0748",
@@ -4752,7 +4752,7 @@
         "Latitude": 29.64386
       }
     },
-    "0747": {
+    "747": {
       "properties": {
         "PropName": "Bartram Hall",
         "PropCID": "0747",
@@ -4760,7 +4760,7 @@
         "Latitude": 29.643928
       }
     },
-    "0700": {
+    "700": {
       "properties": {
         "PropName": "Facilities Services \nOffices",
         "PropCID": "0700",
@@ -4768,7 +4768,7 @@
         "Latitude": 29.644312
       }
     },
-    "0416": {
+    "416": {
       "properties": {
         "PropName": "Phi Mu",
         "PropCID": "0416",
@@ -4776,7 +4776,7 @@
         "Latitude": 29.643906
       }
     },
-    "0409": {
+    "409": {
       "properties": {
         "PropName": "Alpha Delta Pi",
         "PropCID": "0409",
@@ -4784,7 +4784,7 @@
         "Latitude": 29.643904
       }
     },
-    "0417": {
+    "417": {
       "properties": {
         "PropName": "Alpha Epsilon Phi",
         "PropCID": "0417",
@@ -4792,7 +4792,7 @@
         "Latitude": 29.643893
       }
     },
-    "0804": {
+    "804": {
       "properties": {
         "PropName": "Vehicle Wash/Lube Station",
         "PropCID": "0804",
@@ -4800,7 +4800,7 @@
         "Latitude": 29.644572
       }
     },
-    "0750": {
+    "750": {
       "properties": {
         "PropName": "Beaty Towers A",
         "PropCID": "0750",
@@ -4816,7 +4816,7 @@
         "Latitude": -82.34267
       }
     },
-    "0751": {
+    "751": {
       "properties": {
         "PropName": "Beaty Towers B",
         "PropCID": "0751",
@@ -4824,7 +4824,7 @@
         "Latitude": 29.644209
       }
     },
-    "0594": {
+    "594": {
       "properties": {
         "PropName": "Jennings Hall B",
         "PropCID": "0594",
@@ -4832,7 +4832,7 @@
         "Latitude": 29.644007
       }
     },
-    "0092": {
+    "92": {
       "properties": {
         "PropName": "Physics Building",
         "PropCID": "0092",
@@ -4840,7 +4840,7 @@
         "Latitude": 29.643902
       }
     },
-    "0753": {
+    "753": {
       "properties": {
         "PropName": "Housing Office",
         "PropCID": "0753",
@@ -4848,7 +4848,7 @@
         "Latitude": 29.644166
       }
     },
-    "0408": {
+    "408": {
       "properties": {
         "PropName": "Alpha Omicron Pi",
         "PropCID": "0408",
@@ -4856,7 +4856,7 @@
         "Latitude": 29.644244
       }
     },
-    "0413": {
+    "413": {
       "properties": {
         "PropName": "Alpha Chi Omega",
         "PropCID": "0413",
@@ -4864,7 +4864,7 @@
         "Latitude": 29.6443
       }
     },
-    "0576": {
+    "576": {
       "properties": {
         "PropName": "Hume Commons",
         "PropCID": "0576",
@@ -4872,7 +4872,7 @@
         "Latitude": 29.644525
       }
     },
-    "0752": {
+    "752": {
       "properties": {
         "PropName": "Beaty Commons",
         "PropCID": "0752",
@@ -4880,7 +4880,7 @@
         "Latitude": 29.644381
       }
     },
-    "0856": {
+    "856": {
       "properties": {
         "PropName": "Phelps Lab",
         "PropCID": "0856",
@@ -4888,7 +4888,7 @@
         "Latitude": 29.644561
       }
     },
-    "0577": {
+    "577": {
       "properties": {
         "PropName": "Hume West ",
         "PropCID": "0577",
@@ -4896,7 +4896,7 @@
         "Latitude": 29.644573
       }
     },
-    "0575": {
+    "575": {
       "properties": {
         "PropName": "Hume East",
         "PropCID": "0575",
@@ -4904,7 +4904,7 @@
         "Latitude": 29.644533
       }
     },
-    "0593": {
+    "593": {
       "properties": {
         "PropName": "Jennings Hall A",
         "PropCID": "0593",
@@ -4912,7 +4912,7 @@
         "Latitude": 29.644439
       }
     },
-    "0596": {
+    "596": {
       "properties": {
         "PropName": "Jennings Hall Office",
         "PropCID": "0596",
@@ -4920,7 +4920,7 @@
         "Latitude": 29.644387
       }
     },
-    "0474": {
+    "474": {
       "properties": {
         "PropName": "Rogers, Frazier Hall",
         "PropCID": "0474",
@@ -4928,7 +4928,7 @@
         "Latitude": 29.644421
       }
     },
-    "0410": {
+    "410": {
       "properties": {
         "PropName": "Zeta Tau Alpha",
         "PropCID": "0410",
@@ -4936,7 +4936,7 @@
         "Latitude": 29.644375
       }
     },
-    "0181": {
+    "181": {
       "properties": {
         "PropName": "Dickinson Hall ",
         "PropCID": "0181",
@@ -4944,7 +4944,7 @@
         "Latitude": 29.644396
       }
     },
-    "0411": {
+    "411": {
       "properties": {
         "PropName": "Delta Delta Delta",
         "PropCID": "0411",
@@ -4952,7 +4952,7 @@
         "Latitude": 29.644587
       }
     },
-    "0412": {
+    "412": {
       "properties": {
         "PropName": "Sigma Kappa",
         "PropCID": "0412",
@@ -4960,7 +4960,7 @@
         "Latitude": 29.644555
       }
     },
-    "0407": {
+    "407": {
       "properties": {
         "PropName": "Delta Gamma",
         "PropCID": "0407",
@@ -4968,7 +4968,7 @@
         "Latitude": 29.64468
       }
     },
-    "0414": {
+    "414": {
       "properties": {
         "PropName": "Chi Omega",
         "PropCID": "0414",
@@ -4976,7 +4976,7 @@
         "Latitude": 29.644667
       }
     },
-    "0415": {
+    "415": {
       "properties": {
         "PropName": "Kappa Delta",
         "PropCID": "0415",
@@ -4992,7 +4992,7 @@
         "Latitude": 29.645374
       }
     },
-    "0419": {
+    "419": {
       "properties": {
         "PropName": "Chi Phi",
         "PropCID": "0419",
@@ -5000,7 +5000,7 @@
         "Latitude": 29.645249
       }
     },
-    "0280": {
+    "280": {
       "properties": {
         "PropName": "Corry   Apartments",
         "PropCID": "0280",
@@ -5008,7 +5008,7 @@
         "Latitude": 29.645575
       }
     },
-    "0421": {
+    "421": {
       "properties": {
         "PropName": "Lambda Chi Alpha",
         "PropCID": "0421",
@@ -5016,7 +5016,7 @@
         "Latitude": 29.645433
       }
     },
-    "0420": {
+    "420": {
       "properties": {
         "PropName": "Sigma Alpha Epsilon",
         "PropCID": "0420",
@@ -5024,7 +5024,7 @@
         "Latitude": 29.645384
       }
     },
-    "0285": {
+    "285": {
       "properties": {
         "PropName": "Corry   Apartments",
         "PropCID": "0285",
@@ -5032,7 +5032,7 @@
         "Latitude": 29.645733
       }
     },
-    "0832": {
+    "832": {
       "properties": {
         "PropName": "Newins-Ziegler\nHall",
         "PropCID": "0832",
@@ -5040,7 +5040,7 @@
         "Latitude": 29.645386
       }
     },
-    "0422": {
+    "422": {
       "properties": {
         "PropName": "Sigma Phi Epsilon",
         "PropCID": "0422",
@@ -5048,7 +5048,7 @@
         "Latitude": 29.645542
       }
     },
-    "0358": {
+    "358": {
       "properties": {
         "PropName": "Parking Garage 4 \n(Museum Rd)",
         "PropCID": "0358",
@@ -5056,7 +5056,7 @@
         "Latitude": 29.645277
       }
     },
-    "0590": {
+    "590": {
       "properties": {
         "PropName": "Simpson Hall",
         "PropCID": "0590",
@@ -5064,7 +5064,7 @@
         "Latitude": 29.645465
       }
     },
-    "0886": {
+    "886": {
       "properties": {
         "PropName": "UF Bookstore & \nWelcome Center",
         "PropCID": "0886",
@@ -5072,7 +5072,7 @@
         "Latitude": 29.645373
       }
     },
-    "0279": {
+    "279": {
       "properties": {
         "PropName": "Corry   Apartments",
         "PropCID": "0279",
@@ -5080,7 +5080,7 @@
         "Latitude": 29.645969
       }
     },
-    "0400": {
+    "400": {
       "properties": {
         "PropName": "Kappa Alpha",
         "PropCID": "0400",
@@ -5088,7 +5088,7 @@
         "Latitude": 29.645788
       }
     },
-    "0150": {
+    "150": {
       "properties": {
         "PropName": "Wildlife Ecology",
         "PropCID": "0150",
@@ -5096,7 +5096,7 @@
         "Latitude": 29.645832
       }
     },
-    "0588": {
+    "588": {
       "properties": {
         "PropName": "Trusler Hall",
         "PropCID": "0588",
@@ -5104,7 +5104,7 @@
         "Latitude": 29.645829
       }
     },
-    "0589": {
+    "589": {
       "properties": {
         "PropName": "Graham Area Office",
         "PropCID": "0589",
@@ -5112,7 +5112,7 @@
         "Latitude": 29.645895
       }
     },
-    "0284": {
+    "284": {
       "properties": {
         "PropName": "Corry   Apartments",
         "PropCID": "0284",
@@ -5120,7 +5120,7 @@
         "Latitude": 29.646136
       }
     },
-    "0289": {
+    "289": {
       "properties": {
         "PropName": "Corry   Apartments",
         "PropCID": "0289",
@@ -5128,7 +5128,7 @@
         "Latitude": 29.646077
       }
     },
-    "0423": {
+    "423": {
       "properties": {
         "PropName": "Delta Chi",
         "PropCID": "0423",
@@ -5136,7 +5136,7 @@
         "Latitude": 29.64609
       }
     },
-    "0278": {
+    "278": {
       "properties": {
         "PropName": "Corry   Apartments",
         "PropCID": "0278",
@@ -5144,7 +5144,7 @@
         "Latitude": 29.64637
       }
     },
-    "0287": {
+    "287": {
       "properties": {
         "PropName": "Corry Village Commons",
         "PropCID": "0287",
@@ -5152,7 +5152,7 @@
         "Latitude": 29.646395
       }
     },
-    "0283": {
+    "283": {
       "properties": {
         "PropName": "Corry   Apartments",
         "PropCID": "0283",
@@ -5160,7 +5160,7 @@
         "Latitude": 29.646526
       }
     },
-    "0591": {
+    "591": {
       "properties": {
         "PropName": "Graham Hall",
         "PropCID": "0591",
@@ -5168,7 +5168,7 @@
         "Latitude": 29.646172
       }
     },
-    "0086": {
+    "86": {
       "properties": {
         "PropName": "Cypress Hall",
         "PropCID": "0086",
@@ -5176,7 +5176,7 @@
         "Latitude": 29.645913
       }
     },
-    "0424": {
+    "424": {
       "properties": {
         "PropName": "Phi Gamma Delta",
         "PropCID": "0424",
@@ -5184,7 +5184,7 @@
         "Latitude": 29.646391
       }
     },
-    "0720": {
+    "720": {
       "properties": {
         "PropName": "MAE B",
         "PropCID": "0720",
@@ -5192,7 +5192,7 @@
         "Latitude": 29.646368
       }
     },
-    "0687": {
+    "687": {
       "properties": {
         "PropName": "Constans Theatre",
         "PropCID": "0687",
@@ -5200,7 +5200,7 @@
         "Latitude": 29.646191
       }
     },
-    "0686": {
+    "686": {
       "properties": {
         "PropName": "Reitz Student Union",
         "PropCID": "0686",
@@ -5208,7 +5208,7 @@
         "Latitude": 29.646315
       }
     },
-    "0039": {
+    "39": {
       "properties": {
         "PropName": "Yulee Hall",
         "PropCID": "0039",
@@ -5216,7 +5216,7 @@
         "Latitude": 29.646228
       }
     },
-    "0277": {
+    "277": {
       "properties": {
         "PropName": "Corry   Apartments",
         "PropCID": "0277",
@@ -5224,7 +5224,7 @@
         "Latitude": 29.646765
       }
     },
-    "0553": {
+    "553": {
       "properties": {
         "PropName": "Rawlings Hall",
         "PropCID": "0553",
@@ -5232,7 +5232,7 @@
         "Latitude": 29.646251
       }
     },
-    "0425": {
+    "425": {
       "properties": {
         "PropName": "Sigma Chi",
         "PropCID": "0425",
@@ -5240,7 +5240,7 @@
         "Latitude": 29.646721
       }
     },
-    "0719": {
+    "719": {
       "properties": {
         "PropName": "Materials \nEngineering",
         "PropCID": "0719",
@@ -5248,7 +5248,7 @@
         "Latitude": 29.646688
       }
     },
-    "0282": {
+    "282": {
       "properties": {
         "PropName": "Corry   Apartments",
         "PropCID": "0282",
@@ -5256,7 +5256,7 @@
         "Latitude": 29.646933
       }
     },
-    "0498": {
+    "498": {
       "properties": {
         "PropName": "Mccarty Hall D",
         "PropCID": "0498",
@@ -5264,7 +5264,7 @@
         "Latitude": 29.646492
       }
     },
-    "0020": {
+    "20": {
       "properties": {
         "PropName": "Reid Hall",
         "PropCID": "0020",
@@ -5272,7 +5272,7 @@
         "Latitude": 29.646454
       }
     },
-    "0497": {
+    "497": {
       "properties": {
         "PropName": "Mccarty Hall C",
         "PropCID": "0497",
@@ -5280,7 +5280,7 @@
         "Latitude": 29.646669
       }
     },
-    "0286": {
+    "286": {
       "properties": {
         "PropName": "Corry   Apartments",
         "PropCID": "0286",
@@ -5288,7 +5288,7 @@
         "Latitude": 29.647036
       }
     },
-    "0496": {
+    "496": {
       "properties": {
         "PropName": "Mccarty Hall B",
         "PropCID": "0496",
@@ -5296,7 +5296,7 @@
         "Latitude": 29.64675
       }
     },
-    "0461": {
+    "461": {
       "properties": {
         "PropName": "Aquatic Products Lab",
         "PropCID": "0461",
@@ -5304,7 +5304,7 @@
         "Latitude": 29.646907
       }
     },
-    "0426": {
+    "426": {
       "properties": {
         "PropName": "Tau Epsilon Phi",
         "PropCID": "0426",
@@ -5312,7 +5312,7 @@
         "Latitude": 29.647116
       }
     },
-    "0011": {
+    "11": {
       "properties": {
         "PropName": "Broward Hall",
         "PropCID": "0011",
@@ -5320,7 +5320,7 @@
         "Latitude": 29.646556
       }
     },
-    "0475": {
+    "475": {
       "properties": {
         "PropName": "Food Science & Human Nutrition",
         "PropCID": "0475",
@@ -5328,7 +5328,7 @@
         "Latitude": 29.646915
       }
     },
-    "0281": {
+    "281": {
       "properties": {
         "PropName": "Corry   Apartments",
         "PropCID": "0281",
@@ -5336,7 +5336,7 @@
         "Latitude": 29.647321
       }
     },
-    "0288": {
+    "288": {
       "properties": {
         "PropName": "Corry   Apartments",
         "PropCID": "0288",
@@ -5344,7 +5344,7 @@
         "Latitude": 29.647308
       }
     },
-    "0041": {
+    "41": {
       "properties": {
         "PropName": "Mallory Hall",
         "PropCID": "0041",
@@ -5352,7 +5352,7 @@
         "Latitude": 29.646778
       }
     },
-    "0418": {
+    "418": {
       "properties": {
         "PropName": "Sorority -Pi Beta Phi",
         "PropCID": "0418",
@@ -5360,7 +5360,7 @@
         "Latitude": 29.647325
       }
     },
-    "0476": {
+    "476": {
       "properties": {
         "PropName": "Alan and Cathy Hitchcock Field and Fork Pantry",
         "PropCID": "0476",
@@ -5376,7 +5376,7 @@
         "Latitude": 29.646983
       }
     },
-    "0495": {
+    "495": {
       "properties": {
         "PropName": "Mccarty Hall A",
         "PropCID": "0495",
@@ -5384,7 +5384,7 @@
         "Latitude": 29.646972
       }
     },
-    "0399": {
+    "399": {
       "properties": {
         "PropName": "Sigma Nu",
         "PropCID": "0399",
@@ -5392,7 +5392,7 @@
         "Latitude": 29.647362
       }
     },
-    "0272": {
+    "272": {
       "properties": {
         "PropName": "Rinker Hall",
         "PropCID": "0272",
@@ -5400,7 +5400,7 @@
         "Latitude": 29.646948
       }
     },
-    "0053": {
+    "53": {
       "properties": {
         "PropName": "Weaver Hall",
         "PropCID": "0053",
@@ -5408,7 +5408,7 @@
         "Latitude": 29.647058
       }
     },
-    "0634": {
+    "634": {
       "properties": {
         "PropName": "Nuclear Sciences",
         "PropCID": "0634",
@@ -5416,7 +5416,7 @@
         "Latitude": 29.647349
       }
     },
-    "0427": {
+    "427": {
       "properties": {
         "PropName": "Theta Chi",
         "PropCID": "0427",
@@ -5424,7 +5424,7 @@
         "Latitude": 29.647471
       }
     },
-    "0592": {
+    "592": {
       "properties": {
         "PropName": "East Hall",
         "PropCID": "0592",
@@ -5432,7 +5432,7 @@
         "Latitude": 29.647323
       }
     },
-    "0120": {
+    "120": {
       "properties": {
         "PropName": "Aquatic Food Prod. \nPilot Plant",
         "PropCID": "0120",
@@ -5440,7 +5440,7 @@
         "Latitude": 29.647349
       }
     },
-    "0052": {
+    "52": {
       "properties": {
         "PropName": "Riker  Hall",
         "PropCID": "0052",
@@ -5448,7 +5448,7 @@
         "Latitude": 29.647479
       }
     },
-    "0048": {
+    "48": {
       "properties": {
         "PropName": "Cwp #1 Weil Cooling Towers",
         "PropCID": "0048",
@@ -5456,7 +5456,7 @@
         "Latitude": 29.647602
       }
     },
-    "0183": {
+    "183": {
       "properties": {
         "PropName": "MAE C",
         "PropCID": "0183",
@@ -5464,7 +5464,7 @@
         "Latitude": 29.647356
       }
     },
-    "0428": {
+    "428": {
       "properties": {
         "PropName": "Pi Kappa Phi",
         "PropCID": "0428",
@@ -5480,7 +5480,7 @@
         "Latitude": 29.647716
       }
     },
-    "0184": {
+    "184": {
       "properties": {
         "PropName": "Rhines Hall",
         "PropCID": "0184",
@@ -5488,7 +5488,7 @@
         "Latitude": 29.647497
       }
     },
-    "0110": {
+    "110": {
       "properties": {
         "PropName": "Steinbrenner ",
         "PropCID": "0110",
@@ -5496,7 +5496,7 @@
         "Latitude": 29.647647
       }
     },
-    "0599": {
+    "599": {
       "properties": {
         "PropName": "Fine Arts C",
         "PropCID": "0599",
@@ -5504,7 +5504,7 @@
         "Latitude": 29.647756
       }
     },
-    "0045": {
+    "45": {
       "properties": {
         "PropName": "Tolbert Hall",
         "PropCID": "0045",
@@ -5512,7 +5512,7 @@
         "Latitude": 29.647976
       }
     },
-    "0050": {
+    "50": {
       "properties": {
         "PropName": "North Hall",
         "PropCID": "0050",
@@ -5520,7 +5520,7 @@
         "Latitude": 29.647895
       }
     },
-    "0131": {
+    "131": {
       "properties": {
         "PropName": "Reed Lab",
         "PropCID": "0131",
@@ -5528,7 +5528,7 @@
         "Latitude": 29.647978
       }
     },
-    "0432": {
+    "432": {
       "properties": {
         "PropName": "Pi Lambda Phi",
         "PropCID": "0432",
@@ -5544,7 +5544,7 @@
         "Latitude": 29.648165
       }
     },
-    "0268": {
+    "268": {
       "properties": {
         "PropName": "Architecture",
         "PropCID": "0268",
@@ -5552,7 +5552,7 @@
         "Latitude": 29.647754
       }
     },
-    "0099": {
+    "99": {
       "properties": {
         "PropName": "Microkelvin Laboratory",
         "PropCID": "0099",
@@ -5560,7 +5560,7 @@
         "Latitude": 29.648045
       }
     },
-    "0061": {
+    "61": {
       "properties": {
         "PropName": "CSE Generator",
         "PropCID": "0061",
@@ -5568,7 +5568,7 @@
         "Latitude": 29.648093
       }
     },
-    "0431": {
+    "431": {
       "properties": {
         "PropName": "Alpha Epsilon Pi",
         "PropCID": "0431",
@@ -5576,7 +5576,7 @@
         "Latitude": 29.648201
       }
     },
-    "0430": {
+    "430": {
       "properties": {
         "PropName": "Beta Theta Pi",
         "PropCID": "0430",
@@ -5584,7 +5584,7 @@
         "Latitude": 29.648161
       }
     },
-    "0043": {
+    "43": {
       "properties": {
         "PropName": "Marston Science Library",
         "PropCID": "0043",
@@ -5592,7 +5592,7 @@
         "Latitude": 29.647947
       }
     },
-    "0030": {
+    "30": {
       "properties": {
         "PropName": "Weimer Hall",
         "PropCID": "0030",
@@ -5600,7 +5600,7 @@
         "Latitude": 29.647836
       }
     },
-    "0025": {
+    "25": {
       "properties": {
         "PropName": "Weil Chilled Water Plant (CWP1)",
         "PropCID": "0025",
@@ -5624,7 +5624,7 @@
         "Latitude": 29.648109
       }
     },
-    "0597": {
+    "597": {
       "properties": {
         "PropName": "Fine Arts A",
         "PropCID": "0597",
@@ -5632,7 +5632,7 @@
         "Latitude": 29.648188
       }
     },
-    "0100": {
+    "100": {
       "properties": {
         "PropName": "Williamson Hall",
         "PropCID": "0100",
@@ -5640,7 +5640,7 @@
         "Latitude": 29.647917
       }
     },
-    "0032": {
+    "32": {
       "properties": {
         "PropName": "Hub",
         "PropCID": "0032",
@@ -5648,7 +5648,7 @@
         "Latitude": 29.648187
       }
     },
-    "0024": {
+    "24": {
       "properties": {
         "PropName": "Weil Hall",
         "PropCID": "0024",
@@ -5656,7 +5656,7 @@
         "Latitude": 29.648358
       }
     },
-    "0598": {
+    "598": {
       "properties": {
         "PropName": "Fine Arts B",
         "PropCID": "0598",
@@ -5664,7 +5664,7 @@
         "Latitude": 29.64818
       }
     },
-    "0117": {
+    "117": {
       "properties": {
         "PropName": "Music Building",
         "PropCID": "0117",
@@ -5672,7 +5672,7 @@
         "Latitude": 29.648233
       }
     },
-    "0023": {
+    "23": {
       "properties": {
         "PropName": "Van Fleet Hall",
         "PropCID": "0023",
@@ -5680,7 +5680,7 @@
         "Latitude": 29.648562
       }
     },
-    "0042": {
+    "42": {
       "properties": {
         "PropName": "Computer Sciences/Engineering",
         "PropCID": "0042",
@@ -5688,7 +5688,7 @@
         "Latitude": 29.648313
       }
     },
-    "0269": {
+    "269": {
       "properties": {
         "PropName": "Fine Arts D",
         "PropCID": "0269",
@@ -5696,7 +5696,7 @@
         "Latitude": 29.648401
       }
     },
-    "0098": {
+    "98": {
       "properties": {
         "PropName": "Oconnell Warm-Up Pool Plant",
         "PropCID": "0098",
@@ -5704,7 +5704,7 @@
         "Latitude": 29.648714
       }
     },
-    "0764": {
+    "764": {
       "properties": {
         "PropName": "Levin Advocacy Ctr",
         "PropCID": "0764",
@@ -5720,7 +5720,7 @@
         "Latitude": 29.648831
       }
     },
-    "0556": {
+    "556": {
       "properties": {
         "PropName": "Little Hall Express",
         "PropCID": "0556",
@@ -5728,7 +5728,7 @@
         "Latitude": 29.648722
       }
     },
-    "0448": {
+    "448": {
       "properties": {
         "PropName": "Century Tower",
         "PropCID": "0448",
@@ -5768,7 +5768,7 @@
         "Latitude": 29.649183
       }
     },
-    "0655": {
+    "655": {
       "properties": {
         "PropName": "Little Hall",
         "PropCID": "0655",
@@ -5792,7 +5792,7 @@
         "Latitude": 29.649087
       }
     },
-    "0077": {
+    "77": {
       "properties": {
         "PropName": "University Womens Club",
         "PropCID": "0077",
@@ -5800,7 +5800,7 @@
         "Latitude": 29.649248
       }
     },
-    "0034": {
+    "34": {
       "properties": {
         "PropName": "U. F. Information",
         "PropCID": "0034",
@@ -5808,7 +5808,7 @@
         "Latitude": 29.649084
       }
     },
-    "0759": {
+    "759": {
       "properties": {
         "PropName": "Bruton-Geer  Hall",
         "PropCID": "0759",
@@ -5816,7 +5816,7 @@
         "Latitude": 29.649213
       }
     },
-    "0038": {
+    "38": {
       "properties": {
         "PropName": "Bryant Space Science Center",
         "PropCID": "0038",
@@ -5824,7 +5824,7 @@
         "Latitude": 29.648935
       }
     },
-    "0013": {
+    "13": {
       "properties": {
         "PropName": "Newell Hall",
         "PropCID": "0013",
@@ -5832,7 +5832,7 @@
         "Latitude": 29.649087
       }
     },
-    "0073": {
+    "73": {
       "properties": {
         "PropName": "Rolfs Elevator Equipment Bldg",
         "PropCID": "0073",
@@ -5840,7 +5840,7 @@
         "Latitude": 29.649222
       }
     },
-    "0035": {
+    "35": {
       "properties": {
         "PropName": "Computer Power Supply",
         "PropCID": "0035",
@@ -5848,7 +5848,7 @@
         "Latitude": 29.649218
       }
     },
-    "0040": {
+    "40": {
       "properties": {
         "PropName": "EIO Generator, Bryant",
         "PropCID": "0040",
@@ -5856,7 +5856,7 @@
         "Latitude": 29.649309
       }
     },
-    "0022": {
+    "22": {
       "properties": {
         "PropName": "Carleton\nAuditorium",
         "PropCID": "0022",
@@ -5864,7 +5864,7 @@
         "Latitude": 29.649083
       }
     },
-    "0012": {
+    "12": {
       "properties": {
         "PropName": "Rolfs Hall",
         "PropCID": "0012",
@@ -5872,7 +5872,7 @@
         "Latitude": 29.64926
       }
     },
-    "0001": {
+    "1": {
       "properties": {
         "PropName": "University\nAuditorium",
         "PropCID": "0001",
@@ -5880,7 +5880,7 @@
         "Latitude": 29.648985
       }
     },
-    "0072": {
+    "72": {
       "properties": {
         "PropName": "Pugh Hall",
         "PropCID": "0072",
@@ -5888,7 +5888,7 @@
         "Latitude": 29.649419
       }
     },
-    "0155": {
+    "155": {
       "properties": {
         "PropName": "Florida Field\nSouth End Zone",
         "PropCID": "0155",
@@ -5896,7 +5896,7 @@
         "Latitude": 29.649161
       }
     },
-    "0002": {
+    "2": {
       "properties": {
         "PropName": "Grinter Hall",
         "PropCID": "0002",
@@ -5904,7 +5904,7 @@
         "Latitude": 29.649283
       }
     },
-    "0267": {
+    "267": {
       "properties": {
         "PropName": "Turlington Hall",
         "PropCID": "0267",
@@ -5912,7 +5912,7 @@
         "Latitude": 29.649218
       }
     },
-    "0562": {
+    "562": {
       "properties": {
         "PropName": "James G. \nPressly \nStadium",
         "PropCID": "0562",
@@ -5920,7 +5920,7 @@
         "Latitude": 29.649263
       }
     },
-    "0003": {
+    "3": {
       "properties": {
         "PropName": "Walker Hall",
         "PropCID": "0003",
@@ -5928,7 +5928,7 @@
         "Latitude": 29.649469
       }
     },
-    "0049": {
+    "49": {
       "properties": {
         "PropName": "Walker Hall Chilled Water Plant (CWP3)",
         "PropCID": "0049",
@@ -5944,7 +5944,7 @@
         "Latitude": 29.649618
       }
     },
-    "0018": {
+    "18": {
       "properties": {
         "PropName": "Infirmary",
         "PropCID": "0018",
@@ -5952,7 +5952,7 @@
         "Latitude": 29.649527
       }
     },
-    "0021": {
+    "21": {
       "properties": {
         "PropName": "Florida Gymnasium",
         "PropCID": "0021",
@@ -5960,7 +5960,7 @@
         "Latitude": 29.649389
       }
     },
-    "0026": {
+    "26": {
       "properties": {
         "PropName": "Tigert Hall",
         "PropCID": "0026",
@@ -5968,7 +5968,7 @@
         "Latitude": 29.649442
       }
     },
-    "0093": {
+    "93": {
       "properties": {
         "PropName": "Florida Pool Plant",
         "PropCID": "0093",
@@ -6000,7 +6000,7 @@
         "Latitude": 29.649905
       }
     },
-    "0688": {
+    "688": {
       "properties": {
         "PropName": "Sisler Hall",
         "PropCID": "0688",
@@ -6008,7 +6008,7 @@
         "Latitude": 29.650033
       }
     },
-    "0266": {
+    "266": {
       "properties": {
         "PropName": "Racquet Club \nDining Center",
         "PropCID": "0266",
@@ -6016,7 +6016,7 @@
         "Latitude": 29.650127
       }
     },
-    "0010": {
+    "10": {
       "properties": {
         "PropName": "Griffin-Floyd Hall",
         "PropCID": "0010",
@@ -6024,7 +6024,7 @@
         "Latitude": 29.65012
       }
     },
-    "0265": {
+    "265": {
       "properties": {
         "PropName": "Student Recreation\n and Fitness Center",
         "PropCID": "0265",
@@ -6032,7 +6032,7 @@
         "Latitude": 29.650121
       }
     },
-    "0111": {
+    "111": {
       "properties": {
         "PropName": "Dauer Hall",
         "PropCID": "0111",
@@ -6040,7 +6040,7 @@
         "Latitude": 29.649958
       }
     },
-    "0019": {
+    "19": {
       "properties": {
         "PropName": "Academic Advising\nCenter (AAC)",
         "PropCID": "0019",
@@ -6048,7 +6048,7 @@
         "Latitude": 29.650069
       }
     },
-    "0552": {
+    "552": {
       "properties": {
         "PropName": "Florida Pool Offices/Lockers",
         "PropCID": "0552",
@@ -6056,7 +6056,7 @@
         "Latitude": 29.65048
       }
     },
-    "0014": {
+    "14": {
       "properties": {
         "PropName": "Ustler Hall",
         "PropCID": "0014",
@@ -6064,7 +6064,7 @@
         "Latitude": 29.650453
       }
     },
-    "0031": {
+    "31": {
       "properties": {
         "PropName": "Criser Hall",
         "PropCID": "0031",
@@ -6072,7 +6072,7 @@
         "Latitude": 29.650177
       }
     },
-    "0158": {
+    "158": {
       "properties": {
         "PropName": "Yon Hall",
         "PropCID": "0158",
@@ -6080,7 +6080,7 @@
         "Latitude": 29.650092
       }
     },
-    "0157": {
+    "157": {
       "properties": {
         "PropName": "Ben Hill Griffin\nStadium",
         "PropCID": "0157",
@@ -6088,7 +6088,7 @@
         "Latitude": 29.65003
       }
     },
-    "0064": {
+    "64": {
       "properties": {
         "PropName": "Hough Hall",
         "PropCID": "0064",
@@ -6096,7 +6096,7 @@
         "Latitude": 29.650409
       }
     },
-    "0009": {
+    "9": {
       "properties": {
         "PropName": "Leigh Hall",
         "PropCID": "0009",
@@ -6104,7 +6104,7 @@
         "Latitude": 29.650431
       }
     },
-    "0148": {
+    "148": {
       "properties": {
         "PropName": "Parking Garage 7 (Oconnell)",
         "PropCID": "0148",
@@ -6120,7 +6120,7 @@
         "Latitude": 29.65057
       }
     },
-    "0054": {
+    "54": {
       "properties": {
         "PropName": "Gerson Hall",
         "PropCID": "0054",
@@ -6128,7 +6128,7 @@
         "Latitude": 29.650739
       }
     },
-    "0016": {
+    "16": {
       "properties": {
         "PropName": "Sledd Hall",
         "PropCID": "0016",
@@ -6136,7 +6136,7 @@
         "Latitude": 29.650767
       }
     },
-    "0028": {
+    "28": {
       "properties": {
         "PropName": "Chemistry Laboratory",
         "PropCID": "0028",
@@ -6144,7 +6144,7 @@
         "Latitude": 29.650898
       }
     },
-    "0159": {
+    "159": {
       "properties": {
         "PropName": "Florida Field\nNorth End Zone",
         "PropCID": "0159",
@@ -6152,7 +6152,7 @@
         "Latitude": 29.650833
       }
     },
-    "0860": {
+    "860": {
       "properties": {
         "PropName": "Indoor\nFootball\nFacility",
         "PropCID": "0860",
@@ -6160,7 +6160,7 @@
         "Latitude": 29.650622
       }
     },
-    "0160": {
+    "160": {
       "properties": {
         "PropName": "Heritage Hall",
         "PropCID": "0160",
@@ -6168,7 +6168,7 @@
         "Latitude": 29.6511
       }
     },
-    "0005": {
+    "5": {
       "properties": {
         "PropName": "Smathers Library",
         "PropCID": "0005",
@@ -6176,7 +6176,7 @@
         "Latitude": 29.650931
       }
     },
-    "0029": {
+    "29": {
       "properties": {
         "PropName": "Stuzin Hall",
         "PropCID": "0029",
@@ -6184,7 +6184,7 @@
         "Latitude": 29.6509
       }
     },
-    "0017": {
+    "17": {
       "properties": {
         "PropName": "Thomas Hall",
         "PropCID": "0017",
@@ -6192,7 +6192,7 @@
         "Latitude": 29.651193
       }
     },
-    "0134": {
+    "134": {
       "properties": {
         "PropName": "Fletcher Hall",
         "PropCID": "0134",
@@ -6200,7 +6200,7 @@
         "Latitude": 29.651377
       }
     },
-    "0135": {
+    "135": {
       "properties": {
         "PropName": "Murphree Hall",
         "PropCID": "0135",
@@ -6208,7 +6208,7 @@
         "Latitude": 29.651215
       }
     },
-    "0008": {
+    "8": {
       "properties": {
         "PropName": "Keene-Flint Hall",
         "PropCID": "0008",
@@ -6216,7 +6216,7 @@
         "Latitude": 29.651432
       }
     },
-    "0275": {
+    "275": {
       "properties": {
         "PropName": "Chem/Chem Bio",
         "PropCID": "0275",
@@ -6224,7 +6224,7 @@
         "Latitude": 29.651425
       }
     },
-    "0689": {
+    "689": {
       "properties": {
         "PropName": "Library West",
         "PropCID": "0689",
@@ -6232,7 +6232,7 @@
         "Latitude": 29.651383
       }
     },
-    "0127": {
+    "127": {
       "properties": {
         "PropName": "Earl and Christy Powell University House",
         "PropCID": "0127",
@@ -6240,7 +6240,7 @@
         "Latitude": 29.651655
       }
     },
-    "0080": {
+    "80": {
       "properties": {
         "PropName": "Catering Service Building",
         "PropCID": "0080",
@@ -6248,7 +6248,7 @@
         "Latitude": 29.6519
       }
     },
-    "0406": {
+    "406": {
       "properties": {
         "PropName": "Matherly Hall",
         "PropCID": "0406",
@@ -6256,7 +6256,7 @@
         "Latitude": 29.651633
       }
     },
-    "0065": {
+    "65": {
       "properties": {
         "PropName": "Heavener Hall",
         "PropCID": "0065",
@@ -6280,7 +6280,7 @@
         "Latitude": 29.652518
       }
     },
-    "0398": {
+    "398": {
       "properties": {
         "PropName": "Pi Kappa Alpha",
         "PropCID": "0398",
@@ -6288,7 +6288,7 @@
         "Latitude": 29.652515
       }
     },
-    "0153": {
+    "153": {
       "properties": {
         "PropName": "Development & Alumni Affairs",
         "PropCID": "0153",
@@ -6296,7 +6296,7 @@
         "Latitude": 29.65248
       }
     },
-    "0261": {
+    "261": {
       "properties": {
         "PropName": "Emerson Alumni Hall",
         "PropCID": "0261",
@@ -6304,7 +6304,7 @@
         "Latitude": 29.652493
       }
     },
-    "0036": {
+    "36": {
       "properties": {
         "PropName": "S.U.S. Press Offices",
         "PropCID": "0036",
@@ -6312,7 +6312,7 @@
         "Latitude": 29.65263
       }
     },
-    "0037": {
+    "37": {
       "properties": {
         "PropName": "S.U.S. Press",
         "PropCID": "0037",
@@ -6320,7 +6320,7 @@
         "Latitude": 29.652638
       }
     },
-    "0253": {
+    "253": {
       "properties": {
         "PropName": "University \nFoundation Annex",
         "PropCID": "0253",
@@ -6328,7 +6328,7 @@
         "Latitude": 29.652825
       }
     },
-    "0105": {
+    "105": {
       "properties": {
         "PropName": "105 Classroom Building",
         "PropCID": "0105",
@@ -6336,7 +6336,7 @@
         "Latitude": 29.652976
       }
     },
-    "0094": {
+    "94": {
       "properties": {
         "PropName": "O`Connell Center",
         "PropCID": "0094",
@@ -6408,7 +6408,7 @@
         "Latitude": 29.627342
       }
     },
-    "0187": {
+    "187": {
       "properties": {
         "PropName": "Parking Garage 14",
         "PropCID": "0187",
@@ -6440,7 +6440,7 @@
         "Latitude": 29.63406
       }
     },
-    "0879": {
+    "879": {
       "properties": {
         "PropName": "Softball Indoor Bullpen",
         "PropCID": "0879",
@@ -6456,7 +6456,7 @@
         "Latitude": 29.63888
       }
     },
-    "0871": {
+    "871": {
       "properties": {
         "PropName": "Football Maintenance Facility",
         "PropCID": "0871",
@@ -6464,7 +6464,7 @@
         "Latitude": 29.650218
       }
     },
-    "0103": {
+    "103": {
       "properties": {
         "PropName": "Norman Hall Addition",
         "PropCID": "0103",
@@ -6472,7 +6472,7 @@
         "Latitude": 29.646582
       }
     },
-    "0101": {
+    "101": {
       "properties": {
         "PropName": "Norman Hall",
         "PropCID": "0101",
@@ -6480,7 +6480,7 @@
         "Latitude": 29.646856
       }
     },
-    "0102": {
+    "102": {
       "properties": {
         "PropName": "Norman Gym",
         "PropCID": "0102",
@@ -6496,7 +6496,7 @@
         "Latitude": 29.646993
       }
     },
-    "0442": {
+    "442": {
       "properties": {
         "PropName": "Parking Garage 8 \n(Norman)",
         "PropCID": "0442",
@@ -6504,7 +6504,7 @@
         "Latitude": 29.645514
       }
     },
-    "0549": {
+    "549": {
       "properties": {
         "PropName": "Head House",
         "PropCID": "0549",
@@ -6512,7 +6512,7 @@
         "Latitude": 29.63939
       }
     },
-    "0757": {
+    "757": {
       "properties": {
         "PropName": "Holland Law Center",
         "PropCID": "0757",
@@ -6520,7 +6520,7 @@
         "Latitude": 29.649747
       }
     },
-    "0898": {
+    "898": {
       "properties": {
         "PropName": "CLO INC. UNIT 5",
         "PropCID": "0898",
@@ -6544,7 +6544,7 @@
         "Latitude": 29.64404233689813
       }
     },
-    "0857": {
+    "857": {
       "properties": {
         "PropName": "James W. Bill Heavener Football Training Center",
         "PropCID": "0857",
@@ -6552,7 +6552,7 @@
         "Latitude": 29.649995
       }
     },
-    "0091": {
+    "91": {
       "properties": {
         "PropName": "O'Connell Storage",
         "PropCID": "0091",
@@ -6568,7 +6568,7 @@
         "Latitude": 29.649722
       }
     },
-    "0640": {
+    "640": {
       "properties": {
         "PropName": "FLMNH Special Collections",
         "PropCID": "0640",
@@ -6576,7 +6576,7 @@
         "Latitude": 29.63504
       }
     },
-    "0015": {
+    "15": {
       "properties": {
         "PropName": "Buckman Hall",
         "PropCID": "0015",
@@ -6584,7 +6584,7 @@
         "Latitude": 29.650892
       }
     },
-    "0359": {
+    "359": {
       "properties": {
         "PropName": "Gator Corner Dining",
         "PropCID": "0359",
@@ -6600,7 +6600,7 @@
         "Latitude": 29.643396
       }
     },
-    "0170": {
+    "170": {
       "properties": {
         "PropName": "Davis Cancer\nPavilion",
         "PropCID": "0170",
@@ -6608,7 +6608,7 @@
         "Latitude": 29.637739
       }
     },
-    "0171": {
+    "171": {
       "properties": {
         "PropName": "Shands Medical\nPlaza B",
         "PropCID": "0171",
@@ -6624,7 +6624,7 @@
         "Latitude": 29.63929
       }
     },
-    "0004": {
+    "4": {
       "properties": {
         "PropName": "Peabody Hall",
         "PropCID": "0004",
@@ -6648,7 +6648,7 @@
         "Latitude": 29.64093
       }
     },
-    "0006": {
+    "6": {
       "properties": {
         "PropName": "Bryan Hall",
         "PropCID": "0006",
@@ -6656,7 +6656,7 @@
         "Latitude": 29.651278
       }
     },
-    "0156": {
+    "156": {
       "properties": {
         "PropName": "Stadium Addition",
         "PropCID": "0156",
@@ -6664,7 +6664,7 @@
         "Latitude": 29.65009
       }
     },
-    "0906": {
+    "906": {
       "properties": {
         "PropName": "Blueberry Research Building",
         "PropCID": "0906",
@@ -6672,7 +6672,7 @@
         "Latitude": 29.63911
       }
     },
-    "0007": {
+    "7": {
       "properties": {
         "PropName": "Anderson Hall",
         "PropCID": "0007",
@@ -6680,7 +6680,7 @@
         "Latitude": 29.651585
       }
     },
-    "0401": {
+    "401": {
       "properties": {
         "PropName": "Center for Outdoor Recreation &  Education",
         "PropCID": "0401",
