@@ -1,13 +1,17 @@
 import { useRef, useEffect, useState } from "react";
-import mapboxgl from "mapbox-gl";
+import mapboxgl, { MapboxGeoJSONFeature } from "mapbox-gl";
 import rawCoords from "../../data/buildingCoords.json";
 import parkingInfo from "../../data/parking_polys.json";
+import scooterParking from "../../data/scooterParking.json";
 import { MdOutlinePedalBike } from "react-icons/md";
 import { FaPersonWalking } from "react-icons/fa6";
 import { PiMopedFill } from "react-icons/pi";
 import "./MapStyles.css";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN as string;
+
+const scooter64PNG =
+  "iVBORw0KGgoAAAANSUhEUgAAACAAAAATCAYAAADxlA/3AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABf0lEQVRIicVW222EMBCcDzcBKYOUASmDK+PuyoAyYso4yohpI3I0K032zCtRlJWsQ8YzO/syF/DPFn6BbQB0bu9WeJcAjH8h4AagLezHwruF+4cE1ADe3d7CKJQkO5n5XAHoAVwZfUkYjgqoSOKtpcOL7EUnvJVzKj6dETADeKEQI7bI8nrsx/UlUkXgbA8krppE6aBjzUzNZXynBPRcpVJs2SQlTJJFa8LLnoAawCBNtAjJnll/ZDyIM7w1aRb2uiXgKk10p+rHwUzcBa+iOuIjfwfNRHDR90IWT5RhoTMbX8tES/zMyD/IWRTQSB2jE7Rns8OPMj3GleRcZyMcCmTVzn2wNTWKt9uwYSDF6zg4EohTayobJWskKxFWLiQV/cYsTGtjGeTwLCmyRhkLTib56HgzfGSak9R7YBDm50mAKbZGseZZXDOtftkE39J5dPin7AVHkNitNjKaTh3NNVO8lmwVHwok+WCulQnIzxl06G4/i9/6P/CtVj+wQ/hPe8xzpluKAjAAAAAASUVORK5CYII=";
 
 const buildingCoords: BuildingCoords = rawCoords as BuildingCoords;
 
@@ -152,11 +156,14 @@ const Map = () => {
             data: parkingInfo as mapboxgl.GeoJSONSourceRaw["data"],
           });
 
-          map.loadImage("/images/orange-blue-stripes-smaller.png", function (error, image) {
-            if (error) throw error;
+          map.loadImage(
+            "/images/orange-blue-stripes-smaller.png",
+            function (error, image) {
+              if (error) throw error;
 
-            if (map && image) map.addImage("orange-blue-stripes", image);
-          });
+              if (map && image) map.addImage("orange-blue-stripes", image);
+            }
+          );
 
           map.loadImage("/images/gold-stripes.png", function (error, image) {
             if (error) throw error;
@@ -265,9 +272,9 @@ const Map = () => {
                 "Gold/Silver",
                 0.5,
                 1,
-              ]
-            }
-          })
+              ],
+            },
+          });
 
           map.addLayer({
             id: "add-3d-buildings",
@@ -297,6 +304,33 @@ const Map = () => {
                 ["get", "min_height"],
               ],
               "fill-extrusion-opacity": 0.6,
+            },
+          });
+
+          // Add the base64 image as an icon
+          map.loadImage(
+            `data:image/png;base64,${scooter64PNG}`,
+            function (error, image) {
+              if (error) throw error;
+              if (map && image) map.addImage("scooter-marker", image);
+            }
+          );
+
+          // Add GeoJSON data as a source
+          map.addSource("point-data", {
+            type: "geojson",
+            data: scooterParking as mapboxgl.GeoJSONSourceRaw["data"],
+          });
+
+          // Add a symbol layer to display the points
+          map.addLayer({
+            id: "points",
+            type: "symbol",
+            source: "point-data",
+            layout: {
+              "icon-image": "scooter-marker",
+              "icon-size": 0.5,
+              "icon-allow-overlap": true,
             },
           });
         }
