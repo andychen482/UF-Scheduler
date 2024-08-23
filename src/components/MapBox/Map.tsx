@@ -10,9 +10,6 @@ import "./MapStyles.css";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN as string;
 
-const scooter64PNG =
-  "iVBORw0KGgoAAAANSUhEUgAAACAAAAATCAYAAADxlA/3AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABf0lEQVRIicVW222EMBCcDzcBKYOUASmDK+PuyoAyYso4yohpI3I0K032zCtRlJWsQ8YzO/syF/DPFn6BbQB0bu9WeJcAjH8h4AagLezHwruF+4cE1ADe3d7CKJQkO5n5XAHoAVwZfUkYjgqoSOKtpcOL7EUnvJVzKj6dETADeKEQI7bI8nrsx/UlUkXgbA8krppE6aBjzUzNZXynBPRcpVJs2SQlTJJFa8LLnoAawCBNtAjJnll/ZDyIM7w1aRb2uiXgKk10p+rHwUzcBa+iOuIjfwfNRHDR90IWT5RhoTMbX8tES/zMyD/IWRTQSB2jE7Rns8OPMj3GleRcZyMcCmTVzn2wNTWKt9uwYSDF6zg4EohTayobJWskKxFWLiQV/cYsTGtjGeTwLCmyRhkLTib56HgzfGSak9R7YBDm50mAKbZGseZZXDOtftkE39J5dPin7AVHkNitNjKaTh3NNVO8lmwVHwok+WCulQnIzxl06G4/i9/6P/CtVj+wQ/hPe8xzpluKAjAAAAAASUVORK5CYII=";
-
 const buildingCoords: BuildingCoords = rawCoords as BuildingCoords;
 
 interface BuildingProperties {
@@ -307,32 +304,27 @@ const Map = () => {
             },
           });
 
-          // Add the base64 image as an icon
-          map.loadImage(
-            `data:image/png;base64,${scooter64PNG}`,
-            function (error, image) {
-              if (error) throw error;
-              if (map && image) map.addImage("scooter-marker", image);
-            }
-          );
+          map.loadImage("/images/scooter.png", function (error, image) {
+            if (error) throw error;
 
-          // Add GeoJSON data as a source
-          map.addSource("point-data", {
-            type: "geojson",
-            data: scooterParking as mapboxgl.GeoJSONSourceRaw["data"],
+            if (map && image) map.addImage("scooter", image);
           });
 
-          // Add a symbol layer to display the points
+          map.addSource("scooter-parking-points", {
+            type: "geojson",
+            data: scooterParking as GeoJSON.FeatureCollection,
+          });
+
           map.addLayer({
-            id: "points",
+            id: "scooter-parking-points-layer",
             type: "symbol",
-            source: "point-data",
+            source: "scooter-parking-points",
             layout: {
-              "icon-image": "scooter-marker",
-              "icon-size": 0.5,
-              "icon-allow-overlap": true,
+              "icon-image": "scooter",
+              "icon-size": 0.8,
             },
           });
+
         }
 
         if (map) {
