@@ -39,7 +39,7 @@ const AboutPage: React.FC = () => {
               marginBottom: "20px",
             }}
           >
-            Created by Andy Chen and Ronak Agarwal in June 2024.
+            Created by Andy Chen and Ronak Agarwal in June 2023.
           </p>
           <p
             style={{
