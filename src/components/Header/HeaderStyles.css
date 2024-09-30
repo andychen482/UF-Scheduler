@@ -164,7 +164,8 @@
 }
 
 .coffeeButtonText {
-  margin-left: 8px;
+  margin-left: 2px;
+  margin-right: 2px;
   font-size: 0.8rem;
   vertical-align: middle;
 }
