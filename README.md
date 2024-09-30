@@ -1,12 +1,11 @@
 # UFScheduler.com
 
 Launched at https://ufscheduler.com
-Created with React, TypeScript, Python, Flask, and NetworkX
+Created with React, TypeScript, Python, Flask, Express.js, Node.js, and Cytoscape.js
 
 ### Description
 
-Enter your selected major and completed classes 
-to generate a graph of prerequisite classes.
+A schedule planner for UF courses, featuring sortable nonoverlapping schedule generation with support for custom events, model semester plans for each major, and a prerequisite visualizer to plan courses.
 
 ### Created by Andy Chen
 
