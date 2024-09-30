@@ -62,25 +62,29 @@ const Header: React.FC<HeaderProps> = ({
     <div className="header-container">
       <div className="header flex gap-x-5">
         <div className="credits-container text-white">
-        {windowWidth < 1001 && (
-          <BiMenu
-            className={`menu-button cursor-pointer mt-1 ${
-              isDrawerOpen ? "faded" : ""
-            }`}
-            onClick={() => setIsDrawerOpen((prev) => !prev)}
-          ></BiMenu>
-        )}
-          <span className="mt-1">Credits: {totalCredits}</span>
+          {windowWidth < 1001 && (
+            <BiMenu
+              className={`menu-button cursor-pointer mt-1 ${
+                isDrawerOpen ? "faded" : ""
+              }`}
+              onClick={() => setIsDrawerOpen((prev) => !prev)}
+            ></BiMenu>
+          )}
+          <span className="mt-1 text-base">Credits: {totalCredits}</span>
         </div>
-        <a
-        className="buyButton"
-        target="_blank"
-        href="https://www.buymeacoffee.com/ufscheduler"
-        rel="noreferrer"
-      >
-        <span className="gatorEmoji">🐊</span>
-        <span className="coffeeButtonText">Donate</span>
-      </a>
+        <div className="flex flex-row space-x-4">
+          <p className="flex items-center mt-1 text-base whitespace-nowrap">
+            Fall 24
+          </p>
+          <a
+            className="buyButton"
+            target="_blank"
+            href="https://www.buymeacoffee.com/ufscheduler"
+            rel="noreferrer"
+          >
+            <span className="coffeeButtonText">Donate</span>
+          </a>
+        </div>
         {windowWidth >= 965 && (
           <div className="flex">
             <div className="button-container gap-x-4">
@@ -167,8 +171,18 @@ const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
         )}
-        {windowWidth < 965 && (
+        {windowWidth < 965 && windowWidth > 400 && (
           <div className="mx-2 self-center">
+            <a href="/">
+              <span className="title font-semibold text-blue-500">UF</span>
+              <span className="title font-semibold text-orange-500">
+                Scheduler
+              </span>
+            </a>
+          </div>
+        )}
+        {windowWidth <= 400 && (
+          <div className="mx-2 self-center text-sm">
             <a href="/">
               <span className="title font-semibold text-blue-500">UF</span>
               <span className="title font-semibold text-orange-500">

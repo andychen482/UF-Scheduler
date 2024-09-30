@@ -45,7 +45,7 @@ const Footer = () => {
 
   return (
     <div
-      className="about text-white text-xs w-full"
+      className="about text-white text-sm w-full"
       style={{
         position: "fixed",
         bottom: "0px",
@@ -56,7 +56,7 @@ const Footer = () => {
       }}
     >
       <p>
-        Fall 2024 | <span id="lastUpdated">{displayLastUpdatedTime()}</span>
+        <span id="lastUpdated">{displayLastUpdatedTime()}</span>
         {" | By "}
         <a
           href="https://www.linkedin.com/in/andy-chen67/"
