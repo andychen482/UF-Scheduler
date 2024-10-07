@@ -74,7 +74,7 @@ const Header: React.FC<HeaderProps> = ({
         </div>
         <div className="flex flex-row space-x-4">
           <p className="flex items-center mt-1 text-base whitespace-nowrap">
-            Fall 24
+            Spring 25
           </p>
           <a
             className="buyButton"
