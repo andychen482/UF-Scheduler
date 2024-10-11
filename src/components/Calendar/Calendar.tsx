@@ -114,7 +114,7 @@ const generateICSContent = (appointments: any[]) => {
     icsContent += `DTEND:${newEndDate.replace(/[-:]/g, "")}00\n`; // Append "00" for seconds
     //wait until final exam dates are finalized
     // icsContent += `RRULE:FREQ=WEEKLY;UNTIL=${convertToICSFormat(appointment.finalExam)}\n`
-    icsContent += "RRULE:FREQ=WEEKLY;UNTIL=20241204T115900\n";
+    icsContent += "RRULE:FREQ=WEEKLY;UNTIL=20250423T115900\n";
     icsContent += `UID:${appointment.id.replace(" ", "")}@ufscheduler.com\n`;
     icsContent += `SUMMARY:${appointment.title}\n`;
     icsContent += `LOCATION:${appointment.location}\n`;
