@@ -28,11 +28,6 @@
   box-shadow: 0px 1px 5px 1px rgb(22, 22, 22);
 }
 
-.test {
-  /* max-height: 400px; */
-  overflow: auto;
-}
-
 .online-section-message {
   border-top-left-radius: 5px; /* Round the top-left corner */
   border-top-right-radius: 5px;
@@ -41,13 +36,10 @@
 @media (max-width: 1000px) {
   .calendar-container {
     border-top: 0.5px solid #a9a9a9;
-    width: calc(100vw - 60px);
+    width: calc(100vw - 20px);
     max-height: 100%;
   }
 
-  .test {
-    max-height: 40vh;
-  }
 }
 
 @media (min-width: 1001px) {

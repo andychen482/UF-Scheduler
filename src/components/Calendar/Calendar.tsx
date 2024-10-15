@@ -495,7 +495,7 @@ const Calendar: React.FC<CalendarProps> = ({
               {onlineMessage}
             </div>
           )}
-          <div className="test">
+          <div>
             <ThemeProvider theme={darkModeTheme}>
               <Paper>
                 <div className="Scheduler">
