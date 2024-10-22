@@ -49,10 +49,12 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
   const toggleSectionSelected = (section: Section) => {
     let courseExists = false;
     const updatedCourses = selectedCourses.map((c) => {
-      if (c.code === course.code) {
+      // Check both the course code and name to ensure they match
+      if (c.code === course.code && c.name === course.name) {
         courseExists = true;
         return {
           ...c,
+          inPerson: false,
           sections: c.sections.map((s) => {
             if (s.classNumber === section.classNumber) {
               return {
@@ -71,11 +73,12 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
       }
       return c;
     });
-
+  
     // If the course doesn't exist in selectedCourses, add it
     if (!courseExists) {
       const newCourse = {
         ...course,
+        inPerson: false,
         sections: course.sections.map((s) => {
           if (s.classNumber === section.classNumber) {
             return {
@@ -93,17 +96,19 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
       updatedCourses.push(newCourse);
     } else {
       // Check if all sections are not selected
-      const selectedCourse = updatedCourses.find((c) => c.code === course.code);
+      const selectedCourse = updatedCourses.find(
+        (c) => c.code === course.code && c.name === course.name
+      );
       if (selectedCourse && !selectedCourse.sections.some((s) => s.selected)) {
-        // Remove the course from selectedCourses
+        // Remove the course from selectedCourses if no sections are selected
         return setSelectedCourses((prev) =>
-          prev.filter((c) => c.code !== course.code)
+          prev.filter((c) => !(c.code === course.code && c.name === course.name))
         );
       }
     }
-
+  
     setSelectedCourses(updatedCourses);
-  };
+  };  
 
   const getRatingColor = (rating: number | null): string => {
     if (rating === null) return "text-gray-200 dark:text-gray-200"; // Default

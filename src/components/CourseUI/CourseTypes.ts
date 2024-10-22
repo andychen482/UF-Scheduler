@@ -42,6 +42,7 @@ export type Course = {
   description: string;
   prerequisites: string;
   sections: Section[];
+  inPerson: boolean;
 };
 
 export const websiteURL: string = "https://www.ratemyprofessors.com/professor/";

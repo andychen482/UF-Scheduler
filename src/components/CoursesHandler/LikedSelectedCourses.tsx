@@ -137,8 +137,9 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                           </div>
                           <div className="text-sm text-ellipsis">
                             {course.name}{" "}
-                                {selectedSection
-                                  ? `| Class # ${selectedSection.classNumber}`
+                            {course.inPerson ? "(in-person)" : ""}
+                            {selectedSection
+                              ? `| Class # ${selectedSection.classNumber}`
                                   : ""}
                           </div>
                         </div>

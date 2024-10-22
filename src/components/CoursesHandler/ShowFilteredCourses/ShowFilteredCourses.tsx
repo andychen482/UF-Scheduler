@@ -119,29 +119,30 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     const selectedNonOnline = {
       ...course,
       sections: nonOnlineSections,
+      inPerson: true,
     };
 
-    const isSelected = selectedCourses.some(
-      (selectedCourse) =>
-        selectedCourse.code === course.code &&
-        selectedCourse.name === course.name &&
-        selectedCourse.sections.length === selectedNonOnline.sections.length
-    );
+    // const isSelected = selectedCourses.some(
+    //   (selectedCourse) =>
+    //     selectedCourse.code === course.code &&
+    //     selectedCourse.name === course.name &&
+    //     selectedCourse.sections.length === selectedNonOnline.sections.length
+    // );
 
-    if (isSelected) {
-      setSelectedCourses((prevSelectedCourses) =>
-        prevSelectedCourses.filter(
-          (selectedCourse) =>
-            selectedCourse.code !== course.code ||
-            selectedCourse.name !== course.name
-        )
-      );
-    } else {
+    // if (isSelected) {
+    //   setSelectedCourses((prevSelectedCourses) =>
+    //     prevSelectedCourses.filter(
+    //       (selectedCourse) =>
+    //         selectedCourse.code !== course.code ||
+    //         selectedCourse.name !== course.name
+    //     )
+    //   );
+    // } else {
       setSelectedCourses((prevSelectedCourses) => [
         ...prevSelectedCourses,
         selectedNonOnline,
       ]);
-    }
+    // }
   };
 
   const itemsPerPage = 20;
