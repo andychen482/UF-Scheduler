@@ -36,7 +36,7 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
   };
 
   const isSectionSelected = (section: Section) => {
-    const selectedCourse = selectedCourses.find((c) => c.code === course.code);
+    const selectedCourse = selectedCourses.find((c) => c.code === course.code && c.name === course.name);
     if (selectedCourse) {
       const selectedSection = selectedCourse.sections.find(
         (s) => s.classNumber === section.classNumber
