@@ -51,6 +51,7 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.7.4",
     "react-spinners": "^0.13.8",
+    "react-tooltip": "^5.28.0",
     "rrule": "^2.7.2",
     "socket.io-client": "^4.7.5",
     "tailwindcss-animate": "^1.0.6",

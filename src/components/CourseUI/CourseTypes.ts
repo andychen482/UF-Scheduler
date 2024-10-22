@@ -21,7 +21,6 @@ export type Section = {
   deptName: string;
   instructors: Instructor[];
   meetTimes: MeetingTime[];
-  // openSeats: number;
   finalExam: string;
   selected: boolean;
   courseName: string;
@@ -38,7 +37,6 @@ export type WaitList = {
 
 export type Course = {
   code: string;
-  // id: string;
   name: string;
   termInd: string;
   description: string;

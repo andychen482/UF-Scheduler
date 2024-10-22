@@ -9,9 +9,10 @@ import {
   PiMinusBold,
   PiCaretDownBold,
   PiCaretUpBold,
+  PiVideoCameraSlashBold
 } from "react-icons/pi";
+import { Tooltip } from 'react-tooltip';
 import "./ShowFilteredCourses.css";
-import ReactGA from "react-ga4";
 
 interface ShowFilteredCoursesProps {
   debouncedSearchTerm: string;
@@ -102,12 +103,44 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
         ...prevSelectedCourses,
         course,
       ]);
-      // ReactGA.event({
-      //   category: "Courses",
-      //   action: "Select Course",
-      //   label: `${course.code} | ${course.name}`,
-      // });
+
       sendCourseMetrics(course);
+    }
+  };
+
+  // New function to add only non-online sections
+  const toggleNonOnlineSections = (course: Course) => {
+    setLoaded(true);
+
+    const nonOnlineSections = course.sections.filter(
+      (section) => section.meetTimes && section.meetTimes.length > 0
+    );
+
+    const selectedNonOnline = {
+      ...course,
+      sections: nonOnlineSections,
+    };
+
+    const isSelected = selectedCourses.some(
+      (selectedCourse) =>
+        selectedCourse.code === course.code &&
+        selectedCourse.name === course.name &&
+        selectedCourse.sections.length === selectedNonOnline.sections.length
+    );
+
+    if (isSelected) {
+      setSelectedCourses((prevSelectedCourses) =>
+        prevSelectedCourses.filter(
+          (selectedCourse) =>
+            selectedCourse.code !== course.code ||
+            selectedCourse.name !== course.name
+        )
+      );
+    } else {
+      setSelectedCourses((prevSelectedCourses) => [
+        ...prevSelectedCourses,
+        selectedNonOnline,
+      ]);
     }
   };
 
@@ -155,15 +188,11 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
 
   const sendCourseMetrics = async (course: Course) => {
     try {
-      await axios.post(
-        `https://${backendServer}/course`,
-        {
-          code: course.code,
-          name: course.name,
-        }
-      );
-    }
-    catch (error) {
+      await axios.post(`https://${backendServer}/course`, {
+        code: course.code,
+        name: course.name,
+      });
+    } catch (error) {
       console.error("Error sending course metrics", error);
     }
   };
@@ -248,25 +277,38 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                         </div>
                         <div className="mx-1 h-9">
                           {isCourseSelected ? (
-                            <>
-                              <PiMinusBold
-                                className={`${minusIcon}`}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  toggleCourseSelected(firstCourse);
-                                }}
-                              />
-                            </>
+                            <PiMinusBold
+                              className={`${minusIcon}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleCourseSelected(firstCourse);
+                              }}
+                              data-tooltip-id="remove-course-tooltip"
+                              data-tooltip-content="Remove all sections"
+                            />
                           ) : (
-                            <>
-                              <PiPlusBold
-                                className={`${plusIcon}`}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  toggleCourseSelected(firstCourse);
-                                }}
-                              />
-                            </>
+                            <PiPlusBold
+                              className={`${plusIcon}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleCourseSelected(firstCourse);
+                              }}
+                              data-tooltip-id="add-course-tooltip"
+                              data-tooltip-content="Add all sections"
+                            />
+                          )}
+                        </div>
+                        <div className="mx-1 h-9">
+                          {!isCourseSelected && (
+                            <PiVideoCameraSlashBold
+                              className={`${plusIcon}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleNonOnlineSections(firstCourse);
+                              }}
+                              data-tooltip-id="non-online-tooltip"
+                              data-tooltip-content="Add only in-person sections"
+                            />
                           )}
                         </div>
                         <div className="mx-1 h-9">
@@ -346,6 +388,9 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
           <div className="text-gray-300 fade-text-in">No courses found.</div>
         )}
       </InfiniteScroll>
+      <Tooltip id="non-online-tooltip" place="top" style={{ zIndex: 1000 }} />
+      <Tooltip id="add-course-tooltip" place="top" style={{ zIndex: 1000 }} />
+      <Tooltip id="remove-course-tooltip" place="top" style={{ zIndex: 1000 }} />
     </div>
   );
 };
