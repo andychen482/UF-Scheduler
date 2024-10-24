@@ -56,14 +56,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   const [editingCredits, setEditingCredits] = useState<string | null>(null);
 
   const handleCourseCardClick = (event: React.MouseEvent, course: Course) => {
-    const isButtonClick =
-      (event.target as HTMLElement).closest(".plus-icon") !== null ||
-      (event.target as HTMLElement).closest(".minus-icon") !== null ||
-      (event.target as HTMLElement).closest(".carets") !== null;
-
-    if (!isButtonClick) {
-      toggleCourseDropdown(`${course.code}|${course.name}`);
-    }
+    toggleCourseDropdown(`${course.code}|${course.name}`);
   };
 
   const toggleCourseDropdown = (courseCode: string) => {
