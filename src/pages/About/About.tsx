@@ -49,7 +49,7 @@ const AboutPage: React.FC = () => {
               marginBottom: "20px",
             }}
           >
-            Maintained and updated weekly by Andy Chen since July 2024.{" "}
+            Maintained and updated weekly by Andy Chen since July 2023.{" "}
           </p>
           <p
             style={{
