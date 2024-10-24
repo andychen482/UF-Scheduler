@@ -140,10 +140,9 @@ const Map = () => {
     if (mapContainerRef.current) {
       map = new mapboxgl.Map({
         container: mapContainerRef.current,
-        style: "mapbox://styles/andycn7/clwx270uy005701nm9xs3eq9o",
-        center: [-82.347, 29.645],
-        zoom: 14.6,
-        // cooperativeGestures: true,
+        style: "mapbox://styles/andycn7/cm2mvgs99004701qsb31w406a",
+        center: [-82.346, 29.646],
+        zoom: 15.25,
       });
 
       map.on("load", function () {
@@ -244,7 +243,9 @@ const Map = () => {
                 "#3249a6", // Default color if no match
               ],
               "fill-opacity": 0.5,
+              "fill-emissive-strength": 0.4,
             },
+            
           });
 
           map.addLayer({
@@ -270,37 +271,7 @@ const Map = () => {
                 0.5,
                 1,
               ],
-            },
-          });
-
-          map.addLayer({
-            id: "add-3d-buildings",
-            source: "composite",
-            "source-layer": "building",
-            filter: ["==", "extrude", "true"],
-            type: "fill-extrusion",
-            minzoom: 14.1,
-            paint: {
-              "fill-extrusion-color": "#2F2F2F",
-              "fill-extrusion-height": [
-                "interpolate",
-                ["linear"],
-                ["zoom"],
-                14.1,
-                0,
-                14.15,
-                ["get", "height"],
-              ],
-              "fill-extrusion-base": [
-                "interpolate",
-                ["linear"],
-                ["zoom"],
-                14.1,
-                0,
-                14.15,
-                ["get", "min_height"],
-              ],
-              "fill-extrusion-opacity": 0.6,
+              "fill-emissive-strength": 0.4,
             },
           });
 
