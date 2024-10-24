@@ -17,7 +17,7 @@ export type MeetingTime = {
 export type Section = {
   classNumber: string;
   display: string;
-  credits: number;
+  credits: number | "VAR"; // Allow credits to be a number or "VAR"
   deptName: string;
   instructors: Instructor[];
   meetTimes: MeetingTime[];
@@ -43,6 +43,7 @@ export type Course = {
   prerequisites: string;
   sections: Section[];
   inPerson: boolean;
+  creditsEditable: boolean;
 };
 
 export const websiteURL: string = "https://www.ratemyprofessors.com/professor/";

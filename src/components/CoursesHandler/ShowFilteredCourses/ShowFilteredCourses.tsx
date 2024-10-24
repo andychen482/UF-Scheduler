@@ -9,7 +9,8 @@ import {
   PiMinusBold,
   PiCaretDownBold,
   PiCaretUpBold,
-  PiVideoCameraSlashBold
+  PiVideoCameraSlashBold,
+  PiPencilBold
 } from "react-icons/pi";
 import { Tooltip } from 'react-tooltip';
 import "./ShowFilteredCourses.css";
@@ -51,6 +52,8 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
 
   const { minusIcon, plusIcon, caretDownIcon, caretUpIcon, courseCard } =
     ShowFilteredCoursesClasses;
+
+  const [editingCredits, setEditingCredits] = useState<string | null>(null);
 
   const handleCourseCardClick = (event: React.MouseEvent, course: Course) => {
     const isButtonClick =
@@ -210,7 +213,10 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
           }
         );
 
-        setFilteredCourses(response.data);
+        setFilteredCourses(response.data.map((course: Course) => ({
+          ...course,
+          creditsEditable: course.sections[0].credits === "VAR"
+        })));
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -218,6 +224,23 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     fetchData();
     setOpenCourseCode(null);
   }, [debouncedSearchTerm]);
+
+  const handleCreditsChange = (courseCode: string, courseName: string, newCredits: number) => {
+    setFilteredCourses((prevCourses) =>
+      prevCourses.map((course) => {
+        if (course.code === courseCode && course.name === courseName) {
+          return {
+            ...course,
+            sections: course.sections.map((section) => ({
+              ...section,
+              credits: newCredits,
+            })),
+          };
+        }
+        return course;
+      })
+    );
+  };
 
   return (
     <div
@@ -273,8 +296,50 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                             {firstCourse.code.replace(/([A-Z]+)/g, "$1 ")}
                           </div>
                         )}
-                        <div className="text-sm font-normal text-gray-300 mr-6 h-5 mb-[0.3rem] whitespace-nowrap overflow-hidden text-overflow-ellipsis">
-                          Credits: {firstCourse.sections[0].credits}
+                        <div className="flex items-center text-sm font-normal text-gray-300 mr-2 h-5 mb-[0.3rem] whitespace-nowrap overflow-hidden text-overflow-ellipsis">
+                          Credits:{" "}
+                          {(firstCourse.creditsEditable || editingCredits === `${firstCourse.code}|${firstCourse.name}`) ? (
+                            editingCredits === `${firstCourse.code}|${firstCourse.name}` ? (
+                              <input
+                                type="number"
+                                min="0"
+                                className="credits-input ml-1"
+                                style={{
+                                  backgroundColor: '#292929',
+                                  color: 'white',
+                                  outline: 'none',
+                                  borderBottom: '1px solid #ffffff',
+                                  width: '3ch',
+                                }}
+                                onClick={(e) => e.stopPropagation()}
+                                onChange={(e) =>
+                                  handleCreditsChange(
+                                    firstCourse.code, firstCourse.name,
+                                    parseInt(e.target.value, 10)
+                                  )
+                                }
+                                onBlur={() => setEditingCredits(null)}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter") {
+                                    setEditingCredits(null);
+                                  }
+                                }}
+                              />
+                            ) : (
+                              <div className="ml-1 flex items-center">
+                                {firstCourse.sections[0].credits}
+                                <PiPencilBold
+                                  className="ml-1 cursor-pointer"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setEditingCredits(`${firstCourse.code}|${firstCourse.name}`);
+                                  }}
+                                />
+                              </div>
+                            )
+                          ) : (
+                            firstCourse.sections[0].credits
+                          )}
                         </div>
                         <div className="mx-1 h-9">
                           {isCourseSelected ? (
