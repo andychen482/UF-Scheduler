@@ -1,0 +1,6 @@
+projectKey=UFScheduler
+serverUrl=http://localhost:9000
+serverVersion=10.7.0.96327
+dashboardUrl=http://localhost:9000/dashboard?id=UFScheduler
+ceTaskId=d8cd0c4f-a9c3-438e-849a-ade38ab82dbd
+ceTaskUrl=http://localhost:9000/api/ce/task?id=d8cd0c4f-a9c3-438e-849a-ade38ab82dbd
