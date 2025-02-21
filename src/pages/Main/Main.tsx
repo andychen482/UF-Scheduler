@@ -61,6 +61,9 @@ const Main = () => {
 
   const [activeUsers, setActiveUsers] = useState<number>(0);
 
+  const [term, setTerm] = useState<string>("fall");
+  const [year, setYear] = useState<string>("25");
+
   useEffect(() => {
     setCurrentView("calendar");
   }, []);
@@ -164,6 +167,8 @@ const Main = () => {
         windowWidth={windowWidth}
         showArrow={showArrow}
         setShowArrow={setShowArrow}
+        setTerm={setTerm}
+        setYear={setYear}
       />
       <div
         className={`overlay ${isDrawerOpen ? "open" : "closed"}`}
@@ -227,6 +232,8 @@ const Main = () => {
               setLoaded={setLoaded}
               customAppointments={customAppointments}
               setCustomAppointments={setCustomAppointments}
+              term={term}
+              year={year}
             />
           </div>
           {currentView === "graph" && (
@@ -238,6 +245,8 @@ const Main = () => {
                 selectedCourses={selectedCourses}
                 selectedMajor={selectedMajor}
                 setSelectedMajor={setSelectedMajor}
+                term={term}
+                year={year}
               />
             </div>
           )}

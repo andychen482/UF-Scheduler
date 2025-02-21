@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CourseSearch from "./CourseSearch/CourseSearch";
 import ShowFilteredCourses from "./ShowFilteredCourses/ShowFilteredCourses";
 import { Course } from "../CourseUI/CourseTypes";
@@ -17,6 +17,8 @@ interface CoursesHandlerProps {
   setLoaded: React.Dispatch<React.SetStateAction<boolean>>;
   customAppointments: any[];
   setCustomAppointments: React.Dispatch<React.SetStateAction<any[]>>;
+  term: string;
+  year: string;
 }
 
 const CoursesHandler: React.FC<CoursesHandlerProps> = (
@@ -32,9 +34,13 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
     hasBeenLoaded,
     setLoaded,
     customAppointments,
-    setCustomAppointments
+    setCustomAppointments,
+    term,
+    year
   }
 ) => {
+
+  const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
 
   // Load selectedCourses from the cookie when the component mounts
   useEffect(() => {
@@ -86,12 +92,17 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
         setDebouncedSearchTerm={setDebouncedSearchTerm}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
+        searchTrigger={searchTrigger}
+        setSearchTrigger={setSearchTrigger}
       />
       <ShowFilteredCourses
         debouncedSearchTerm={debouncedSearchTerm}
         selectedCourses={selectedCourses}
         setSelectedCourses={setSelectedCourses}
         setLoaded={setLoaded}
+        term={term}
+        year={year}
+        searchTrigger={searchTrigger}
       />
     </div>
   );

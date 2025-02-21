@@ -173,3 +173,7 @@
 .gatorEmoji {
   font-size: 0.8rem;
 }
+
+.rounded-dropdown {
+  border-radius: 8px; /* Adjust the value as needed */
+}

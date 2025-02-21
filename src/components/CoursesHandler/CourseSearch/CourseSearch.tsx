@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import axios from "axios";
 import "./styles.css";
 
@@ -8,15 +8,17 @@ interface CourseSearchProps {
   setDebouncedSearchTerm: (searchTerm: string) => void;
   searchTerm: string;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  searchTrigger: boolean;
+  setSearchTrigger: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CourseSearch: React.FC<CourseSearchProps> = ({
   setDebouncedSearchTerm,
   searchTerm,
   setSearchTerm,
+  searchTrigger,
+  setSearchTrigger,
 }) => {
-  const debounceRef = useRef<NodeJS.Timeout>(); // Store the timeout reference
-
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearchTerm(value); // Update the textbox in real-time
@@ -26,6 +28,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
     if (event.key === 'Enter') {
       const value = event.currentTarget.value;
       setDebouncedSearchTerm(value);
+      setSearchTrigger(!searchTrigger);
       if (value !== "" && value.length == 8) {
         handleSearchMetrics(value);
       }

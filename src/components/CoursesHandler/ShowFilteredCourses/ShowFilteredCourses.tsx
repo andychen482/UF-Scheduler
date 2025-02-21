@@ -20,6 +20,9 @@ interface ShowFilteredCoursesProps {
   selectedCourses: Course[];
   setSelectedCourses: React.Dispatch<React.SetStateAction<Course[]>>;
   setLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  term: string;
+  year: string;
+  searchTrigger: boolean;
 }
 
 let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string;
@@ -40,6 +43,9 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   selectedCourses,
   setSelectedCourses,
   setLoaded,
+  term,
+  year,
+  searchTrigger
 }) => {
   const [openCourseCode, setOpenCourseCode] = useState<string[] | null>();
   const [courseAnimation, setCourseAnimation] = useState<{
@@ -174,6 +180,8 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
           searchTerm: debouncedSearchTerm,
           itemsPerPage: itemsPerPage,
           startFrom: records,
+          term,
+          year
         }
       );
 
@@ -200,6 +208,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   };
 
   useEffect(() => {
+    if (debouncedSearchTerm === "") return;
     const fetchData = async () => {
       try {
         const response = await axios.post(
@@ -209,6 +218,8 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
             searchTerm: debouncedSearchTerm,
             itemsPerPage: itemsPerPage,
             startFrom: 0,
+            term,
+            year
           }
         );
 
@@ -222,7 +233,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     };
     fetchData();
     setOpenCourseCode(null);
-  }, [debouncedSearchTerm]);
+  }, [searchTrigger]);
 
   const handleCreditsChange = (courseCode: string, courseName: string, newCredits: number) => {
     setFilteredCourses((prevCourses) =>

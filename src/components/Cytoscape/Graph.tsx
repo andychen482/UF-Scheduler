@@ -15,6 +15,8 @@ interface GraphProps {
   selectedCourses: Course[];
   selectedMajor: string | null;
   setSelectedMajor: React.Dispatch<React.SetStateAction<string | null>>;
+  term: string;
+  year: string;
 }
 
 cytoscape.use(klay);
@@ -26,6 +28,8 @@ const Graph: React.FC<GraphProps> = ({
   selectedCourses,
   selectedMajor,
   setSelectedMajor,
+  term,
+  year,
 }) => {
   const [graphData, setGraphData] = useState<GraphData | null>(null);
   const [loading, setLoading] = useState(false);
@@ -335,6 +339,8 @@ const Graph: React.FC<GraphProps> = ({
           // const response = await axios.post('http://localhost:5000/generate_a_list', {
           selectedMajorServ: selectedMajor,
           selectedCoursesServ: selectedCoursesServ,
+          term: term,
+          year: year,
         }
       );
 
