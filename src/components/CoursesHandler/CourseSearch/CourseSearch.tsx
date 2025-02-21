@@ -45,7 +45,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
   return (
     <input
       type="text"
-      placeholder="Search course codes (ABC 1234)..."
+      placeholder="Search (Press Enter to search)"
       id="search-input"
       value={searchTerm}
       onChange={handleSearchChange}
