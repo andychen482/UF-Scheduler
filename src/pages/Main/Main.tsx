@@ -136,7 +136,7 @@ const Main = () => {
   };
 
   return (
-    <div>
+    <div className="sora-unique">
       <div className={`chat ${isChatVisible ? "visible" : "hidden"}`}>
         <Chat
           isChatVisible={isChatVisible}

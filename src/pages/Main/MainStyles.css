@@ -1,7 +1,7 @@
-@font-face {
-  font-family: "CustomFont";
-  src: url("../../../public/fonts/Pacifico-Regular.woff") format("woff"); /* Adjust the path and format accordingly */
-  font-weight: normal;
+.sora-unique {
+  font-family: "Sora", serif;
+  font-optical-sizing: auto;
+  font-weight: 400; /* You can change this to any value between 100 and 800 */
   font-style: normal;
 }
 
@@ -616,4 +616,13 @@
     max-width: 36%;
     min-width: 36%;
   }
+}
+
+/* Add this to apply the Sora font to the scheduler */
+.dx-scheduler .dx-scheduler-appointment-title,
+.dx-scheduler .dx-scheduler-appointment-content,
+.dx-scheduler .dx-scheduler-header-panel-cell,
+.dx-scheduler .dx-scheduler-time-panel-cell,
+.dx-scheduler .dx-scheduler-date-table-cell {
+  font-family: "Sora", serif !important;
 }
