@@ -18,35 +18,18 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
   const debounceRef = useRef<NodeJS.Timeout>(); // Store the timeout reference
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = event.target.value;
-
-    // Convert the input value to uppercase
-    value = value.toUpperCase();
-
-    // Extract the prefix
-    const prefix = value.match(/[A-Z]+/)?.[0] || "";
-
-    // Remove any spaces from the input
-    const inputWithoutSpaces = value.replace(/\s/g, "");
-
-    // Format the input with a space after the prefix if it exists
-    let formattedInput = inputWithoutSpaces;
-    if (prefix.length > 0 && inputWithoutSpaces.length > prefix.length) {
-      formattedInput = prefix + " " + inputWithoutSpaces.slice(prefix.length);
-    }
-
-    setSearchTerm(formattedInput);
-
-    // Debounce search input
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-    }
-    debounceRef.current = setTimeout(() => {
-      setDebouncedSearchTerm(formattedInput);
-      if (formattedInput !== "" && formattedInput.length == 8) {
-        handleSearchMetrics(formattedInput);
+    const value = event.target.value;
+    setSearchTerm(value); // Update the textbox in real-time
+  };
+  
+  const handleSearchKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      const value = event.currentTarget.value;
+      setDebouncedSearchTerm(value);
+      if (value !== "" && value.length == 8) {
+        handleSearchMetrics(value);
       }
-    }, 200); // 300ms delay
+    }
   };
 
   const handleSearchMetrics = async (formattedInput: string) => {
@@ -66,6 +49,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
       id="search-input"
       value={searchTerm}
       onChange={handleSearchChange}
+      onKeyDown={handleSearchKeyPress}
       autoCorrect="off"
       className="px-2 py-2 text-black bg-gray-200 rounded-md placeholder-gray-500 w-[100%]"
       style={{ zIndex: 998 }}
