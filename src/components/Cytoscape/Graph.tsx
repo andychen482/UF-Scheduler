@@ -329,8 +329,8 @@ const Graph: React.FC<GraphProps> = ({
     await handleLoading(async () => {
       const selectedCoursesServ = selectedCourses.map((course) => course.code);
       const response = await axios.post(
-        // "https://api.ufscheduler.com/generate_a_list",
-        "http://localhost:5000/generate_a_list",
+        "https://api.ufscheduler.com/generate_a_list",
+        // "http://localhost:5000/generate_a_list",
         {
           // const response = await axios.post('http://localhost:5000/generate_a_list', {
           selectedMajorServ: selectedMajor,
