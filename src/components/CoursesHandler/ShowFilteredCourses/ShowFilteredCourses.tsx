@@ -162,9 +162,14 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   }, [debouncedSearchTerm]);
 
   const loadMore = async () => {
+    if (filteredCourses.length < 20) {
+      return;
+    }
+
     try {
       const response = await axios.post(
-        "https://api.ufscheduler.com/api/get_courses",
+        // "https://api.ufscheduler.com/api/get_courses",
+        "http://localhost:5000/api/get_courses",
         {
           searchTerm: debouncedSearchTerm,
           itemsPerPage: itemsPerPage,
@@ -198,7 +203,8 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          "https://api.ufscheduler.com/api/get_courses",
+          // "https://api.ufscheduler.com/api/get_courses",
+          "http://localhost:5000/api/get_courses",
           {
             searchTerm: debouncedSearchTerm,
             itemsPerPage: itemsPerPage,
