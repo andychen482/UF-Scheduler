@@ -623,6 +623,7 @@
 .Cell-dayOfWeek,
 .Cell-dayOfMonth,
 .Content-content,
-.Content-title {
+.Content-title,
+.Label-text {
   font-family: "Sora", serif !important;
 }
