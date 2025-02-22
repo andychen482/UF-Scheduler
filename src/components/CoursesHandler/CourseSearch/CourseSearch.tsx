@@ -29,7 +29,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
       const value = event.currentTarget.value;
       setDebouncedSearchTerm(value);
       setSearchTrigger(!searchTrigger);
-      if (value !== "" && value.length == 8) {
+      if (value !== "" && value.length === 8) {
         handleSearchMetrics(value);
       }
     }

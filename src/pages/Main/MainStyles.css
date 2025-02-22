@@ -619,10 +619,10 @@
 }
 
 /* Add this to apply the Sora font to the scheduler */
-.dx-scheduler .dx-scheduler-appointment-title,
-.dx-scheduler .dx-scheduler-appointment-content,
-.dx-scheduler .dx-scheduler-header-panel-cell,
-.dx-scheduler .dx-scheduler-time-panel-cell,
-.dx-scheduler .dx-scheduler-date-table-cell {
+.VerticalAppointment-content,
+.Cell-dayOfWeek,
+.Cell-dayOfMonth,
+.Content-content,
+.Content-title {
   font-family: "Sora", serif !important;
 }

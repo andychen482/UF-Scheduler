@@ -176,4 +176,5 @@
 
 .rounded-dropdown {
   border-radius: 8px; /* Adjust the value as needed */
+  text-align: center;
 }
