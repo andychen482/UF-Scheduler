@@ -11,7 +11,7 @@ const Footer = () => {
       .then((response) => response.json())
       .then((commits) => {
         if (commits && commits.length > 0) {
-          const lastCommitDate = new Date(commits[0].commit.author.date);
+          const lastCommitDate = new Date(commits[0].commit.committer.date);
           setLastUpdated(lastCommitDate);
         }
       })
