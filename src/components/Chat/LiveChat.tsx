@@ -24,8 +24,7 @@ interface UserInfo {
 interface ChatProps {
   setIsChatVisible: React.Dispatch<React.SetStateAction<boolean>>;
   isChatVisible: boolean;
-  onNewMessage: () => void; // Add this prop for new message notification
-  setHasNewMessage: React.Dispatch<React.SetStateAction<boolean>>;
+  handleNewMessage: () => void; // Add this prop for new message notification
   onActiveUsersUpdate: (count: number) => void;
 }
 
@@ -36,8 +35,7 @@ const socket: Socket = io(`https://${backendServer}`);
 const Chat: React.FC<ChatProps> = ({
   setIsChatVisible,
   isChatVisible,
-  onNewMessage,
-  setHasNewMessage,
+  handleNewMessage,
   onActiveUsersUpdate,
 }) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -45,14 +43,11 @@ const Chat: React.FC<ChatProps> = ({
   const [user, setUser] = useState<UserInfo | null>(null);
   const [username, setUsername] = useState<string>("");
   const [isUsernameSet, setIsUsernameSet] = useState<boolean>(false);
-  const [activeUsers, setActiveUsers] = useState<number>(0);
   const [lastEvaluatedKey, setLastEvaluatedKey] = useState<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatMessagesRef = useRef<HTMLDivElement>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const scrollPositionRef = useRef<number>(0);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -66,7 +61,7 @@ const Chat: React.FC<ChatProps> = ({
       const userAtBottom = isUserAtBottom();
       setMessages((prevMessages) => [...prevMessages, data]);
 
-      onNewMessage(); // Notify parent component about the new message
+      handleNewMessage(); // Notify parent component about the new message
 
       if (userAtBottom) {
         setTimeout(() => {
@@ -90,7 +85,6 @@ const Chat: React.FC<ChatProps> = ({
       if (lastEvaluatedKey === null) {
         setMessages(data.messages);
         setLastEvaluatedKey(data.lastEvaluatedKey);
-        handleLoadMessages(data.messages);
       } else {
         const { messages: newMessages, lastEvaluatedKey: newKey } = data;
         
@@ -122,23 +116,6 @@ const Chat: React.FC<ChatProps> = ({
       socket.off("load messages");
     };
   }, [lastEvaluatedKey]);
-
-  const handleLoadMessages = (data: Message[]) => {
-    const lastReadTimestamp = localStorage.getItem("lastReadTimestamp")
-      ? Date.parse(localStorage.getItem("lastReadTimestamp") as string)
-      : 0;
-    const newMessages = data.filter((message: Message) => {
-      return (
-        message.timestamp && Date.parse(message.timestamp) > lastReadTimestamp
-      );
-    });
-    if (newMessages.length > 0) {
-      setHasNewMessage(true);
-      localStorage.setItem("hasNewMessage", "true");
-      const now = new Date().toISOString();
-      localStorage.setItem("lastReadTimestamp", now);
-    }
-  };
 
   const fetchUsername = async (googleId: string) => {
     try {

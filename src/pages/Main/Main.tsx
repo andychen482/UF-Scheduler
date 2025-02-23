@@ -141,8 +141,7 @@ const Main = () => {
         <Chat
           isChatVisible={isChatVisible}
           setIsChatVisible={setIsChatVisible}
-          onNewMessage={handleNewMessage}
-          setHasNewMessage={setHasNewMessage}
+          handleNewMessage={handleNewMessage}
           onActiveUsersUpdate={handleActiveUsersUpdate}
         />
       </div>
