@@ -92,7 +92,7 @@ const Header: React.FC<HeaderProps> = ({
           <select
             value={selectedValue}
             onChange={handleTermChange}
-            className="term-year-dropdown text-black rounded-dropdown"
+            className="term-year-dropdown text-black rounded-dropdown text-base"
           >
             <option value="fall 25">Fall 25</option>
             <option value="summer 25">Summer 25</option>
@@ -192,7 +192,7 @@ const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
         )}
-        {windowWidth < 965 && windowWidth > 400 && (
+        {windowWidth < 965 && windowWidth > 500 && (
           <div className="mx-2 self-center">
             <a href="/">
               <span className="title font-semibold text-blue-500">UF</span>
@@ -202,7 +202,7 @@ const Header: React.FC<HeaderProps> = ({
             </a>
           </div>
         )}
-        {windowWidth <= 400 && (
+        {windowWidth <= 500 && (
           <div className="mx-2 self-center text-sm">
             <a href="/">
               <span className="title font-semibold text-blue-500">UF</span>

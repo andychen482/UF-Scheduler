@@ -40,7 +40,7 @@ const Footer = () => {
 
     if (differenceInMinutes < 1) return "Updated less than a minute ago";
     else if (differenceInMinutes === 1) return "Updated 1 minute ago";
-    else return `Updated ${differenceInMinutes} minutes ago`;
+    else return `Updated ${differenceInMinutes}m ago`;
   }
 
   return (
