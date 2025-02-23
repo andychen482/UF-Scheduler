@@ -5,7 +5,7 @@ const Footer = () => {
 
   function fetchLastCommitTime() {
     const url =
-      "https://api.github.com/repos/andychen482/UF-Scheduler-Backend/commits?path=courses&per_page=1";
+      "https://api.github.com/repos/andychen482/UF-Scheduler-Backend-New/commits?path=courses&per_page=1";
 
     fetch(url)
       .then((response) => response.json())
