@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import "./styles.css";
+import { FaSearch } from "react-icons/fa";
 
 let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string; 
 
@@ -46,17 +47,20 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
   };
 
   return (
-    <input
-      type="text"
-      placeholder="Search (Press Enter to Search)"
-      id="search-input"
-      value={searchTerm}
-      onChange={handleSearchChange}
-      onKeyDown={handleSearchKeyPress}
-      autoCorrect="off"
-      className="px-2 py-2 text-black bg-gray-200 rounded-md placeholder-gray-500 w-[100%]"
-      style={{ zIndex: 998 }}
-    />
+    <div className="search-container">
+      <FaSearch className="search-icon" />
+      <input
+        type="text"
+        placeholder="Search courses"
+        id="search-input"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        onKeyDown={handleSearchKeyPress}
+        autoCorrect="off"
+        className="search-input"
+        style={{ zIndex: 998 }}
+      />
+    </div>
   );
 };
 
