@@ -232,6 +232,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
         }
         else {
           setNoCoursesFound(true);
+          setFilteredCourses([]);
         }
       } catch (error) {
         console.error("Error fetching data", error);
