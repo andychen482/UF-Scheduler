@@ -746,7 +746,7 @@ const Calendar: React.FC<CalendarProps> = ({
               },
             })}
             placeholder="Sort by..."
-            className="w-[80%] mt-2"
+            className="w-[80%] mt-2 font-sans font-semibold"
             menuPortalTarget={document.body} // Append the dropdown to the body element
             styles={{
               menuPortal: (base) =>
