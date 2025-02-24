@@ -60,6 +60,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     ShowFilteredCoursesClasses;
 
   const [editingCredits, setEditingCredits] = useState<string | null>(null);
+  const [noCoursesFound, setNoCoursesFound] = useState<boolean>(false);
 
   const handleCourseCardClick = (event: React.MouseEvent, course: Course) => {
     toggleCourseDropdown(`${course.code}|${course.name}`);
@@ -222,11 +223,16 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
             year
           }
         );
-
-        setFilteredCourses(response.data.map((course: Course) => ({
-          ...course,
-          creditsEditable: course.sections[0].credits === "VAR"
-        })));
+        if (response.data.length > 0) {
+          setNoCoursesFound(false);
+          setFilteredCourses(response.data.map((course: Course) => ({
+            ...course,
+            creditsEditable: course.sections[0].credits === "VAR"
+          })));
+        }
+        else {
+          setNoCoursesFound(true);
+        }
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -461,7 +467,9 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
             );
           })
         ) : (
-          <div className="text-gray-300 fade-text-in">No courses found.</div>
+          noCoursesFound && (
+            <div className="text-gray-300 fade-text-in">No courses found.</div>
+          )
         )}
       </InfiniteScroll>
       <Tooltip id="non-online-tooltip" place="top" style={{ zIndex: 1000 }} />
