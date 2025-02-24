@@ -1,5 +1,5 @@
 import "./HeaderStyles.css";
-import { useEffect, useState, ChangeEvent } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineCalendar, AiOutlineSchedule } from "react-icons/ai";
 import { PiGraphFill } from "react-icons/pi";
 import { BiMenu } from "react-icons/bi";
@@ -38,7 +38,6 @@ const Header: React.FC<HeaderProps> = ({
   setYear,
 }) => {
   const [totalCredits, setTotalCredits] = useState(0);
-  const [selectedValue, setSelectedValue] = useState<string>("Fall 25");
 
   const handleClickingCalendar = () => {
     setShowArrow(false);
@@ -48,14 +47,6 @@ const Header: React.FC<HeaderProps> = ({
   const handleCalendarButtonClick = () => {
     calendarView();
     handleClickingCalendar();
-  };
-
-  const handleTermChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const [selectedTerm, selectedYear] = event.target.value.split(" ");
-    setSelectedValue(event.target.value);
-    setTerm(selectedTerm.toLowerCase());
-    setYear(selectedYear);
-    console.log(selectedTerm, selectedYear);
   };
 
   useEffect(() => {
@@ -89,14 +80,6 @@ const Header: React.FC<HeaderProps> = ({
           {/* <p className="flex items-center mt-1 text-base whitespace-nowrap">
             Fall 25
           </p> */}
-          <select
-            value={selectedValue}
-            onChange={handleTermChange}
-            className="term-year-dropdown text-black rounded-dropdown text-base"
-          >
-            <option value="fall 25">Fall 25</option>
-            <option value="summer 25">Summer 25</option>
-          </select>
           <a
             className="buyButton"
             target="_blank"

@@ -24,3 +24,15 @@
   color: #000;
 }
   
+.term-year-dropdown {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 7px;
+  border-radius: 0 5px 5px 0;
+  border-left: 1px solid #6d727e;
+}
+
+.term-year-dropdown:focus {
+  outline: none;
+  background-color: #e0e0e0;
+}

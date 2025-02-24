@@ -19,6 +19,8 @@ interface CoursesHandlerProps {
   setCustomAppointments: React.Dispatch<React.SetStateAction<any[]>>;
   term: string;
   year: string;
+  selectedValue: string;
+  handleTermChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const CoursesHandler: React.FC<CoursesHandlerProps> = (
@@ -36,7 +38,9 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
     customAppointments,
     setCustomAppointments,
     term,
-    year
+    year,
+    selectedValue,
+    handleTermChange
   }
 ) => {
 
@@ -94,6 +98,8 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
         setSearchTerm={setSearchTerm}
         searchTrigger={searchTrigger}
         setSearchTrigger={setSearchTrigger}
+        selectedValue={selectedValue}
+        handleTermChange={handleTermChange}
       />
       <ShowFilteredCourses
         debouncedSearchTerm={debouncedSearchTerm}

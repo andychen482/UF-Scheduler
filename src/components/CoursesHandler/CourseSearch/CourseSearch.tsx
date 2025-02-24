@@ -3,7 +3,7 @@ import axios from "axios";
 import "./styles.css";
 import { FaSearch } from "react-icons/fa";
 
-let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string; 
+let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string;
 
 interface CourseSearchProps {
   setDebouncedSearchTerm: (searchTerm: string) => void;
@@ -11,6 +11,8 @@ interface CourseSearchProps {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   searchTrigger: boolean;
   setSearchTrigger: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedValue: string;
+  handleTermChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const CourseSearch: React.FC<CourseSearchProps> = ({
@@ -19,14 +21,18 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
   setSearchTerm,
   searchTrigger,
   setSearchTrigger,
+  selectedValue,
+  handleTermChange,
 }) => {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearchTerm(value); // Update the textbox in real-time
   };
-  
-  const handleSearchKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+
+  const handleSearchKeyPress = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key === "Enter") {
       const value = event.currentTarget.value;
       setDebouncedSearchTerm(value);
       setSearchTrigger(!searchTrigger);
@@ -47,19 +53,29 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
   };
 
   return (
-    <div className="search-container">
-      <FaSearch className="search-icon" />
-      <input
-        type="text"
-        placeholder="Search courses"
-        id="search-input"
-        value={searchTerm}
-        onChange={handleSearchChange}
-        onKeyDown={handleSearchKeyPress}
-        autoCorrect="off"
-        className="search-input"
-        style={{ zIndex: 998 }}
-      />
+    <div className="flex items-center justify-between">
+      <div className="search-container flex-grow">
+        <FaSearch className="search-icon" />
+        <input
+          type="text"
+          placeholder="Search courses"
+          id="search-input"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          onKeyDown={handleSearchKeyPress}
+          autoCorrect="off"
+          className="search-input"
+          style={{ zIndex: 998 }}
+        />
+      <select
+        value={selectedValue}
+        onChange={handleTermChange}
+        className="term-year-dropdown bg-[#f0f0f0] text-base text-[#6d727e] font-sans font-semibold"
+      >
+        <option value="fall 25">Fall 25</option>
+        <option value="summer 25">Summer 25</option>
+      </select>
+      </div>
     </div>
   );
 };

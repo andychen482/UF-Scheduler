@@ -37,6 +37,8 @@ const MajorSelect: React.FC<MajorSearchProps> = ({ selectedMajor, setSelectedMaj
           menuPortal: base => ({ ...base, zIndex: 999 }) as CSSObjectWithLabel, // Adjust the z-index to a value lower than the drawer's but higher than other elements
           control: (base) => ({
             ...base,
+            boxShadow: "none", // Remove the box shadow to eliminate the thick border
+            border: "1px solid #ccc", // Optional: Customize the border style
             borderRadius: "4px",  // Adjust this value to control the border radius of the control
           }) as CSSObjectWithLabel,
         }}

@@ -746,7 +746,7 @@ const Calendar: React.FC<CalendarProps> = ({
               },
             })}
             placeholder="Sort by..."
-            className="w-[80%] mt-2 font-sans font-semibold"
+            className="sort-dropdown w-[80%] mt-2 font-sans font-semibold"
             menuPortalTarget={document.body} // Append the dropdown to the body element
             styles={{
               menuPortal: (base) =>
@@ -755,6 +755,8 @@ const Calendar: React.FC<CalendarProps> = ({
                 ({
                   ...base,
                   borderRadius: "4px", // Adjust this value to control the border radius of the control
+                  boxShadow: "none", // Remove the box shadow to eliminate the thick border
+                  border: "1px solid #ccc", // Optional: Customize the border style
                 } as CSSObjectWithLabel),
             }}
           />

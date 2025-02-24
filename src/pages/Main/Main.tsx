@@ -12,6 +12,7 @@ import MapBox from "../../components/MapBox/Map";
 import Chat from "../../components/Chat/LiveChat";
 import ModelPlan from "../../components/ModelPlan/ModelPlan";
 import Graph from "../../components/Cytoscape/Graph";
+import { ChangeEvent } from "react";
 
 const Main = () => {
   const [selectedMajor, setSelectedMajor] = useState<string | null>(() => {
@@ -63,6 +64,8 @@ const Main = () => {
 
   const [term, setTerm] = useState<string>("fall");
   const [year, setYear] = useState<string>("25");
+
+  const [selectedValue, setSelectedValue] = useState<string>("Fall 25");
 
   useEffect(() => {
     setCurrentView("calendar");
@@ -133,6 +136,14 @@ const Main = () => {
 
   const handleActiveUsersUpdate = (count: number) => {
     setActiveUsers(count);
+  };
+
+  const handleTermChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const [selectedTerm, selectedYear] = event.target.value.split(" ");
+    setSelectedValue(event.target.value);
+    setTerm(selectedTerm.toLowerCase());
+    setYear(selectedYear);
+    console.log(selectedTerm, selectedYear);
   };
 
   return (
@@ -233,6 +244,8 @@ const Main = () => {
               setCustomAppointments={setCustomAppointments}
               term={term}
               year={year}
+              selectedValue={selectedValue}
+              handleTermChange={handleTermChange}
             />
           </div>
           {currentView === "graph" && (
