@@ -53,7 +53,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between w-full">
       <div className="search-container flex-grow">
         <FaSearch className="search-icon" />
         <input

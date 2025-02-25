@@ -272,7 +272,7 @@ const Main = () => {
             </div>
           )}
           <div
-            className={`flex flex-col items-start basis-full transition-colors duration-500 overflow-y-hidden p-0 rounded-none courses-handler`}
+            className={`flex flex-col items-start basis-full dark:bg-gray-800 transition-colors duration-500 overflow-y-hidden p-0 rounded-none courses-handler`}
           >
             <CoursesHandler
               selectedCourses={selectedCourses}
