@@ -301,7 +301,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                       className="cursor-pointer"
                       onClick={(e) => handleCourseCardClick(e, firstCourse)}
                     >
-                      <div className="flex flex-row text-white dark:text-white items-center justify-evenly w-full h-6 p-1 m-0">
+                      <div className="flex flex-row text-white items-center justify-evenly w-full h-6 p-1 m-0">
                         {firstCourse.termInd !== " " &&
                         firstCourse.termInd !== "C" ? (
                           <>
@@ -428,7 +428,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                           )}
                         </div>
                       </div>
-                      <div className="text-sm font-normal text-gray-300 dark:text-white mx-1 line-clamp-2 overflow-ellipsis overflow-hidden">
+                      <div className="text-sm font-normal text-gray-300 mx-1 line-clamp-2 overflow-ellipsis overflow-hidden">
                         {firstCourse.name}
                       </div>
                     </div>

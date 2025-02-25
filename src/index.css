@@ -32,7 +32,7 @@ html, body {
   .sidebar-icon {
     @apply relative flex items-center justify-center 
     h-12 w-12 mt-2 mb-2 mx-auto  
-  bg-gray-400 hover:bg-blue-600 dark:bg-gray-800 
+  bg-gray-400 hover:bg-blue-600 
   text-blue-400 hover:text-white
     hover:rounded-xl rounded-3xl
     transition-all duration-200 ease-linear
@@ -41,26 +41,26 @@ html, body {
 
   .sidebar-tooltip {
     @apply absolute w-auto p-2 m-2 min-w-max left-14 rounded-md shadow-md
-    bg-white text-gray-900 dark:text-white dark:bg-gray-900
+    bg-white text-gray-900
     text-xs font-bold 
     transition-all duration-100 scale-0 origin-left;
   }
 
   .sidebar-hr {
-    @apply bg-gray-200 dark:bg-gray-800 
-    border border-gray-200 dark:border-gray-800 rounded-full mx-2;
+    @apply bg-gray-200 
+    border border-gray-200 rounded-full mx-2;
   }
 
   .top-navigation {
     @apply flex flex-row items-center justify-evenly 
-    bg-gray-300 dark:bg-gray-700 bg-opacity-90 
+    bg-gray-300 bg-opacity-90 
     w-full h-16 
     m-0 
     shadow-lg;
   }
 
   .sidebar {
-    @apply fixed top-0 left-0 bottom-0 bg-gray-300 dark:bg-gray-700 w-16;
+    @apply fixed top-0 left-0 bottom-0 bg-gray-300 w-16;
   }
   
   .title-text {
@@ -69,7 +69,7 @@ html, body {
   
   /* .top-navigation {
     @apply flex flex-row items-center justify-start
-    bg-gray-300 dark:bg-gray-700 bg-opacity-90
+    bg-gray-300 bg-opacity-90
     h-16
     m-0
     shadow-lg;
@@ -104,7 +104,7 @@ html, body {
 
   .search {
     @apply w-1/5 flex items-center justify-start 
-    bg-gray-400 dark:bg-gray-600
+    bg-gray-400
     text-gray-500
     px-2 h-9 ml-0 mr-0 
     rounded-md shadow-md
@@ -120,7 +120,7 @@ html, body {
 
   .content-container {
     @apply flex flex-col 
-    bg-gray-300 dark:bg-gray-700
+    bg-gray-300
     m-0 
     h-full w-full 
     overflow-hidden;
@@ -141,7 +141,7 @@ html, body {
   }
 
   .post-selected {
-    @apply bg-green-400 dark:bg-gray-900
+    @apply bg-green-400
     shadow-md;
   }
 
@@ -152,12 +152,12 @@ html, body {
   }
 
   .post-text {
-    @apply text-lg text-left text-gray-800 dark:text-white 
+    @apply text-lg text-left text-gray-800 
     mr-auto whitespace-normal;
   }
 
   .post-owner {
-    @apply text-left font-semibold text-gray-800 dark:text-white mr-2 cursor-pointer;
+    @apply text-left font-semibold text-gray-800 mr-2 cursor-pointer;
   }
 
   .avatar-wrapper {
@@ -176,7 +176,7 @@ html, body {
   }
 
   .timestamp {
-    @apply text-xs text-left font-semibold text-gray-500 dark:text-gray-600 ml-2;
+    @apply text-xs text-left font-semibold text-gray-500 ml-2;
   }
 
   @layer utilities {
@@ -189,7 +189,7 @@ html, body {
     @apply flex flex-row items-center justify-between 
     fixed left-88 right-8 bottom-2 
     rounded-lg shadow-lg 
-    bg-gray-400 dark:bg-gray-600 px-2
+    bg-gray-400 px-2
     h-12;
   }
 
@@ -197,12 +197,12 @@ html, body {
     @apply font-semibold w-full
     bg-transparent outline-none 
     ml-0 mr-auto
-    text-gray-500  dark:text-gray-400 placeholder-gray-500
+    text-gray-500  placeholder-gray-500
     cursor-text;
   }
 
   .channel-bar {
-    @apply w-80 h-auto m-0 ml-16 bg-gray-200 dark:bg-gray-800
+    @apply w-80 h-auto m-0 ml-16 bg-gray-200
      overflow-hidden;
   }
 
@@ -219,7 +219,7 @@ html, body {
 
   .channel-block-text {
     @apply text-lg tracking-wider font-bold 
-    text-gray-600 dark:text-gray-400 
+    text-gray-600 
     mr-auto ml-4 my-auto align-middle;
   }
 
@@ -255,7 +255,7 @@ html, body {
     @apply text-gray-500 font-semibold tracking-wide
     mr-auto 
     transition duration-300 ease-in-out 
-    hover:text-pink-500 dark:hover:text-gray-500
+    hover:text-pink-500:text-gray-500
     cursor-pointer;
   }
 }
@@ -275,7 +275,7 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-500 dark:bg-slate-500;
+  @apply bg-gray-500;
 }
 
 body::-webkit-scrollbar-thumb {

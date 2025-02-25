@@ -202,7 +202,7 @@ const ModelPlan: React.FC = () => {
         }
         onChange={handleMajorChange}
         placeholder="Select a major..."
-        className="mb-4 text-black bg-gray-200 placeholder-gray-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-500 w-[80%] h-8 rounded font-sans font-semibold"
+        className="mb-4 text-black bg-gray-200 placeholder-gray-500 transition-colors duration-500 w-[80%] h-8 rounded font-sans font-semibold"
         menuPortalTarget={document.body} // Append the dropdown to the body element
         styles={{
           menuPortal: (base) =>
