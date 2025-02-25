@@ -1,0 +1,50 @@
+body {
+  background: linear-gradient(135deg, #ffffff, #c3cfe2, #007bff);
+  margin: 0;
+  padding: 0;
+}
+
+.home-page {
+  color: #333;
+}
+
+.home-header {
+  background-color: transparent;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.home-main {
+  padding: 20px;
+}
+
+.features {
+  background-color: transparent;
+  padding: 40px 20px;
+}
+
+.get-started {
+  background-color: transparent;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.get-started-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.get-started-button:hover {
+  background-color: #0056b3;
+}
+
+.home-footer {
+  background-color: transparent;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}

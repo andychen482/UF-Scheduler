@@ -134,12 +134,16 @@ interface CalendarProps {
   selectedCourses: Course[];
   customAppointments: any[];
   setCustomAppointments: React.Dispatch<React.SetStateAction<any[]>>;
+  term: string;
+  year: string;
 }
 
 const Calendar: React.FC<CalendarProps> = ({
   selectedCourses,
   customAppointments,
   setCustomAppointments,
+  term,
+  year,
 }) => {
   const [currentCalendars, setCurrentCalendars] = useState<
     { appointments: any[]; combination: Section[] }[]
@@ -190,7 +194,7 @@ const Calendar: React.FC<CalendarProps> = ({
   };
   
   const [selectedCalendar, setSelectedCalendar] = useState<SelectedCalendarType>(() => {
-    const storedValue = localStorage.getItem("selectedCalendar");
+    const storedValue = localStorage.getItem(`selectedCalendar_${term}_${year}`);
     if (storedValue) {
       try {
         const parsedValue: SelectedCalendarType = JSON.parse(storedValue);
@@ -236,11 +240,45 @@ const Calendar: React.FC<CalendarProps> = ({
   useEffect(() => {
     if (selectedCalendar !== undefined) {
       localStorage.setItem(
-        "selectedCalendar",
+        `selectedCalendar_${term}_${year}`,
         JSON.stringify(selectedCalendar)
       );
     }
-  }, [selectedCalendar]);
+  }, [selectedCalendar, term, year]);
+
+  // Reset calendar when term changes
+  useEffect(() => {
+    const storedCalendar = localStorage.getItem(`selectedCalendar_${term}_${year}`);
+    if (storedCalendar) {
+      try {
+        const parsedCalendar: SelectedCalendarType = JSON.parse(storedCalendar);
+        if (
+          parsedCalendar &&
+          Array.isArray(parsedCalendar.appointments) &&
+          Array.isArray(parsedCalendar.combination)
+        ) {
+          const adjustedAppointments = adjustAppointmentsToCurrentWeek(parsedCalendar.appointments);
+          setSelectedCalendar({ 
+            appointments: adjustedAppointments, 
+            combination: parsedCalendar.combination 
+          });
+        } else {
+          setSelectedCalendar(null);
+        }
+      } catch (error) {
+        setSelectedCalendar(null);
+      }
+    } else {
+      setSelectedCalendar(null);
+    }
+    
+    // Reset state for new calendars
+    setCurrentCalendars([]);
+    setLastIndex(0);
+    setHasMoreItems(true);
+    setSelectedSortOption(null);
+    setAnimationKey(Date.now().toString());
+  }, [term, year]);
 
   // Step 1: Identify selected sections
   const getAllSelectedSections = () => {

@@ -23,6 +23,7 @@ interface ShowFilteredCoursesProps {
   term: string;
   year: string;
   searchTrigger: boolean;
+  selectedValue: string;
 }
 
 let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string;
@@ -45,7 +46,8 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   setLoaded,
   term,
   year,
-  searchTrigger
+  searchTrigger,
+  selectedValue
 }) => {
   const [openCourseCode, setOpenCourseCode] = useState<string[] | null>();
   const [courseAnimation, setCourseAnimation] = useState<{
@@ -240,7 +242,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     };
     fetchData();
     setOpenCourseCode(null);
-  }, [searchTrigger]);
+  }, [searchTrigger, selectedValue]);
 
   const handleCreditsChange = (courseCode: string, courseName: string, newCredits: number) => {
     setFilteredCourses((prevCourses) =>

@@ -23,7 +23,21 @@ const Main = () => {
       return null;
     }
   });
-  const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
+  
+  const [term, setTerm] = useState<string>("fall");
+  const [year, setYear] = useState<string>("25");
+  const [selectedValue, setSelectedValue] = useState<string>("Fall 25");
+
+  // Initialize selectedCourses based on the current term/year
+  const [selectedCourses, setSelectedCourses] = useState<Course[]>(() => {
+    const storedSelectedCourses = localStorage.getItem(`selectedCourses_${term}_${year}`);
+    if (storedSelectedCourses) {
+      return JSON.parse(storedSelectedCourses);
+    } else {
+      return [];
+    }
+  });
+  
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentView, setCurrentView] = useState<
@@ -43,7 +57,7 @@ const Main = () => {
   });
 
   const [customAppointments, setCustomAppointments] = useState<any[]>(() => {
-    const storedCustomAppointment = localStorage.getItem("customAppointments");
+    const storedCustomAppointment = localStorage.getItem(`customAppointments_${term}_${year}`);
     if (storedCustomAppointment) {
       return JSON.parse(storedCustomAppointment);
     } else {
@@ -61,11 +75,6 @@ const Main = () => {
   });
 
   const [activeUsers, setActiveUsers] = useState<number>(0);
-
-  const [term, setTerm] = useState<string>("fall");
-  const [year, setYear] = useState<string>("25");
-
-  const [selectedValue, setSelectedValue] = useState<string>("Fall 25");
 
   useEffect(() => {
     setCurrentView("calendar");
@@ -90,6 +99,18 @@ const Main = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  // Save selectedCourses when they change, using term-specific key
+  useEffect(() => {
+    if ((selectedCourses.length > 0) || hasBeenLoaded) {
+      localStorage.setItem(`selectedCourses_${term}_${year}`, JSON.stringify(selectedCourses));
+    }
+  }, [selectedCourses, hasBeenLoaded, term, year]);
+
+  // Save customAppointments when they change, using term-specific key
+  useEffect(() => {
+    localStorage.setItem(`customAppointments_${term}_${year}`, JSON.stringify(customAppointments));
+  }, [customAppointments, term, year]);
 
   const isMobile = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -140,10 +161,34 @@ const Main = () => {
 
   const handleTermChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const [selectedTerm, selectedYear] = event.target.value.split(" ");
+    const newTerm = selectedTerm.toLowerCase();
+    const newYear = selectedYear;
+    
+    // Save current state before switching terms
+    localStorage.setItem(`selectedCourses_${term}_${year}`, JSON.stringify(selectedCourses));
+    localStorage.setItem(`customAppointments_${term}_${year}`, JSON.stringify(customAppointments));
+    
+    // Update the term and year state
     setSelectedValue(event.target.value);
-    setTerm(selectedTerm.toLowerCase());
-    setYear(selectedYear);
-    console.log(selectedTerm, selectedYear);
+    setTerm(newTerm);
+    setYear(newYear);
+    
+    // Load the saved state for the new term
+    const storedSelectedCourses = localStorage.getItem(`selectedCourses_${newTerm}_${newYear}`);
+    if (storedSelectedCourses) {
+      setSelectedCourses(JSON.parse(storedSelectedCourses));
+    } else {
+      setSelectedCourses([]);
+    }
+    
+    const storedCustomAppointments = localStorage.getItem(`customAppointments_${newTerm}_${newYear}`);
+    if (storedCustomAppointments) {
+      setCustomAppointments(JSON.parse(storedCustomAppointments));
+    } else {
+      setCustomAppointments([]);
+    }
+    
+    console.log(`Switched to ${selectedTerm} ${selectedYear}`);
   };
 
   return (
@@ -268,6 +313,8 @@ const Main = () => {
                 selectedCourses={selectedCourses}
                 customAppointments={customAppointments}
                 setCustomAppointments={setCustomAppointments}
+                term={term}
+                year={year}
               />
             </div>
           )}

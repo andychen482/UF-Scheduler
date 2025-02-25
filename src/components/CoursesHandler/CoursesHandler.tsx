@@ -46,32 +46,6 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
 
   const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
 
-  // Load selectedCourses from the cookie when the component mounts
-  useEffect(() => {
-    const storedSelectedCourses = localStorage.getItem("selectedCourses");
-    if (storedSelectedCourses) {
-      setSelectedCourses(JSON.parse(storedSelectedCourses));
-    }
-  }, [setSelectedCourses]); 
-  
-  useEffect(() => {
-    if ((selectedCourses.length > 0) || hasBeenLoaded){
-      localStorage.setItem("selectedCourses", JSON.stringify(selectedCourses));
-      
-    }
-  }, [selectedCourses, hasBeenLoaded]);
-
-  useEffect(() => {
-      localStorage.setItem("customAppointments", JSON.stringify(customAppointments));
-  }, [customAppointments]);
-
-  // useEffect(() => {
-  //   const storedSelectedMajor = localStorage.getItem("selectedMajor");
-  //   if (storedSelectedMajor) {
-  //     setSelectedMajor(JSON.parse(storedSelectedMajor));
-  //   }
-  // }, [setSelectedMajor]);
-
   useEffect(() => {
     if (selectedMajor){
       localStorage.setItem("selectedMajor", selectedMajor);
@@ -109,6 +83,7 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
         term={term}
         year={year}
         searchTrigger={searchTrigger}
+        selectedValue={selectedValue}
       />
     </div>
   );

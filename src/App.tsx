@@ -6,6 +6,7 @@ import AboutPage from "./pages/About/About";
 import Fourohfour from './pages/404/404';
 import Privacy from './pages/Privacy Policy/PrivacyPolicy';
 import ReactGA from 'react-ga4';
+import HomePage from './pages/HomePage';
 
 function App() {
   const location = useLocation();
@@ -19,6 +20,8 @@ function App() {
 
   return (
     <Routes>
+      {/* <Route path="" element={<HomePage />} /> */}
+      {/* <Route path="/create" element={<Main />} /> */}
       <Route path="" element={<Main />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/privacy" element={<Privacy />} />
