@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import mapboxgl, { MapboxGeoJSONFeature } from "mapbox-gl";
 import rawCoords from "../../data/buildingCoords.json";
 import parkingInfo from "../../data/parking_polys.json";
@@ -59,7 +59,12 @@ function getContrastYIQ(hexcolor: string) {
   return yiq >= 128 ? "black" : "white";
 }
 
-const Map = () => {
+interface MapProps {
+  term: string;
+  year: string;
+}
+
+const Map: React.FC<MapProps> = ({ term, year }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const [selectedDay, setSelectedDay] = useState<string>("M"); // Example selected day, could be set based on user input
   const [transportMode, setTransportMode] = useState<string>("walking");
@@ -328,7 +333,7 @@ const Map = () => {
         if (map) map.addControl(new mapboxgl.NavigationControl(), "top-right");
 
         const selectedCalendar = JSON.parse(
-          localStorage.getItem("selectedCalendar") || "{}"
+          localStorage.getItem(`selectedCalendar_${term}_${year}`) || "{}"
         );
 
         if (!selectedCalendar || !Array.isArray(selectedCalendar.combination))
@@ -463,7 +468,7 @@ const Map = () => {
         map.remove();
       }
     };
-  }, [selectedDay, transportMode]);
+  }, [selectedDay, transportMode, term, year]);
 
   return (
     <div>

@@ -23,22 +23,26 @@ const Main = () => {
       return null;
     }
   });
-  
+
   const [term, setTerm] = useState<string>("fall");
   const [year, setYear] = useState<string>("25");
   const [selectedValue, setSelectedValue] = useState<string>("Fall 25");
-  const [calendarResetKey, setCalendarResetKey] = useState<string>(`${term}_${year}`);
+  const [calendarResetKey, setCalendarResetKey] = useState<string>(
+    `${term}_${year}`
+  );
 
   // Initialize selectedCourses based on the current term/year
   const [selectedCourses, setSelectedCourses] = useState<Course[]>(() => {
-    const storedSelectedCourses = localStorage.getItem(`selectedCourses_${term}_${year}`);
+    const storedSelectedCourses = localStorage.getItem(
+      `selectedCourses_${term}_${year}`
+    );
     if (storedSelectedCourses) {
       return JSON.parse(storedSelectedCourses);
     } else {
       return [];
     }
   });
-  
+
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentView, setCurrentView] = useState<
@@ -58,7 +62,9 @@ const Main = () => {
   });
 
   const [customAppointments, setCustomAppointments] = useState<any[]>(() => {
-    const storedCustomAppointment = localStorage.getItem(`customAppointments_${term}_${year}`);
+    const storedCustomAppointment = localStorage.getItem(
+      `customAppointments_${term}_${year}`
+    );
     if (storedCustomAppointment) {
       return JSON.parse(storedCustomAppointment);
     } else {
@@ -103,14 +109,20 @@ const Main = () => {
 
   // Save selectedCourses when they change, using term-specific key
   useEffect(() => {
-    if ((selectedCourses.length > 0) || hasBeenLoaded) {
-      localStorage.setItem(`selectedCourses_${term}_${year}`, JSON.stringify(selectedCourses));
+    if (selectedCourses.length > 0 || hasBeenLoaded) {
+      localStorage.setItem(
+        `selectedCourses_${term}_${year}`,
+        JSON.stringify(selectedCourses)
+      );
     }
   }, [selectedCourses, hasBeenLoaded, term, year]);
 
   // Save customAppointments when they change, using term-specific key
   useEffect(() => {
-    localStorage.setItem(`customAppointments_${term}_${year}`, JSON.stringify(customAppointments));
+    localStorage.setItem(
+      `customAppointments_${term}_${year}`,
+      JSON.stringify(customAppointments)
+    );
   }, [customAppointments, term, year]);
 
   const isMobile = () => {
@@ -164,34 +176,44 @@ const Main = () => {
     const [selectedTerm, selectedYear] = event.target.value.split(" ");
     const newTerm = selectedTerm.toLowerCase();
     const newYear = selectedYear;
-    
+
     // Save current state before switching terms
-    localStorage.setItem(`selectedCourses_${term}_${year}`, JSON.stringify(selectedCourses));
-    localStorage.setItem(`customAppointments_${term}_${year}`, JSON.stringify(customAppointments));
-    
+    localStorage.setItem(
+      `selectedCourses_${term}_${year}`,
+      JSON.stringify(selectedCourses)
+    );
+    localStorage.setItem(
+      `customAppointments_${term}_${year}`,
+      JSON.stringify(customAppointments)
+    );
+
     // Update the term and year state
     setSelectedValue(event.target.value);
     setTerm(newTerm);
     setYear(newYear);
-    
+
     // Create a new reset key to trigger the Calendar component to reload with the new term
     setCalendarResetKey(`${newTerm}_${newYear}`);
-    
+
     // Load the saved state for the new term
-    const storedSelectedCourses = localStorage.getItem(`selectedCourses_${newTerm}_${newYear}`);
+    const storedSelectedCourses = localStorage.getItem(
+      `selectedCourses_${newTerm}_${newYear}`
+    );
     if (storedSelectedCourses) {
       setSelectedCourses(JSON.parse(storedSelectedCourses));
     } else {
       setSelectedCourses([]);
     }
-    
-    const storedCustomAppointments = localStorage.getItem(`customAppointments_${newTerm}_${newYear}`);
+
+    const storedCustomAppointments = localStorage.getItem(
+      `customAppointments_${newTerm}_${newYear}`
+    );
     if (storedCustomAppointments) {
       setCustomAppointments(JSON.parse(storedCustomAppointments));
     } else {
       setCustomAppointments([]);
     }
-    
+
     console.log(`Switched to ${selectedTerm} ${selectedYear}`);
   };
 
@@ -326,7 +348,7 @@ const Main = () => {
           {currentView === "map" && (
             // Add the map component here
             <div className="map-container bg-[rgb(0,0,0)]">
-              <MapBox />
+              <MapBox term={term} year={year} />
             </div>
           )}
           {currentView === "plan" && (
@@ -340,7 +362,8 @@ const Main = () => {
       </div>
       <Footer />
       <div className="floating-text">
-        <div className="green-circle"></div>{activeUsers} online
+        <div className="green-circle"></div>
+        {activeUsers} online
       </div>
     </div>
   );
