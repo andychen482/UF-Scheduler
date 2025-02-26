@@ -9,6 +9,8 @@ interface CustomAppointmentProps {
   appointment?: Section;
   style?: React.CSSProperties; // Add style prop here
   setIsAppointmentFormVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  term: string; // Add term prop
+  year: string; // Add year prop
 }
 
 const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
@@ -17,6 +19,8 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
   appointment,
   style,
   setIsAppointmentFormVisible,
+  term,
+  year,
 }) => {
   const [courseName, setCourseName] = useState("");
   const classNumber = "";
@@ -32,6 +36,34 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
   const [color, setColor] = useState("#1f4da8");
   const [isFormValid, setIsFormValid] = useState(false);
   const meetBldgCode = "";
+
+  // Get semester date ranges based on term
+  const getSemesterDates = () => {
+    const currentYear = year || new Date().getFullYear().toString();
+    
+    if (term.toLowerCase().includes("fall")) {
+      return {
+        firstDay: `08/20/${currentYear}`,
+        lastDay: `12/04/${currentYear}`
+      };
+    } else if (term.toLowerCase().includes("spring")) {
+      return {
+        firstDay: `01/13/${currentYear}`,
+        lastDay: `04/23/${currentYear}`
+      };
+    } else if (term.toLowerCase().includes("summer")) {
+      return {
+        firstDay: `05/13/${currentYear}`,
+        lastDay: `08/06/${currentYear}`
+      };
+    } else {
+      // Default fallback
+      return {
+        firstDay: `01/01/${currentYear}`,
+        lastDay: `12/31/${currentYear}`
+      };
+    }
+  };
 
   useEffect(() => {
     const isValid =
@@ -66,6 +98,8 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
   };
 
   const handleAddAppointment = () => {
+    const semesterDates = getSemesterDates();
+    
     const newAppointment: Section = {
       classNumber,
       display,
@@ -92,6 +126,10 @@ const CustomAppointmentForm: React.FC<CustomAppointmentProps> = ({
         isEligible: "",
         total: 0,
       },
+      startDate: semesterDates.firstDay,
+      endDate: semesterDates.lastDay,
+      firstDay: semesterDates.firstDay,
+      lastDay: semesterDates.lastDay
     };
 
     setCustomAppointments([...customAppointments, newAppointment]);

@@ -27,6 +27,7 @@ const Main = () => {
   const [term, setTerm] = useState<string>("fall");
   const [year, setYear] = useState<string>("25");
   const [selectedValue, setSelectedValue] = useState<string>("Fall 25");
+  const [calendarResetKey, setCalendarResetKey] = useState<string>(`${term}_${year}`);
 
   // Initialize selectedCourses based on the current term/year
   const [selectedCourses, setSelectedCourses] = useState<Course[]>(() => {
@@ -173,6 +174,9 @@ const Main = () => {
     setTerm(newTerm);
     setYear(newYear);
     
+    // Create a new reset key to trigger the Calendar component to reload with the new term
+    setCalendarResetKey(`${newTerm}_${newYear}`);
+    
     // Load the saved state for the new term
     const storedSelectedCourses = localStorage.getItem(`selectedCourses_${newTerm}_${newYear}`);
     if (storedSelectedCourses) {
@@ -315,6 +319,7 @@ const Main = () => {
                 setCustomAppointments={setCustomAppointments}
                 term={term}
                 year={year}
+                key={calendarResetKey}
               />
             </div>
           )}

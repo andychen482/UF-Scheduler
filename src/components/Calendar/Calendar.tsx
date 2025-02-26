@@ -83,38 +83,65 @@ const generateICSContent = (appointments: any[]) => {
   let icsContent =
     "BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nPRODID:-//YourCompany//YourApp//EN\n";
 
-  // Mapping between the days of the week and the corresponding dates in the target week
-  const dayToDateMapping: { [key: number]: string } = {
-    0: "20250112", // Sunday
-    1: "20250113", // Monday
-    2: "20250114", // Tuesday
-    3: "20250115", // Wednesday
-    4: "20250116", // Thursday
-    5: "20250117", // Friday
-    6: "20250118", // Saturday
-  };
-
   for (let appointment of appointments) {
-    // Extract the date and time parts from the startDate and endDate
-    const startDateParts = appointment.startDate.split("T");
-    const endDateParts = appointment.endDate.split("T");
-
-    // Replace the date part with the corresponding date in the target week
-    const newStartDate =
-      dayToDateMapping[new Date(appointment.startDate).getUTCDay()] +
-      "T" +
-      startDateParts[1];
-    const newEndDate =
-      dayToDateMapping[new Date(appointment.endDate).getUTCDay()] +
-      "T" +
-      endDateParts[1];
-
+    // Parse the firstDay and lastDay dates (MM/DD/YYYY format)
+    const firstDayParts = appointment.firstDay?.split('/') || [];
+    const lastDayParts = appointment.lastDay?.split('/') || [];
+    
+    // If we don't have valid first/last day data, skip this appointment
+    if (firstDayParts.length !== 3 || lastDayParts.length !== 3) {
+      continue;
+    }
+    
+    // Create Date objects for first and last day
+    // Note: month is 0-indexed in JavaScript Date
+    const firstDay = new Date(
+      parseInt(firstDayParts[2]), // year
+      parseInt(firstDayParts[0]) - 1, // month (0-indexed)
+      parseInt(firstDayParts[1]) // day
+    );
+    
+    const lastDay = new Date(
+      parseInt(lastDayParts[2]), // year
+      parseInt(lastDayParts[0]) - 1, // month (0-indexed)
+      parseInt(lastDayParts[1]) // day
+    );
+    
+    // Get the day of week (0-6) from the startDate
+    const dayOfWeek = new Date(appointment.startDate).getDay();
+    
+    // Find the first occurrence of this day of week on or after firstDay
+    let eventStartDate = new Date(firstDay);
+    while (eventStartDate.getDay() !== dayOfWeek) {
+      eventStartDate.setDate(eventStartDate.getDate() + 1);
+    }
+    
+    // Extract time parts from startDate and endDate
+    const startTimePart = appointment.startDate.split('T')[1];
+    const endTimePart = appointment.endDate.split('T')[1];
+    
+    // Format the last day for the UNTIL part of RRULE
+    const untilDate = new Date(lastDay);
+    // Format as YYYYMMDD
+    const untilDateFormatted = untilDate.getFullYear().toString() +
+      (untilDate.getMonth() + 1).toString().padStart(2, '0') +
+      untilDate.getDate().toString().padStart(2, '0');
+    
+    // Format the event start and end dates with the correct times
+    const eventStartFormatted = eventStartDate.getFullYear().toString() +
+      (eventStartDate.getMonth() + 1).toString().padStart(2, '0') +
+      eventStartDate.getDate().toString().padStart(2, '0') +
+      'T' + startTimePart.replace(/[:-]/g, '');
+    
+    const eventEndFormatted = eventStartDate.getFullYear().toString() +
+      (eventStartDate.getMonth() + 1).toString().padStart(2, '0') +
+      eventStartDate.getDate().toString().padStart(2, '0') +
+      'T' + endTimePart.replace(/[:-]/g, '');
+    
     icsContent += "BEGIN:VEVENT\n";
-    icsContent += `DTSTART:${newStartDate.replace(/[-:]/g, "")}00\n`; // Append "00" for seconds
-    icsContent += `DTEND:${newEndDate.replace(/[-:]/g, "")}00\n`; // Append "00" for seconds
-    //wait until final exam dates are finalized
-    // icsContent += `RRULE:FREQ=WEEKLY;UNTIL=${convertToICSFormat(appointment.finalExam)}\n`
-    icsContent += "RRULE:FREQ=WEEKLY;UNTIL=20250423T115900\n";
+    icsContent += `DTSTART:${eventStartFormatted}00\n`; // Append "00" for seconds
+    icsContent += `DTEND:${eventEndFormatted}00\n`; // Append "00" for seconds
+    icsContent += `RRULE:FREQ=WEEKLY;UNTIL=${untilDateFormatted}T235959Z\n`;
     icsContent += `UID:${appointment.id.replace(" ", "")}@ufscheduler.com\n`;
     icsContent += `SUMMARY:${appointment.title}\n`;
     icsContent += `LOCATION:${appointment.location}\n`;
@@ -239,6 +266,7 @@ const Calendar: React.FC<CalendarProps> = ({
 
   useEffect(() => {
     if (selectedCalendar !== undefined) {
+      console.log(`Saving selectedCalendar for term: ${term} ${year}`);
       localStorage.setItem(
         `selectedCalendar_${term}_${year}`,
         JSON.stringify(selectedCalendar)
@@ -248,6 +276,9 @@ const Calendar: React.FC<CalendarProps> = ({
 
   // Reset calendar when term changes
   useEffect(() => {
+    console.log(`Calendar component - Loading data for term: ${term} ${year}`);
+    
+    // Load the selectedCalendar from localStorage for this term
     const storedCalendar = localStorage.getItem(`selectedCalendar_${term}_${year}`);
     if (storedCalendar) {
       try {
@@ -266,6 +297,7 @@ const Calendar: React.FC<CalendarProps> = ({
           setSelectedCalendar(null);
         }
       } catch (error) {
+        console.error("Error parsing stored calendar:", error);
         setSelectedCalendar(null);
       }
     } else {
@@ -430,6 +462,9 @@ const Calendar: React.FC<CalendarProps> = ({
 
             const location = `${building} ${room}`;
 
+            const firstDay = section.startDate;
+            const lastDay = section.endDate;
+
             // Adding the current appointment to the interval tree
             intervalTree.insert(interval);
             appointments.push({
@@ -441,6 +476,8 @@ const Calendar: React.FC<CalendarProps> = ({
               color,
               finalExam,
               location,
+              firstDay,
+              lastDay,
             });
           }
         }
@@ -575,9 +612,10 @@ const Calendar: React.FC<CalendarProps> = ({
                 appointments
               ) ? (
                 <button
-                  onClick={() =>
-                    setSelectedCalendar({ appointments, combination })
-                  }
+                  onClick={() => {
+                    console.log(`Selecting calendar for term: ${term} ${year}`);
+                    setSelectedCalendar({ appointments, combination });
+                  }}
                   style={{
                     padding: "5px",
                     fontSize: "16px",
@@ -597,7 +635,10 @@ const Calendar: React.FC<CalendarProps> = ({
                 </button>
               ) : (
                 <button
-                  onClick={() => setSelectedCalendar(null)}
+                  onClick={() => {
+                    console.log(`Deselecting calendar for term: ${term} ${year}`);
+                    setSelectedCalendar(null);
+                  }}
                   style={{
                     padding: "5px",
                     fontSize: "16px",
@@ -741,6 +782,8 @@ const Calendar: React.FC<CalendarProps> = ({
             customAppointments={customAppointments}
             setCustomAppointments={setCustomAppointments}
             setIsAppointmentFormVisible={setIsAppointmentFormVisible}
+            term={term}
+            year={year}
             style={{
               transform: "translateX(-50%)",
               position: "fixed",

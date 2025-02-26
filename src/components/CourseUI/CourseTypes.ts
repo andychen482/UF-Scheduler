@@ -27,13 +27,17 @@ export type Section = {
   color: string;
   waitList: WaitList;
   courseCode: string;
+  startDate: string;
+  endDate: string;
+  firstDay?: string; // Added for ICS calendar generation with MM/DD/YYYY format
+  lastDay?: string; // Added for ICS calendar generation with MM/DD/YYYY format
 };
 
 export type WaitList = {
   cap: number;
   isEligible: string;
   total: number;
-}
+};
 
 export type Course = {
   code: string;
