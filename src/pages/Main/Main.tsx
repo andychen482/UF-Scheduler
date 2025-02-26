@@ -56,10 +56,8 @@ const Main = () => {
     const hasClosedChat = localStorage.getItem("hasClosedChat");
     return hasClosedChat ? false : true;
   });
-  const [hasNewMessage, setHasNewMessage] = useState<boolean>(() => {
-    const hasNewMessage = localStorage.getItem("hasNewMessage");
-    return hasNewMessage === "true";
-  });
+  
+  const [hasNewMessage, setHasNewMessage] = useState<boolean>(false);
 
   const [customAppointments, setCustomAppointments] = useState<any[]>(() => {
     const storedCustomAppointment = localStorage.getItem(
@@ -99,6 +97,12 @@ const Main = () => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
+
+    // Set initial hasNewMessage state based on localStorage
+    const storedHasNewMessage = localStorage.getItem("hasNewMessage");
+    if (storedHasNewMessage === "true") {
+      setHasNewMessage(true);
+    }
 
     window.addEventListener("resize", handleResize);
 
@@ -148,16 +152,10 @@ const Main = () => {
   }, []);
 
   const handleNewMessage = () => {
-    setIsChatVisible((prevIsChatVisible) => {
-      if (!prevIsChatVisible) {
-        setHasNewMessage(true);
-        localStorage.setItem("hasNewMessage", "true");
-      } else {
-        setHasNewMessage(false);
-        localStorage.setItem("hasNewMessage", "false");
-      }
-      return prevIsChatVisible;
-    });
+    if (!isChatVisible) {
+      setHasNewMessage(true);
+      localStorage.setItem("hasNewMessage", "true");
+    }
   };
 
   const handleOpenChat = () => {

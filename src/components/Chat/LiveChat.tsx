@@ -61,7 +61,10 @@ const Chat: React.FC<ChatProps> = ({
       const userAtBottom = isUserAtBottom();
       setMessages((prevMessages) => [...prevMessages, data]);
 
-      handleNewMessage(); // Notify parent component about the new message
+      // Check if chat is visible before triggering the notification
+      if (!isChatVisible) {
+        handleNewMessage(); // Notify parent component about the new message
+      }
 
       if (userAtBottom) {
         setTimeout(() => {
@@ -78,13 +81,16 @@ const Chat: React.FC<ChatProps> = ({
       socket.off("receive message");
       socket.off("active users");
     };
-  }, []);
+  }, [isChatVisible]);
 
   useEffect(() => {
     socket.on("load messages", (data) => {
       if (lastEvaluatedKey === null) {
         setMessages(data.messages);
         setLastEvaluatedKey(data.lastEvaluatedKey);
+        
+        // Check for unread messages based on lastReadTimestamp
+        checkForUnreadMessages(data.messages);
       } else {
         const { messages: newMessages, lastEvaluatedKey: newKey } = data;
         
@@ -116,6 +122,28 @@ const Chat: React.FC<ChatProps> = ({
       socket.off("load messages");
     };
   }, [lastEvaluatedKey]);
+
+  // Function to check for unread messages
+  const checkForUnreadMessages = (messagesList: Message[]) => {
+    if (!isChatVisible && messagesList.length > 0) {
+      const lastReadTimestamp = localStorage.getItem("lastReadTimestamp");
+      
+      if (lastReadTimestamp) {
+        // Check if there are any messages newer than lastReadTimestamp
+        const hasUnreadMessages = messagesList.some(msg => {
+          if (!msg.timestamp) return false;
+          return new Date(msg.timestamp) > new Date(lastReadTimestamp);
+        });
+        
+        if (hasUnreadMessages) {
+          handleNewMessage();
+        }
+      } else {
+        // If no lastReadTimestamp, consider all messages as unread
+        handleNewMessage();
+      }
+    }
+  };
 
   const fetchUsername = async (googleId: string) => {
     try {
