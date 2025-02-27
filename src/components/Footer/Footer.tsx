@@ -38,9 +38,9 @@ const Footer = () => {
       (currentTime.getTime() - lastUpdated.getTime()) / 60000
     );
 
-    if (differenceInMinutes < 1) return "Updated less than a minute ago";
-    else if (differenceInMinutes === 1) return "Updated 1 minute ago";
-    else return `Updated ${differenceInMinutes}m ago`;
+    if (differenceInMinutes < 1) return "Scraped less than a minute ago";
+    else if (differenceInMinutes === 1) return "Scraped 1 minute ago";
+    else return `Scraped ${differenceInMinutes}m ago`;
   }
 
   return (
