@@ -72,6 +72,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
         onChange={handleTermChange}
         className="term-year-dropdown bg-[#f0f0f0] text-base text-[#6d727e] font-sans font-semibold"
       >
+        <option value="spring 26">Spring 26</option>
         <option value="fall 25">Fall 25</option>
         <option value="summer 25">Summer 25</option>
       </select>
