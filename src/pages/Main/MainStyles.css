@@ -557,6 +557,23 @@
     max-width: 52%;
     order: 3;
   }
+
+  .fullscreen-map{
+    /* fullscreen rules (keep these after the non-fullscreen block) */
+    position: fixed;
+    top: 43px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    min-height: calc(100vh - 43px);
+    box-sizing: border-box;
+    border-left: none;
+    z-index: 20000;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    overflow: hidden;
+  }
 }
 
 @media (max-width: 1000px) {

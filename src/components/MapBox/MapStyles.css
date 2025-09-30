@@ -83,6 +83,14 @@
     padding: 5px 3px;
     border-radius: 5px;
   }
+  .fullscreen-button {
+    position: absolute;
+    top: 105px;
+    padding: 3px 0px;
+    background: #fff;
+    border-radius: 5px;
+    right: 10px;
+  }
   .question-mark-button {
     position: absolute;
     bottom: 20px;

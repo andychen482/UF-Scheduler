@@ -3,7 +3,7 @@ import mapboxgl, { MapboxGeoJSONFeature } from "mapbox-gl";
 import rawCoords from "../../data/buildingCoords.json";
 import parkingInfo from "../../data/parking_polys.json";
 import scooterParking from "../../data/scooterParking.json";
-import { MdOutlinePedalBike } from "react-icons/md";
+import { MdFullscreen, MdFullscreenExit, MdOutlinePedalBike } from "react-icons/md";
 import { FaPersonWalking } from "react-icons/fa6";
 import { PiMopedFill } from "react-icons/pi";
 import "./MapStyles.css";
@@ -66,9 +66,21 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = ({ term, year }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<mapboxgl.Map | null>(null);
   const [selectedDay, setSelectedDay] = useState<string>("M"); // Example selected day, could be set based on user input
   const [transportMode, setTransportMode] = useState<string>("walking");
   const [showHelp, setShowHelp] = useState(true);
+  const [mapFullscreen, setMapFullscreen] = useState<boolean>(false);
+  const [isLargeScreen, setIsLargeScreen] = useState<boolean>(
+    typeof window !== 'undefined' ? window.innerWidth >= 1001 : false
+  );
+
+  // track screen width so we only show fullscreen button on wide screens
+  useEffect(() => {
+    const onResize = () => setIsLargeScreen(window.innerWidth >= 1001);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   // Function to fetch isochrone data and create a layer
   const fetchIsochrone = async (
@@ -81,7 +93,7 @@ const Map: React.FC<MapProps> = ({ term, year }) => {
     const response = await fetch(url);
     const data = await response.json();
 
-    if (map && data.features) {
+  if (map && data.features) {
       const sourceId = `isochrone-source-${index}`;
       const layerId = `isochrone-layer-${index}`;
       const borderLayerId = `isochrone-border-${index}`;
@@ -101,7 +113,7 @@ const Map: React.FC<MapProps> = ({ term, year }) => {
         layout: {},
         paint: {
           "fill-color": color,
-          "fill-opacity": 0.05,
+          "fill-opacity": 0.20,
         },
       });
 
@@ -149,6 +161,9 @@ const Map: React.FC<MapProps> = ({ term, year }) => {
         center: [-82.346, 29.646],
         zoom: 15.25,
       });
+
+      // store map instance in ref so other effects can access it
+      mapRef.current = map;
 
       map.on("load", function () {
         if (map) {
@@ -466,9 +481,42 @@ const Map: React.FC<MapProps> = ({ term, year }) => {
     return () => {
       if (map) {
         map.remove();
+        mapRef.current = null;
       }
     };
   }, [selectedDay, transportMode, term, year]);
+
+  // Toggle fullscreen for map container and prevent body scrolling when open
+  useEffect(() => {
+    const mappp = mapContainerRef.current;
+    const mapEl = mappp && mappp.parentElement && mappp.parentElement.parentElement;
+    if (mapEl instanceof HTMLElement) {
+      if (mapFullscreen) {
+        mapEl.classList.add('fullscreen-map');
+        mapEl.classList.remove('map-container');
+      } else {
+        mapEl.classList.remove('fullscreen-map');
+        mapEl.classList.add('map-container');
+      }
+    }
+
+    document.body.style.overflow = mapFullscreen ? 'hidden' : '';
+
+    const mapInstance = mapRef.current;
+    if (mapInstance) {
+      // Ensure Mapbox recalculates layout after CSS changes
+      requestAnimationFrame(() => mapInstance.resize());
+      const t = setTimeout(() => mapInstance.resize(), 150);
+      return () => {
+        clearTimeout(t);
+        document.body.style.overflow = '';
+      };
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mapFullscreen]);
 
   return (
     <div>
@@ -492,6 +540,32 @@ const Map: React.FC<MapProps> = ({ term, year }) => {
           </button>
         ))}
       </div>
+      {/* Fullscreen toggle button - matches style of day/transport buttons */}
+      {isLargeScreen && (
+        <div className="fullscreen-button">
+          <button
+            type="button"
+            onClick={() => setMapFullscreen((s) => !s)}
+            title={mapFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+            style={{
+              margin: "0 4px",
+              padding: "2px 1px",
+              backgroundColor: mapFullscreen ? "grey" : "initial",
+              color: mapFullscreen ? "white" : "black",
+              fontWeight: "bold",
+              borderRadius: "4px",
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.1rem'
+            }}
+          >
+            {mapFullscreen ? <MdFullscreenExit /> : <MdFullscreen />}
+          </button>
+        </div>
+      )}
       <div className="mode-selector">
         {/* <p className="text-center">Transportation</p> */}
         {["walking", "cycling", "driving"].map((mode) => (
