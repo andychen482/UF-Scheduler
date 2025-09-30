@@ -347,8 +347,8 @@ const Map: React.FC<MapProps> = ({ term, year }) => {
         combination.forEach((section: any) => {
           section.meetTimes.forEach((meet: any) => {
             if (meet.meetDays.includes(selectedDay)) {
-              if (buildingCoords.features[meet.meetBldgCode]) {
-                const buildingCode = meet.meetBldgCode;
+              const buildingCode = meet.meetBldgCode.replace(/^0+/, '');
+              if (buildingCoords.features[buildingCode]) {
                 const { Longitude, Latitude } =
                   buildingCoords.features[buildingCode].properties;
                 coords.push({
