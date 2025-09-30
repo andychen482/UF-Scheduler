@@ -74,10 +74,29 @@ const Map: React.FC<MapProps> = ({ term, year }) => {
   const [isLargeScreen, setIsLargeScreen] = useState<boolean>(
     typeof window !== 'undefined' ? window.innerWidth >= 1001 : false
   );
+  // ref to hold latest mapFullscreen to avoid stale closures in event handlers
+  const mapFullscreenRef = useRef<boolean>(mapFullscreen);
+
+  // keep ref in sync whenever mapFullscreen changes
+  useEffect(() => {
+    mapFullscreenRef.current = mapFullscreen;
+  }, [mapFullscreen]);
 
   // track screen width so we only show fullscreen button on wide screens
   useEffect(() => {
-    const onResize = () => setIsLargeScreen(window.innerWidth >= 1001);
+    const onResize = () => {
+      setIsLargeScreen(window.innerWidth >= 1001);
+      if (window.innerWidth < 1001 && mapFullscreenRef.current === true) {
+        // auto-exit fullscreen if viewport shrinks below threshold
+        setMapFullscreen(false);
+        const mappp = mapContainerRef.current;
+        const mapEl = mappp && mappp.parentElement && mappp.parentElement.parentElement;
+        if (mapEl instanceof HTMLElement) {
+          mapEl.classList.remove('fullscreen-map');
+          mapEl.classList.add('map-container');
+        }
+      }
+    };
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
