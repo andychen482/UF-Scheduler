@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import CourseSearch from "./CourseSearch/CourseSearch";
 import ShowFilteredCourses from "./ShowFilteredCourses/ShowFilteredCourses";
 import { Course } from "../CourseUI/CourseTypes";
@@ -21,6 +21,8 @@ interface CoursesHandlerProps {
   year: string;
   selectedValue: string;
   handleTermChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  searchTrigger: boolean;
+  setSearchTrigger: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CoursesHandler: React.FC<CoursesHandlerProps> = (
@@ -40,11 +42,11 @@ const CoursesHandler: React.FC<CoursesHandlerProps> = (
     term,
     year,
     selectedValue,
-    handleTermChange
+    handleTermChange,
+    searchTrigger,
+    setSearchTrigger
   }
 ) => {
-
-  const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
 
   useEffect(() => {
     if (selectedMajor){

@@ -1,6 +1,7 @@
 import React from "react";
 import { Course, Section } from "../CourseUI/CourseTypes";
 import ColorHash from "color-hash";
+import { PiTrashBold } from "react-icons/pi";
 import "./LikedSelectedStyles.css";
 
 interface LikedSelectedCoursesProps {
@@ -10,6 +11,10 @@ interface LikedSelectedCoursesProps {
   windowWidth: number;
   customAppointments: any[];
   setCustomAppointments: React.Dispatch<React.SetStateAction<any[]>>;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  setDebouncedSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  searchTrigger: boolean;
+  setSearchTrigger: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const colorHash = new ColorHash({
@@ -41,6 +46,10 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
   windowWidth,
   customAppointments,
   setCustomAppointments,
+  setSearchTerm,
+  setDebouncedSearchTerm,
+  searchTrigger,
+  setSearchTrigger,
 }) => {
   const getCourseBackgroundColor = (course: Course) => {
     const hashedColor = getHashedColor(course);
@@ -53,6 +62,15 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
   };
 
   const handleBadgeClick = (course: Course) => {
+    // Populate search box with course code and trigger search
+    const searchQuery = course.code.replace(/([A-Z]+)(\d+)/, "$1 $2");
+    setSearchTerm(searchQuery);
+    setDebouncedSearchTerm(searchQuery);
+    setSearchTrigger(!searchTrigger); // Toggle to trigger the search
+  };
+
+  const handleRemoveCourse = (e: React.MouseEvent, course: Course) => {
+    e.stopPropagation(); // Prevent triggering the parent onClick
     setSelectedCourses((prevSelectedCourses) =>
       prevSelectedCourses.filter(
         (selectedCourse) =>
@@ -63,10 +81,16 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
     setLoaded(true);
   };
 
-  const handleAppointmentBadgeClick = (section: any) => {
+  const handleAppointmentBadgeClick = (appointment: any) => {
+    // For appointments, we'll keep the current behavior of showing details (do nothing for now)
+    // Or you could populate search if needed
+  };
+
+  const handleRemoveAppointment = (e: React.MouseEvent, appointment: any) => {
+    e.stopPropagation(); // Prevent triggering the parent onClick
     setCustomAppointments((prevAppointments) =>
       prevAppointments.filter(
-        (selectedAppointment) => !(selectedAppointment === section)
+        (selectedAppointment) => !(selectedAppointment === appointment)
       )
     );
     setLoaded(true);
@@ -112,7 +136,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                     <div
                       id="badge"
                       key={index}
-                      className={`flex-1 p-[0.6rem] rounded-md mb-2 text-${getContrastYIQ(getHashedColor(course))} cursor-pointer w-full h-full overflow-hidden fade-in`}
+                      className={`flex-1 p-[0.6rem] rounded-md mb-2 text-${getContrastYIQ(getHashedColor(course))} cursor-pointer w-full h-full overflow-hidden fade-in relative`}
                       style={getCourseBackgroundColor(course)}
                       onClick={() => handleBadgeClick(course)}
                     >
@@ -144,6 +168,15 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                           </div>
                         </div>
                       </div>
+                      {/* Trash button in bottom-right */}
+                      <button
+                        onClick={(e) => handleRemoveCourse(e, course)}
+                        className="absolute bottom-2 right-0.5 p-1 hover:opacity-80 transition-opacity"
+                        style={{ color: "#A30000" }}
+                        aria-label="Remove course"
+                      >
+                        <PiTrashBold size={14} />
+                      </button>
                     </div>
                   );
                 })}
@@ -171,7 +204,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                   <div
                     id="badge"
                     key={index}
-                    className={`flex-1 p-[0.6rem] rounded-md mb-2 text-${getContrastYIQ(appointment.color)} cursor-pointer w-full h-full overflow-hidden fade-in`}
+                    className={`flex-1 p-[0.6rem] rounded-md mb-2 text-${getContrastYIQ(appointment.color)} cursor-pointer w-full h-full overflow-hidden fade-in relative`}
                     style={{ backgroundColor: appointment.color }}
                     onClick={() => handleAppointmentBadgeClick(appointment)}
                   >
@@ -203,6 +236,15 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                         </div>
                       </div>
                     </div>
+                    {/* Trash button in bottom-right */}
+                    <button
+                      onClick={(e) => handleRemoveAppointment(e, appointment)}
+                      className="absolute bottom-1 right-1 p-1 hover:opacity-80 transition-opacity"
+                      style={{ color: getContrastYIQ(appointment.color) }}
+                      aria-label="Remove appointment"
+                    >
+                      <PiTrashBold size={14} />
+                    </button>
                   </div>
                 ))}
               </div>

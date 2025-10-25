@@ -45,6 +45,7 @@ const Main = () => {
 
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
   const [currentView, setCurrentView] = useState<
     "calendar" | "graph" | "map" | "plan" | ""
   >("");
@@ -275,6 +276,10 @@ const Main = () => {
                 windowWidth={windowWidth}
                 customAppointments={customAppointments}
                 setCustomAppointments={setCustomAppointments}
+                setSearchTerm={setSearchTerm}
+                setDebouncedSearchTerm={setDebouncedSearchTerm}
+                searchTrigger={searchTrigger}
+                setSearchTrigger={setSearchTrigger}
               />
             </div>
           ) : (
@@ -292,6 +297,10 @@ const Main = () => {
                 windowWidth={windowWidth}
                 customAppointments={customAppointments}
                 setCustomAppointments={setCustomAppointments}
+                setSearchTerm={setSearchTerm}
+                setDebouncedSearchTerm={setDebouncedSearchTerm}
+                searchTrigger={searchTrigger}
+                setSearchTrigger={setSearchTrigger}
               />
             </div>
           )}
@@ -315,6 +324,8 @@ const Main = () => {
               year={year}
               selectedValue={selectedValue}
               handleTermChange={handleTermChange}
+              searchTrigger={searchTrigger}
+              setSearchTrigger={setSearchTrigger}
             />
           </div>
           {currentView === "graph" && (
