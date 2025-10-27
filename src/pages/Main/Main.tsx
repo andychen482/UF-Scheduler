@@ -256,7 +256,7 @@ const Main = () => {
       ></div>
       <div className="content-wrapper">
         <div className="flex flexImage course-display bg-[rgb(0,0,0)]">
-          {windowWidth < 1001 ? (
+          {windowWidth < 1001 && (
             <div
               className={`drawer overflow-y-auto ${
                 isDrawerOpen ? "" : "closed"
@@ -269,27 +269,6 @@ const Main = () => {
                 <IoClose className="mt-1 text-white" size={18} />
               </button>
 
-              <LikedSelectedCourses
-                selectedCourses={selectedCourses}
-                setSelectedCourses={setSelectedCourses}
-                setLoaded={setLoaded}
-                windowWidth={windowWidth}
-                customAppointments={customAppointments}
-                setCustomAppointments={setCustomAppointments}
-                setSearchTerm={setSearchTerm}
-                setDebouncedSearchTerm={setDebouncedSearchTerm}
-                searchTrigger={searchTrigger}
-                setSearchTrigger={setSearchTrigger}
-              />
-            </div>
-          ) : (
-            <div
-              className="selected-courses overflow-y-auto"
-              style={{
-                height: "calc(100vh - 43px)",
-                background: "rgb(0,0,0)",
-              }}
-            >
               <LikedSelectedCourses
                 selectedCourses={selectedCourses}
                 setSelectedCourses={setSelectedCourses}
@@ -328,6 +307,28 @@ const Main = () => {
               setSearchTrigger={setSearchTrigger}
             />
           </div>
+          {windowWidth > 1000 && (
+            <div
+              className="selected-courses overflow-y-auto"
+              style={{
+                height: "calc(100vh - 43px)",
+                background: "rgb(0,0,0)",
+              }}
+            >
+              <LikedSelectedCourses
+                selectedCourses={selectedCourses}
+                setSelectedCourses={setSelectedCourses}
+                setLoaded={setLoaded}
+                windowWidth={windowWidth}
+                customAppointments={customAppointments}
+                setCustomAppointments={setCustomAppointments}
+                setSearchTerm={setSearchTerm}
+                setDebouncedSearchTerm={setDebouncedSearchTerm}
+                searchTrigger={searchTrigger}
+                setSearchTrigger={setSearchTrigger}
+              />
+            </div>
+          )}
           {currentView === "graph" && (
             <div id="display-write">
               <Graph

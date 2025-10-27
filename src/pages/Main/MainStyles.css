@@ -333,7 +333,7 @@
   .selected-courses {
     max-width: 12%;
     min-width: 12%;
-    border-right: 0.5px solid #a9a9a9;
+    border-left: 0.5px solid #a9a9a9;
   }
 
   #display-write {
