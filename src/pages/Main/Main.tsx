@@ -152,12 +152,12 @@ const Main = () => {
     setCurrentView("plan");
   }, []);
 
-  const handleNewMessage = () => {
+  const handleNewMessage = useCallback(() => {
     if (!isChatVisible) {
       setHasNewMessage(true);
       localStorage.setItem("hasNewMessage", "true");
     }
-  };
+  }, [isChatVisible]);
 
   const handleOpenChat = () => {
     setIsChatVisible(true);
@@ -167,9 +167,9 @@ const Main = () => {
     localStorage.setItem("lastReadTimestamp", now);
   };
 
-  const handleActiveUsersUpdate = (count: number) => {
+  const handleActiveUsersUpdate = useCallback((count: number) => {
     setActiveUsers(count);
-  };
+  }, []);
 
   const handleTermChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const [selectedTerm, selectedYear] = event.target.value.split(" ");

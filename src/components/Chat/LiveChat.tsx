@@ -56,14 +56,18 @@ const Chat: React.FC<ChatProps> = ({
       setUser(userInfo);
       fetchUsername(userInfo.sub);
     }
+  }, []);
 
-    socket.on("receive message", (data: Message) => {
+  useEffect(() => {
+    const handleReceiveMessage = (data: Message) => {
       const userAtBottom = isUserAtBottom();
       setMessages((prevMessages) => [...prevMessages, data]);
 
-      // Check if chat is visible before triggering the notification
-      if (!isChatVisible) {
-        handleNewMessage(); // Notify parent component about the new message
+      // Only notify about new messages if:
+      // 1. Chat is not visible
+      // 2. The message is NOT from the current user (avoid badge for own messages)
+      if (!isChatVisible && data.user !== username) {
+        handleNewMessage();
       }
 
       if (userAtBottom) {
@@ -71,17 +75,20 @@ const Chat: React.FC<ChatProps> = ({
           scrollToBottom();
         }, 50);
       }
-    });
+    };
 
-    socket.on("active users", (data: { activeUsers: number }) => {
+    const handleActiveUsers = (data: { activeUsers: number }) => {
       onActiveUsersUpdate(data.activeUsers);
-    });
+    };
+
+    socket.on("receive message", handleReceiveMessage);
+    socket.on("active users", handleActiveUsers);
 
     return () => {
-      socket.off("receive message");
-      socket.off("active users");
+      socket.off("receive message", handleReceiveMessage);
+      socket.off("active users", handleActiveUsers);
     };
-  }, [isChatVisible]);
+  }, [isChatVisible, username, handleNewMessage, onActiveUsersUpdate]);
 
   useEffect(() => {
     socket.on("load messages", (data) => {
@@ -282,6 +289,10 @@ const Chat: React.FC<ChatProps> = ({
   const handleToggleChat = () => {
     setIsChatVisible(false);
     localStorage.setItem("hasClosedChat", "true");
+    // Update lastReadTimestamp when closing chat to prevent badge from showing
+    // for messages that were already visible
+    const now = new Date().toISOString();
+    localStorage.setItem("lastReadTimestamp", now);
   };
 
   useEffect(() => {
