@@ -11,7 +11,7 @@ const GoogleAuth: React.FC<GoogleAuthProps> = ({ onSuccess }) => {
       <GoogleLogin
         onSuccess={onSuccess}
         onError={() => {
-          console.log('Login Failed');
+          // Login failed silently
         }}
         width={228}
         theme="outline"

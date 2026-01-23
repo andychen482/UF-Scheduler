@@ -266,7 +266,6 @@ const Calendar: React.FC<CalendarProps> = ({
 
   useEffect(() => {
     if (selectedCalendar !== undefined) {
-      console.log(`Saving selectedCalendar for term: ${term} ${year}`);
       localStorage.setItem(
         `selectedCalendar_${term}_${year}`,
         JSON.stringify(selectedCalendar)
@@ -276,8 +275,6 @@ const Calendar: React.FC<CalendarProps> = ({
 
   // Reset calendar when term changes
   useEffect(() => {
-    console.log(`Calendar component - Loading data for term: ${term} ${year}`);
-    
     // Load the selectedCalendar from localStorage for this term
     const storedCalendar = localStorage.getItem(`selectedCalendar_${term}_${year}`);
     if (storedCalendar) {
@@ -297,7 +294,6 @@ const Calendar: React.FC<CalendarProps> = ({
           setSelectedCalendar(null);
         }
       } catch (error) {
-        console.error("Error parsing stored calendar:", error);
         setSelectedCalendar(null);
       }
     } else {
@@ -613,7 +609,6 @@ const Calendar: React.FC<CalendarProps> = ({
               ) ? (
                 <button
                   onClick={() => {
-                    console.log(`Selecting calendar for term: ${term} ${year}`);
                     setSelectedCalendar({ appointments, combination });
                   }}
                   style={{
@@ -636,7 +631,6 @@ const Calendar: React.FC<CalendarProps> = ({
               ) : (
                 <button
                   onClick={() => {
-                    console.log(`Deselecting calendar for term: ${term} ${year}`);
                     setSelectedCalendar(null);
                   }}
                   style={{

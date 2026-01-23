@@ -4,6 +4,7 @@ import GoogleAuth from "./GoogleSignIn";
 import { CredentialResponse } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { IoClose, IoSend } from "react-icons/io5";
+import { getSocketUrl, BACKEND_URLS } from "../../config/api";
 import "./Chat.css";
 
 interface Message {
@@ -28,9 +29,7 @@ interface ChatProps {
   onActiveUsersUpdate: (count: number) => void;
 }
 
-let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string;
-
-const socket: Socket = io(`https://${backendServer}`);
+const socket: Socket = io(getSocketUrl());
 
 const Chat: React.FC<ChatProps> = ({
   setIsChatVisible,
@@ -155,7 +154,7 @@ const Chat: React.FC<ChatProps> = ({
   const fetchUsername = async (googleId: string) => {
     try {
       const response = await fetch(
-        `https://${backendServer}/username/${googleId}`
+        `${BACKEND_URLS.GET_USERNAME}/${googleId}`
       );
       const data = await response.json();
       if (data.username) {
@@ -163,7 +162,7 @@ const Chat: React.FC<ChatProps> = ({
         setIsUsernameSet(true);
       }
     } catch (error) {
-      console.error("Error fetching username:", error);
+      // Username fetch failed silently
     }
   };
 
@@ -191,7 +190,7 @@ const Chat: React.FC<ChatProps> = ({
   const handleUsernameSubmit = async () => {
     if (username.trim() && user) {
       try {
-        const response = await fetch(`https://${backendServer}/set-username`, {
+        const response = await fetch(BACKEND_URLS.SET_USERNAME, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -212,7 +211,7 @@ const Chat: React.FC<ChatProps> = ({
           alert(result.error); // Display an error message to the user
         }
       } catch (error) {
-        console.error("Error setting username:", error);
+        // Username set failed silently
       }
     }
   };

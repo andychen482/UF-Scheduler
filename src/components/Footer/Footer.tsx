@@ -15,7 +15,7 @@ const Footer = () => {
           setLastUpdated(lastCommitDate);
         }
       })
-      .catch((error) => console.error("Error fetching commit data: ", error));
+      .catch(() => { /* Commit data fetch failed silently */ });
   }
 
   useEffect(() => {

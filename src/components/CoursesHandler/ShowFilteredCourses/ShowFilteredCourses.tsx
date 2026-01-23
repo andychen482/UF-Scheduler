@@ -14,6 +14,7 @@ import {
 } from "react-icons/pi";
 import { Tooltip } from 'react-tooltip';
 import "./ShowFilteredCourses.css";
+import { API_URLS, BACKEND_URLS } from "../../../config/api";
 
 interface ShowFilteredCoursesProps {
   debouncedSearchTerm: string;
@@ -25,8 +26,6 @@ interface ShowFilteredCoursesProps {
   searchTrigger: boolean;
   selectedValue: string;
 }
-
-let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string;
 
 const groupByCourseCodeAndName = (courses: Course[]) => {
   return courses.reduce((grouped: { [key: string]: Course[] }, course) => {
@@ -176,22 +175,18 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     }
 
     try {
-      const response = await axios.post(
-        "https://api.ufscheduler.com/api/get_courses",
-        // "http://localhost:5000/api/get_courses",
-        {
-          searchTerm: debouncedSearchTerm,
-          itemsPerPage: itemsPerPage,
-          startFrom: records,
-          term,
-          year
-        }
-      );
+      const response = await axios.post(API_URLS.GET_COURSES, {
+        searchTerm: debouncedSearchTerm,
+        itemsPerPage: itemsPerPage,
+        startFrom: records,
+        term,
+        year
+      });
 
       setFilteredCourses((prevCourses) => [...prevCourses, ...response.data]);
       setRecords(records + itemsPerPage);
     } catch (error) {
-      console.error("Error loading more data", error);
+      // Data load failed silently
     }
 
     if (records >= 2 * itemsPerPage + filteredCourses.length) {
@@ -201,12 +196,12 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
 
   const sendCourseMetrics = async (course: Course) => {
     try {
-      await axios.post(`https://${backendServer}/course`, {
+      await axios.post(BACKEND_URLS.COURSE_METRICS, {
         code: course.code,
         name: course.name,
       });
     } catch (error) {
-      console.error("Error sending course metrics", error);
+      // Metrics send failed silently
     }
   };
 
@@ -214,17 +209,13 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     if (debouncedSearchTerm === "") return;
     const fetchData = async () => {
       try {
-        const response = await axios.post(
-          "https://api.ufscheduler.com/api/get_courses",
-          // "http://localhost:5000/api/get_courses",
-          {
-            searchTerm: debouncedSearchTerm,
-            itemsPerPage: itemsPerPage,
-            startFrom: 0,
-            term,
-            year
-          }
-        );
+        const response = await axios.post(API_URLS.GET_COURSES, {
+          searchTerm: debouncedSearchTerm,
+          itemsPerPage: itemsPerPage,
+          startFrom: 0,
+          term,
+          year
+        });
         if (response.data.length > 0) {
           setNoCoursesFound(false);
           setFilteredCourses(response.data.map((course: Course) => ({
@@ -237,7 +228,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
           setFilteredCourses([]);
         }
       } catch (error) {
-        console.error("Error fetching data", error);
+        // Data fetch failed silently
       }
     };
     fetchData();

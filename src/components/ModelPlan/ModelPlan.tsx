@@ -6,7 +6,7 @@ import Select, { CSSObjectWithLabel } from "react-select";
 import "./planStyles.css";
 import axios from "axios";
 
-let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string;
+import { BACKEND_URLS } from "../../config/api";
 
 const ModelPlan: React.FC = () => {
   const [selectedMajor, setSelectedMajor] = useState<string>("");
@@ -33,11 +33,11 @@ const ModelPlan: React.FC = () => {
 
   const sendMajorMetrics = async (major: string) => {
     try {
-      await axios.post(`https://${backendServer}/major`, {
+      await axios.post(BACKEND_URLS.MAJOR_METRICS, {
         major: major,
       });
     } catch (error) {
-      console.error("Error sending major metrics", error);
+      // Metrics send failed silently
     }
   };
 

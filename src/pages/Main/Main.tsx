@@ -213,7 +213,6 @@ const Main = () => {
       setCustomAppointments([]);
     }
 
-    console.log(`Switched to ${selectedTerm} ${selectedYear}`);
   };
 
   return (

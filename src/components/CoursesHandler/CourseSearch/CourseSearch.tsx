@@ -3,7 +3,7 @@ import axios from "axios";
 import "./styles.css";
 import { FaSearch } from "react-icons/fa";
 
-let backendServer = process.env.REACT_APP_BACKEND_SERVER_IP as string;
+import { BACKEND_URLS } from "../../../config/api";
 
 interface CourseSearchProps {
   setDebouncedSearchTerm: (searchTerm: string) => void;
@@ -44,11 +44,11 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
 
   const handleSearchMetrics = async (formattedInput: string) => {
     try {
-      await axios.post(`https://${backendServer}/search`, {
+      await axios.post(BACKEND_URLS.SEARCH_METRICS, {
         searchTerm: formattedInput,
       });
     } catch (error) {
-      console.error("Error sending search metrics", error);
+      // Metrics send failed silently
     }
   };
 
