@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import mapboxgl, { MapboxGeoJSONFeature } from "mapbox-gl";
 import rawCoords from "../../data/buildingCoords.json";
 import parkingInfo from "../../data/parking_polys.json";
@@ -42,6 +42,13 @@ type coordsProps = {
   color: string;
 };
 
+// Track active isochrone layers for refetching on transport mode change
+interface ActiveIsochrone {
+  coord: coordsProps;
+  index: number;
+  color: string;
+}
+
 function convert24to12(time: string, num: number) {
   const [hours, minutes] = time.split(":").map(Number);
   const suffix = hours < 12 ? "AM" : "PM";
@@ -67,6 +74,10 @@ interface MapProps {
 const Map: React.FC<MapProps> = ({ term, year }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
+  const markersRef = useRef<mapboxgl.Marker[]>([]);
+  const popupsRef = useRef<mapboxgl.Popup[]>([]);
+  const activeIsochronesRef = useRef<ActiveIsochrone[]>([]);
+  const mapLoadedRef = useRef<boolean>(false);
   const [selectedDay, setSelectedDay] = useState<string>("M"); // Example selected day, could be set based on user input
   const [transportMode, setTransportMode] = useState<string>("walking");
   const [showHelp, setShowHelp] = useState(true);
@@ -76,11 +87,18 @@ const Map: React.FC<MapProps> = ({ term, year }) => {
   );
   // ref to hold latest mapFullscreen to avoid stale closures in event handlers
   const mapFullscreenRef = useRef<boolean>(mapFullscreen);
+  // ref to hold latest transportMode for use in callbacks
+  const transportModeRef = useRef<string>(transportMode);
 
   // keep ref in sync whenever mapFullscreen changes
   useEffect(() => {
     mapFullscreenRef.current = mapFullscreen;
   }, [mapFullscreen]);
+
+  // keep transport mode ref in sync
+  useEffect(() => {
+    transportModeRef.current = transportMode;
+  }, [transportMode]);
 
   // track screen width so we only show fullscreen button on wide screens
   useEffect(() => {
@@ -101,22 +119,39 @@ const Map: React.FC<MapProps> = ({ term, year }) => {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
+  // Helper to remove isochrone layers and source for a given index
+  const removeIsochroneLayers = useCallback((map: mapboxgl.Map, index: number) => {
+    const sourceId = `isochrone-source-${index}`;
+    const layerId = `isochrone-layer-${index}`;
+    const borderLayerId = `isochrone-border-${index}`;
+    const borderLabelId = `isochrone-label-${index}`;
+
+    if (map.getLayer(borderLabelId)) map.removeLayer(borderLabelId);
+    if (map.getLayer(borderLayerId)) map.removeLayer(borderLayerId);
+    if (map.getLayer(layerId)) map.removeLayer(layerId);
+    if (map.getSource(sourceId)) map.removeSource(sourceId);
+  }, []);
+
   // Function to fetch isochrone data and create a layer
-  const fetchIsochrone = async (
+  const fetchIsochrone = useCallback(async (
     map: mapboxgl.Map,
     coord: coordsProps,
     index: number,
-    color: string
+    color: string,
+    mode: string
   ) => {
-    const url = `https://api.mapbox.com/isochrone/v1/mapbox/${transportMode}/${coord.location.longitude},${coord.location.latitude}?contours_minutes=15&polygons=true&access_token=${mapboxgl.accessToken}`;
+    const url = `https://api.mapbox.com/isochrone/v1/mapbox/${mode}/${coord.location.longitude},${coord.location.latitude}?contours_minutes=15&polygons=true&access_token=${mapboxgl.accessToken}`;
     const response = await fetch(url);
     const data = await response.json();
 
-  if (map && data.features) {
+    if (map && data.features) {
       const sourceId = `isochrone-source-${index}`;
       const layerId = `isochrone-layer-${index}`;
       const borderLayerId = `isochrone-border-${index}`;
       const borderLabelId = `isochrone-label-${index}`;
+
+      // Remove existing layers/source if they exist (for updates)
+      removeIsochroneLayers(map, index);
 
       // Add source for isochrone
       map.addSource(sourceId, {
@@ -167,11 +202,175 @@ const Map: React.FC<MapProps> = ({ term, year }) => {
         },
       });
     }
-  };
+  }, [removeIsochroneLayers]);
 
-  // Initialize map when component mounts
+  // Helper to clear all markers, popups and isochrone layers
+  const clearMarkersAndIsochrones = useCallback(() => {
+    const map = mapRef.current;
+    
+    // Remove all markers
+    markersRef.current.forEach(marker => marker.remove());
+    markersRef.current = [];
+    
+    // Remove all popups
+    popupsRef.current.forEach(popup => popup.remove());
+    popupsRef.current = [];
+    
+    // Remove all isochrone layers
+    if (map) {
+      activeIsochronesRef.current.forEach((_, index) => {
+        removeIsochroneLayers(map, index);
+      });
+    }
+    activeIsochronesRef.current = [];
+  }, [removeIsochroneLayers]);
+
+  // Helper to add markers for a given day
+  const addMarkersForDay = useCallback((map: mapboxgl.Map, day: string) => {
+    const selectedCalendar = JSON.parse(
+      localStorage.getItem(`selectedCalendar_${term}_${year}`) || "{}"
+    );
+
+    if (!selectedCalendar || !Array.isArray(selectedCalendar.combination))
+      return;
+
+    const { combination } = selectedCalendar;
+
+    const coords: coordsProps[] = [];
+
+    // Filter and create markers based on the selected day
+    combination.forEach((section: any) => {
+      section.meetTimes.forEach((meet: any) => {
+        if (meet.meetDays.includes(day)) {
+          const buildingCode = meet.meetBldgCode.replace(/^0+/, '');
+          if (buildingCoords.features[buildingCode]) {
+            const { Longitude, Latitude } =
+              buildingCoords.features[buildingCode].properties;
+            coords.push({
+              name:
+                section.courseCode +
+                " " +
+                convert24to12(meet.meetTimeBegin, 0) +
+                " - " +
+                convert24to12(meet.meetTimeEnd, 1),
+              location: { longitude: Longitude, latitude: Latitude },
+              color: section.color,
+            });
+          }
+        }
+      });
+    });
+
+    // Merge coordinates with identical locations
+    const mergedCoords = coords.reduce((acc: coordsProps[], current) => {
+      const found = acc.find(
+        (item) =>
+          item.location.longitude === current.location.longitude &&
+          item.location.latitude === current.location.latitude
+      );
+      if (found) {
+        found.name += `\n${current.name}`;
+      } else {
+        acc.push(current);
+      }
+      return acc;
+    }, []);
+
+    mergedCoords.forEach((coord, index) => {
+      const el = document.createElement("div");
+      el.className = "marker";
+      el.innerHTML = `<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="map-pin" class="svg-inline--fa fa-map-pin pin-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 180"><path fill="${coord.color}" shape-rendering="geometricPrecision" d="M136,127.42V232a8,8,0,0,1-16,0V127.42a56,56,0,1,1,16,0Z"></path></svg>`;
+      el.style.width = "50px";
+      el.style.height = "50px";
+      (el.children[0] as HTMLElement).style.stroke = "black";
+      (el.children[0] as HTMLElement).style.strokeWidth = "4px";
+
+      const popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false,
+        offset: 25,
+        className: "custom-popup",
+      })
+        .setText(coord.name)
+        .setHTML(coord.name.replace(/\n/g, "<br/>")); // Replace newline characters with HTML line breaks
+
+      const marker = new mapboxgl.Marker(el, {
+        offset: [-4, -15],
+      })
+        .setLngLat([coord.location.longitude, coord.location.latitude])
+        .setPopup(popup)
+        .addTo(map);
+
+      markersRef.current.push(marker);
+      popupsRef.current.push(popup);
+
+      const layerId = `isochrone-layer-${index}`;
+
+      // Adding the click event to the marker
+      el.addEventListener("click", () => {
+        if (map) {
+          if (map.getLayer(layerId)) {
+            // Toggle visibility of the existing layer
+            const visibility = map.getLayoutProperty(layerId, "visibility");
+            if (visibility === "visible" || !visibility) {
+              map.setLayoutProperty(layerId, "visibility", "none");
+              map.setLayoutProperty(
+                `isochrone-border-${index}`,
+                "visibility",
+                "none"
+              );
+              map.setLayoutProperty(
+                `isochrone-label-${index}`,
+                "visibility",
+                "none"
+              );
+              (el.children[0] as HTMLElement).style.stroke = "black";
+              (el.children[0] as HTMLElement).style.strokeWidth = "4px";
+              // Remove from active isochrones
+              activeIsochronesRef.current = activeIsochronesRef.current.filter(
+                iso => iso.index !== index
+              );
+            } else {
+              map.setLayoutProperty(layerId, "visibility", "visible");
+              map.setLayoutProperty(
+                `isochrone-border-${index}`,
+                "visibility",
+                "visible"
+              );
+              map.setLayoutProperty(
+                `isochrone-label-${index}`,
+                "visibility",
+                "visible"
+              );
+              (el.children[0] as HTMLElement).style.stroke = "white";
+              (el.children[0] as HTMLElement).style.strokeWidth = "10px";
+              // Add to active isochrones if not already there
+              if (!activeIsochronesRef.current.find(iso => iso.index === index)) {
+                activeIsochronesRef.current.push({ coord, index, color: coord.color });
+              }
+            }
+          } else {
+            // Fetch and display new isochrone using current transport mode
+            fetchIsochrone(map, coord, index, coord.color, transportModeRef.current);
+            (el.children[0] as HTMLElement).style.stroke = "white";
+            (el.children[0] as HTMLElement).style.strokeWidth = "10px";
+            // Track this isochrone as active
+            activeIsochronesRef.current.push({ coord, index, color: coord.color });
+          }
+        }
+        popup.remove();
+      });
+
+      popup
+        .setLngLat([coord.location.longitude, coord.location.latitude])
+        .addTo(map);
+    });
+  }, [term, year, fetchIsochrone]);
+
+  // Initialize map when component mounts or term/year changes
   useEffect(() => {
     let map: mapboxgl.Map | null = null;
+    mapLoadedRef.current = false;
 
     if (mapContainerRef.current) {
       map = new mapboxgl.Map({
@@ -366,143 +565,52 @@ const Map: React.FC<MapProps> = ({ term, year }) => {
 
         if (map) map.addControl(new mapboxgl.NavigationControl(), "top-right");
 
-        const selectedCalendar = JSON.parse(
-          localStorage.getItem(`selectedCalendar_${term}_${year}`) || "{}"
-        );
+        // Mark map as loaded so marker effect can run
+        mapLoadedRef.current = true;
 
-        if (!selectedCalendar || !Array.isArray(selectedCalendar.combination))
-          return;
-
-        const { combination } = selectedCalendar;
-
-        const coords: coordsProps[] = [];
-
-        // Filter and create markers based on the selected day
-        combination.forEach((section: any) => {
-          section.meetTimes.forEach((meet: any) => {
-            if (meet.meetDays.includes(selectedDay)) {
-              const buildingCode = meet.meetBldgCode.replace(/^0+/, '');
-              if (buildingCoords.features[buildingCode]) {
-                const { Longitude, Latitude } =
-                  buildingCoords.features[buildingCode].properties;
-                coords.push({
-                  name:
-                    section.courseCode +
-                    " " +
-                    convert24to12(meet.meetTimeBegin, 0) +
-                    " - " +
-                    convert24to12(meet.meetTimeEnd, 1),
-                  location: { longitude: Longitude, latitude: Latitude },
-                  color: section.color,
-                });
-              }
-            }
-          });
-        });
-
-        // Merge coordinates with identical locations
-        const mergedCoords = coords.reduce((acc: coordsProps[], current) => {
-          const found = acc.find(
-            (item) =>
-              item.location.longitude === current.location.longitude &&
-              item.location.latitude === current.location.latitude
-          );
-          if (found) {
-            found.name += `\n${current.name}`;
-          } else {
-            acc.push(current);
-          }
-          return acc;
-        }, []);
-
-        mergedCoords.forEach((coord, index) => {
-          const el = document.createElement("div");
-          el.className = "marker";
-          el.innerHTML = `<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="map-pin" class="svg-inline--fa fa-map-pin pin-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 180"><path fill="${coord.color}" shape-rendering="geometricPrecision" d="M136,127.42V232a8,8,0,0,1-16,0V127.42a56,56,0,1,1,16,0Z"></path></svg>`;
-          el.style.width = "50px";
-          el.style.height = "50px";
-          (el.children[0] as HTMLElement).style.stroke = "black";
-          (el.children[0] as HTMLElement).style.strokeWidth = "4px";
-
-          const popup = new mapboxgl.Popup({
-            closeButton: false,
-            closeOnClick: false,
-            offset: 25,
-            className: "custom-popup",
-          })
-            .setText(coord.name)
-            .setHTML(coord.name.replace(/\n/g, "<br/>")); // Replace newline characters with HTML line breaks
-
-          new mapboxgl.Marker(el, {
-            offset: [-4, -15],
-          })
-            .setLngLat([coord.location.longitude, coord.location.latitude])
-            .setPopup(popup)
-            .addTo(map!);
-
-          const layerId = `isochrone-layer-${index}`;
-
-          // Adding the click event to the marker
-          el.addEventListener("click", () => {
-            if (map) {
-              if (map.getLayer(layerId)) {
-                // Toggle visibility of the existing layer
-                const visibility = map.getLayoutProperty(layerId, "visibility");
-                if (visibility === "visible" || !visibility) {
-                  map.setLayoutProperty(layerId, "visibility", "none");
-                  map.setLayoutProperty(
-                    `isochrone-border-${index}`,
-                    "visibility",
-                    "none"
-                  );
-                  map.setLayoutProperty(
-                    `isochrone-label-${index}`,
-                    "visibility",
-                    "none"
-                  );
-                  (el.children[0] as HTMLElement).style.stroke = "black";
-                  (el.children[0] as HTMLElement).style.strokeWidth = "4px";
-                } else {
-                  map.setLayoutProperty(layerId, "visibility", "visible");
-                  map.setLayoutProperty(
-                    `isochrone-border-${index}`,
-                    "visibility",
-                    "visible"
-                  );
-                  map.setLayoutProperty(
-                    `isochrone-label-${index}`,
-                    "visibility",
-                    "visible"
-                  );
-                  (el.children[0] as HTMLElement).style.stroke = "white";
-                  (el.children[0] as HTMLElement).style.strokeWidth = "10px";
-                }
-              } else {
-                // Fetch and display new isochrone
-                fetchIsochrone(map!, coord, index, coord.color);
-                (el.children[0] as HTMLElement).style.stroke = "white";
-                (el.children[0] as HTMLElement).style.strokeWidth = "10px";
-              }
-            }
-            popup.remove();
-          });
-
-          if (map)
-            popup
-              .setLngLat([coord.location.longitude, coord.location.latitude])
-              .addTo(map);
-        });
+        // Add initial markers for the default day
+        if (map) {
+          addMarkersForDay(map, selectedDay);
+        }
       });
     }
 
-    // Clean up on unmount
+    // Clean up on unmount or when term/year changes
     return () => {
+      clearMarkersAndIsochrones();
       if (map) {
         map.remove();
         mapRef.current = null;
+        mapLoadedRef.current = false;
       }
     };
-  }, [selectedDay, transportMode, term, year]);
+    // Only reinitialize map when term or year changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [term, year]);
+
+  // Update markers when selectedDay changes (without reinitializing the map)
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapLoadedRef.current) return;
+
+    // Clear existing markers and isochrones
+    clearMarkersAndIsochrones();
+
+    // Add new markers for the selected day
+    addMarkersForDay(map, selectedDay);
+  }, [selectedDay, addMarkersForDay, clearMarkersAndIsochrones]);
+
+  // Refetch isochrones when transportMode changes (without reinitializing markers)
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapLoadedRef.current) return;
+
+    // Refetch all active isochrones with the new transport mode
+    const activeIsochrones = [...activeIsochronesRef.current];
+    activeIsochrones.forEach(({ coord, index, color }) => {
+      fetchIsochrone(map, coord, index, color, transportMode);
+    });
+  }, [transportMode, fetchIsochrone]);
 
   // Toggle fullscreen for map container and prevent body scrolling when open
   useEffect(() => {
