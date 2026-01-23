@@ -13,6 +13,8 @@ interface GraphProps {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   isMobile: () => boolean;
   selectedCourses: Course[];
+  setSearchTrigger: React.Dispatch<React.SetStateAction<boolean>>;
+  searchTrigger: boolean;
   selectedMajor: string | null;
   setSelectedMajor: React.Dispatch<React.SetStateAction<string | null>>;
   term: string;
@@ -26,6 +28,8 @@ const Graph: React.FC<GraphProps> = ({
   setSearchTerm,
   isMobile,
   selectedCourses,
+  setSearchTrigger,
+  searchTrigger,
   selectedMajor,
   setSelectedMajor,
   term,
@@ -131,7 +135,8 @@ const Graph: React.FC<GraphProps> = ({
       cy.on("tap", "node", (event) => {
         const nodeId = event.target.id();
         setDebouncedSearchTerm(nodeId.replace("\n", ""));
-        setSearchTerm(nodeId.slice(0, 4) + " " + nodeId.slice(4));
+        setSearchTerm(nodeId.replace("\n", ""));
+        setSearchTrigger(prev => !prev);
       });
     }
     setLoadedOnce(true);

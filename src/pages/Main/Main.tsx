@@ -334,6 +334,8 @@ const Main = () => {
               <Graph
                 setDebouncedSearchTerm={setDebouncedSearchTerm}
                 setSearchTerm={setSearchTerm}
+                setSearchTrigger={setSearchTrigger}
+                searchTrigger={searchTrigger}
                 isMobile={isMobile}
                 selectedCourses={selectedCourses}
                 selectedMajor={selectedMajor}
