@@ -63,7 +63,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
 
   const handleBadgeClick = (course: Course) => {
     // Populate search box with course code and trigger search
-    const searchQuery = course.code.replace(/([A-Z]+)(\d+)/, "$1 $2");
+    const searchQuery = course.code;
     setSearchTerm(searchQuery);
     setDebouncedSearchTerm(searchQuery);
     setSearchTrigger(!searchTrigger); // Toggle to trigger the search
