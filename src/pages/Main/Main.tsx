@@ -24,9 +24,9 @@ const Main = () => {
     }
   });
 
-  const [term, setTerm] = useState<string>("spring");
+  const [term, setTerm] = useState<string>("summer");
   const [year, setYear] = useState<string>("26");
-  const [selectedValue, setSelectedValue] = useState<string>("Spring 26");
+  const [selectedValue, setSelectedValue] = useState<string>("Summer 26");
   const [calendarResetKey, setCalendarResetKey] = useState<string>(
     `${term}_${year}`
   );
