@@ -2,8 +2,9 @@ import React from "react";
 import axios from "axios";
 import "./styles.css";
 import { FaSearch } from "react-icons/fa";
+import { useAuth } from "react-oidc-context";
 
-import { BACKEND_URLS } from "../../../config/api";
+import { BACKEND_URLS, getAuthHeaders } from "../../../config/api";
 
 interface CourseSearchProps {
   setDebouncedSearchTerm: (searchTerm: string) => void;
@@ -24,9 +25,11 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
   selectedValue,
   handleTermChange,
 }) => {
+  const auth = useAuth();
+
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    setSearchTerm(value); // Update the textbox in real-time
+    setSearchTerm(value);
   };
 
   const handleSearchKeyPress = (
@@ -44,9 +47,11 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
 
   const handleSearchMetrics = async (formattedInput: string) => {
     try {
-      await axios.post(BACKEND_URLS.SEARCH_METRICS, {
-        searchTerm: formattedInput,
-      });
+      await axios.post(
+        BACKEND_URLS.SEARCH_METRICS,
+        { search_term: formattedInput },
+        { headers: getAuthHeaders(auth) }
+      );
     } catch (error) {
       // Metrics send failed silently
     }

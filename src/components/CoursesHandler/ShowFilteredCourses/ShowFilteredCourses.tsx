@@ -14,7 +14,8 @@ import {
 } from "react-icons/pi";
 import { Tooltip } from 'react-tooltip';
 import "./ShowFilteredCourses.css";
-import { API_URLS, BACKEND_URLS } from "../../../config/api";
+import { API_URLS, BACKEND_URLS, getAuthHeaders } from "../../../config/api";
+import { useAuth } from "react-oidc-context";
 
 interface ShowFilteredCoursesProps {
   debouncedSearchTerm: string;
@@ -48,6 +49,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
   searchTrigger,
   selectedValue
 }) => {
+  const auth = useAuth();
   const [openCourseCode, setOpenCourseCode] = useState<string[] | null>();
   const [courseAnimation, setCourseAnimation] = useState<{
     [key: string]: boolean;
@@ -196,10 +198,11 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
 
   const sendCourseMetrics = async (course: Course) => {
     try {
-      await axios.post(BACKEND_URLS.COURSE_METRICS, {
-        code: course.code,
-        name: course.name,
-      });
+      await axios.post(
+        BACKEND_URLS.COURSE_METRICS,
+        { code: course.code, name: course.name },
+        { headers: getAuthHeaders(auth) }
+      );
     } catch (error) {
       // Metrics send failed silently
     }

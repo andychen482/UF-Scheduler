@@ -3,6 +3,67 @@
   margin-left: 5px;
 }
 
+/* ── Live Chat sign-in empty state ── */
+
+.livechat-signin-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 10px;
+  padding: 24px 16px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+.livechat-signin-icon {
+  font-size: 2.6rem;
+  color: #fa4616;
+  opacity: 0.7;
+  filter: drop-shadow(0 0 12px rgba(250, 70, 22, 0.2));
+}
+
+.livechat-signin-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+.livechat-signin-subtitle {
+  font-size: 0.8rem;
+  color: #7a8899;
+  margin: 0;
+  text-align: center;
+}
+
+.livechat-signin-btn {
+  margin-top: 4px;
+  padding: 9px 26px;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid rgba(250, 70, 22, 0.35);
+  background: rgba(250, 70, 22, 0.12);
+  color: #fa6e42;
+  font-size: 0.82rem;
+  font-family: "Sora", sans-serif;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  letter-spacing: 0.01em;
+}
+
+.livechat-signin-btn:hover {
+  background: rgba(250, 70, 22, 0.22);
+  border-color: rgba(250, 70, 22, 0.55);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(250, 70, 22, 0.15);
+}
+
 .chat-panel {
   position: relative;
   padding: 10px; /* Adjust this value to your needs */

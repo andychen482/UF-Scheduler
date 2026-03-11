@@ -2,15 +2,19 @@ import "./HeaderStyles.css";
 import { useEffect, useState } from "react";
 import { AiOutlineCalendar, AiOutlineSchedule } from "react-icons/ai";
 import { PiGraphFill } from "react-icons/pi";
-import { BiMenu } from "react-icons/bi";
+import { BiMenu, BiLogOut, BiLogIn } from "react-icons/bi";
 import { IoMapOutline } from "react-icons/io5";
+import { BsStars } from "react-icons/bs";
 import { Course } from "../CourseUI/CourseTypes";
+import { useAuth } from "react-oidc-context";
+import { signOutRedirect } from "../../config/api";
 
 interface HeaderProps {
   calendarView: () => void;
   graphView: () => void;
   mapView: () => void;
   planView: () => void;
+  aiChatView: () => void;
   currentView: string;
   selectedCourses: Course[];
   isDrawerOpen: boolean;
@@ -27,6 +31,7 @@ const Header: React.FC<HeaderProps> = ({
   graphView,
   mapView,
   planView,
+  aiChatView,
   currentView,
   selectedCourses,
   isDrawerOpen,
@@ -37,7 +42,11 @@ const Header: React.FC<HeaderProps> = ({
   setTerm,
   setYear,
 }) => {
+  const auth = useAuth();
   const [totalCredits, setTotalCredits] = useState(0);
+
+  const userEmail = auth.user?.profile?.email ?? "";
+  const userInitial = userEmail ? userEmail[0].toUpperCase() : "?";
 
   const handleClickingCalendar = () => {
     setShowArrow(false);
@@ -89,7 +98,7 @@ const Header: React.FC<HeaderProps> = ({
             <span className="coffeeButtonText">Donate</span>
           </a>
         </div>
-        {windowWidth >= 965 && (
+        {windowWidth >= 1001 && (
           <div className="flex">
             <div className="button-container gap-x-4">
               <button
@@ -150,7 +159,7 @@ const Header: React.FC<HeaderProps> = ({
                 className={`Button cursor-pointer text-gray-400 ${
                   currentView === "map" ? "show" : "grayed"
                 }`}
-                onClick={mapView} // use the mapView prop here
+                onClick={mapView}
               >
                 <div className="button-content">
                   <div className="icon-text-container">
@@ -160,6 +169,24 @@ const Header: React.FC<HeaderProps> = ({
                     />
                     <span className="text-[1.0rem] overflow-hidden label">
                       Map
+                    </span>
+                  </div>
+                </div>
+              </button>
+              <button
+                className={`Button cursor-pointer text-gray-400 ${
+                  currentView === "ai" ? "show ai-chat-tab" : "grayed"
+                }`}
+                onClick={aiChatView}
+              >
+                <div className="button-content">
+                  <div className="icon-text-container">
+                    <BsStars
+                      size={22}
+                      style={{ minWidth: "22px", minHeight: "22px" }}
+                    />
+                    <span className="text-[1.0rem] overflow-hidden label">
+                      AI Chat
                     </span>
                   </div>
                 </div>
@@ -175,7 +202,7 @@ const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
         )}
-        {windowWidth < 965 && windowWidth > 500 && (
+        {windowWidth < 1001 && windowWidth > 500 && (
           <div className="mx-2 self-center">
             <a href="/">
               <span className="title font-semibold text-blue-500">UF</span>
@@ -195,8 +222,42 @@ const Header: React.FC<HeaderProps> = ({
             </a>
           </div>
         )}
+        <div className="auth-section">
+          {auth.isAuthenticated ? (
+            <>
+              <div className="auth-avatar" title={userEmail}>
+                {userInitial}
+              </div>
+              {windowWidth >= 1001 && (
+                <span className="auth-email">{userEmail}</span>
+              )}
+              <button
+                className="auth-signout-btn"
+                onClick={signOutRedirect}
+                title="Sign out"
+              >
+                {windowWidth >= 1001 ? (
+                  "Sign Out"
+                ) : (
+                  <BiLogOut size={18} />
+                )}
+              </button>
+            </>
+          ) : (
+            <button
+              className="auth-signin-btn"
+              onClick={() => auth.signinRedirect()}
+            >
+              {windowWidth >= 1001 ? (
+                "Sign In"
+              ) : (
+                <BiLogIn size={18} />
+              )}
+            </button>
+          )}
+        </div>
       </div>
-      {windowWidth < 965 && (
+      {windowWidth < 1001 && (
         <div className="button-container">
           <button
             className={`Button cursor-pointer text-gray-400 ${
@@ -256,15 +317,23 @@ const Header: React.FC<HeaderProps> = ({
             className={`Button cursor-pointer text-gray-400 ${
               currentView === "map" ? "show" : "grayed"
             }`}
-            onClick={mapView} // use the mapView prop here
+            onClick={mapView}
           >
             <div className="button-content">
               <div className="icon-text-container">
-                {/* <IoMapOutline
-                  size={24}
-                  style={{ minWidth: "24px", minHeight: "24px" }}
-                /> */}
                 <span className="text-[1.0rem] overflow-hidden label">Map</span>
+              </div>
+            </div>
+          </button>
+          <button
+            className={`Button cursor-pointer text-gray-400 ${
+              currentView === "ai" ? "show ai-chat-tab" : "grayed"
+            }`}
+            onClick={aiChatView}
+          >
+            <div className="button-content">
+              <div className="icon-text-container">
+                <span className="text-[1.0rem] overflow-hidden label">AI Chat</span>
               </div>
             </div>
           </button>

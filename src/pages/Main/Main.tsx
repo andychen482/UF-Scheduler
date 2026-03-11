@@ -10,6 +10,7 @@ import { IoClose } from "react-icons/io5";
 import Footer from "../../components/Footer/Footer";
 import MapBox from "../../components/MapBox/Map";
 import Chat from "../../components/Chat/LiveChat";
+import AIChat from "../../components/Chat/AIChat";
 import ModelPlan from "../../components/ModelPlan/ModelPlan";
 import Graph from "../../components/Cytoscape/Graph";
 import { ChangeEvent } from "react";
@@ -24,9 +25,15 @@ const Main = () => {
     }
   });
 
-  const [term, setTerm] = useState<string>("summer");
-  const [year, setYear] = useState<string>("26");
-  const [selectedValue, setSelectedValue] = useState<string>("Summer 26");
+  const [term, setTerm] = useState<string>(() => {
+    return localStorage.getItem("selectedTerm") ?? "summer";
+  });
+  const [year, setYear] = useState<string>(() => {
+    return localStorage.getItem("selectedYear") ?? "26";
+  });
+  const [selectedValue, setSelectedValue] = useState<string>(() => {
+    return localStorage.getItem("selectedTermValue") ?? "summer 26";
+  });
   const [calendarResetKey, setCalendarResetKey] = useState<string>(
     `${term}_${year}`
   );
@@ -47,7 +54,7 @@ const Main = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
   const [currentView, setCurrentView] = useState<
-    "calendar" | "graph" | "map" | "plan" | ""
+    "calendar" | "graph" | "map" | "plan" | "ai" | ""
   >("");
   const [hasBeenLoaded, setLoaded] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -99,12 +106,6 @@ const Main = () => {
       setWindowWidth(window.innerWidth);
     };
 
-    // Set initial hasNewMessage state based on localStorage
-    const storedHasNewMessage = localStorage.getItem("hasNewMessage");
-    if (storedHasNewMessage === "true") {
-      setHasNewMessage(true);
-    }
-
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -152,19 +153,21 @@ const Main = () => {
     setCurrentView("plan");
   }, []);
 
+  const aiChatView = useCallback(() => {
+    setCurrentView("ai");
+    setIsChatVisible(false);
+  }, []);
+
   const handleNewMessage = useCallback(() => {
     if (!isChatVisible) {
       setHasNewMessage(true);
-      localStorage.setItem("hasNewMessage", "true");
     }
   }, [isChatVisible]);
 
   const handleOpenChat = () => {
     setIsChatVisible(true);
     setHasNewMessage(false);
-    localStorage.setItem("hasNewMessage", "false");
-    const now = new Date().toISOString();
-    localStorage.setItem("lastReadTimestamp", now);
+    localStorage.setItem("lastReadTimestamp", new Date().toISOString());
   };
 
   const handleActiveUsersUpdate = useCallback((count: number) => {
@@ -190,6 +193,9 @@ const Main = () => {
     setSelectedValue(event.target.value);
     setTerm(newTerm);
     setYear(newYear);
+    localStorage.setItem("selectedTerm", newTerm);
+    localStorage.setItem("selectedYear", newYear);
+    localStorage.setItem("selectedTermValue", event.target.value);
 
     // Create a new reset key to trigger the Calendar component to reload with the new term
     setCalendarResetKey(`${newTerm}_${newYear}`);
@@ -226,7 +232,7 @@ const Main = () => {
         />
       </div>
       <button
-        className={`chat-toggle-button ${isChatVisible ? "hide" : "visible"} ${
+        className={`chat-toggle-button ${isChatVisible || currentView === "ai" ? "hide" : "visible"} ${
           hasNewMessage ? "wiggle" : ""
         }`}
         onClick={handleOpenChat}
@@ -239,6 +245,7 @@ const Main = () => {
         graphView={graphView}
         mapView={mapView}
         planView={planView}
+        aiChatView={aiChatView}
         currentView={currentView}
         selectedCourses={selectedCourses}
         isDrawerOpen={isDrawerOpen}
@@ -367,6 +374,11 @@ const Main = () => {
               <div className="plan-container bg-[rgb(0,0,0)]">
                 <ModelPlan />
               </div>
+            </div>
+          )}
+          {currentView === "ai" && (
+            <div className="ai-chat-container bg-[rgb(0,0,0)]">
+              <AIChat />
             </div>
           )}
         </div>
