@@ -5,11 +5,21 @@ import ReactMarkdown from "react-markdown";
 import { IoSend } from "react-icons/io5";
 import { BsStars } from "react-icons/bs";
 import { BACKEND_URLS, getAuthHeaders } from "../../config/api";
+import { useAIActionStore } from "../../store/aiActionStore";
+import ToolCallCard from "./ToolCallCard";
 import "./AIChat.css";
 
+interface ToolCallMeta {
+  id: string;
+  name: string;
+  arguments: Record<string, unknown>;
+  status: "pending" | "confirmed" | "rejected";
+}
+
 interface ChatMessage {
-  role: "user" | "assistant";
+  role: "user" | "assistant" | "tool_call";
   content: string;
+  toolCall?: ToolCallMeta;
 }
 
 const AIChat: React.FC = () => {
@@ -49,8 +59,18 @@ const AIChat: React.FC = () => {
         body: JSON.stringify({
           prompt: userMessage,
           session_id: sessionId || undefined,
+          term: localStorage.getItem("selectedTerm") || undefined,
+          year: localStorage.getItem("selectedYear") || undefined,
+          selected_courses: (() => {
+            const t = localStorage.getItem("selectedTerm") || "summer";
+            const y = localStorage.getItem("selectedYear") || "26";
+            const stored = localStorage.getItem(`selectedCourses_${t}_${y}`);
+            if (!stored) return [];
+            return JSON.parse(stored).map((c: any) => c.code);
+          })(),
         }),
         signal: controller.signal,
+        openWhenHidden: true,
         onmessage(ev) {
           if (ev.event === "token") {
             const { token, session_id } = JSON.parse(ev.data);
@@ -58,10 +78,12 @@ const AIChat: React.FC = () => {
             setSessionId(session_id);
             setMessages((prev) => {
               const updated = [...prev];
-              updated[updated.length - 1] = {
-                role: "assistant",
-                content: fullResponse,
-              };
+              for (let i = updated.length - 1; i >= 0; i--) {
+                if (updated[i].role === "assistant") {
+                  updated[i] = { role: "assistant", content: fullResponse };
+                  break;
+                }
+              }
               return updated;
             });
           }
@@ -74,14 +96,43 @@ const AIChat: React.FC = () => {
             const { detail } = JSON.parse(ev.data);
             setMessages((prev) => {
               const updated = [...prev];
-              updated[updated.length - 1] = {
-                role: "assistant",
-                content: `Error: ${detail}`,
-              };
+              for (let i = updated.length - 1; i >= 0; i--) {
+                if (updated[i].role === "assistant") {
+                  updated[i] = {
+                    role: "assistant",
+                    content: `Error: ${detail}`,
+                  };
+                  break;
+                }
+              }
               return updated;
             });
             setIsStreaming(false);
           }
+          if (ev.event === "tool_call") {
+            const { tool_call_id, name, arguments: args, session_id } =
+              JSON.parse(ev.data);
+            setSessionId(session_id);
+            useAIActionStore
+              .getState()
+              .addAction({ id: tool_call_id, name, arguments: args });
+            setMessages((prev) => [
+              ...prev,
+              {
+                role: "tool_call",
+                content: "",
+                toolCall: {
+                  id: tool_call_id,
+                  name,
+                  arguments: args,
+                  status: "pending",
+                },
+              },
+            ]);
+          }
+        },
+        onclose() {
+          throw new Error("stream ended");
         },
         onerror() {
           setIsStreaming(false);
@@ -164,25 +215,56 @@ const AIChat: React.FC = () => {
             </p>
           </div>
         )}
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`ai-msg ${msg.role === "user" ? "ai-msg-user" : "ai-msg-assistant"}`}
-          >
-            <div className="ai-msg-content">
-              {msg.role === "assistant" ? (
-                <>
-                  <ReactMarkdown>{msg.content}</ReactMarkdown>
-                  {isStreaming && index === messages.length - 1 && (
-                    <span className="ai-cursor">|</span>
-                  )}
-                </>
-              ) : (
-                msg.content
-              )}
+        {messages.map((msg, index) =>
+          msg.role === "tool_call" && msg.toolCall ? (
+            <ToolCallCard
+              key={index}
+              toolCall={msg.toolCall}
+              onConfirm={() => {
+                useAIActionStore
+                  .getState()
+                  .confirmAction(msg.toolCall!.id);
+                setMessages((prev) =>
+                  prev.map((m, i) =>
+                    i === index && m.toolCall
+                      ? { ...m, toolCall: { ...m.toolCall, status: "confirmed" } }
+                      : m
+                  )
+                );
+              }}
+              onReject={() => {
+                useAIActionStore
+                  .getState()
+                  .rejectAction(msg.toolCall!.id);
+                setMessages((prev) =>
+                  prev.map((m, i) =>
+                    i === index && m.toolCall
+                      ? { ...m, toolCall: { ...m.toolCall, status: "rejected" } }
+                      : m
+                  )
+                );
+              }}
+            />
+          ) : (
+            <div
+              key={index}
+              className={`ai-msg ${msg.role === "user" ? "ai-msg-user" : "ai-msg-assistant"}`}
+            >
+              <div className="ai-msg-content">
+                {msg.role === "assistant" ? (
+                  <>
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                    {isStreaming && index === messages.length - 1 && (
+                      <span className="ai-cursor">|</span>
+                    )}
+                  </>
+                ) : (
+                  msg.content
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        )}
         <div ref={messagesEndRef} />
       </div>
       <div className="ai-view-input-bar">

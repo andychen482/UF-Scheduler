@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import axios from "axios";
 import CoursesHandler from "../../components/CoursesHandler/CoursesHandler";
 import "./MainStyles.css";
 import { Course } from "../../components/CourseUI/CourseTypes";
@@ -14,6 +15,8 @@ import AIChat from "../../components/Chat/AIChat";
 import ModelPlan from "../../components/ModelPlan/ModelPlan";
 import Graph from "../../components/Cytoscape/Graph";
 import { ChangeEvent } from "react";
+import { useAIActionStore } from "../../store/aiActionStore";
+import { API_URLS } from "../../config/api";
 
 const Main = () => {
   const [selectedMajor, setSelectedMajor] = useState<string | null>(() => {
@@ -91,6 +94,59 @@ const Main = () => {
 
   useEffect(() => {
     setCurrentView("calendar");
+  }, []);
+
+  useEffect(() => {
+    const unsub = useAIActionStore.subscribe((state) => {
+      const confirmed = state.actions.filter((a) => a.status === "confirmed");
+      for (const action of confirmed) {
+        switch (action.name) {
+          case "add_course_to_scheduler": {
+            const code = action.arguments.course_code as string;
+            const currentTerm = localStorage.getItem("selectedTerm") || term;
+            const currentYear = localStorage.getItem("selectedYear") || year;
+            axios.post(API_URLS.GET_COURSES, {
+              searchTerm: code,
+              itemsPerPage: 20,
+              startFrom: 0,
+              term: currentTerm,
+              year: currentYear,
+            }).then((response) => {
+              if (response.data.length > 0) {
+                const course = response.data[0];
+                setSelectedCourses((prev) => {
+                  if (prev.some((c) => c.code === course.code && c.name === course.name)) return prev;
+                  return [...prev, { ...course, creditsEditable: course.sections[0]?.credits === "VAR" }];
+                });
+                setLoaded(true);
+              }
+            });
+            break;
+          }
+          case "switch_scheduler_view":
+            setCurrentView(
+              action.arguments.view as
+                | "calendar"
+                | "graph"
+                | "map"
+                | "plan"
+                | "ai"
+            );
+            break;
+          case "remove_course_from_scheduler": {
+            const code = action.arguments.course_code as string;
+            setSelectedCourses((prev) =>
+              prev.filter((c) => c.code !== code)
+            );
+            break;
+          }
+        }
+      }
+      if (confirmed.length > 0) {
+        useAIActionStore.getState().clearProcessed();
+      }
+    });
+    return unsub;
   }, []);
 
   // ADJUST HERE FOR LOCAL STORAGE RESET
