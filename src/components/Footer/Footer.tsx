@@ -1,47 +1,47 @@
 import React, { useEffect, useState } from "react";
 
 const Footer = () => {
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  // const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-  function fetchLastCommitTime() {
-    const url =
-      "https://api.github.com/repos/andychen482/UF-Scheduler-Backend-New/commits?path=courses&per_page=1";
+  // function fetchLastCommitTime() {
+  //   const url =
+  //     "https://api.github.com/repos/andychen482/UF-Scheduler-Backend-New/commits?path=courses&per_page=1";
 
-    fetch(url)
-      .then((response) => response.json())
-      .then((commits) => {
-        if (commits && commits.length > 0) {
-          const lastCommitDate = new Date(commits[0].commit.committer.date);
-          setLastUpdated(lastCommitDate);
-        }
-      })
-      .catch(() => { /* Commit data fetch failed silently */ });
-  }
+  //   fetch(url)
+  //     .then((response) => response.json())
+  //     .then((commits) => {
+  //       if (commits && commits.length > 0) {
+  //         const lastCommitDate = new Date(commits[0].commit.committer.date);
+  //         setLastUpdated(lastCommitDate);
+  //       }
+  //     })
+  //     .catch(() => { /* Commit data fetch failed silently */ });
+  // }
 
-  useEffect(() => {
-    fetchLastCommitTime();
-    const apiIntervalId = setInterval(fetchLastCommitTime, 600000); // API call every 10 minutes
-    const displayIntervalId = setInterval(() => {
-      setLastUpdated((prev) => new Date(prev!.getTime())); // Trigger re-render every minute
-    }, 60000);
-    return () => {
-      clearInterval(apiIntervalId);
-      clearInterval(displayIntervalId);
-    }; // Cleanup intervals on component unmount
-  }, []);
+  // useEffect(() => {
+  //   fetchLastCommitTime();
+  //   const apiIntervalId = setInterval(fetchLastCommitTime, 600000); // API call every 10 minutes
+  //   const displayIntervalId = setInterval(() => {
+  //     setLastUpdated((prev) => new Date(prev!.getTime())); // Trigger re-render every minute
+  //   }, 60000);
+  //   return () => {
+  //     clearInterval(apiIntervalId);
+  //     clearInterval(displayIntervalId);
+  //   }; // Cleanup intervals on component unmount
+  // }, []);
 
-  function displayLastUpdatedTime() {
-    if (!lastUpdated) return "Calculating...";
+  // function displayLastUpdatedTime() {
+  //   if (!lastUpdated) return "Calculating...";
 
-    const currentTime = new Date();
-    const differenceInMinutes = Math.floor(
-      (currentTime.getTime() - lastUpdated.getTime()) / 60000
-    );
+  //   const currentTime = new Date();
+  //   const differenceInMinutes = Math.floor(
+  //     (currentTime.getTime() - lastUpdated.getTime()) / 60000
+  //   );
 
-    if (differenceInMinutes < 1) return "Scraped less than a minute ago";
-    else if (differenceInMinutes === 1) return "Scraped 1 minute ago";
-    else return `Scraped ${differenceInMinutes}m ago`;
-  }
+  //   if (differenceInMinutes < 1) return "Scraped less than a minute ago";
+  //   else if (differenceInMinutes === 1) return "Scraped 1 minute ago";
+  //   else return `Scraped ${differenceInMinutes}m ago`;
+  // }
 
   return (
     <div
@@ -56,8 +56,9 @@ const Footer = () => {
       }}
     >
       <p>
-        <span id="lastUpdated">{displayLastUpdatedTime()}</span>
-        {" | By "}
+        {/* <span id="lastUpdated">{displayLastUpdatedTime()}</span> */}
+        {/* {" | By "} */}
+        {"Updated to Fall 2026 | By "}
         <a
           href="https://www.linkedin.com/in/andy-chen67/"
           target="_blank"
