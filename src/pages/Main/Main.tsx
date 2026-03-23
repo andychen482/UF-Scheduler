@@ -432,11 +432,13 @@ const Main = () => {
               </div>
             </div>
           )}
-          {currentView === "ai" && (
-            <div className="ai-chat-container bg-[rgb(0,0,0)]">
-              <AIChat />
-            </div>
-          )}
+          <div
+            className={`ai-chat-container bg-[rgb(0,0,0)]${
+              currentView !== "ai" ? " hidden" : ""
+            }`}
+          >
+            <AIChat />
+          </div>
         </div>
       </div>
       <Footer />
