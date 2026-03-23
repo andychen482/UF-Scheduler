@@ -390,20 +390,16 @@ const Map: React.FC<MapProps> = ({ term, year }) => {
             data: parkingInfo as mapboxgl.GeoJSONSourceRaw["data"],
           });
 
-          map.loadImage(
-            "/images/orange-blue-stripes-smaller.png",
-            function (error, image) {
-              if (error) throw error;
+          // Helper to load an image and register it, returning a Promise
+          const loadImg = (url: string, name: string): Promise<void> =>
+            new Promise((resolve, reject) =>
+              map!.loadImage(url, (error, image) => {
+                if (error) return reject(error);
+                if (map && image) map.addImage(name, image);
+                resolve();
+              })
+            );
 
-              if (map && image) map.addImage("orange-blue-stripes", image);
-            }
-          );
-
-          map.loadImage("/images/gold-stripes.png", function (error, image) {
-            if (error) throw error;
-
-            if (map && image) map.addImage("gold-stripes", image);
-          });
           // Define colors based on ZONE_DES
           const zoneColors = {
             Red: "#e74c3c",
@@ -486,53 +482,58 @@ const Map: React.FC<MapProps> = ({ term, year }) => {
             
           });
 
-          map.addLayer({
-            id: "parking-stripes",
-            type: "fill",
-            source: "parking",
-            paint: {
-              "fill-pattern": [
-                "match",
-                ["get", "ZONE_DES"],
-                "Orange/Blue",
-                "orange-blue-stripes",
-                "Gold/Silver",
-                "gold-stripes",
-                "",
-              ],
-              "fill-opacity": [
-                "match",
-                ["get", "ZONE_DES"],
-                "Orange/Blue",
-                1,
-                "Gold/Silver",
-                0.5,
-                1,
-              ],
-              "fill-emissive-strength": 0.4,
-            },
-          });
-
-          map.loadImage("/images/scooter.png", function (error, image) {
-            if (error) throw error;
-
-            if (map && image) map.addImage("scooter", image);
-          });
+          // Add parking-stripes layer only after both stripe images are loaded
+          Promise.all([
+            loadImg("/images/orange-blue-stripes-smaller.png", "orange-blue-stripes"),
+            loadImg("/images/gold-stripes.png", "gold-stripes"),
+          ]).then(() => {
+            if (!map) return;
+            map.addLayer({
+              id: "parking-stripes",
+              type: "fill",
+              source: "parking",
+              paint: {
+                "fill-pattern": [
+                  "match",
+                  ["get", "ZONE_DES"],
+                  "Orange/Blue",
+                  "orange-blue-stripes",
+                  "Gold/Silver",
+                  "gold-stripes",
+                  "",
+                ],
+                "fill-opacity": [
+                  "match",
+                  ["get", "ZONE_DES"],
+                  "Orange/Blue",
+                  1,
+                  "Gold/Silver",
+                  0.5,
+                  1,
+                ],
+                "fill-emissive-strength": 0.4,
+              },
+            });
+          }).catch(console.error);
 
           map.addSource("scooter-parking-points", {
             type: "geojson",
             data: scooterParking as GeoJSON.FeatureCollection,
           });
 
-          map.addLayer({
-            id: "scooter-parking-points-layer",
-            type: "symbol",
-            source: "scooter-parking-points",
-            layout: {
-              "icon-image": "scooter",
-              "icon-size": 0.8,
-            },
-          });
+          // Add scooter layer only after the scooter image is loaded
+          loadImg("/images/scooter.png", "scooter").then(() => {
+            if (!map) return;
+            map.addLayer({
+              id: "scooter-parking-points-layer",
+              type: "symbol",
+              source: "scooter-parking-points",
+              layout: {
+                "icon-image": "scooter",
+                "icon-size": 0.8,
+              },
+            });
+          }).catch(console.error);
 
         }
 
@@ -729,16 +730,18 @@ const Map: React.FC<MapProps> = ({ term, year }) => {
       >
         <p>
           Select the day of the week to view your class locations.
-          <hr
-            style={{
-              height: "1px",
-              borderWidth: "0",
-              color: "gray",
-              backgroundColor: "gray",
-              marginTop: "2px",
-              marginBottom: "2px",
-            }}
-          />
+        </p>
+        <hr
+          style={{
+            height: "1px",
+            borderWidth: "0",
+            color: "gray",
+            backgroundColor: "gray",
+            marginTop: "2px",
+            marginBottom: "2px",
+          }}
+        />
+        <p>
           Select your mode of transportation and click on the markers to view
           the reachable area within 15 minutes (passing).
         </p>

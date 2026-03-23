@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import axios from "axios";
 import CoursesHandler from "../../components/CoursesHandler/CoursesHandler";
 import "./MainStyles.css";
 import { Course } from "../../components/CourseUI/CourseTypes";
@@ -10,9 +11,12 @@ import { IoClose } from "react-icons/io5";
 import Footer from "../../components/Footer/Footer";
 import MapBox from "../../components/MapBox/Map";
 import Chat from "../../components/Chat/LiveChat";
+import AIChat from "../../components/Chat/AIChat";
 import ModelPlan from "../../components/ModelPlan/ModelPlan";
 import Graph from "../../components/Cytoscape/Graph";
 import { ChangeEvent } from "react";
+import { useAIActionStore } from "../../store/aiActionStore";
+import { API_URLS } from "../../config/api";
 
 const Main = () => {
   const [selectedMajor, setSelectedMajor] = useState<string | null>(() => {
@@ -24,9 +28,15 @@ const Main = () => {
     }
   });
 
-  const [term, setTerm] = useState<string>("summer");
-  const [year, setYear] = useState<string>("26");
-  const [selectedValue, setSelectedValue] = useState<string>("Summer 26");
+  const [term, setTerm] = useState<string>(() => {
+    return localStorage.getItem("selectedTerm") ?? "summer";
+  });
+  const [year, setYear] = useState<string>(() => {
+    return localStorage.getItem("selectedYear") ?? "26";
+  });
+  const [selectedValue, setSelectedValue] = useState<string>(() => {
+    return localStorage.getItem("selectedTermValue") ?? "summer 26";
+  });
   const [calendarResetKey, setCalendarResetKey] = useState<string>(
     `${term}_${year}`
   );
@@ -47,7 +57,7 @@ const Main = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
   const [currentView, setCurrentView] = useState<
-    "calendar" | "graph" | "map" | "plan" | ""
+    "calendar" | "graph" | "map" | "plan" | "ai" | ""
   >("");
   const [hasBeenLoaded, setLoaded] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -86,6 +96,59 @@ const Main = () => {
     setCurrentView("calendar");
   }, []);
 
+  useEffect(() => {
+    const unsub = useAIActionStore.subscribe((state) => {
+      const confirmed = state.actions.filter((a) => a.status === "confirmed");
+      for (const action of confirmed) {
+        switch (action.name) {
+          case "add_course_to_scheduler": {
+            const code = action.arguments.course_code as string;
+            const currentTerm = localStorage.getItem("selectedTerm") || term;
+            const currentYear = localStorage.getItem("selectedYear") || year;
+            axios.post(API_URLS.GET_COURSES, {
+              searchTerm: code,
+              itemsPerPage: 20,
+              startFrom: 0,
+              term: currentTerm,
+              year: currentYear,
+            }).then((response) => {
+              if (response.data.length > 0) {
+                const course = response.data[0];
+                setSelectedCourses((prev) => {
+                  if (prev.some((c) => c.code === course.code && c.name === course.name)) return prev;
+                  return [...prev, { ...course, creditsEditable: course.sections[0]?.credits === "VAR" }];
+                });
+                setLoaded(true);
+              }
+            });
+            break;
+          }
+          case "switch_scheduler_view":
+            setCurrentView(
+              action.arguments.view as
+                | "calendar"
+                | "graph"
+                | "map"
+                | "plan"
+                | "ai"
+            );
+            break;
+          case "remove_course_from_scheduler": {
+            const code = action.arguments.course_code as string;
+            setSelectedCourses((prev) =>
+              prev.filter((c) => c.code !== code)
+            );
+            break;
+          }
+        }
+      }
+      if (confirmed.length > 0) {
+        useAIActionStore.getState().clearProcessed();
+      }
+    });
+    return unsub;
+  }, []);
+
   // ADJUST HERE FOR LOCAL STORAGE RESET
   const version = JSON.parse(localStorage.getItem("version") || "0");
   if (version === 0) {
@@ -98,12 +161,6 @@ const Main = () => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-
-    // Set initial hasNewMessage state based on localStorage
-    const storedHasNewMessage = localStorage.getItem("hasNewMessage");
-    if (storedHasNewMessage === "true") {
-      setHasNewMessage(true);
-    }
 
     window.addEventListener("resize", handleResize);
 
@@ -152,19 +209,21 @@ const Main = () => {
     setCurrentView("plan");
   }, []);
 
+  const aiChatView = useCallback(() => {
+    setCurrentView("ai");
+    setIsChatVisible(false);
+  }, []);
+
   const handleNewMessage = useCallback(() => {
     if (!isChatVisible) {
       setHasNewMessage(true);
-      localStorage.setItem("hasNewMessage", "true");
     }
   }, [isChatVisible]);
 
   const handleOpenChat = () => {
     setIsChatVisible(true);
     setHasNewMessage(false);
-    localStorage.setItem("hasNewMessage", "false");
-    const now = new Date().toISOString();
-    localStorage.setItem("lastReadTimestamp", now);
+    localStorage.setItem("lastReadTimestamp", new Date().toISOString());
   };
 
   const handleActiveUsersUpdate = useCallback((count: number) => {
@@ -190,6 +249,9 @@ const Main = () => {
     setSelectedValue(event.target.value);
     setTerm(newTerm);
     setYear(newYear);
+    localStorage.setItem("selectedTerm", newTerm);
+    localStorage.setItem("selectedYear", newYear);
+    localStorage.setItem("selectedTermValue", event.target.value);
 
     // Create a new reset key to trigger the Calendar component to reload with the new term
     setCalendarResetKey(`${newTerm}_${newYear}`);
@@ -226,7 +288,7 @@ const Main = () => {
         />
       </div>
       <button
-        className={`chat-toggle-button ${isChatVisible ? "hide" : "visible"} ${
+        className={`chat-toggle-button ${isChatVisible || currentView === "ai" ? "hide" : "visible"} ${
           hasNewMessage ? "wiggle" : ""
         }`}
         onClick={handleOpenChat}
@@ -239,6 +301,7 @@ const Main = () => {
         graphView={graphView}
         mapView={mapView}
         planView={planView}
+        aiChatView={aiChatView}
         currentView={currentView}
         selectedCourses={selectedCourses}
         isDrawerOpen={isDrawerOpen}
@@ -369,6 +432,13 @@ const Main = () => {
               </div>
             </div>
           )}
+          <div
+            className={`ai-chat-container bg-[rgb(0,0,0)]${
+              currentView !== "ai" ? " hidden" : ""
+            }`}
+          >
+            <AIChat />
+          </div>
         </div>
       </div>
       <Footer />

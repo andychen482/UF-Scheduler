@@ -5,10 +5,12 @@ import Select, { CSSObjectWithLabel } from "react-select";
 // import ReactGA from "react-ga4";
 import "./planStyles.css";
 import axios from "axios";
+import { useAuth } from "react-oidc-context";
 
-import { BACKEND_URLS } from "../../config/api";
+import { BACKEND_URLS, getAuthHeaders } from "../../config/api";
 
 const ModelPlan: React.FC = () => {
+  const auth = useAuth();
   const [selectedMajor, setSelectedMajor] = useState<string>("");
 
   useEffect(() => {
@@ -33,9 +35,11 @@ const ModelPlan: React.FC = () => {
 
   const sendMajorMetrics = async (major: string) => {
     try {
-      await axios.post(BACKEND_URLS.MAJOR_METRICS, {
-        major: major,
-      });
+      await axios.post(
+        BACKEND_URLS.MAJOR_METRICS,
+        { major: major },
+        { headers: getAuthHeaders(auth) }
+      );
     } catch (error) {
       // Metrics send failed silently
     }

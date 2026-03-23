@@ -1,35 +1,23 @@
-import React, { useEffect, useState, useRef } from "react";
-import io, { Socket } from "socket.io-client";
-import GoogleAuth from "./GoogleSignIn";
-import { CredentialResponse } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
-import { IoClose, IoSend } from "react-icons/io5";
-import { getSocketUrl, BACKEND_URLS } from "../../config/api";
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import { useAuth } from "react-oidc-context";
+import { fetchEventSource } from "@microsoft/fetch-event-source";
+import { IoClose, IoSend, IoChatbubblesOutline } from "react-icons/io5";
+import { BACKEND_URLS, getAuthHeaders } from "../../config/api";
 import "./Chat.css";
 
 interface Message {
+  id?: string;
   message: string;
   user: string;
   timestamp?: string;
 }
 
-interface UserInfo {
-  name: string;
-  given_name: string;
-  exp: number; // Token expiry time
-  sub: string; // Google user ID
-  email: string;
-  picture: string;
-}
-
 interface ChatProps {
   setIsChatVisible: React.Dispatch<React.SetStateAction<boolean>>;
   isChatVisible: boolean;
-  handleNewMessage: () => void; // Add this prop for new message notification
+  handleNewMessage: () => void;
   onActiveUsersUpdate: (count: number) => void;
 }
-
-const socket: Socket = io(getSocketUrl());
 
 const Chat: React.FC<ChatProps> = ({
   setIsChatVisible,
@@ -37,182 +25,173 @@ const Chat: React.FC<ChatProps> = ({
   handleNewMessage,
   onActiveUsersUpdate,
 }) => {
+  const auth = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
-  const [user, setUser] = useState<UserInfo | null>(null);
   const [username, setUsername] = useState<string>("");
   const [isUsernameSet, setIsUsernameSet] = useState<boolean>(false);
   const [lastEvaluatedKey, setLastEvaluatedKey] = useState<any>(null);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatMessagesRef = useRef<HTMLDivElement>(null);
-
   const containerRef = useRef<HTMLDivElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const userInfo: UserInfo = JSON.parse(storedUser);
-      setUser(userInfo);
-      fetchUsername(userInfo.sub);
-    }
-  }, []);
+  const isChatVisibleRef = useRef(isChatVisible);
+  const usernameRef = useRef(username);
+  const handleNewMessageRef = useRef(handleNewMessage);
 
-  useEffect(() => {
-    const handleReceiveMessage = (data: Message) => {
-      const userAtBottom = isUserAtBottom();
-      setMessages((prevMessages) => [...prevMessages, data]);
+  useEffect(() => { isChatVisibleRef.current = isChatVisible; }, [isChatVisible]);
+  useEffect(() => { usernameRef.current = username; }, [username]);
+  useEffect(() => { handleNewMessageRef.current = handleNewMessage; }, [handleNewMessage]);
 
-      // Only notify about new messages if:
-      // 1. Chat is not visible
-      // 2. The message is NOT from the current user (avoid badge for own messages)
-      if (!isChatVisible && data.user !== username) {
-        handleNewMessage();
-      }
-
-      if (userAtBottom) {
-        setTimeout(() => {
-          scrollToBottom();
-        }, 50);
-      }
-    };
-
-    const handleActiveUsers = (data: { activeUsers: number }) => {
-      onActiveUsersUpdate(data.activeUsers);
-    };
-
-    socket.on("receive message", handleReceiveMessage);
-    socket.on("active users", handleActiveUsers);
-
-    return () => {
-      socket.off("receive message", handleReceiveMessage);
-      socket.off("active users", handleActiveUsers);
-    };
-  }, [isChatVisible, username, handleNewMessage, onActiveUsersUpdate]);
-
-  useEffect(() => {
-    socket.on("load messages", (data) => {
-      if (lastEvaluatedKey === null) {
-        setMessages(data.messages);
-        setLastEvaluatedKey(data.lastEvaluatedKey);
-        
-        // Check for unread messages based on lastReadTimestamp
-        checkForUnreadMessages(data.messages);
-      } else {
-        const { messages: newMessages, lastEvaluatedKey: newKey } = data;
-        
-        // Store the current scroll height before adding new messages
-        const prevScrollHeight = chatMessagesRef.current?.scrollHeight || 0;
-        
-        setMessages((prevMessages) => [...newMessages, ...prevMessages]);
-        setLastEvaluatedKey(newKey);
-        
-        // After the messages are updated, adjust scroll position
-        setTimeout(() => {
-          if (chatMessagesRef.current) {
-            // Disable momentum scrolling
-            (chatMessagesRef.current.style as any)['-webkit-overflow-scrolling'] = 'auto';
-            
-            // Calculate the new scroll position
-            const newScrollHeight = chatMessagesRef.current.scrollHeight;
-            const heightDifference = newScrollHeight - prevScrollHeight;
-            chatMessagesRef.current.scrollTop = heightDifference;
-            
-            // Re-enable momentum scrolling
-            (chatMessagesRef.current.style as any)['-webkit-overflow-scrolling'] = 'touch';
-          }
-        }, 0);
-      }
-    });
-
-    return () => {
-      socket.off("load messages");
-    };
-  }, [lastEvaluatedKey]);
-
-  // Function to check for unread messages
-  const checkForUnreadMessages = (messagesList: Message[]) => {
-    if (!isChatVisible && messagesList.length > 0) {
-      const lastReadTimestamp = localStorage.getItem("lastReadTimestamp");
-      
-      if (lastReadTimestamp) {
-        // Check if there are any messages newer than lastReadTimestamp
-        const hasUnreadMessages = messagesList.some(msg => {
-          if (!msg.timestamp) return false;
-          return new Date(msg.timestamp) > new Date(lastReadTimestamp);
-        });
-        
-        if (hasUnreadMessages) {
-          handleNewMessage();
-        }
-      } else {
-        // If no lastReadTimestamp, consider all messages as unread
-        handleNewMessage();
-      }
-    }
-  };
-
-  const fetchUsername = async (googleId: string) => {
+  const fetchUserProfile = useCallback(async () => {
+    if (!auth.user?.id_token) return;
     try {
-      const response = await fetch(
-        `${BACKEND_URLS.GET_USERNAME}/${googleId}`
-      );
-      const data = await response.json();
+      const res = await fetch(BACKEND_URLS.GET_PROFILE, {
+        headers: getAuthHeaders(auth),
+      });
+      const data = await res.json();
       if (data.username) {
         setUsername(data.username);
         setIsUsernameSet(true);
       }
-    } catch (error) {
-      // Username fetch failed silently
+    } catch {
+      // Profile fetch failed silently
+    }
+  }, [auth]);
+
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      fetchUserProfile();
+    }
+  }, [auth.isAuthenticated, fetchUserProfile]);
+
+  const loadMessages = useCallback(async (cursor?: any) => {
+    if (!auth.user?.id_token) return;
+    try {
+      const url = new URL(BACKEND_URLS.MESSAGES);
+      if (cursor) {
+        url.searchParams.set("last_evaluated_key", JSON.stringify(cursor));
+      }
+      const res = await fetch(url.toString(), {
+        headers: getAuthHeaders(auth),
+      });
+      const data = await res.json();
+      return {
+        messages: data.messages as Message[],
+        last_evaluated_key: data.last_evaluated_key,
+      };
+    } catch {
+      return null;
+    }
+  }, [auth]);
+
+  // Load initial messages when authenticated
+  useEffect(() => {
+    if (!auth.isAuthenticated) return;
+    (async () => {
+      const result = await loadMessages();
+      if (result) {
+        setMessages(result.messages);
+        setLastEvaluatedKey(result.last_evaluated_key);
+        checkForUnreadMessages(result.messages);
+      }
+    })();
+  }, [auth.isAuthenticated, loadMessages]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // SSE stream for real-time messages and active user count
+  useEffect(() => {
+    if (!auth.isAuthenticated || !auth.user?.id_token) return;
+
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
+    fetchEventSource(BACKEND_URLS.MESSAGES_STREAM, {
+      headers: { Authorization: `Bearer ${auth.user.id_token}` },
+      signal: controller.signal,
+      onmessage(ev) {
+        if (ev.event === "message") {
+          const msg: Message = JSON.parse(ev.data);
+          setMessages((prev) => [...prev, msg]);
+          if (!isChatVisibleRef.current && msg.user !== usernameRef.current) {
+            handleNewMessageRef.current();
+          }
+        }
+        if (ev.event === "active_users") {
+          const { active_users } = JSON.parse(ev.data);
+          onActiveUsersUpdate(active_users);
+        }
+      },
+      onerror() {
+        // Reconnection is handled automatically by fetchEventSource
+      },
+    });
+
+    return () => {
+      controller.abort();
+      abortControllerRef.current = null;
+    };
+  }, [auth.isAuthenticated, auth.user?.id_token, onActiveUsersUpdate]);
+
+  const checkForUnreadMessages = (messagesList: Message[]) => {
+    if (!isChatVisible && messagesList.length > 0) {
+      const lastReadTimestamp = localStorage.getItem("lastReadTimestamp");
+      if (lastReadTimestamp) {
+        const hasUnreadMessages = messagesList.some((msg) => {
+          if (!msg.timestamp) return false;
+          return new Date(msg.timestamp) > new Date(lastReadTimestamp);
+        });
+        if (hasUnreadMessages) {
+          handleNewMessage();
+        }
+      } else {
+        // First visit — no previous read timestamp. Set it to now so future
+        // messages are correctly detected as unread, but don't show a badge
+        // for pre-existing messages the user hasn't seen yet.
+        localStorage.setItem("lastReadTimestamp", new Date().toISOString());
+      }
     }
   };
 
-  const handleSendMessage = () => {
-    if (message.trim() && username) {
-      const newMessage: Message = {
-        message,
-        user: username,
-      };
-      socket.emit("send message", newMessage);
+  const handleSendMessage = async () => {
+    if (!message.trim() || !username || !auth.user?.id_token) return;
+    try {
+      await fetch(BACKEND_URLS.MESSAGES, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...getAuthHeaders(auth),
+        },
+        body: JSON.stringify({ message }),
+      });
       setMessage("");
       scrollToBottom();
-    }
-  };
-
-  const handleLoginSuccess = (response: CredentialResponse) => {
-    if (response.credential) {
-      const userInfo = jwtDecode<UserInfo>(response.credential);
-      setUser(userInfo);
-      localStorage.setItem("user", JSON.stringify(userInfo));
-      fetchUsername(userInfo.sub);
+    } catch {
+      // Send failed silently
     }
   };
 
   const handleUsernameSubmit = async () => {
-    if (username.trim() && user) {
-      try {
-        const response = await fetch(BACKEND_URLS.SET_USERNAME, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            googleId: user.sub,
-            username,
-            email: user.email,
-            name: user.name,
-            profilePic: user.picture,
-          }),
-        });
+    if (!username.trim() || !auth.user?.id_token) return;
+    try {
+      const response = await fetch(BACKEND_URLS.SET_USERNAME, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...getAuthHeaders(auth),
+        },
+        body: JSON.stringify({ username }),
+      });
 
-        const result = await response.json();
-        if (response.status === 200) {
-          setIsUsernameSet(true);
-        } else if (response.status === 409) {
-          alert(result.error); // Display an error message to the user
-        }
-      } catch (error) {
-        // Username set failed silently
+      const result = await response.json();
+      if (response.status === 200) {
+        setIsUsernameSet(true);
+      } else if (response.status === 409) {
+        alert(result.message || result.error);
       }
+    } catch {
+      // Username set failed silently
     }
   };
 
@@ -230,36 +209,43 @@ const Chat: React.FC<ChatProps> = ({
     }
   };
 
-  const handleScrollToTop = () => {
-    if (chatMessagesRef.current?.scrollTop === 0 && lastEvaluatedKey) {
-      socket.emit("load more messages", lastEvaluatedKey);
+  const handleScrollToTop = useCallback(async () => {
+    if (
+      chatMessagesRef.current?.scrollTop === 0 &&
+      lastEvaluatedKey &&
+      !isLoadingMore
+    ) {
+      setIsLoadingMore(true);
+      const prevScrollHeight = chatMessagesRef.current?.scrollHeight || 0;
+      const result = await loadMessages(lastEvaluatedKey);
+      if (result) {
+        setMessages((prev) => [...result.messages, ...prev]);
+        setLastEvaluatedKey(result.last_evaluated_key);
+        setTimeout(() => {
+          if (chatMessagesRef.current) {
+            const newScrollHeight = chatMessagesRef.current.scrollHeight;
+            chatMessagesRef.current.scrollTop = newScrollHeight - prevScrollHeight;
+          }
+        }, 0);
+      }
+      setIsLoadingMore(false);
     }
-  };
+  }, [lastEvaluatedKey, isLoadingMore, loadMessages]);
 
   useEffect(() => {
-    if (chatMessagesRef.current) {
-      chatMessagesRef.current.addEventListener("scroll", handleScrollToTop);
+    const el = chatMessagesRef.current;
+    if (el) {
+      el.addEventListener("scroll", handleScrollToTop);
     }
     return () => {
-      chatMessagesRef.current?.removeEventListener("scroll", handleScrollToTop);
+      el?.removeEventListener("scroll", handleScrollToTop);
     };
-  }, [lastEvaluatedKey]);
+  }, [handleScrollToTop]);
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  };
-
-  const isUserAtBottom = () => {
-    if (chatMessagesRef.current) {
-      return (
-        chatMessagesRef.current.scrollHeight -
-          chatMessagesRef.current.scrollTop <=
-        chatMessagesRef.current.clientHeight + 20
-      );
-    }
-    return false;
   };
 
   useEffect(() => {
@@ -275,9 +261,7 @@ const Chat: React.FC<ChatProps> = ({
     }
 
     return () => {
-      if (chatMessagesRef.current) {
-        observer.disconnect();
-      }
+      observer.disconnect();
     };
   }, []);
 
@@ -288,8 +272,6 @@ const Chat: React.FC<ChatProps> = ({
   const handleToggleChat = () => {
     setIsChatVisible(false);
     localStorage.setItem("hasClosedChat", "true");
-    // Update lastReadTimestamp when closing chat to prevent badge from showing
-    // for messages that were already visible
     const now = new Date().toISOString();
     localStorage.setItem("lastReadTimestamp", now);
   };
@@ -297,11 +279,71 @@ const Chat: React.FC<ChatProps> = ({
   useEffect(() => {
     if (isUsernameSet) {
       setTimeout(() => {
-        if (messagesEndRef.current)
-          messagesEndRef.current.scrollIntoView({ behavior: "auto" });
+        messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
       }, 0);
     }
   }, [isUsernameSet]);
+
+  const renderChatBody = () => {
+    if (!auth.isAuthenticated) {
+      return (
+        <div className="livechat-signin-state">
+          <IoChatbubblesOutline className="livechat-signin-icon" />
+          <h2 className="livechat-signin-title">Live Chat</h2>
+          <p className="livechat-signin-subtitle">
+            Connect with other Gators in real time
+          </p>
+          <button
+            className="livechat-signin-btn"
+            onClick={() => auth.signinRedirect()}
+          >
+            Sign in to chat
+          </button>
+        </div>
+      );
+    }
+
+    if (!isUsernameSet) {
+      return (
+        <div>
+          <h2 className="text-white text-center choose-username-text">
+            Choose a Username
+          </h2>
+          <div className="chat-input-container">
+            <input
+              type="text"
+              className="text-input"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              onKeyDown={handleUserNameKeyDown}
+              placeholder="Enter your username"
+            />
+            <IoSend
+              onClick={handleUsernameSubmit}
+              className="text-white cursor-pointer"
+            />
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="chat-input-container">
+        <input
+          type="text"
+          className="text-input"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Send a message"
+        />
+        <IoSend
+          onClick={handleSendMessage}
+          className="text-white cursor-pointer"
+        />
+      </div>
+    );
+  };
 
   return (
     <div className="chat-panel" ref={containerRef}>
@@ -310,9 +352,8 @@ const Chat: React.FC<ChatProps> = ({
       <div className="chat-content">
         <div className="chat-messages-container">
           <div className="chat-messages" ref={chatMessagesRef}>
-            {user && !isUsernameSet
-              ? null
-              : messages.map((msg, index) => (
+            {auth.isAuthenticated && isUsernameSet
+              ? messages.map((msg, index) => (
                   <div
                     key={msg.timestamp + msg.user}
                     className="message-container text-white"
@@ -333,49 +374,11 @@ const Chat: React.FC<ChatProps> = ({
                     </div>
                     <div className="message-content">{msg.message}</div>
                   </div>
-                ))}
+                ))
+              : null}
             <div ref={messagesEndRef} />
           </div>
-          {!user ? (
-            <div className="google-auth">
-              <GoogleAuth onSuccess={handleLoginSuccess} />
-            </div>
-          ) : !isUsernameSet ? (
-            <div>
-              <h2 className="text-white text-center choose-username-text">
-                Choose a Username
-              </h2>
-              <div className="chat-input-container">
-                <input
-                  type="text"
-                  className="text-input"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  onKeyDown={handleUserNameKeyDown}
-                  placeholder="Enter your username"
-                />
-                <IoSend
-                  onClick={handleUsernameSubmit}
-                  className="text-white cursor-pointer"
-                />
-              </div>
-            </div>
-          ) : (
-            <div className="chat-input-container">
-              <input
-                type="text"
-                className="text-input"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Send a message"
-              />
-              <IoSend
-                onClick={handleSendMessage}
-                className="text-white cursor-pointer"
-              />
-            </div>
-          )}
+          {renderChatBody()}
         </div>
       </div>
     </div>

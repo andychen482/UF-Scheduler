@@ -37,7 +37,7 @@
   white-space: nowrap;
 }
 
-@media (min-width: 965px ) {
+@media (min-width: 1001px) {
   .button-container {
     display: flex;
     white-space: nowrap;
@@ -65,7 +65,7 @@
   }
 }
 
-@media (max-width: 964px) {
+@media (max-width: 1000px) {
   .button-container {
     display: flex;
     width: 100%;
@@ -114,6 +114,9 @@
 }
 .Button.show {
   opacity: 1;
+}
+.Button.ai-chat-tab.show {
+  background: linear-gradient(180deg, #0021a5 0%, #292929 100%);
 }
 
 .menu-button {
@@ -177,4 +180,78 @@
 .rounded-dropdown {
   border-radius: 5px; /* Adjust the value as needed */
   text-align: center;
+}
+
+/* ── Auth section ── */
+
+.auth-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.auth-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0021a5 0%, #fa4616 100%);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  user-select: none;
+  letter-spacing: 0.02em;
+}
+
+.auth-email {
+  color: #9ca3af;
+  font-size: 0.75rem;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.auth-signout-btn {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #9ca3af;
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-signout-btn:hover {
+  color: #f87171;
+  border-color: rgba(248, 113, 113, 0.4);
+}
+
+.auth-signin-btn {
+  background: none;
+  border: 1px solid rgba(0, 33, 165, 0.5);
+  color: #93b4ff;
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-signin-btn:hover {
+  color: #bdd0ff;
+  border-color: rgba(0, 33, 165, 0.8);
+  background-color: rgba(0, 33, 165, 0.15);
 }

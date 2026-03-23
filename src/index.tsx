@@ -6,14 +6,18 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ReactGA from 'react-ga4';
 import 'react-tooltip/dist/react-tooltip.css'
+import { AuthProvider } from 'react-oidc-context';
+import { cognitoConfig } from './config/api';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 ReactGA.initialize(process.env.REACT_APP_GA_TOKEN as string);
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <AuthProvider {...cognitoConfig}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AuthProvider>
   </React.StrictMode>
 );
 
