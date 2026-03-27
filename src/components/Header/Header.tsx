@@ -47,6 +47,7 @@ const Header: React.FC<HeaderProps> = ({
 
   const userEmail = auth.user?.profile?.email ?? "";
   const userInitial = userEmail ? userEmail[0].toUpperCase() : "?";
+  const userPicture = auth.user?.profile?.picture as string | undefined;
 
   const handleClickingCalendar = () => {
     setShowArrow(false);
@@ -226,7 +227,16 @@ const Header: React.FC<HeaderProps> = ({
           {auth.isAuthenticated ? (
             <>
               <div className="auth-avatar" title={userEmail}>
-                {userInitial}
+                {userPicture ? (
+                  <img
+                    src={userPicture}
+                    alt={userInitial}
+                    className="auth-avatar-img"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  userInitial
+                )}
               </div>
               {windowWidth >= 1001 && (
                 <span className="auth-email">{userEmail}</span>

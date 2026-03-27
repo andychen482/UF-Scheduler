@@ -83,6 +83,9 @@ export const BACKEND_ENDPOINTS = {
   MESSAGES: '/chat-room/messages',
   MESSAGES_STREAM: '/chat-room/messages/stream',
 
+  // Active users (unauthenticated)
+  ACTIVE_USERS_STREAM: '/active-users/stream',
+
   // AI Chat endpoint
   AI_CHAT: '/ai-chat',
 } as const;
@@ -114,6 +117,7 @@ export const BACKEND_URLS = {
   GET_PROFILE: buildBackendUrl(BACKEND_ENDPOINTS.GET_PROFILE),
   MESSAGES: buildBackendUrl(BACKEND_ENDPOINTS.MESSAGES),
   MESSAGES_STREAM: buildBackendUrl(BACKEND_ENDPOINTS.MESSAGES_STREAM),
+  ACTIVE_USERS_STREAM: buildBackendUrl(BACKEND_ENDPOINTS.ACTIVE_USERS_STREAM),
   AI_CHAT: buildBackendUrl(BACKEND_ENDPOINTS.AI_CHAT),
 } as const;
 

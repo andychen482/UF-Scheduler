@@ -8,6 +8,7 @@ import Header from "../../components/Header/Header";
 import LikedSelectedCourses from "../../components/CoursesHandler/LikedSelectedCourses";
 import { AiOutlineMessage } from "react-icons/ai";
 import { IoClose } from "react-icons/io5";
+import { fetchEventSource } from "@microsoft/fetch-event-source";
 import Footer from "../../components/Footer/Footer";
 import MapBox from "../../components/MapBox/Map";
 import Chat from "../../components/Chat/LiveChat";
@@ -16,7 +17,7 @@ import ModelPlan from "../../components/ModelPlan/ModelPlan";
 import Graph from "../../components/Cytoscape/Graph";
 import { ChangeEvent } from "react";
 import { useAIActionStore } from "../../store/aiActionStore";
-import { API_URLS } from "../../config/api";
+import { API_URLS, BACKEND_URLS } from "../../config/api";
 
 const Main = () => {
   const [selectedMajor, setSelectedMajor] = useState<string | null>(() => {
@@ -226,8 +227,19 @@ const Main = () => {
     localStorage.setItem("lastReadTimestamp", new Date().toISOString());
   };
 
-  const handleActiveUsersUpdate = useCallback((count: number) => {
-    setActiveUsers(count);
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchEventSource(BACKEND_URLS.ACTIVE_USERS_STREAM, {
+      signal: controller.signal,
+      onmessage(ev) {
+        if (ev.event === "active_users") {
+          const { active_users } = JSON.parse(ev.data);
+          setActiveUsers(active_users);
+        }
+      },
+      onerror() {},
+    });
+    return () => controller.abort();
   }, []);
 
   const handleTermChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -284,7 +296,6 @@ const Main = () => {
           isChatVisible={isChatVisible}
           setIsChatVisible={setIsChatVisible}
           handleNewMessage={handleNewMessage}
-          onActiveUsersUpdate={handleActiveUsersUpdate}
         />
       </div>
       <button

@@ -16,14 +16,12 @@ interface ChatProps {
   setIsChatVisible: React.Dispatch<React.SetStateAction<boolean>>;
   isChatVisible: boolean;
   handleNewMessage: () => void;
-  onActiveUsersUpdate: (count: number) => void;
 }
 
 const Chat: React.FC<ChatProps> = ({
   setIsChatVisible,
   isChatVisible,
   handleNewMessage,
-  onActiveUsersUpdate,
 }) => {
   const auth = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -100,7 +98,7 @@ const Chat: React.FC<ChatProps> = ({
     })();
   }, [auth.isAuthenticated, loadMessages]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // SSE stream for real-time messages and active user count
+  // SSE stream for real-time chat messages
   useEffect(() => {
     if (!auth.isAuthenticated || !auth.user?.id_token) return;
 
@@ -118,10 +116,6 @@ const Chat: React.FC<ChatProps> = ({
             handleNewMessageRef.current();
           }
         }
-        if (ev.event === "active_users") {
-          const { active_users } = JSON.parse(ev.data);
-          onActiveUsersUpdate(active_users);
-        }
       },
       onerror() {
         // Reconnection is handled automatically by fetchEventSource
@@ -132,7 +126,7 @@ const Chat: React.FC<ChatProps> = ({
       controller.abort();
       abortControllerRef.current = null;
     };
-  }, [auth.isAuthenticated, auth.user?.id_token, onActiveUsersUpdate]);
+  }, [auth.isAuthenticated, auth.user?.id_token]);
 
   const checkForUnreadMessages = (messagesList: Message[]) => {
     if (!isChatVisible && messagesList.length > 0) {
