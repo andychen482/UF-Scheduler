@@ -22,9 +22,22 @@ interface ChatMessage {
   toolCall?: ToolCallMeta;
 }
 
+const INTRO_MESSAGE: ChatMessage = {
+  role: "assistant",
+  content:
+    "Hey there, Gator! I'm your UF Course Assistant. Here's what I can help you with:\n\n" +
+    "- **Course Search** — Find UF courses by code (e.g. \"COP3530\") or by topic (e.g. \"Data Structures\")\n" +
+    "- **Section Details** — Look up instructors, meeting times, locations, and delivery mode for any course\n" +
+    "- **Professor Ratings** — Pull up RateMyProfessors ratings, difficulty scores, and student reviews\n" +
+    "- **GatorEvals** — Look up official UF teaching evaluation scores (1–5 scale) with a direct link to the Tableau dashboard\n" +
+    "- **Reddit Opinions** — Search r/UFL for real student experiences and opinions\n" +
+    "- **Scheduler Actions** — Add or remove courses from the scheduler\n\n" +
+    "What can I help you with?",
+};
+
 const AIChat: React.FC = () => {
   const auth = useAuth();
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([INTRO_MESSAGE]);
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
   const [sessionId, setSessionId] = useState<string | undefined>();
@@ -160,7 +173,7 @@ const AIChat: React.FC = () => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
-    setMessages([]);
+    setMessages([INTRO_MESSAGE]);
     setSessionId(undefined);
     setIsStreaming(false);
   };
@@ -207,14 +220,6 @@ const AIChat: React.FC = () => {
         </button>
       </div>
       <div className="ai-view-messages">
-        {messages.length === 0 && (
-          <div className="ai-view-welcome">
-            <BsStars className="ai-view-welcome-icon" />
-            <p className="ai-view-welcome-text">
-              Ask me about courses, sections, or schedules.
-            </p>
-          </div>
-        )}
         {messages.map((msg, index) =>
           msg.role === "tool_call" && msg.toolCall ? (
             <ToolCallCard
