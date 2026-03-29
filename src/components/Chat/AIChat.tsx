@@ -258,7 +258,17 @@ const AIChat: React.FC = () => {
               <div className="ai-msg-content">
                 {msg.role === "assistant" ? (
                   <>
-                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                    <ReactMarkdown
+                      components={{
+                        a: ({ children, ...props }) => (
+                          <a {...props} target="_blank" rel="noopener noreferrer">
+                            {children}
+                          </a>
+                        ),
+                      }}
+                    >
+                      {msg.content}
+                    </ReactMarkdown>
                     {isStreaming && index === messages.length - 1 && (
                       <span className="ai-cursor">|</span>
                     )}
