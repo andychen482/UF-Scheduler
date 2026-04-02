@@ -37,7 +37,7 @@ const INTRO_MESSAGE: ChatMessage = {
     "- **Course Search** — Find UF courses by code (e.g. \"COP3530\") or by topic (e.g. \"Data Structures\")\n" +
     "- **Section Details** — Look up instructors, meeting times, locations, and delivery mode for any course\n" +
     "- **Professor Ratings** — Pull up RateMyProfessors ratings, difficulty scores, and student reviews\n" +
-    "- **GatorEvals** — Look up official UF teaching evaluation scores (1–5 scale) with a direct link to the Tableau dashboard\n" +
+    "- **GatorEvals** — Look up official UF teaching evaluation scores (1-5 scale, where 1 = Strongly Disagree and 5 = Strongly Agree)\n" +
     "- **Reddit Opinions** — Search r/UFL for real student experiences and opinions\n" +
     "- **Scheduler Actions** — Add or remove courses from the scheduler\n\n" +
     "What can I help you with?",
