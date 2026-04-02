@@ -42,11 +42,20 @@
   letter-spacing: 0.02em;
 }
 
-.ai-view-new-chat-btn {
+.ai-view-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ai-view-header-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #a0a8b8;
-  padding: 5px 14px;
+  padding: 5px 12px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.78rem;
@@ -54,15 +63,122 @@
   transition: all 0.2s ease;
 }
 
-.ai-view-new-chat-btn:hover:not(:disabled) {
+.ai-view-header-btn:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
   border-color: rgba(255, 255, 255, 0.18);
 }
 
-.ai-view-new-chat-btn:disabled {
+.ai-view-header-btn:disabled {
   opacity: 0.35;
   cursor: not-allowed;
+}
+
+.ai-view-header-btn-active {
+  background: rgba(110, 168, 254, 0.1);
+  border-color: rgba(110, 168, 254, 0.25);
+  color: #6ea8fe;
+}
+
+/* ── History panel ── */
+
+.ai-history-panel {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  max-height: 220px;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.25);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+}
+
+.ai-history-panel::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ai-history-panel::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.ai-history-loading,
+.ai-history-empty {
+  padding: 16px 20px;
+  color: #7a8899;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.ai-history-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 9px 20px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  font-family: "Sora", sans-serif;
+  text-align: left;
+  transition: background 0.15s ease;
+  color: inherit;
+}
+
+.ai-history-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ai-history-item:last-child {
+  border-bottom: none;
+}
+
+.ai-history-item-active {
+  background: rgba(110, 168, 254, 0.06);
+  border-left: 2px solid #6ea8fe;
+}
+
+.ai-history-item-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ai-history-item-title {
+  font-size: 0.82rem;
+  color: #d0d5de;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ai-history-item-active .ai-history-item-title {
+  color: #e8edf5;
+}
+
+.ai-history-item-time {
+  font-size: 0.7rem;
+  color: #5a6476;
+}
+
+.ai-history-delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+  border: none;
+  background: transparent;
+  color: #5a6476;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.ai-history-delete-btn:hover {
+  background: rgba(248, 113, 113, 0.12);
+  color: #f87171;
 }
 
 /* ── Messages area ── */
