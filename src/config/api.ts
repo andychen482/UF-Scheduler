@@ -86,8 +86,9 @@ export const BACKEND_ENDPOINTS = {
   // Active users (unauthenticated)
   ACTIVE_USERS_STREAM: '/active-users/stream',
 
-  // AI Chat endpoint
+  // AI Chat endpoints
   AI_CHAT: '/ai-chat',
+  AI_CHAT_HISTORY: '/ai-chat/history',
 } as const;
 
 export const buildApiUrl = (endpoint: string): string => {
@@ -119,6 +120,7 @@ export const BACKEND_URLS = {
   MESSAGES_STREAM: buildBackendUrl(BACKEND_ENDPOINTS.MESSAGES_STREAM),
   ACTIVE_USERS_STREAM: buildBackendUrl(BACKEND_ENDPOINTS.ACTIVE_USERS_STREAM),
   AI_CHAT: buildBackendUrl(BACKEND_ENDPOINTS.AI_CHAT),
+  AI_CHAT_HISTORY: buildBackendUrl(BACKEND_ENDPOINTS.AI_CHAT_HISTORY),
 } as const;
 
 export default {

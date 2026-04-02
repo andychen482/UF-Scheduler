@@ -1,12 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useAuth } from "react-oidc-context";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
 import ReactMarkdown from "react-markdown";
 import { IoSend } from "react-icons/io5";
 import { BsStars } from "react-icons/bs";
+import { LuHistory } from "react-icons/lu";
 import { BACKEND_URLS, getAuthHeaders } from "../../config/api";
 import { useAIActionStore } from "../../store/aiActionStore";
 import ToolCallCard from "./ToolCallCard";
+import ChatHistoryPanel from "./ChatHistoryPanel";
 import "./AIChat.css";
 
 interface ToolCallMeta {
@@ -20,6 +22,12 @@ interface ChatMessage {
   role: "user" | "assistant" | "tool_call";
   content: string;
   toolCall?: ToolCallMeta;
+}
+
+interface ChatSummary {
+  session_id: string;
+  title: string;
+  updated_at: string;
 }
 
 const INTRO_MESSAGE: ChatMessage = {
@@ -44,9 +52,78 @@ const AIChat: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
 
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [historyChats, setHistoryChats] = useState<ChatSummary[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  const fetchHistory = useCallback(async () => {
+    if (!auth.user?.id_token) return;
+    setHistoryLoading(true);
+    try {
+      const res = await fetch(BACKEND_URLS.AI_CHAT_HISTORY, {
+        headers: getAuthHeaders(auth),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setHistoryChats(data.chats ?? []);
+      }
+    } catch {
+      // silently fail
+    } finally {
+      setHistoryLoading(false);
+    }
+  }, [auth]);
+
+  useEffect(() => {
+    if (historyOpen) {
+      fetchHistory();
+    }
+  }, [historyOpen, fetchHistory]);
+
+  const loadChat = async (targetSessionId: string) => {
+    if (!auth.user?.id_token) return;
+    try {
+      const res = await fetch(`${BACKEND_URLS.AI_CHAT}/${targetSessionId}`, {
+        headers: getAuthHeaders(auth),
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      const loaded: ChatMessage[] = (data.messages ?? []).map(
+        (m: { role: string; content: string }) => ({
+          role: m.role as ChatMessage["role"],
+          content: m.content,
+        }),
+      );
+      setMessages(loaded.length > 0 ? loaded : [INTRO_MESSAGE]);
+      setSessionId(targetSessionId);
+      setHistoryOpen(false);
+    } catch {
+      // silently fail
+    }
+  };
+
+  const deleteChat = async (targetSessionId: string) => {
+    if (!auth.user?.id_token) return;
+    try {
+      await fetch(`${BACKEND_URLS.AI_CHAT}/${targetSessionId}`, {
+        method: "DELETE",
+        headers: getAuthHeaders(auth),
+      });
+    } catch {
+      // silently fail
+    }
+    setHistoryChats((prev) =>
+      prev.filter((c) => c.session_id !== targetSessionId),
+    );
+    if (targetSessionId === sessionId) {
+      setMessages([INTRO_MESSAGE]);
+      setSessionId(undefined);
+    }
+  };
 
   const handleSend = async () => {
     if (!input.trim() || isStreaming || !auth.user?.id_token) return;
@@ -159,17 +236,7 @@ const AIChat: React.FC = () => {
     }
   };
 
-  const handleNewConversation = async () => {
-    if (sessionId && auth.user?.id_token) {
-      try {
-        await fetch(`${BACKEND_URLS.AI_CHAT}/${sessionId}`, {
-          method: "DELETE",
-          headers: getAuthHeaders(auth),
-        });
-      } catch {
-        // Delete failed silently
-      }
-    }
+  const handleNewConversation = () => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
@@ -211,14 +278,34 @@ const AIChat: React.FC = () => {
           <BsStars className="ai-view-header-icon" />
           <h2 className="ai-view-title">AI Assistant</h2>
         </div>
-        <button
-          className="ai-view-new-chat-btn"
-          onClick={handleNewConversation}
-          disabled={isStreaming}
-        >
-          New Chat
-        </button>
+        <div className="ai-view-header-actions">
+          <button
+            className={`ai-view-header-btn ${historyOpen ? "ai-view-header-btn-active" : ""}`}
+            onClick={() => setHistoryOpen((prev) => !prev)}
+            disabled={isStreaming}
+            aria-label="Chat history"
+          >
+            <LuHistory size={15} />
+            History
+          </button>
+          <button
+            className="ai-view-header-btn"
+            onClick={handleNewConversation}
+            disabled={isStreaming}
+          >
+            New Chat
+          </button>
+        </div>
       </div>
+      {historyOpen && (
+        <ChatHistoryPanel
+          chats={historyChats}
+          activeSessionId={sessionId}
+          loading={historyLoading}
+          onSelect={loadChat}
+          onDelete={deleteChat}
+        />
+      )}
       <div className="ai-view-messages">
         {messages.map((msg, index) =>
           msg.role === "tool_call" && msg.toolCall ? (
