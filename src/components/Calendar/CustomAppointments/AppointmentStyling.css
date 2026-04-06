@@ -1,121 +1,238 @@
+.recurring-event-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+}
+
+.recurring-event-modal-panel {
+  width: 100%;
+  max-width: 420px;
+  max-height: min(90vh, 640px);
+  overflow: auto;
+}
+
 .custom-appointment-form {
-    background-color: #2f3136;
-    color: #ffffff;
-    padding: 10px;
-    border-radius: 0px;
-    width: 95%;
-    margin: 20px;
-  }
-  
-  .custom-appointment-form .form-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-    gap: 20px;
-  }
-  
-  .custom-appointment-form .form-row div {
-    width: 100%;
-  }
-  
-  .custom-appointment-form label {
-    display: block;
-    margin-bottom: 2px;
-    font-weight: bold;
-  }
-  
-  .custom-appointment-form input[type="text"],
-  .custom-appointment-form input[type="number"],
-  .custom-appointment-form input[type="time"] {
-    width: 100%;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #ffffff;
-    color: #000;
-    height: 40px; /* Set a specific height */
-  }
+  background: linear-gradient(165deg, #252525 0%, #1a1a1a 100%);
+  color: #f3f4f6;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
 
-  .custom-appointment-form input[type="color"] {
-    width: 100%;
-    background-color: #ffffff;
-    color: #000;
-    height: 40px; /* Set a specific height */
-  }
-  
-  .custom-appointment-form input[type="checkbox"] {
-    display: none; /* Hide the default checkboxes */
-  }
+.custom-appointment-form-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
 
-  .custom-appointment-form .checkbox-group {
-    display: inline-block; /* Make the checkbox group inline */
-  }
-  
-  .custom-appointment-form .checkbox-label {
-    display: inline-block;
-    position: relative;
-    padding-left: 25px;
-    margin-right: 15px;
-    cursor: pointer;
-    font-size: 100%;
-    user-select: none;
-    line-height: 20px; /* Adjust line-height to align with the checkbox */
-  }
-  
-  .custom-appointment-form .checkbox-label:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%); /* Vertically center the custom checkbox */
-    width: 20px;
-    height: 20px;
-    border: 2px solid #1f4da8; /* Add a border around the custom checkbox */
-    border-radius: 4px; /* Optional: add border radius to round the corners */
-  }
-  
-  .custom-appointment-form input[type="checkbox"]:checked + .checkbox-label:after {
-    content: '';
-    position: absolute;
-    left: 5px;
-    top: 50%;
-    transform: translateY(-50%); /* Vertically center the check mark */
-    width: 10px;
-    height: 10px;
-    background-color: #1f4da8; /* Color of the check mark */
-  }
+.custom-appointment-form-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+  color: #fff;
+}
 
-  .custom-appointment-form .button-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .custom-appointment-form .add-appointment-button {
-    width: auto; 
-    padding: 8px 8px 8px 8px; 
-    margin-top: 10px;
-    background-color: #ffffff;
-    color: #2f3136;
-    border: 1px solid #ccc; 
-    border-radius: 5px;
-    cursor: pointer;
-    height: 40px;
-  }
-  
-  
-  .custom-appointment-form .add-appointment-button:hover {
-    background-color: #ddd;
-  }
+.custom-appointment-form-close {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  margin: -4px -4px 0 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
 
-  .custom-appointment-form .disabled-button {
-    background-color: #ccc;
-    cursor: not-allowed;
-    border: 1px solid #aaa;
-  }
-  
-  .custom-appointment-form .disabled-button:hover {
-    background-color: #ccc;
-  }
-  
+.custom-appointment-form-close:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.custom-appointment-form-hint {
+  margin: 0;
+  padding: 12px 16px 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.custom-appointment-form-field {
+  padding: 12px 16px 0;
+}
+
+.custom-appointment-form-field label,
+.custom-appointment-form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.custom-appointment-form input[type="text"],
+.custom-appointment-form input[type="time"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.35);
+  color: #f9fafb;
+  font-size: 0.9375rem;
+  min-height: 42px;
+}
+
+.custom-appointment-form input[type="text"]::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.custom-appointment-form input[type="text"]:focus,
+.custom-appointment-form input[type="time"]:focus {
+  outline: none;
+  border-color: rgba(59, 130, 246, 0.55);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.custom-appointment-form-row-times {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 12px 16px 0;
+}
+
+.custom-appointment-form-row-times .custom-appointment-form-field {
+  padding: 0;
+}
+
+.custom-appointment-day-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.custom-appointment-day-chip {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-appointment-day-chip input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.custom-appointment-day-chip span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.25);
+  color: rgba(255, 255, 255, 0.75);
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.custom-appointment-day-chip input:focus-visible + span {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.45);
+}
+
+.custom-appointment-day-chip input:checked + span {
+  background: rgba(59, 130, 246, 0.35);
+  border-color: rgba(96, 165, 250, 0.65);
+  color: #fff;
+}
+
+.custom-appointment-day-chip:hover span {
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.custom-appointment-form-field-color {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.custom-appointment-form-field-color input[type="color"] {
+  width: 100%;
+  max-width: 120px;
+  height: 44px;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+
+.custom-appointment-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 20px 16px 16px;
+  margin-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.custom-appointment-form-cancel {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.custom-appointment-form-cancel:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.custom-appointment-form-submit {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background: #e8e8ed;
+  color: #111;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.custom-appointment-form-submit:hover:not(:disabled) {
+  background: #fff;
+}
+
+.custom-appointment-form-submit.is-disabled,
+.custom-appointment-form-submit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

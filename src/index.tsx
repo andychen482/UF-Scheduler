@@ -8,9 +8,12 @@ import ReactGA from 'react-ga4';
 import 'react-tooltip/dist/react-tooltip.css'
 import { AuthProvider } from 'react-oidc-context';
 import { cognitoConfig } from './config/api';
+import { GA_MEASUREMENT_ID, isAnalyticsEnabled } from './analytics';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-ReactGA.initialize(process.env.REACT_APP_GA_TOKEN as string);
+if (isAnalyticsEnabled()) {
+  ReactGA.initialize(GA_MEASUREMENT_ID as string);
+}
 root.render(
   <React.StrictMode>
     <AuthProvider {...cognitoConfig}>
@@ -28,6 +31,8 @@ type WebVitalMetric = {
 };
 
 const sendToGoogleAnalytics = (metric: WebVitalMetric) => {
+  if (!isAnalyticsEnabled()) return;
+
   const { id, name, value } = metric;
 
   ReactGA.send({

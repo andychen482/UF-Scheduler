@@ -11,6 +11,8 @@ import Select, { CSSObjectWithLabel } from "react-select";
 import { addDays, format, startOfWeek } from "date-fns";
 import IntervalTree, { Interval } from "@flatten-js/interval-tree";
 import CustomAppointmentForm from "./CustomAppointments/customAppointmentForm";
+import { ScheduleAppointmentTooltipContent } from "./ScheduleAppointmentTooltip";
+import { ScheduleAppointmentTooltipLayout } from "./ScheduleAppointmentTooltipLayout";
 import {
   Scheduler,
   Appointments,
@@ -192,6 +194,15 @@ const Calendar: React.FC<CalendarProps> = ({
     Date.now().toString()
   );
 
+  useEffect(() => {
+    if (!isAppointmentFormVisible) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsAppointmentFormVisible(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isAppointmentFormVisible]);
+
   const getCurrentWeekDayDate = (dayIndex: number) => {
     const today = new Date();
     const isSaturday = today.getDay() === 6;
@@ -308,9 +319,11 @@ const Calendar: React.FC<CalendarProps> = ({
     setAnimationKey(Date.now().toString());
   }, [term, year]);
 
-  // Step 1: Identify selected sections
+  // Step 1: Identify selected sections (omit courses hidden via eye toggle)
   const getAllSelectedSections = () => {
-    return selectedCourses.map((course) => {
+    return selectedCourses
+      .filter((course) => !course.excludedFromSchedule)
+      .map((course) => {
       const selectedSection = course.sections.find(
         (section) => section.selected === true
       );
@@ -580,7 +593,12 @@ const Calendar: React.FC<CalendarProps> = ({
                       excludedDays={[0, 6]}
                     />
                     <Appointments />
-                    <AppointmentTooltip showCloseButton />
+                    <AppointmentTooltip
+                      showCloseButton
+                      showDeleteButton={false}
+                      contentComponent={ScheduleAppointmentTooltipContent}
+                      layoutComponent={ScheduleAppointmentTooltipLayout}
+                    />
                     <Resources
                       data={resources}
                       mainResourceName={mainResourceName}
@@ -772,27 +790,27 @@ const Calendar: React.FC<CalendarProps> = ({
       {isLoadingSort && <div className="spinner"></div>}
       <div className="calendar-display">
         {isAppointmentFormVisible && (
-          <CustomAppointmentForm
-            customAppointments={customAppointments}
-            setCustomAppointments={setCustomAppointments}
-            setIsAppointmentFormVisible={setIsAppointmentFormVisible}
-            term={term}
-            year={year}
-            style={{
-              transform: "translateX(-50%)",
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              width: "auto",
-              height: "auto",
-              zIndex: 999,
-              backgroundColor: "#252422",
-              marginLeft: "0%", // Adjust to center horizontally
-              marginTop: "-15%", // Adjust to center vertically
-              border: "2px solid #F5F5F5",
-              borderRadius: "4px",
-            }}
-          ></CustomAppointmentForm>
+          <div
+            className="recurring-event-modal-overlay"
+            role="presentation"
+            onClick={() => setIsAppointmentFormVisible(false)}
+          >
+            <div
+              className="recurring-event-modal-panel"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="recurring-event-modal-title"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <CustomAppointmentForm
+                customAppointments={customAppointments}
+                setCustomAppointments={setCustomAppointments}
+                setIsAppointmentFormVisible={setIsAppointmentFormVisible}
+                term={term}
+                year={year}
+              />
+            </div>
+          </div>
         )}
         <div
           style={{

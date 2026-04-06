@@ -255,7 +255,9 @@ const Graph: React.FC<GraphProps> = ({
 
   const generateAList = async () => {
     await handleLoading(async () => {
-      const selectedCoursesServ = selectedCourses.map((course) => course.code);
+      const selectedCoursesServ = selectedCourses
+        .filter((course) => !course.excludedFromSchedule)
+        .map((course) => course.code);
       const response = await axios.post(API_URLS.GENERATE_A_LIST, {
         selectedMajorServ: selectedMajor,
         selectedCoursesServ: selectedCoursesServ,

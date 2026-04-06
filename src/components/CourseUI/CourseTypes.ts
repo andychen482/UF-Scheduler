@@ -48,6 +48,8 @@ export type Course = {
   sections: Section[];
   inPerson: boolean;
   creditsEditable: boolean;
+  /** When true, course stays in the list but is omitted from schedule combinations and the graph. */
+  excludedFromSchedule?: boolean;
 };
 
 export const websiteURL: string = "https://www.ratemyprofessors.com/professor/";

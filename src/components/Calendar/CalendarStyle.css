@@ -113,3 +113,100 @@
   opacity: 0;
   animation: 0.5s fadeIn 0.5s forwards;
 }
+
+/* Schedule block popover: custom layout merges close with body (ScheduleAppointmentTooltipLayout) */
+.schedule-tooltip-popover-paper {
+  padding: 0 !important;
+  margin-top: 0 !important;
+  max-width: 360px !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55) !important;
+  background: #1a1a1a !important;
+}
+
+.schedule-tooltip-popover-paper .MuiIconButton-root {
+  color: rgba(255, 255, 255, 0.88);
+  padding: 4px !important;
+}
+
+.schedule-tooltip-popover-paper .MuiIconButton-root:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Custom tooltip body (ScheduleAppointmentTooltip.tsx) */
+.schedule-tooltip-content {
+  padding: 12px 4px 14px 14px;
+  max-width: 360px;
+  box-sizing: border-box;
+}
+
+.schedule-tooltip-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.schedule-tooltip-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+}
+
+.schedule-tooltip-day {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 10px;
+}
+
+.schedule-tooltip-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.92);
+  margin-bottom: 8px;
+}
+
+.schedule-tooltip-row-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  opacity: 0.8;
+  font-size: 1.05rem;
+}
+
+.schedule-tooltip-resources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.schedule-tooltip-pill {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 4px 10px 4px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border-left: 3px solid rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.schedule-tooltip-final {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.8rem;
+  color: rgba(255, 210, 160, 0.95);
+}
+
+.schedule-tooltip-recurring-wrap {
+  display: inline-flex;
+  opacity: 0.85;
+}
