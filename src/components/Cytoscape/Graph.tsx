@@ -39,19 +39,26 @@ function formatCourseCodeForDisplay(key: string): string {
   return key.replace(/\n/g, " ").trim();
 }
 
-/** Viewport coordinates for a fixed tooltip below the node center. */
+/**
+ * Viewport coordinates for a fixed tooltip below the node center.
+ * Returns null while the renderer is unavailable (e.g. during cy.fit / pan-zoom bursts).
+ */
 function getNodeTooltipViewportPosition(
   cy: cytoscape.Core,
   node: cytoscape.Singular
-): { left: number; top: number } {
-  const bb = node.renderedBoundingBox();
-  const container = cy.container();
-  if (!container) return { left: 0, top: 0 };
-  const cr = container.getBoundingClientRect();
-  return {
-    left: cr.left + (bb.x1 + bb.x2) / 2,
-    top: cr.top + bb.y2 + 8,
-  };
+): { left: number; top: number } | null {
+  try {
+    const bb = node.renderedBoundingBox();
+    const container = cy.container();
+    if (!container) return null;
+    const cr = container.getBoundingClientRect();
+    return {
+      left: cr.left + (bb.x1 + bb.x2) / 2,
+      top: cr.top + bb.y2 + 8,
+    };
+  } catch {
+    return null;
+  }
 }
 
 /** Looser graphs stay compact; dense graphs get more spacing so nodes don't feel crushed. */
@@ -388,11 +395,23 @@ const Graph: React.FC<GraphProps> = ({
         const seq = ++graphTooltipHoverSeqRef.current;
         const code = node.id().replace(/\n/g, " ").trim();
         const key = normalizeCourseKey(code);
-        const pos = getNodeTooltipViewportPosition(cy, node);
+        const placeTooltip = (name: string) => {
+          const tryPlace = (attemptsLeft: number) => {
+            const hovered = graphTooltipHoveredNodeRef.current;
+            if (!hovered || graphTooltipHoverSeqRef.current !== seq) return;
+            const p = getNodeTooltipViewportPosition(cy, hovered);
+            if (p) {
+              setGraphTooltip({ ...p, name });
+            } else if (attemptsLeft > 0) {
+              requestAnimationFrame(() => tryPlace(attemptsLeft - 1));
+            }
+          };
+          tryPlace(4);
+        };
 
         const cached = courseNameCacheRef.current.get(key);
         if (cached) {
-          setGraphTooltip({ ...pos, name: cached });
+          placeTooltip(cached);
         } else {
           void (async () => {
             const { term: t, year: y } = termYearRef.current;
@@ -412,18 +431,12 @@ const Graph: React.FC<GraphProps> = ({
               const name =
                 match?.name?.trim() || formatCourseCodeForDisplay(code);
               courseNameCacheRef.current.set(key, name);
-              const hovered = graphTooltipHoveredNodeRef.current;
-              if (!hovered || graphTooltipHoverSeqRef.current !== seq) return;
-              const p = getNodeTooltipViewportPosition(cy, hovered);
-              setGraphTooltip({ ...p, name });
+              placeTooltip(name);
             } catch {
               if (graphTooltipHoverSeqRef.current !== seq) return;
               const fallback = formatCourseCodeForDisplay(code);
               courseNameCacheRef.current.set(key, fallback);
-              const hovered = graphTooltipHoveredNodeRef.current;
-              if (!hovered || graphTooltipHoverSeqRef.current !== seq) return;
-              const p = getNodeTooltipViewportPosition(cy, hovered);
-              setGraphTooltip({ ...p, name: fallback });
+              placeTooltip(fallback);
             }
           })();
         }
@@ -441,6 +454,7 @@ const Graph: React.FC<GraphProps> = ({
         const node = graphTooltipHoveredNodeRef.current;
         if (!node || typeof node.renderedBoundingBox !== "function") return;
         const pos = getNodeTooltipViewportPosition(cy, node);
+        if (!pos) return;
         setGraphTooltip((prev) => (prev ? { ...prev, ...pos } : null));
       });
     }
