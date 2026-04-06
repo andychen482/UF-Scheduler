@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Course, Section, websiteURL } from "../CourseUI/CourseTypes";
+import { Course, Section } from "../CourseUI/CourseTypes";
 import ColorHash from "color-hash";
 import { PiTrashBold, PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
 import { IoClose } from "react-icons/io5";
 import "./LikedSelectedStyles.css";
 import PrerequisiteBlock from "../CourseUI/PrerequisiteBlock";
+import CourseDropdown from "../CourseUI/CourseDropdown/CourseDropdown";
 
 interface LikedSelectedCoursesProps {
   selectedCourses: Course[];
@@ -39,36 +40,6 @@ function getContrastYIQ(hexcolor: string) {
 
 const getSelectedSection = (course: Course): Section | undefined => {
   return course.sections.find((section: Section) => section.selected === true);
-};
-
-const convertTo12HourFormat = (time: string): string => {
-  const [hour, minute] = time.split(":");
-  const hourNumber = Number(hour);
-  const ampm = hourNumber >= 12 ? "PM" : "AM";
-  const hour12Format =
-    hourNumber > 12 ? hourNumber - 12 : hourNumber === 0 ? 12 : hourNumber;
-  return `${hour12Format}:${minute} ${ampm}`;
-};
-
-const getRatingColor = (rating: number | null): string => {
-  if (rating === null) return "text-gray-200";
-  if (rating <= 2) return "text-red-400";
-  if (rating < 4) return "text-yellow-400";
-  return "text-green-400";
-};
-
-const getDifficultyColor = (difficulty: number | null): string => {
-  if (difficulty === null) return "text-gray-200";
-  if (difficulty <= 2) return "text-green-400";
-  if (difficulty < 4) return "text-yellow-400";
-  return "text-red-400";
-};
-
-const waitListAvailable = (section: Section) => {
-  if (section.waitList.total === section.waitList.cap) {
-    return section.waitList.total + "/" + section.waitList.cap + " (Full)";
-  }
-  return section.waitList.total + "/" + section.waitList.cap;
 };
 
 const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
@@ -297,110 +268,14 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
 
             <div>
               <strong className="text-white block mb-2">Sections</strong>
-              <div className="space-y-3">
-                {[...c.sections]
-                  .sort((a, b) => a.waitList.total - b.waitList.total)
-                  .map((section, idx) => (
-                    <div
-                      key={section.classNumber + String(idx)}
-                      className="rounded-md bg-[#212121] border border-gray-600 p-3 space-y-2"
-                    >
-                      <div className="font-semibold text-gray-100 flex flex-wrap gap-x-2 gap-y-1 items-baseline">
-                        <span>Class #{section.classNumber}</span>
-                        {!section.waitList.total && section.waitList.cap > 0 ? (
-                          <span className="text-green-400 text-sm">
-                            Open Seats
-                          </span>
-                        ) : !section.waitList.total && !section.waitList.cap ? (
-                          <span className="text-red-400 text-sm">
-                            Seats Unknown
-                          </span>
-                        ) : section.waitList.total && section.waitList.cap ? (
-                          <span className="text-blue-400 text-sm">
-                            Wait list: {waitListAvailable(section)}
-                          </span>
-                        ) : null}
-                      </div>
-
-                      <div>
-                        {section.instructors.length > 1 ? (
-                          <strong>Instructors</strong>
-                        ) : (
-                          <strong>Instructor</strong>
-                        )}
-                        {section.instructors.map((instructor, i) => (
-                          <div
-                            key={i}
-                            className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:justify-between gap-1 text-sm"
-                          >
-                            <span className="text-gray-200">{instructor.name}</span>
-                            {instructor.avgRating != null && (
-                              <span className="flex flex-wrap gap-x-3 gap-y-0">
-                                <span>
-                                  Rating:{" "}
-                                  <a
-                                    className={`font-semibold ${getRatingColor(
-                                      instructor.avgRating
-                                    )} underline`}
-                                    href={`${websiteURL}${instructor.professorID}`}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                  >
-                                    {instructor.avgRating.toFixed(1)}/5
-                                  </a>
-                                </span>
-                                <span>
-                                  Difficulty:{" "}
-                                  <a
-                                    className={`font-semibold ${getDifficultyColor(
-                                      instructor.avgDifficulty
-                                    )} underline`}
-                                    href={`${websiteURL}${instructor.professorID}`}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                  >
-                                    {instructor.avgDifficulty.toFixed(1)}/5
-                                  </a>
-                                </span>
-                              </span>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-
-                      <div className="text-sm">
-                        <strong>Meeting times</strong>
-                        {section.meetTimes.length > 0 ? (
-                          section.meetTimes.map((meetingTime) => (
-                            <div
-                              key={
-                                meetingTime.meetDays +
-                                meetingTime.meetTimeBegin +
-                                meetingTime.meetTimeEnd
-                              }
-                              className="ml-0 sm:ml-2 mt-1"
-                            >
-                              <strong>
-                                {meetingTime.meetDays.join(", ")}:{" "}
-                              </strong>
-                              {convertTo12HourFormat(
-                                meetingTime.meetTimeBegin
-                              )}{" "}
-                              –{" "}
-                              {convertTo12HourFormat(meetingTime.meetTimeEnd)} @{" "}
-                              {meetingTime.meetBuilding} {meetingTime.meetRoom}
-                            </div>
-                          ))
-                        ) : (
-                          <span className="text-gray-400"> N/A</span>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-              </div>
-              {c.sections.length === 0 && (
-                <p className="text-gray-400">No sections loaded.</p>
-              )}
+              <CourseDropdown
+                course={c}
+                selectedCourses={selectedCourses}
+                setSelectedCourses={(action) => {
+                  setSelectedCourses(action);
+                  setLoaded(true);
+                }}
+              />
             </div>
           </div>
         </div>
