@@ -1,12 +1,11 @@
 import React from "react";
-import Popover from "@mui/material/Popover";
-import Box from "@mui/material/Box";
 import type {
   AppointmentModel,
   FormatterFn,
   ValidResourceInstance,
 } from "@devexpress/dx-react-scheduler";
 import { AppointmentTooltip } from "@devexpress/dx-react-scheduler-material-ui";
+import { ScheduleTooltipPopover } from "./ScheduleTooltipPopover";
 
 type LayoutProps = React.ComponentProps<typeof AppointmentTooltip.Layout>;
 
@@ -36,49 +35,21 @@ export const ScheduleAppointmentTooltipLayout: React.FC<LayoutProps> = ({
   const Body = Content as React.ComponentType<TooltipBodyProps>;
 
   return (
-    <Popover
+    <ScheduleTooltipPopover
       open={!!visible}
       anchorEl={(target as HTMLElement) ?? null}
-      onClose={onHide}
-      anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      transformOrigin={{ vertical: "top", horizontal: "center" }}
-      marginThreshold={0}
-      PaperProps={{
-        className: "schedule-tooltip-popover-paper",
-        elevation: 8,
+      onDismiss={() => {
+        onHide?.();
       }}
+      showCloseButton={showCloseButton}
+      commandButtonComponent={CommandButton}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "flex-start",
-          p: 0,
-          m: 0,
-          gap: 0,
-        }}
-      >
-        <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Body
-            appointmentData={data}
-            appointmentResources={appointmentResources}
-            formatDate={formatDate}
-            recurringIconComponent={recurringIconComponent}
-          />
-        </Box>
-        {showCloseButton ? (
-          <Box
-            sx={{
-              flexShrink: 0,
-              alignSelf: "flex-start",
-              mt: 0.25,
-              mr: 0.25,
-            }}
-          >
-            <CommandButton id="close" onExecute={onHide} />
-          </Box>
-        ) : null}
-      </Box>
-    </Popover>
+      <Body
+        appointmentData={data}
+        appointmentResources={appointmentResources}
+        formatDate={formatDate}
+        recurringIconComponent={recurringIconComponent}
+      />
+    </ScheduleTooltipPopover>
   );
 };

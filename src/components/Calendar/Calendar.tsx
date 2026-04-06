@@ -11,6 +11,7 @@ import Select, { CSSObjectWithLabel } from "react-select";
 import { addDays, format, startOfWeek } from "date-fns";
 import IntervalTree, { Interval } from "@flatten-js/interval-tree";
 import CustomAppointmentForm from "./CustomAppointments/customAppointmentForm";
+import NoWeeklyMeetingCoursesStrip from "./NoWeeklyMeetingCoursesStrip";
 import { ScheduleAppointmentTooltipContent } from "./ScheduleAppointmentTooltip";
 import { ScheduleAppointmentTooltipLayout } from "./ScheduleAppointmentTooltipLayout";
 import {
@@ -678,21 +679,9 @@ const Calendar: React.FC<CalendarProps> = ({
 
     let mainResourceName = "classNumber";
 
-    const onlineSections = combination.filter(
+    const noMeetTimeSections = combination.filter(
       (section) => !section.meetTimes || section.meetTimes.length === 0
     );
-
-    const onlineSectionNames = onlineSections.map(
-      (section) => section.courseName
-    );
-    let onlineMessage = "";
-    if (onlineSectionNames.length > 1) {
-      onlineMessage = `${onlineSectionNames
-        .slice(0, -1)
-        .join(", ")} and ${onlineSectionNames.slice(-1)} are online`;
-    } else     if (onlineSectionNames.length === 1) {
-      onlineMessage = `${onlineSectionNames[0]} is online`;
-    }
 
     const schedulerAppointments = mergeInstructorsIntoAppointments(
       appointments,
@@ -702,18 +691,7 @@ const Calendar: React.FC<CalendarProps> = ({
     return (
       <>
         <div className="header-and-calendar">
-          {onlineMessage && (
-            <div
-              className="online-section-message"
-              style={{
-                backgroundColor: "rgba(0, 0, 0, 0.6)",
-                padding: "5px",
-                color: "#fff",
-              }}
-            >
-              {onlineMessage}
-            </div>
-          )}
+          <NoWeeklyMeetingCoursesStrip sections={noMeetTimeSections} />
           <div>
             <ThemeProvider theme={darkModeTheme}>
               <Paper>
