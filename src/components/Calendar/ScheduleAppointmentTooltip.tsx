@@ -2,7 +2,8 @@ import React from "react";
 import { format } from "date-fns";
 import type { ResourceInstance } from "@devexpress/dx-react-scheduler";
 import { AppointmentTooltip } from "@devexpress/dx-react-scheduler-material-ui";
-import { IoTimeOutline, IoLocationOutline } from "react-icons/io5";
+import { IoTimeOutline, IoLocationOutline, IoPersonOutline } from "react-icons/io5";
+import { websiteURL, type Instructor } from "../CourseUI/CourseTypes";
 
 type TooltipContentProps = React.ComponentProps<
   typeof AppointmentTooltip.Content
@@ -12,6 +13,21 @@ function resourceBorderColor(color: ResourceInstance["color"]): string {
   if (!color) return "rgba(255,255,255,0.35)";
   if (typeof color === "string") return color;
   return color[300] ?? color[500] ?? "rgba(255,255,255,0.35)";
+}
+
+function ratingClass(rating: number | null | undefined): string {
+  if (rating == null) return "schedule-tooltip-rating-none";
+  if (rating <= 2) return "schedule-tooltip-rating-low";
+  if (rating < 4) return "schedule-tooltip-rating-mid";
+  return "schedule-tooltip-rating-high";
+}
+
+/** Lower difficulty = easier (green); higher = harder (red). Matches LikedSelectedCourses / CourseDropdown. */
+function difficultyClass(difficulty: number | null | undefined): string {
+  if (difficulty == null) return "schedule-tooltip-difficulty-none";
+  if (difficulty <= 2) return "schedule-tooltip-difficulty-easy";
+  if (difficulty < 4) return "schedule-tooltip-difficulty-mid";
+  return "schedule-tooltip-difficulty-hard";
 }
 
 /**
@@ -41,6 +57,10 @@ export const ScheduleAppointmentTooltipContent: React.FC<
     String(finalExam).trim() !== "" &&
     String(finalExam).toLowerCase() !== "none";
 
+  const instructors = (appointmentData.instructors as Instructor[] | undefined)?.filter(
+    (i) => i && String(i.name ?? "").trim() !== ""
+  );
+
   return (
     <div className={`schedule-tooltip-content ${className ?? ""}`.trim()}>
       <div className="schedule-tooltip-title-row">
@@ -60,6 +80,61 @@ export const ScheduleAppointmentTooltipContent: React.FC<
         <div className="schedule-tooltip-row">
           <IoLocationOutline className="schedule-tooltip-row-icon" aria-hidden />
           <span>{location}</span>
+        </div>
+      ) : null}
+      {instructors && instructors.length > 0 ? (
+        <div className="schedule-tooltip-row schedule-tooltip-instructors-block">
+          <IoPersonOutline className="schedule-tooltip-row-icon" aria-hidden />
+          <div className="schedule-tooltip-instructors">
+            <div className="schedule-tooltip-instructors-heading">
+              {instructors.length > 1 ? "Instructors" : "Instructor"}
+            </div>
+            {instructors.map((instructor) => (
+              <div
+                key={`${instructor.name}-${instructor.professorID}`}
+                className="schedule-tooltip-instructor-line"
+              >
+                <span className="schedule-tooltip-instructor-name">{instructor.name}</span>
+                {(instructor.avgRating != null || instructor.avgDifficulty != null) && (
+                  <span className="schedule-tooltip-instructor-metrics">
+                    {instructor.avgRating != null ? (
+                      <>
+                        <span className="schedule-tooltip-metric-label">Rating</span>
+                        <a
+                          className={`schedule-tooltip-rating ${ratingClass(instructor.avgRating)}`}
+                          href={`${websiteURL}${instructor.professorID}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {instructor.avgRating.toFixed(1)}/5
+                        </a>
+                      </>
+                    ) : null}
+                    {instructor.avgRating != null && instructor.avgDifficulty != null ? (
+                      <span className="schedule-tooltip-metric-sep" aria-hidden>
+                        ·
+                      </span>
+                    ) : null}
+                    {instructor.avgDifficulty != null ? (
+                      <>
+                        <span className="schedule-tooltip-metric-label">Difficulty</span>
+                        <a
+                          className={`schedule-tooltip-rating ${difficultyClass(
+                            instructor.avgDifficulty
+                          )}`}
+                          href={`${websiteURL}${instructor.professorID}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {instructor.avgDifficulty.toFixed(1)}/5
+                        </a>
+                      </>
+                    ) : null}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       ) : null}
       {appointmentResources.length > 0 ? (

@@ -21,6 +21,82 @@ import {
   Resources,
 } from "@devexpress/dx-react-scheduler-material-ui";
 
+function timeToMinutes(timeStr: string): number {
+  const [hours, minutes] = timeStr.split(":").map(Number);
+  return hours * 60 + minutes;
+}
+
+function getTimesForCombination(combination: Section[], key: string): number[] {
+  const times: number[] = [];
+  for (const section of combination) {
+    for (const time of section.meetTimes) {
+      const raw =
+        key === "meetTimeBegin" ? time.meetTimeBegin : time.meetTimeEnd;
+      times.push(timeToMinutes(raw));
+    }
+  }
+  return times;
+}
+
+function getEarliestAndLatestTimes(combination: Section[]): [number, number] {
+  const startTimes = getTimesForCombination(combination, "meetTimeBegin");
+  const endTimes = getTimesForCombination(combination, "meetTimeEnd");
+  if (startTimes.length === 0 || endTimes.length === 0) {
+    return [0, 0];
+  }
+  return [Math.min(...startTimes), Math.max(...endTimes)];
+}
+
+const CALENDAR_SORT_KEYS: Record<
+  string,
+  { key: string; operation: typeof Math.min; direction: number }
+> = {
+  earliestStart: { key: "meetTimeBegin", operation: Math.min, direction: 1 },
+  latestStart: { key: "meetTimeBegin", operation: Math.min, direction: -1 },
+  earliestEnd: { key: "meetTimeEnd", operation: Math.max, direction: 1 },
+  latestEnd: { key: "meetTimeEnd", operation: Math.max, direction: -1 },
+};
+
+/** Criteria object consumed by `sortCombinationList` (matches react-select option `value`). */
+function buildCalendarSortCriteria(optionValue: string) {
+  if (optionValue === "mostCompact") {
+    return { value: "mostCompact" as const };
+  }
+  const base = CALENDAR_SORT_KEYS[optionValue];
+  if (!base) {
+    return { value: optionValue };
+  }
+  return { ...base, value: optionValue };
+}
+
+function sortCombinationList(
+  combinations: Section[][],
+  selectedOption: { value: string; key?: string; operation?: typeof Math.min; direction?: number }
+): Section[][] {
+  const arr = [...combinations];
+  arr.sort((a, b) => {
+    if (selectedOption.value === "mostCompact") {
+      const [aStart, aEnd] = getEarliestAndLatestTimes(a);
+      const [bStart, bEnd] = getEarliestAndLatestTimes(b);
+      return aEnd - aStart - (bEnd - bStart);
+    }
+    if (
+      selectedOption.key != null &&
+      selectedOption.operation != null &&
+      selectedOption.direction != null
+    ) {
+      const aTimes = getTimesForCombination(a, selectedOption.key);
+      const bTimes = getTimesForCombination(b, selectedOption.key);
+      if (aTimes.length === 0 || bTimes.length === 0) return 0;
+      const aValue = selectedOption.operation(...aTimes);
+      const bValue = selectedOption.operation(...bTimes);
+      return selectedOption.direction * (aValue - bValue);
+    }
+    return 0;
+  });
+  return arr;
+}
+
 const today = new Date();
 const isWeekend = today.getDay() === 6; // 6 is Saturday, 0 is Sunday
 
@@ -66,6 +142,35 @@ function areCombinationsEqual(
   const sa = [...a].map(sig).sort();
   const sb = [...b].map(sig).sort();
   return sa.every((v, i) => v === sb[i]);
+}
+
+/** Tooltip uses instructors on each block; older saved calendars may omit them—recover from combination. */
+function mergeInstructorsIntoAppointments(
+  appointments: any[],
+  combination: Section[]
+): any[] {
+  return appointments.map((apt) => {
+    if (Array.isArray(apt.instructors) && apt.instructors.length > 0) {
+      return apt;
+    }
+    const classNum =
+      apt.classNumber != null && apt.classNumber !== ""
+        ? String(apt.classNumber)
+        : "";
+    const section = combination.find((s) => {
+      if (s.classNumber !== "" && String(s.classNumber) === classNum) {
+        return true;
+      }
+      if (s.classNumber === "" && `${s.courseName}-${s.color}` === classNum) {
+        return true;
+      }
+      return false;
+    });
+    if (section?.instructors?.length) {
+      return { ...apt, instructors: section.instructors };
+    }
+    return apt;
+  });
 }
 
 const getDesignTokens = (mode: PaletteMode) => ({
@@ -199,6 +304,11 @@ const Calendar: React.FC<CalendarProps> = ({
     value: string;
     label: string;
   } | null>(null);
+  const selectedSortOptionRef = useRef<{
+    value: string;
+    label: string;
+  } | null>(null);
+  selectedSortOptionRef.current = selectedSortOption;
   const [isLoadingSort, setIsLoadingSort] = useState(false);
   const [locations, setLocations] = useState<any[]>([]);
   const prevSelectedCoursesRef = useRef<Course[]>();
@@ -414,7 +524,13 @@ const Calendar: React.FC<CalendarProps> = ({
 
   useEffect(() => {
     const newCombinations = generateAllCombinations(allSelectedSections);
-    setAllCombinations(newCombinations);
+    const opt = selectedSortOptionRef.current;
+    if (opt && newCombinations.length > 0) {
+      const criteria = buildCalendarSortCriteria(opt.value);
+      setAllCombinations(sortCombinationList(newCombinations, criteria));
+    } else {
+      setAllCombinations(newCombinations);
+    }
     setAnimationKey(Date.now().toString());
   }, [allSelectedSections, customAppointments]);
 
@@ -500,6 +616,7 @@ const Calendar: React.FC<CalendarProps> = ({
               location,
               firstDay,
               lastDay,
+              instructors: section.instructors,
             });
           }
         }
@@ -573,9 +690,14 @@ const Calendar: React.FC<CalendarProps> = ({
       onlineMessage = `${onlineSectionNames
         .slice(0, -1)
         .join(", ")} and ${onlineSectionNames.slice(-1)} are online`;
-    } else if (onlineSectionNames.length === 1) {
+    } else     if (onlineSectionNames.length === 1) {
       onlineMessage = `${onlineSectionNames[0]} is online`;
     }
+
+    const schedulerAppointments = mergeInstructorsIntoAppointments(
+      appointments,
+      combination
+    );
 
     return (
       <>
@@ -596,7 +718,7 @@ const Calendar: React.FC<CalendarProps> = ({
             <ThemeProvider theme={darkModeTheme}>
               <Paper>
                 <div className="Scheduler">
-                  <Scheduler data={appointments}>
+                  <Scheduler data={schedulerAppointments}>
                     <ViewState currentDate={currentDate} />
                     <WeekView
                       startDayHour={startDayHour}
@@ -706,43 +828,6 @@ const Calendar: React.FC<CalendarProps> = ({
     );
   };
 
-  const timeToMinutes = (timeStr: string): number => {
-    const [hours, minutes] = timeStr.split(":").map(Number);
-    return hours * 60 + minutes;
-  };
-
-  const getTimes = (combination: any, key: string) => {
-    const times = [];
-    for (let section of combination) {
-      for (let time of section.meetTimes) {
-        times.push(timeToMinutes(time[key]));
-      }
-    }
-    return times;
-  };
-
-  const getEarliestAndLatestTimes = (combination: any) => {
-    const startTimes = getTimes(combination, "meetTimeBegin");
-    const endTimes = getTimes(combination, "meetTimeEnd");
-    return [Math.min(...startTimes), Math.max(...endTimes)];
-  };
-
-  const sortCombinations = (selectedOption: any) => {
-    return allCombinations.sort((a, b) => {
-      if (selectedOption.value === "mostCompact") {
-        const [aStart, aEnd] = getEarliestAndLatestTimes(a);
-        const [bStart, bEnd] = getEarliestAndLatestTimes(b);
-        return aEnd - aStart - (bEnd - bStart);
-      } else {
-        const aTimes = getTimes(a, selectedOption.key);
-        const bTimes = getTimes(b, selectedOption.key);
-        const aValue = selectedOption.operation(...aTimes);
-        const bValue = selectedOption.operation(...bTimes);
-        return selectedOption.direction * (aValue - bValue);
-      }
-    });
-  };
-
   const displayedCalendars = useMemo(() => {
     if (!selectedCalendar) return currentCalendars;
     return currentCalendars.filter(
@@ -752,33 +837,16 @@ const Calendar: React.FC<CalendarProps> = ({
   }, [currentCalendars, selectedCalendar]);
 
   const handleSortChange = (selectedOption: any) => {
-    setIsLoadingSort(true); // Set loading state to true at the start
+    setIsLoadingSort(true);
 
     setTimeout(() => {
-      const sortOptions: any = {
-        earliestStart: {
-          key: "meetTimeBegin",
-          operation: Math.min,
-          direction: 1,
-        },
-        latestStart: {
-          key: "meetTimeBegin",
-          operation: Math.min,
-          direction: -1,
-        },
-        earliestEnd: { key: "meetTimeEnd", operation: Math.max, direction: 1 },
-        latestEnd: { key: "meetTimeEnd", operation: Math.max, direction: -1 },
-      };
-
-      const sortedCombinations = sortCombinations({
-        ...sortOptions[selectedOption.value],
-        value: selectedOption.value,
-      });
+      const criteria = buildCalendarSortCriteria(selectedOption.value);
+      const sortedCombinations = sortCombinationList(allCombinations, criteria);
       setAllCombinations(sortedCombinations);
       setCurrentCalendars([]);
       setLastIndex(0);
       setHasMoreItems(true);
-      setIsLoadingSort(false); // Set loading state to false at the end
+      setIsLoadingSort(false);
     }, 0);
   };
 
@@ -793,7 +861,6 @@ const Calendar: React.FC<CalendarProps> = ({
       setCurrentCalendars([]);
       setLastIndex(0);
       setHasMoreItems(true);
-      setSelectedSortOption(null);
     }
 
     // Step 4: Update the reference values

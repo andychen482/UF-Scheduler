@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Course, Section, websiteURL } from "../CourseUI/CourseTypes";
 import ColorHash from "color-hash";
 import { PiTrashBold, PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
+import { BiSolidLockOpen, BiSolidLockAlt } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
 import "./LikedSelectedStyles.css";
 import PrerequisiteBlock from "components/CourseUI/PrerequisiteBlock";
 import CourseCatalogTagPills from "components/CourseUI/CourseCatalogTagPills";
+import { DropdownClasses } from "../CourseUI/CourseDropdown/DropdownClasses";
 
 interface LikedSelectedCoursesProps {
   selectedCourses: Course[];
@@ -40,6 +42,11 @@ function getContrastYIQ(hexcolor: string) {
 
 const getSelectedSection = (course: Course): Section | undefined => {
   return course.sections.find((section: Section) => section.selected === true);
+};
+
+const isSectionSelected = (course: Course, section: Section) => {
+  const match = course.sections.find((s) => s.classNumber === section.classNumber);
+  return match?.selected === true;
 };
 
 const convertTo12HourFormat = (time: string): string => {
@@ -116,6 +123,53 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
     setDebouncedSearchTerm(searchQuery);
     setSearchTrigger(!searchTrigger);
     setDetailCourse(null);
+  };
+
+  const toggleSectionSelected = (e: React.MouseEvent, section: Section) => {
+    e.stopPropagation();
+    if (!detailCourse) return;
+    const course = detailCourse;
+    let courseExists = false;
+    const updatedCourses = selectedCourses.map((c) => {
+      if (c.code === course.code && c.name === course.name) {
+        courseExists = true;
+        return {
+          ...c,
+          inPerson: false,
+          sections: c.sections.map((s) => {
+            if (s.classNumber === section.classNumber) {
+              return { ...s, selected: !s.selected };
+            }
+            return { ...s, selected: false };
+          }),
+        };
+      }
+      return c;
+    });
+
+    if (!courseExists) {
+      const newCourse: Course = {
+        ...course,
+        inPerson: false,
+        sections: course.sections.map((s) => {
+          if (s.classNumber === section.classNumber) {
+            return { ...s, selected: true };
+          }
+          return { ...s, selected: false };
+        }),
+      };
+      setSelectedCourses([...updatedCourses, newCourse]);
+      setDetailCourse(newCourse);
+      setLoaded(true);
+      return;
+    }
+
+    const updated = updatedCourses.find(
+      (c) => c.code === course.code && c.name === course.name
+    );
+    setSelectedCourses(updatedCourses);
+    if (updated) setDetailCourse(updated);
+    setLoaded(true);
   };
 
   const toggleExcludedFromSchedule = (e: React.MouseEvent, course: Course) => {
@@ -306,21 +360,44 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                       key={section.classNumber + String(idx)}
                       className="rounded-md bg-[#212121] border border-gray-600 p-3 space-y-2"
                     >
-                      <div className="font-semibold text-gray-100 flex flex-wrap gap-x-2 gap-y-1 items-baseline">
-                        <span>Class #{section.classNumber}</span>
-                        {!section.waitList.total && section.waitList.cap > 0 ? (
-                          <span className="text-green-400 text-sm">
-                            Open Seats
-                          </span>
-                        ) : !section.waitList.total && !section.waitList.cap ? (
-                          <span className="text-red-400 text-sm">
-                            Seats Unknown
-                          </span>
-                        ) : section.waitList.total && section.waitList.cap ? (
-                          <span className="text-blue-400 text-sm">
-                            Wait list: {waitListAvailable(section)}
-                          </span>
-                        ) : null}
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="font-semibold text-gray-100 flex flex-wrap gap-x-2 gap-y-1 items-baseline min-w-0">
+                          <span>Class #{section.classNumber}</span>
+                          {!section.waitList.total && section.waitList.cap > 0 ? (
+                            <span className="text-green-400 text-sm">
+                              Open Seats
+                            </span>
+                          ) : !section.waitList.total && !section.waitList.cap ? (
+                            <span className="text-red-400 text-sm">
+                              Seats Unknown
+                            </span>
+                          ) : section.waitList.total && section.waitList.cap ? (
+                            <span className="text-blue-400 text-sm">
+                              Wait list: {waitListAvailable(section)}
+                            </span>
+                          ) : null}
+                        </div>
+                        {isSectionSelected(c, section) ? (
+                          <button
+                            type="button"
+                            className={`${DropdownClasses.minusicons} shrink-0 !mt-0`}
+                            onClick={(e) => toggleSectionSelected(e, section)}
+                            title="Selected for schedules — click to deselect"
+                            aria-label="Deselect section for schedule combinations"
+                          >
+                            <BiSolidLockAlt aria-hidden />
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className={`${DropdownClasses.icons} shrink-0 !mt-0`}
+                            onClick={(e) => toggleSectionSelected(e, section)}
+                            title="Select this section for schedules"
+                            aria-label="Select section for schedule combinations"
+                          >
+                            <BiSolidLockOpen aria-hidden />
+                          </button>
+                        )}
                       </div>
 
                       <div>
@@ -335,34 +412,39 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                             className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:justify-between gap-1 text-sm"
                           >
                             <span className="text-gray-200">{instructor.name}</span>
-                            {instructor.avgRating != null && (
+                            {(instructor.avgRating != null ||
+                              instructor.avgDifficulty != null) && (
                               <span className="flex flex-wrap gap-x-3 gap-y-0">
-                                <span>
-                                  Rating:{" "}
-                                  <a
-                                    className={`font-semibold ${getRatingColor(
-                                      instructor.avgRating
-                                    )} underline`}
-                                    href={`${websiteURL}${instructor.professorID}`}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                  >
-                                    {instructor.avgRating.toFixed(1)}/5
-                                  </a>
-                                </span>
-                                <span>
-                                  Difficulty:{" "}
-                                  <a
-                                    className={`font-semibold ${getDifficultyColor(
-                                      instructor.avgDifficulty
-                                    )} underline`}
-                                    href={`${websiteURL}${instructor.professorID}`}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                  >
-                                    {instructor.avgDifficulty.toFixed(1)}/5
-                                  </a>
-                                </span>
+                                {instructor.avgRating != null ? (
+                                  <span>
+                                    Rating:{" "}
+                                    <a
+                                      className={`font-semibold ${getRatingColor(
+                                        instructor.avgRating
+                                      )} underline`}
+                                      href={`${websiteURL}${instructor.professorID}`}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                    >
+                                      {instructor.avgRating.toFixed(1)}/5
+                                    </a>
+                                  </span>
+                                ) : null}
+                                {instructor.avgDifficulty != null ? (
+                                  <span>
+                                    Difficulty:{" "}
+                                    <a
+                                      className={`font-semibold ${getDifficultyColor(
+                                        instructor.avgDifficulty
+                                      )} underline`}
+                                      href={`${websiteURL}${instructor.professorID}`}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                    >
+                                      {instructor.avgDifficulty.toFixed(1)}/5
+                                    </a>
+                                  </span>
+                                ) : null}
                               </span>
                             )}
                           </div>

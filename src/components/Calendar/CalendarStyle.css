@@ -210,3 +210,105 @@
   display: inline-flex;
   opacity: 0.85;
 }
+
+/* Instructor + RMP rating (ScheduleAppointmentTooltip) */
+.schedule-tooltip-instructors-block {
+  align-items: flex-start;
+}
+
+.schedule-tooltip-instructors {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.schedule-tooltip-instructors-heading {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.schedule-tooltip-instructor-line {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  font-size: 0.875rem;
+  line-height: 1.35;
+}
+
+.schedule-tooltip-instructor-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  font-size: 0.8125rem;
+}
+
+.schedule-tooltip-metric-label {
+  color: rgba(255, 255, 255, 0.42);
+  font-weight: 500;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.schedule-tooltip-metric-sep {
+  color: rgba(255, 255, 255, 0.25);
+  user-select: none;
+}
+
+.schedule-tooltip-instructor-name {
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 500;
+}
+
+.schedule-tooltip-rating {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease, opacity 0.15s ease;
+}
+
+.schedule-tooltip-rating:hover {
+  border-bottom-color: currentColor;
+  opacity: 0.92;
+}
+
+.schedule-tooltip-rating-low {
+  color: #f87171;
+}
+
+.schedule-tooltip-rating-mid {
+  color: #facc15;
+}
+
+.schedule-tooltip-rating-high {
+  color: #86efac;
+}
+
+.schedule-tooltip-rating-none {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Difficulty: easy = green, hard = red (same semantics as course lists) */
+.schedule-tooltip-difficulty-none {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.schedule-tooltip-difficulty-easy {
+  color: #86efac;
+}
+
+.schedule-tooltip-difficulty-mid {
+  color: #facc15;
+}
+
+.schedule-tooltip-difficulty-hard {
+  color: #f87171;
+}
