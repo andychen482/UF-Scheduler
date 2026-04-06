@@ -21,6 +21,11 @@ import {
   AppointmentTooltip,
   Resources,
 } from "@devexpress/dx-react-scheduler-material-ui";
+import {
+  findExampleOverlapAcrossCombinations,
+  findPairwiseConflictPairs,
+  formatSectionShort,
+} from "./calendarConflictUtils";
 
 function timeToMinutes(timeStr: string): number {
   const [hours, minutes] = timeStr.split(":").map(Number);
@@ -814,6 +819,33 @@ const Calendar: React.FC<CalendarProps> = ({
     );
   }, [currentCalendars, selectedCalendar]);
 
+  const scheduleCombinationInputs = useMemo(
+    () => [...allSelectedSections, ...customAppointments.map((item) => [item])],
+    [allSelectedSections, customAppointments]
+  );
+
+  const schedulingConflictDetail = useMemo(() => {
+    if (isLoadingSort || hasMoreItems || currentCalendars.length > 0) return null;
+    if (allCombinations.length === 0) return null;
+
+    const pairwise = findPairwiseConflictPairs(scheduleCombinationInputs);
+    if (pairwise.length > 0) {
+      return { kind: "pairwise" as const, pairwise };
+    }
+
+    const example = findExampleOverlapAcrossCombinations(allCombinations);
+    if (example) {
+      return { kind: "example" as const, a: example.a, b: example.b };
+    }
+    return null;
+  }, [
+    isLoadingSort,
+    hasMoreItems,
+    currentCalendars.length,
+    allCombinations,
+    scheduleCombinationInputs,
+  ]);
+
   const handleSortChange = (selectedOption: any) => {
     setIsLoadingSort(true);
 
@@ -982,14 +1014,47 @@ const Calendar: React.FC<CalendarProps> = ({
                   </div>
                 );
               })}
-              {displayedCalendars.length === 0 &&
-                !(selectedCalendar && currentCalendars.length === 0) && (
-                  <div className="text-white text-lg text-center align-middle leading-[50vh] fade-text-in">
-                    {selectedCalendar && currentCalendars.length > 0
+              {displayedCalendars.length === 0 && !isLoadingSort && !hasMoreItems && (
+                <div className="text-white text-lg text-center fade-text-in px-4 max-w-lg mx-auto py-12">
+                  <p className="mb-0">
+                    {selectedCalendar
                       ? "No other schedule combinations."
                       : "No possible calendars."}
-                  </div>
-                )}
+                  </p>
+                  {schedulingConflictDetail ? (
+                    <div className="mt-4 text-sm leading-relaxed text-gray-300 text-left">
+                      {schedulingConflictDetail.kind === "pairwise" ? (
+                        <>
+                          <p className="font-semibold text-amber-200/90 mb-2">
+                            These pairs always clash (no section choice avoids overlap):
+                          </p>
+                          <ul className="list-disc pl-5 space-y-1.5">
+                            {schedulingConflictDetail.pairwise.map((p, i) => (
+                              <li key={`${p.labelA}-${p.labelB}-${i}`}>
+                                <span className="text-gray-200">{p.labelA}</span>
+                                <span className="text-gray-500"> and </span>
+                                <span className="text-gray-200">{p.labelB}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </>
+                      ) : (
+                        <p>
+                          <span className="text-gray-400">Example overlap: </span>
+                          {formatSectionShort(schedulingConflictDetail.a)} and{" "}
+                          {formatSectionShort(schedulingConflictDetail.b)} share a meeting time on
+                          the same day.
+                        </p>
+                      )}
+                    </div>
+                  ) : null}
+                  {allCombinations.length === 0 && !schedulingConflictDetail ? (
+                    <p className="mt-3 text-sm text-gray-400">
+                      No section combinations to build a week (add courses or meeting times).
+                    </p>
+                  ) : null}
+                </div>
+              )}
             </div>
           </InfiniteScroll>
         </div>
