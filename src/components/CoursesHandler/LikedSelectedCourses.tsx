@@ -521,7 +521,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                       style={getCourseBackgroundColor(course)}
                       onClick={() => handleBadgeClick(course)}
                     >
-                      <div className="relative min-h-0 pr-[2.75rem]">
+                      <div className="relative min-h-[4rem] pr-[2.75rem]">
                         <div className="min-w-0">
                           <div className="flex justify-between gap-2">
                             {course.termInd !== " " &&

@@ -404,6 +404,69 @@ const Calendar: React.FC<CalendarProps> = ({
     { value: "mostCompact", label: "Most Compact" },
   ];
 
+  /** Dark select — neutral focus (no orange ring) */
+  const calendarSelectStyles = useMemo(
+    () => ({
+      menuPortal: (base: CSSObjectWithLabel) =>
+        ({ ...base, zIndex: 999 } as CSSObjectWithLabel),
+      control: (base: CSSObjectWithLabel, state: { isFocused: boolean }) =>
+        ({
+          ...base,
+          backgroundColor: "rgba(22, 22, 22, 0.95)",
+          borderColor: state.isFocused
+            ? "rgba(255, 255, 255, 0.28)"
+            : "rgba(255, 255, 255, 0.12)",
+          boxShadow: state.isFocused
+            ? "0 0 0 1px rgba(255, 255, 255, 0.12)"
+            : "none",
+          borderRadius: "12px",
+          minHeight: "46px",
+          paddingLeft: "4px",
+          cursor: "pointer",
+        } as CSSObjectWithLabel),
+      menu: (base: CSSObjectWithLabel) =>
+        ({
+          ...base,
+          backgroundColor: "#181818",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+          borderRadius: "12px",
+          overflow: "hidden",
+          boxShadow: "0 12px 40px rgba(0, 0, 0, 0.55)",
+        } as CSSObjectWithLabel),
+      menuList: (base: CSSObjectWithLabel) =>
+        ({
+          ...base,
+          padding: "6px",
+        } as CSSObjectWithLabel),
+      option: (
+        base: CSSObjectWithLabel,
+        state: { isFocused: boolean; isSelected: boolean }
+      ) =>
+        ({
+          ...base,
+          backgroundColor: state.isSelected
+            ? "rgba(255, 255, 255, 0.1)"
+            : state.isFocused
+              ? "rgba(255, 255, 255, 0.06)"
+              : "transparent",
+          color: "#f3f4f6",
+          borderRadius: "8px",
+          cursor: "pointer",
+        } as CSSObjectWithLabel),
+      singleValue: (base: CSSObjectWithLabel) =>
+        ({ ...base, color: "#f3f4f6", fontWeight: 600 } as CSSObjectWithLabel),
+      placeholder: (base: CSSObjectWithLabel) =>
+        ({ ...base, color: "rgba(255, 255, 255, 0.42)" } as CSSObjectWithLabel),
+      input: (base: CSSObjectWithLabel) =>
+        ({ ...base, color: "#f3f4f6" } as CSSObjectWithLabel),
+      clearIndicator: (base: CSSObjectWithLabel) =>
+        ({ ...base, color: "rgba(255, 255, 255, 0.45)" } as CSSObjectWithLabel),
+      dropdownIndicator: (base: CSSObjectWithLabel) =>
+        ({ ...base, color: "rgba(255, 255, 255, 0.45)" } as CSSObjectWithLabel),
+    }),
+    []
+  );
+
   useEffect(() => {
     if (selectedCalendar !== undefined) {
       localStorage.setItem(
@@ -730,64 +793,34 @@ const Calendar: React.FC<CalendarProps> = ({
 
         {appointments.length > 0 && (
           <>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "end",
-                marginBottom: "25px",
-                marginRight: "30px",
-              }}
-            >
+            <div className="calendar-toolbar-actions">
               {!areAppointmentsEqual(
                 selectedCalendar?.appointments,
                 appointments
               ) ? (
                 <button
+                  type="button"
+                  className="calendar-toolbar-btn calendar-toolbar-btn--success"
                   onClick={() => {
                     setSelectedCalendar({ appointments, combination });
-                  }}
-                  style={{
-                    padding: "5px",
-                    fontSize: "16px",
-                    borderRadius: "4px",
-                    border: "none",
-                    backgroundColor: "#008000",
-                    color: "#fff",
-                    cursor: "pointer",
-                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                    marginTop: "7px",
-                    height: "auto",
-                    width: "auto",
-                    marginLeft: "30px",
                   }}
                 >
                   Select
                 </button>
               ) : (
                 <button
+                  type="button"
+                  className="calendar-toolbar-btn calendar-toolbar-btn--danger"
                   onClick={() => {
                     setSelectedCalendar(null);
-                  }}
-                  style={{
-                    padding: "5px",
-                    fontSize: "16px",
-                    borderRadius: "4px",
-                    border: "none",
-                    backgroundColor: "#D22B2B",
-                    color: "#fff",
-                    cursor: "pointer",
-                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                    marginTop: "7px",
-                    height: "auto",
-                    width: "auto",
-                    marginLeft: "30px",
                   }}
                 >
                   Deselect
                 </button>
               )}
               <button
+                type="button"
+                className="calendar-toolbar-btn"
                 onClick={() => {
                   const icsContent = generateICSContent(appointments);
                   const blob = new Blob([icsContent], {
@@ -800,7 +833,6 @@ const Calendar: React.FC<CalendarProps> = ({
                   a.click();
                   URL.revokeObjectURL(url);
                 }}
-                className="text-white"
               >
                 Download ICS
               </button>
@@ -910,62 +942,27 @@ const Calendar: React.FC<CalendarProps> = ({
             </div>
           </div>
         )}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "0 20px",
-            height: "60px",
-            marginBottom: "20px",
-          }}
-        >
-          <Select
-            value={selectedSortOption}
-            options={sortOptions}
-            onChange={(option) => {
-              setSelectedSortOption(option || null);
-              handleSortChange(option);
-            }}
-            theme={(theme) => ({
-              ...theme,
-              borderRadius: 6,
-              colors: {
-                ...theme.colors,
-                primary25: "#E6E6E6",
-                primary: "#B3B3B3",
-              },
-            })}
-            placeholder="Sort by..."
-            className="sort-dropdown w-[80%] mt-2 font-sans font-semibold"
-            menuPortalTarget={document.body} // Append the dropdown to the body element
-            styles={{
-              menuPortal: (base) =>
-                ({ ...base, zIndex: 999 } as CSSObjectWithLabel), // Adjust the z-index to a value lower than the drawer's but higher than other elements
-              control: (base) =>
-                ({
-                  ...base,
-                  borderRadius: "4px", // Adjust this value to control the border radius of the control
-                  boxShadow: "none", // Remove the box shadow to eliminate the thick border
-                  border: "1px solid #ccc", // Optional: Customize the border style
-                } as CSSObjectWithLabel),
-            }}
-          />
+        <div className="calendar-toolbar">
+          <div className="calendar-toolbar-select-wrap">
+            <Select
+              inputId="calendar-sort-select"
+              value={selectedSortOption}
+              options={sortOptions}
+              onChange={(option) => {
+                setSelectedSortOption(option || null);
+                handleSortChange(option);
+              }}
+              placeholder="Sort by…"
+              className="calendar-toolbar-select font-sans"
+              classNamePrefix="cal-select"
+              menuPortalTarget={document.body}
+              styles={calendarSelectStyles}
+            />
+          </div>
           <button
-            style={{
-              padding: "5px", // Add padding to make the button larger
-              fontSize: "16px", // Set a font size
-              borderRadius: "4px", // Round the corners of the button
-              border: "none", // Remove the default border
-              backgroundColor: "#1c63d6", // Use a background color that matches your theme
-              color: "#fff", // Set the text color to white
-              cursor: "pointer", // Change the cursor to a pointer on hover
-              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Add a subtle box shadow
-              marginTop: "7px", // Add some top margin
-              height: "auto", // Set the height
-              width: "auto", // Set the width
-              marginLeft: "10px",
-            }}
+            type="button"
+            className="calendar-toolbar-btn calendar-toolbar-btn--brand"
+            title="Add custom blocks to your schedule"
             onClick={() => setIsAppointmentFormVisible((prev) => !prev)}
           >
             Add Events
