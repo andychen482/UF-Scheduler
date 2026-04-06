@@ -94,8 +94,19 @@ const CourseDropdown: React.FC<CourseDropdownProps> = ({
         }),
       };
       updatedCourses.push(newCourse);
+    } else {
+      // Check if all sections are not selected
+      const selectedCourse = updatedCourses.find(
+        (c) => c.code === course.code && c.name === course.name
+      );
+      if (selectedCourse && !selectedCourse.sections.some((s) => s.selected)) {
+        // Remove the course from selectedCourses if no sections are selected
+        return setSelectedCourses((prev) =>
+          prev.filter((c) => !(c.code === course.code && c.name === course.name))
+        );
+      }
     }
-
+  
     setSelectedCourses(updatedCourses);
   };  
 
