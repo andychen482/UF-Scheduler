@@ -5,13 +5,69 @@ const normalize = (raw: string | undefined): string => {
   return raw.replace(/^Prereq:\s*/i, "").trim();
 };
 
-/** Split common UF-style prerequisite lists into readable chunks without breaking long sentences badly. */
+/** `\s+and\s+` (case-insensitive "and") — linear time, no ReDoS. */
+function matchWhitespaceAndConnector(text: string, i: number): number {
+  const n = text.length;
+  if (i >= n || !/\s/.test(text[i])) return 0;
+  let j = i;
+  while (j < n && /\s/.test(text[j])) j++;
+  const wlen = 3;
+  if (j + wlen > n) return 0;
+  if (text.slice(j, j + wlen).toLowerCase() !== "and") return 0;
+  j += wlen;
+  if (j >= n || !/\s/.test(text[j])) return 0;
+  while (j < n && /\s/.test(text[j])) j++;
+  return j - i;
+}
+
+/**
+ * Split common UF-style prerequisite lists into readable chunks without breaking long sentences badly.
+ * Does not split on "or" (e.g. "B or higher" stays one segment).
+ * Does not split inside `(...)` so grouped text (including `;`, `,`, or ` and ` within) stays one segment.
+ * Uses a single O(n) pass (no regex backtracking) so hostile input cannot cause super-linear CPU.
+ */
 export const splitPrerequisiteParts = (text: string): string[] => {
   if (!text || text === "N/A") return [];
-  return text
-    .split(/\s*(?:;|(?:\s+and\s+)|(?:\s+or\s+)|,)\s*/i)
-    .map((s) => s.trim())
-    .filter(Boolean);
+  const parts: string[] = [];
+  let start = 0;
+  const n = text.length;
+  let i = 0;
+  let parenDepth = 0;
+  while (i < n) {
+    const ch = text[i];
+    if (ch === "(") {
+      parenDepth++;
+      i++;
+      continue;
+    }
+    if (ch === ")") {
+      if (parenDepth > 0) parenDepth--;
+      i++;
+      continue;
+    }
+
+    if (parenDepth === 0) {
+      if (ch === ";" || ch === ",") {
+        const part = text.slice(start, i).trim();
+        if (part) parts.push(part);
+        i += 1;
+        start = i;
+        continue;
+      }
+      const andLen = matchWhitespaceAndConnector(text, i);
+      if (andLen > 0) {
+        const part = text.slice(start, i).trim();
+        if (part) parts.push(part);
+        i += andLen;
+        start = i;
+        continue;
+      }
+    }
+    i += 1;
+  }
+  const tail = text.slice(start).trim();
+  if (tail) parts.push(tail);
+  return parts;
 };
 
 function highlightCodes(
