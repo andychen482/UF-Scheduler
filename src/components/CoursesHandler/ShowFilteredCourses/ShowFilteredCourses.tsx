@@ -14,6 +14,7 @@ import {
 } from "react-icons/pi";
 import { Tooltip } from 'react-tooltip';
 import "./ShowFilteredCourses.css";
+import PrerequisiteBlock from "../../CourseUI/PrerequisiteBlock";
 import { API_URLS, BACKEND_URLS, getAuthHeaders } from "../../../config/api";
 import { useAuth } from "react-oidc-context";
 
@@ -428,24 +429,36 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
                     </div>
                     {isOpen && (
                       <div>
-                        <div className={`mt-2 mb-0 mx-1 text-gray-200 `}>
+                        <div className="mt-2 mb-0 mx-1 text-gray-200 space-y-3">
                           <hr
                             style={{
                               border: "1px solid #ffffff",
                               marginBottom: "4px",
                             }}
                           />
-                          <strong>Description: </strong>
-                          {firstCourse.description
-                            ? firstCourse.description.replace("(P)", "").trim()
-                            : "N/A"}
-                          <br />
-                          <strong> Prerequisites: </strong>
-                          {firstCourse.prerequisites
-                            ? firstCourse.prerequisites
-                                .replace("Prereq: ", "")
-                                .trim()
-                            : "N/A"}
+                          <div>
+                            <strong className="text-gray-100">Description</strong>
+                            <p className="mt-1 text-sm font-normal text-gray-300">
+                              {firstCourse.description
+                                ? firstCourse.description.replace("(P)", "").trim()
+                                : "N/A"}
+                            </p>
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2 mb-1.5">
+                              <span
+                                className="h-4 w-0.5 rounded-full bg-[#fa4616] shrink-0"
+                                aria-hidden
+                              />
+                              <strong className="text-gray-100 text-sm">
+                                Prerequisites
+                              </strong>
+                            </div>
+                            <PrerequisiteBlock
+                              prerequisites={firstCourse.prerequisites}
+                              variant="compact"
+                            />
+                          </div>
                         </div>
                         <div>
                           <div className="w-[100%] opacity-100 visible transition-opacity my-1">

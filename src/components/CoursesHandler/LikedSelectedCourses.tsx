@@ -4,6 +4,7 @@ import ColorHash from "color-hash";
 import { PiTrashBold, PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
 import { IoClose } from "react-icons/io5";
 import "./LikedSelectedStyles.css";
+import PrerequisiteBlock from "../CourseUI/PrerequisiteBlock";
 
 interface LikedSelectedCoursesProps {
   selectedCourses: Course[];
@@ -197,9 +198,13 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
     const desc = c.description
       ? c.description.replace("(P)", "").trim()
       : "N/A";
-    const prereq = c.prerequisites
-      ? c.prerequisites.replace("Prereq: ", "").trim()
-      : "N/A";
+
+    const searchThisCode = (code: string) => {
+      setSearchTerm(code);
+      setDebouncedSearchTerm(code);
+      setSearchTrigger(!searchTrigger);
+      setDetailCourse(null);
+    };
 
     return (
       <div
@@ -247,8 +252,20 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
               <p className="mt-1 whitespace-pre-wrap">{desc}</p>
             </div>
             <div>
-              <strong className="text-white">Prerequisites</strong>
-              <p className="mt-1">{prereq}</p>
+              <div className="flex items-center gap-2 mb-2">
+                <span
+                  className="h-5 w-1 rounded-full bg-[#fa4616] shrink-0"
+                  aria-hidden
+                />
+                <strong className="text-white text-[15px] font-semibold">
+                  Prerequisites
+                </strong>
+              </div>
+              <PrerequisiteBlock
+                prerequisites={c.prerequisites}
+                variant="modal"
+                onCourseCodeClick={searchThisCode}
+              />
             </div>
 
             <div className="flex flex-wrap gap-2 pt-1">

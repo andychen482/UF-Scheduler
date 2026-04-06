@@ -5,9 +5,10 @@ import majorsData from '../../../courses/depts_clean.json'; // Import the JSON d
 interface MajorSearchProps {
     selectedMajor: string | null;
     setSelectedMajor: React.Dispatch<React.SetStateAction<string | null>>;
+    inputId?: string;
 }
 
-const MajorSelect: React.FC<MajorSearchProps> = ({ selectedMajor, setSelectedMajor }) => {
+const MajorSelect: React.FC<MajorSearchProps> = ({ selectedMajor, setSelectedMajor, inputId }) => {
   const options = majorsData.map((major) => ({ value: major, label: major }));
 
   const handleChange = (selectedOption: any) => {
@@ -15,31 +16,86 @@ const MajorSelect: React.FC<MajorSearchProps> = ({ selectedMajor, setSelectedMaj
   };
 
   return (
-    <div>
+    <div className="major-select-root">
       <Select
+        inputId={inputId}
         options={options}
         isClearable={true}
         value={selectedMajor ? { value: selectedMajor, label: selectedMajor } : null}
         onChange={handleChange}
         theme={(theme) => ({
           ...theme,
-          borderRadius: 6,
+          borderRadius: 8,
           colors: {
             ...theme.colors,
-            primary25: '#E6E6E6',
-            primary: '#B3B3B3',
+            primary25: "rgba(250, 70, 22, 0.12)",
+            primary50: "rgba(250, 70, 22, 0.18)",
+            primary: "#fa4616",
           },
         })}
-        placeholder="Select a department..."
-        className="mb-4 text-black bg-gray-200 placeholder-gray-500 transition-colors duration-500 w-[100%] h-8 rounded font-sans font-semibold"
-        menuPortalTarget={document.body} // Append the dropdown to the body element
+        placeholder="Search departments…"
+        className="major-select w-full text-left font-sans"
+        classNamePrefix="major-select"
+        menuPortalTarget={document.body}
         styles={{
-          menuPortal: base => ({ ...base, zIndex: 999 }) as CSSObjectWithLabel, // Adjust the z-index to a value lower than the drawer's but higher than other elements
-          control: (base) => ({
+          menuPortal: (base) => ({ ...base, zIndex: 9999 }) as CSSObjectWithLabel,
+          control: (base, state) => ({
             ...base,
-            boxShadow: "none", // Remove the box shadow to eliminate the thick border
-            border: "1px solid #ccc", // Optional: Customize the border style
-            borderRadius: "4px",  // Adjust this value to control the border radius of the control
+            minHeight: 42,
+            boxShadow: state.isFocused
+              ? "0 0 0 1px rgba(250, 70, 22, 0.45)"
+              : "none",
+            border: "1px solid rgba(255, 255, 255, 0.14)",
+            borderRadius: 8,
+            backgroundColor: "#141414",
+            cursor: "pointer",
+          }) as CSSObjectWithLabel,
+          menu: (base) => ({
+            ...base,
+            backgroundColor: "#1a1a1a",
+            border: "1px solid rgba(255, 255, 255, 0.12)",
+            borderRadius: 8,
+            overflow: "hidden",
+          }) as CSSObjectWithLabel,
+          menuList: (base) => ({
+            ...base,
+            padding: 4,
+          }) as CSSObjectWithLabel,
+          option: (base, state) => ({
+            ...base,
+            cursor: "pointer",
+            borderRadius: 6,
+            backgroundColor: state.isSelected
+              ? "rgba(0, 33, 165, 0.35)"
+              : state.isFocused
+                ? "rgba(255, 255, 255, 0.06)"
+                : "transparent",
+            color: "#e8e8e8",
+          }) as CSSObjectWithLabel,
+          singleValue: (base) => ({
+            ...base,
+            color: "#f2f2f2",
+            fontWeight: 500,
+          }) as CSSObjectWithLabel,
+          input: (base) => ({
+            ...base,
+            color: "#f2f2f2",
+          }) as CSSObjectWithLabel,
+          placeholder: (base) => ({
+            ...base,
+            color: "#8a8a8a",
+          }) as CSSObjectWithLabel,
+          indicatorSeparator: (base) => ({
+            ...base,
+            backgroundColor: "rgba(255,255,255,0.12)",
+          }) as CSSObjectWithLabel,
+          dropdownIndicator: (base) => ({
+            ...base,
+            color: "#a3a3a3",
+          }) as CSSObjectWithLabel,
+          clearIndicator: (base) => ({
+            ...base,
+            color: "#a3a3a3",
           }) as CSSObjectWithLabel,
         }}
       />
