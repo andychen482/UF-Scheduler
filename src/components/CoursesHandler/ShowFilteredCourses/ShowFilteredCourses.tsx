@@ -14,7 +14,7 @@ import {
 } from "react-icons/pi";
 import { Tooltip } from 'react-tooltip';
 import "./ShowFilteredCourses.css";
-import PrerequisiteBlock from "../../CourseUI/PrerequisiteBlock";
+import PrerequisiteBlock from "components/CourseUI/PrerequisiteBlock";
 import { API_URLS, BACKEND_URLS, getAuthHeaders } from "../../../config/api";
 import { useAuth } from "react-oidc-context";
 

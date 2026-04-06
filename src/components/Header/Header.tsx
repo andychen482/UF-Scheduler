@@ -140,6 +140,9 @@ const Header: React.FC<HeaderProps> = ({
                 </div>
               </button>
               <button
+                type="button"
+                title="Model semester plans by major"
+                aria-label="Model semester plans"
                 className={`Button cursor-pointer text-gray-400 ${
                   currentView === "plan" ? "show" : "grayed"
                 }`}
@@ -152,7 +155,7 @@ const Header: React.FC<HeaderProps> = ({
                       style={{ minWidth: "24px", minHeight: "24px" }}
                     />
                     <span className="text-[1.0rem] overflow-hidden whitespace-nowrap label">
-                      Model Plans
+                      Semester Plans
                     </span>
                   </div>
                 </div>
@@ -307,6 +310,9 @@ const Header: React.FC<HeaderProps> = ({
             </div>
           </button>
           <button
+            type="button"
+            title="Model semester plans by major"
+            aria-label="Model semester plans"
             className={`Button cursor-pointer text-gray-400 ${
               currentView === "plan" ? "show" : "grayed"
             }`}
@@ -314,12 +320,8 @@ const Header: React.FC<HeaderProps> = ({
           >
             <div className="button-content">
               <div className="icon-text-container">
-                {/* <AiOutlineSchedule
-                  size={24}
-                  style={{ minWidth: "24px", minHeight: "24px" }}
-                /> */}
                 <span className="text-[1.0rem] overflow-hidden whitespace-nowrap label">
-                  Model Plans
+                  Semester Plans
                 </span>
               </div>
             </div>

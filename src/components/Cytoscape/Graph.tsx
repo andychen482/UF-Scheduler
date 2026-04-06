@@ -10,7 +10,7 @@ import axios from "axios";
 import "./GraphStyles.css";
 import { PiGraphFill } from "react-icons/pi";
 import { IoClose } from "react-icons/io5";
-import PrerequisiteBlock from "../CourseUI/PrerequisiteBlock";
+import PrerequisiteBlock from "components/CourseUI/PrerequisiteBlock";
 
 interface GraphProps {
   setDebouncedSearchTerm: React.Dispatch<React.SetStateAction<string>>;

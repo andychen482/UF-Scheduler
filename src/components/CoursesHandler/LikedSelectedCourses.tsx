@@ -4,7 +4,7 @@ import ColorHash from "color-hash";
 import { PiTrashBold, PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
 import { IoClose } from "react-icons/io5";
 import "./LikedSelectedStyles.css";
-import PrerequisiteBlock from "../CourseUI/PrerequisiteBlock";
+import PrerequisiteBlock from "components/CourseUI/PrerequisiteBlock";
 
 interface LikedSelectedCoursesProps {
   selectedCourses: Course[];
