@@ -5,6 +5,7 @@ import { PiTrashBold, PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
 import { IoClose } from "react-icons/io5";
 import "./LikedSelectedStyles.css";
 import PrerequisiteBlock from "components/CourseUI/PrerequisiteBlock";
+import CourseCatalogTagPills from "components/CourseUI/CourseCatalogTagPills";
 
 interface LikedSelectedCoursesProps {
   selectedCourses: Course[];
@@ -463,6 +464,10 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                               ? `| Class # ${selectedSection.classNumber}`
                               : ""}
                           </div>
+                          <CourseCatalogTagPills
+                            course={course}
+                            className="flex flex-wrap gap-1 mt-1"
+                          />
                           {excluded && (
                             <div className="text-xs mt-0.5 opacity-90">
                               Hidden from schedules

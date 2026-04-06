@@ -48,6 +48,8 @@ export type Course = {
   sections: Section[];
   inPerson: boolean;
   creditsEditable: boolean;
+  /** When present (e.g. from API), shown as catalog tags on course rows. */
+  tags?: string[];
   /** When true, course stays in the list but is omitted from schedule combinations and the graph. */
   excludedFromSchedule?: boolean;
 };

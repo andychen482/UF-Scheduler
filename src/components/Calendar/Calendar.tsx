@@ -55,6 +55,19 @@ function areAppointmentsEqual(appointments1?: any[], appointments2?: any[]) {
   return true;
 }
 
+/** Same section set as another schedule (order-independent). */
+function areCombinationsEqual(
+  a: Section[] | null | undefined,
+  b: Section[] | null | undefined
+): boolean {
+  if (!a || !b || a.length !== b.length) return false;
+  const sig = (s: Section) =>
+    `${s.courseCode ?? ""}|${s.classNumber ?? ""}|${s.courseName ?? ""}`;
+  const sa = [...a].map(sig).sort();
+  const sb = [...b].map(sig).sort();
+  return sa.every((v, i) => v === sb[i]);
+}
+
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
     mode,
@@ -730,6 +743,14 @@ const Calendar: React.FC<CalendarProps> = ({
     });
   };
 
+  const displayedCalendars = useMemo(() => {
+    if (!selectedCalendar) return currentCalendars;
+    return currentCalendars.filter(
+      (c) =>
+        !areCombinationsEqual(c.combination, selectedCalendar.combination)
+    );
+  }, [currentCalendars, selectedCalendar]);
+
   const handleSortChange = (selectedOption: any) => {
     setIsLoadingSort(true); // Set loading state to true at the start
 
@@ -894,8 +915,16 @@ const Calendar: React.FC<CalendarProps> = ({
                 </div>
               </>
             )}
+            {selectedCalendar && displayedCalendars.length > 0 && (
+              <div className="mx-6 mt-5 mb-2 flex items-center gap-3">
+                <span className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500">
+                  More schedules
+                </span>
+                <span className="h-px min-w-0 flex-1 bg-gray-700" />
+              </div>
+            )}
             <div className="flex flex-col mt-2">
-              {currentCalendars.map(({ appointments, combination }, index) => {
+              {displayedCalendars.map(({ appointments, combination }, index) => {
                 const currentBatchIndex = index % 5;
 
                 return (
@@ -908,11 +937,14 @@ const Calendar: React.FC<CalendarProps> = ({
                   </div>
                 );
               })}
-              {currentCalendars.length === 0 && (
-                <div className="text-white text-lg text-center align-middle leading-[50vh] fade-text-in">
-                  No possible calendars.
-                </div>
-              )}
+              {displayedCalendars.length === 0 &&
+                !(selectedCalendar && currentCalendars.length === 0) && (
+                  <div className="text-white text-lg text-center align-middle leading-[50vh] fade-text-in">
+                    {selectedCalendar && currentCalendars.length > 0
+                      ? "No other schedule combinations."
+                      : "No possible calendars."}
+                  </div>
+                )}
             </div>
           </InfiniteScroll>
         </div>
