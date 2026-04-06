@@ -75,8 +75,8 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <div className="header-container">
-      <div className="header flex gap-x-5">
-        <div className="credits-container text-white">
+      <div className="header flex gap-x-3 sm:gap-x-5 min-w-0">
+        <div className="credits-container text-white shrink-0">
           {windowWidth < 1001 && (
             <BiMenu
               className={`menu-button cursor-pointer mt-1 ${
@@ -87,7 +87,7 @@ const Header: React.FC<HeaderProps> = ({
           )}
           <span className="mt-1 text-base">Credits: {totalCredits}</span>
         </div>
-        <div className="flex flex-row space-x-4">
+        <div className="flex flex-row space-x-4 shrink-0">
           {/* <p className="flex items-center mt-1 text-base whitespace-nowrap">
             Fall 25
           </p> */}
@@ -101,7 +101,7 @@ const Header: React.FC<HeaderProps> = ({
           </a>
         </div>
         {windowWidth >= 1001 && (
-          <div className="flex">
+          <div className="header-nav-cluster flex min-w-0 flex-1 items-center justify-center">
             <div className="button-container gap-x-4">
               <button
                 className={`Button cursor-pointer text-gray-400 ${
@@ -197,7 +197,7 @@ const Header: React.FC<HeaderProps> = ({
                 </div>
               </button>
             </div>
-            <div className="mx-2 self-center">
+            <div className="mx-1 sm:mx-2 self-center shrink-0">
               <a href="/">
                 <span className="title font-semibold text-blue-500">UF</span>
                 <span className="title font-semibold text-orange-500">
@@ -227,7 +227,7 @@ const Header: React.FC<HeaderProps> = ({
             </a>
           </div>
         )}
-        <div className="auth-section">
+        <div className="auth-section shrink-0">
           {auth.isAuthenticated ? (
             <>
               <div className="auth-avatar" title={userEmail}>

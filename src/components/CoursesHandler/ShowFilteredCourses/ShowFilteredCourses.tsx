@@ -526,7 +526,9 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
           </>
         ) : (
           noCoursesFound && (
-            <div className="text-gray-300 fade-text-in">No courses found.</div>
+            <div className="text-gray-300 fade-text-in">
+              No courses found for the selected semester.
+            </div>
           )
         )}
       </InfiniteScroll>
