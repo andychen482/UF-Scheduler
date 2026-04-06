@@ -33,10 +33,10 @@ const getHashedColor = (course: Course) => {
 
 // Function to get the contrast color of the text based on the background color hex
 function getContrastYIQ(hexcolor: string) {
-  var r = parseInt(hexcolor.substring(1, 3), 16);
-  var g = parseInt(hexcolor.substring(3, 5), 16);
-  var b = parseInt(hexcolor.substring(5, 7), 16);
-  var yiq = (r * 299 + g * 587 + b * 114) / 1000;
+  const r = Number.parseInt(hexcolor.substring(1, 3), 16);
+  const g = Number.parseInt(hexcolor.substring(3, 5), 16);
+  const b = Number.parseInt(hexcolor.substring(5, 7), 16);
+  const yiq = (r * 299 + g * 587 + b * 114) / 1000;
   return yiq >= 128 ? "black" : "white";
 }
 
@@ -49,12 +49,34 @@ const isSectionSelected = (course: Course, section: Section) => {
   return match?.selected === true;
 };
 
+const courseRowKey = (course: Course) => `${course.code}::${course.name}`;
+
+const courseChunkRowKey = (chunk: Course[]) =>
+  chunk.map(courseRowKey).join("|");
+
+const customAppointmentRowKey = (a: any) => {
+  const mt = (a.meetTimes ?? [])
+    .map(
+      (m: any) =>
+        `${Array.isArray(m.meetDays) ? m.meetDays.join(",") : ""}-${m.meetTimeBegin}-${m.meetTimeEnd}`
+    )
+    .join(";");
+  return `${a.courseName}|${String(a.color)}|${mt}`;
+};
+
+const appointmentChunkRowKey = (chunk: any[]) =>
+  chunk.map(customAppointmentRowKey).join("||");
+
 const convertTo12HourFormat = (time: string): string => {
   const [hour, minute] = time.split(":");
   const hourNumber = Number(hour);
   const ampm = hourNumber >= 12 ? "PM" : "AM";
-  const hour12Format =
-    hourNumber > 12 ? hourNumber - 12 : hourNumber === 0 ? 12 : hourNumber;
+  let hour12Format = hourNumber;
+  if (hourNumber > 12) {
+    hour12Format = hourNumber - 12;
+  } else if (hourNumber === 0) {
+    hour12Format = 12;
+  }
   return `${hour12Format}:${minute} ${ampm}`;
 };
 
@@ -98,13 +120,14 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setDetailCourse(null);
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+
+    globalThis.addEventListener("keydown", onKey);
+    return () => globalThis.removeEventListener("keydown", onKey);
   }, [detailCourse]);
 
   const getCourseBackgroundColor = (course: Course) => {
     const hashedColor = getHashedColor(course);
-    course.sections.map((section: Section) => {
+    course.sections.forEach((section: Section) => {
       section.color = hashedColor;
     });
     return {
@@ -184,8 +207,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
     setLoaded(true);
     setDetailCourse((current) => {
       if (
-        current &&
-        current.code === course.code &&
+        current?.code === course.code &&
         current.name === course.name
       ) {
         return {
@@ -208,7 +230,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
     );
     setLoaded(true);
     setDetailCourse((c) =>
-      c && c.code === course.code && c.name === course.name ? null : c
+      c?.code === course.code && c?.name === course.name ? null : c
     );
   };
 
@@ -221,23 +243,14 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
     e.stopPropagation();
     setCustomAppointments((prevAppointments) =>
       prevAppointments.filter(
-        (selectedAppointment) => !(selectedAppointment === appointment)
+        (selectedAppointment) => selectedAppointment !== appointment
       )
     );
     setLoaded(true);
   };
 
-  // Function to chunk the selected courses into pairs
-  const chunkArray = (array: Course[], chunkSize: number) => {
-    const chunkedArray = [];
-    for (let i = 0; i < array.length; i += chunkSize) {
-      chunkedArray.push(array.slice(i, i + chunkSize));
-    }
-    return chunkedArray;
-  };
-
-  const appointmentChunkArray = (array: any[], chunkSize: number) => {
-    const chunkedArray = [];
+  const chunkArray = <T,>(array: T[], chunkSize: number): T[][] => {
+    const chunkedArray: T[][] = [];
     for (let i = 0; i < array.length; i += chunkSize) {
       chunkedArray.push(array.slice(i, i + chunkSize));
     }
@@ -245,7 +258,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
   };
 
   const selectedCoursesChunks = chunkArray(selectedCourses, 1);
-  const appointmentChunks = appointmentChunkArray(customAppointments, 1);
+  const appointmentChunks = chunkArray(customAppointments, 1);
 
   const renderCourseDetailModal = () => {
     if (!detailCourse) return null;
@@ -263,10 +276,9 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
 
     return (
       <div
-        className="fixed inset-0 z-[2000] flex items-center justify-center p-3 sm:p-6"
-        role="dialog"
         aria-modal="true"
         aria-labelledby="course-detail-title"
+        className="fixed inset-0 z-[2000] flex items-center justify-center p-3 sm:p-6"
       >
         <button
           type="button"
@@ -274,17 +286,14 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
           onClick={() => setDetailCourse(null)}
           aria-label="Close dialog"
         />
-        <div
-          className="relative z-[2001] w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-xl bg-[#1a1a1a] border border-gray-600 shadow-2xl text-left"
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div className="relative z-[2001] w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-xl bg-[#1a1a1a] border border-gray-600 shadow-2xl text-left">
           <div className="sticky top-0 flex items-start justify-between gap-3 px-4 py-3 border-b border-gray-600 bg-[#1a1a1a] z-10">
             <div className="min-w-0 flex-1">
               <h2
                 id="course-detail-title"
                 className="text-lg font-bold text-white leading-tight"
               >
-                {c.code.replace(/([A-Z]+)/g, "$1 ")}
+                {c.code.replaceAll(/([A-Z]+)/g, "$1 ")}
                 {c.termInd !== " " && c.termInd !== "C"
                   ? ` — ${c.termInd}`
                   : ""}
@@ -367,15 +376,17 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                             <span className="text-green-400 text-sm">
                               Open Seats
                             </span>
-                          ) : !section.waitList.total && !section.waitList.cap ? (
+                          ) : null}
+                          {(!section.waitList.total && !section.waitList.cap) && (
                             <span className="text-red-400 text-sm">
                               Seats Unknown
                             </span>
-                          ) : section.waitList.total && section.waitList.cap ? (
+                          )}
+                          {(Boolean(section.waitList.total) && Boolean(section.waitList.cap)) && (
                             <span className="text-blue-400 text-sm">
                               Wait list: {waitListAvailable(section)}
                             </span>
-                          ) : null}
+                          )}
                         </div>
                         {isSectionSelected(c, section) ? (
                           <button
@@ -406,16 +417,16 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                         ) : (
                           <strong>Instructor</strong>
                         )}
-                        {section.instructors.map((instructor, i) => (
+                        {section.instructors.map((instructor) => (
                           <div
-                            key={i}
+                            key={`${section.classNumber}-${instructor.professorID}`}
                             className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:justify-between gap-1 text-sm"
                           >
                             <span className="text-gray-200">{instructor.name}</span>
                             {(instructor.avgRating != null ||
                               instructor.avgDifficulty != null) && (
                               <span className="flex flex-wrap gap-x-3 gap-y-0">
-                                {instructor.avgRating != null ? (
+                                {instructor.avgRating ? (
                                   <span>
                                     Rating:{" "}
                                     <a
@@ -430,7 +441,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                                     </a>
                                   </span>
                                 ) : null}
-                                {instructor.avgDifficulty != null ? (
+                                {instructor.avgDifficulty ? (
                                   <span>
                                     Difficulty:{" "}
                                     <a
@@ -503,36 +514,40 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
         </div>
 
         {selectedCoursesChunks.length > 0 ? (
-          selectedCoursesChunks.map(
-            (courseChunk: Course[], chunkIndex: number) => (
-              <div key={chunkIndex} className="flex mx-3">
-                {courseChunk.map((course: Course, index: number) => {
+          selectedCoursesChunks.map((courseChunk: Course[]) => (
+              <div key={courseChunkRowKey(courseChunk)} className="flex mx-3">
+                {courseChunk.map((course: Course) => {
                   const selectedSection = getSelectedSection(course);
                   const excluded = !!course.excludedFromSchedule;
                   return (
                     <div
                       id="badge"
-                      key={index}
+                      key={courseRowKey(course)}
                       className={`flex-1 p-[0.6rem] rounded-md mb-2 text-${getContrastYIQ(
                         getHashedColor(course)
-                      )} cursor-pointer w-full h-full overflow-hidden fade-in relative transition-opacity ${
+                      )} w-full h-full overflow-hidden fade-in relative transition-opacity ${
                         excluded ? "opacity-50 ring-1 ring-white/35" : ""
                       }`}
                       style={getCourseBackgroundColor(course)}
-                      onClick={() => handleBadgeClick(course)}
                     >
-                      <div className="relative min-h-[4rem] pr-[2.75rem]">
+                      <button
+                        type="button"
+                        className="absolute inset-0 z-0 m-0 block cursor-pointer rounded-md border-0 bg-transparent p-0 text-left text-inherit"
+                        aria-label={`Open details for ${course.code}`}
+                        onClick={() => handleBadgeClick(course)}
+                      />
+                      <div className="relative z-10 min-h-[4rem] pr-[2.75rem] pointer-events-none">
                         <div className="min-w-0">
                           <div className="flex justify-between gap-2">
                             {course.termInd !== " " &&
                             course.termInd !== "C" ? (
                               <strong className="block truncate min-w-0">
-                                {course.code.replace(/([A-Z]+)/g, "$1 ")} -{" "}
+                                {course.code.replaceAll(/([A-Z]+)/g, "$1 ")} -{" "}
                                 {course.termInd}
                               </strong>
                             ) : (
                               <strong className="block truncate min-w-0">
-                                {course.code.replace(/([A-Z]+)/g, "$1 ")}
+                                {course.code.replaceAll(/([A-Z]+)/g, "$1 ")}
                               </strong>
                             )}
                             <span className="mt-[0.12rem] font-bold text-sm shrink-0">
@@ -556,7 +571,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                             </div>
                           )}
                         </div>
-                        <div className="absolute right-0 top-0 flex flex-col gap-1 items-center">
+                        <div className="pointer-events-auto absolute right-0 top-0 flex flex-col gap-1 items-center">
                           <button
                             type="button"
                             onClick={(e) =>
@@ -601,8 +616,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                   );
                 })}
               </div>
-            )
-          )
+            ))
         ) : (
           <div className="text-white font-bold w-full flex justify-center items-center">
             No courses
@@ -617,20 +631,24 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
         </div>
 
         {appointmentChunks.length > 0 ? (
-          appointmentChunks.map(
-            (appointmentChunk: any[], chunkIndex: number) => (
-              <div key={chunkIndex} className="flex mx-3">
-                {appointmentChunk.map((appointment: any, index: number) => (
+          appointmentChunks.map((appointmentChunk: any[]) => (
+              <div key={appointmentChunkRowKey(appointmentChunk)} className="flex mx-3">
+                {appointmentChunk.map((appointment: any) => (
                   <div
                     id="badge"
-                    key={index}
+                    key={customAppointmentRowKey(appointment)}
                     className={`flex-1 p-[0.6rem] rounded-md mb-2 text-${getContrastYIQ(
                       appointment.color
-                    )} cursor-pointer w-full h-full overflow-hidden fade-in relative`}
+                    )} w-full h-full overflow-hidden fade-in relative`}
                     style={{ backgroundColor: appointment.color }}
-                    onClick={() => handleAppointmentBadgeClick(appointment)}
                   >
-                    <div className="relative min-h-0 pr-[2.75rem]">
+                    <button
+                      type="button"
+                      className="absolute inset-0 z-0 m-0 block cursor-pointer rounded-md border-0 bg-transparent p-0 text-left text-inherit"
+                      aria-label={`${appointment.courseName}, recurring event`}
+                      onClick={() => handleAppointmentBadgeClick(appointment)}
+                    />
+                    <div className="relative z-10 min-h-0 pr-[2.75rem] pointer-events-none">
                       <div className="min-w-0">
                         <div className="flex justify-between gap-2">
                           <strong className="block truncate min-w-0">
@@ -659,7 +677,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                         onClick={(e) =>
                           handleRemoveAppointment(e, appointment)
                         }
-                        className="course-badge-delete-btn absolute right-0 top-1/2 -translate-y-1/2 p-1.5 rounded-full border-2 border-white/90 bg-black/40 text-white shadow-[0_1px_4px_rgba(0,0,0,0.85)] hover:bg-black/55 hover:border-white transition-opacity"
+                        className="course-badge-delete-btn pointer-events-auto absolute right-0 top-1/2 -translate-y-1/2 p-1.5 rounded-full border-2 border-white/90 bg-black/40 text-white shadow-[0_1px_4px_rgba(0,0,0,0.85)] hover:bg-black/55 hover:border-white transition-opacity"
                         aria-label="Remove appointment"
                       >
                         <PiTrashBold
@@ -671,8 +689,7 @@ const LikedSelectedCourses: React.FC<LikedSelectedCoursesProps> = ({
                   </div>
                 ))}
               </div>
-            )
-          )
+            ))
         ) : (
           <div className="text-white font-bold w-full flex justify-center items-center">
             No events
