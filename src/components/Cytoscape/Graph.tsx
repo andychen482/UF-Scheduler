@@ -29,14 +29,24 @@ cytoscape.use(klay);
 
 /** Compare / match course ids across graph elements and API payloads. */
 function normalizeCourseKey(id: string): string {
-  return id.replace(/\n/g, " ").replace(/\s+/g, "").trim().toUpperCase();
+  return id.replaceAll('\n', " ").replaceAll(/\s+/g, "").trim().toUpperCase();
 }
 
 function formatCourseCodeForDisplay(key: string): string {
   const k = normalizeCourseKey(key);
-  const m = k.match(/^([A-Z]{2,4})(\d{4}[A-Z]?)$/);
+  const m = new RegExp(/^([A-Z]{2,4})(\d{4}[A-Z]?)$/).exec(k);
   if (m) return `${m[1]} ${m[2]}`;
-  return key.replace(/\n/g, " ").trim();
+  return key.replaceAll('\n', " ").trim();
+}
+
+function findCourseByNormalizedKey(
+  courses: Course[],
+  key: string
+): Course | undefined {
+  for (const c of courses) {
+    if (normalizeCourseKey(c.code) === key) return c;
+  }
+  return undefined;
 }
 
 /**
@@ -59,6 +69,38 @@ function getNodeTooltipViewportPosition(
   } catch {
     return null;
   }
+}
+
+const GRAPH_TOOLTIP_PLACE_ATTEMPTS = 4;
+
+/**
+ * Show the graph tooltip once layout/renderer has a stable bounding box (retries via rAF).
+ */
+function scheduleGraphTooltipPlacement(
+  cy: cytoscape.Core,
+  seq: number,
+  name: string,
+  hoveredRef: React.MutableRefObject<cytoscape.Singular | null>,
+  hoverSeqRef: React.MutableRefObject<number>,
+  setTooltip: React.Dispatch<
+    React.SetStateAction<{ left: number; top: number; name: string } | null>
+  >
+): void {
+  let attemptsLeft = GRAPH_TOOLTIP_PLACE_ATTEMPTS;
+  const tick = () => {
+    const hovered = hoveredRef.current;
+    if (!hovered || hoverSeqRef.current !== seq) return;
+    const p = getNodeTooltipViewportPosition(cy, hovered);
+    if (p) {
+      setTooltip({ ...p, name });
+      return;
+    }
+    if (attemptsLeft > 0) {
+      attemptsLeft -= 1;
+      requestAnimationFrame(tick);
+    }
+  };
+  tick();
 }
 
 /** Looser graphs stay compact; dense graphs get more spacing so nodes don't feel crushed. */
@@ -138,13 +180,13 @@ const Graph: React.FC<GraphProps> = ({
       if (!incoming.has(t)) incoming.set(t, []);
       incoming.get(t)!.push(s);
     }
-    const prereqs = Array.from(new Set(incoming.get(nid) ?? [])).sort();
-    const unlocks = Array.from(new Set(outgoing.get(nid) ?? [])).sort();
+    const prereqs = Array.from(new Set(incoming.get(nid) ?? [])).sort((a, b) => a.localeCompare(b));
+    const unlocks = Array.from(new Set(outgoing.get(nid) ?? [])).sort((a, b) => a.localeCompare(b));
     const unlockDetails = unlocks.map((u) => ({
       code: u,
       alsoRequires: Array.from(
         new Set((incoming.get(u) ?? []).filter((x) => x !== nid))
-      ).sort(),
+      ).sort((a, b) => a.localeCompare(b)),
     }));
     return { prereqs, unlocks, unlockDetails };
   }, [graphData, graphNodeModal]);
@@ -158,7 +200,7 @@ const Graph: React.FC<GraphProps> = ({
     setModalCourse(null);
     setModalCourseLoading(true);
     let cancelled = false;
-    const q = graphNodeModal.replace(/\n/g, " ").trim();
+    const q = graphNodeModal.replaceAll('\n', " ").trim();
     axios
       .post(API_URLS.GET_COURSES, {
         searchTerm: q,
@@ -192,19 +234,19 @@ const Graph: React.FC<GraphProps> = ({
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setGraphNodeModal(null);
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    globalThis.addEventListener("keydown", onKey);
+    return () => globalThis.removeEventListener("keydown", onKey);
   }, [graphNodeModal]);
 
   const closeGraphModal = () => setGraphNodeModal(null);
 
   const openGraphCourseFromCode = (code: string) => {
-    setGraphNodeModal(code.replace(/\n/g, " ").trim());
+    setGraphNodeModal(code.replaceAll('\n', " ").trim());
   };
 
   const handleGraphModalFindInSearch = () => {
     if (!graphNodeModal) return;
-    const q = (modalCourse?.code ?? graphNodeModal).replace(/\n/g, " ").trim();
+    const q = (modalCourse?.code ?? graphNodeModal).replaceAll('\n', " ").trim();
     setSearchTerm(q);
     setDebouncedSearchTerm(q);
     setSearchTrigger((prev) => !prev);
@@ -214,6 +256,7 @@ const Graph: React.FC<GraphProps> = ({
   //Renders graph after calendar is switched away from
   useEffect(() => {
     initializeCytoscape();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleLoading = async (callback: () => Promise<void>) => {
@@ -222,6 +265,7 @@ const Graph: React.FC<GraphProps> = ({
       await callback();
     } catch (error) {
       // Error handled silently in production
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -249,6 +293,7 @@ const Graph: React.FC<GraphProps> = ({
         cleanupRef.current();
       }
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [graphData]);
 
   const initializeCytoscape = () => {
@@ -376,7 +421,7 @@ const Graph: React.FC<GraphProps> = ({
         graphTooltipHoveredNodeRef.current = null;
         graphTooltipHoverSeqRef.current += 1;
         setGraphTooltip(null);
-        const nodeId = event.target.id().replace(/\n/g, " ").trim();
+        const nodeId = event.target.id().replaceAll('\n', " ").trim();
         setGraphNodeModal(nodeId);
       });
 
@@ -393,25 +438,21 @@ const Graph: React.FC<GraphProps> = ({
 
         graphTooltipHoveredNodeRef.current = node;
         const seq = ++graphTooltipHoverSeqRef.current;
-        const code = node.id().replace(/\n/g, " ").trim();
+        const code = node.id().replaceAll('\n', " ").trim();
         const key = normalizeCourseKey(code);
-        const placeTooltip = (name: string) => {
-          const tryPlace = (attemptsLeft: number) => {
-            const hovered = graphTooltipHoveredNodeRef.current;
-            if (!hovered || graphTooltipHoverSeqRef.current !== seq) return;
-            const p = getNodeTooltipViewportPosition(cy, hovered);
-            if (p) {
-              setGraphTooltip({ ...p, name });
-            } else if (attemptsLeft > 0) {
-              requestAnimationFrame(() => tryPlace(attemptsLeft - 1));
-            }
-          };
-          tryPlace(4);
-        };
+        const showTooltip = (name: string) =>
+          scheduleGraphTooltipPlacement(
+            cy,
+            seq,
+            name,
+            graphTooltipHoveredNodeRef,
+            graphTooltipHoverSeqRef,
+            setGraphTooltip
+          );
 
         const cached = courseNameCacheRef.current.get(key);
         if (cached) {
-          placeTooltip(cached);
+          showTooltip(cached);
         } else {
           void (async () => {
             const { term: t, year: y } = termYearRef.current;
@@ -425,18 +466,16 @@ const Graph: React.FC<GraphProps> = ({
               });
               if (graphTooltipHoverSeqRef.current !== seq) return;
               const courses = res.data as Course[];
-              const match = courses.find(
-                (c) => normalizeCourseKey(c.code) === key
-              );
+              const match = findCourseByNormalizedKey(courses, key);
               const name =
                 match?.name?.trim() || formatCourseCodeForDisplay(code);
               courseNameCacheRef.current.set(key, name);
-              placeTooltip(name);
+              showTooltip(name);
             } catch {
               if (graphTooltipHoverSeqRef.current !== seq) return;
               const fallback = formatCourseCodeForDisplay(code);
               courseNameCacheRef.current.set(key, fallback);
-              placeTooltip(fallback);
+              showTooltip(fallback);
             }
           })();
         }
@@ -465,7 +504,7 @@ const Graph: React.FC<GraphProps> = ({
     let touchCount = 0;
 
     const handleWheel = (e: WheelEvent) => {
-      if (cyRef && cyRef.current) {
+      if (cyRef?.current) {
         // Check if cyRef and cyRef.current are not null
         e.preventDefault();
 
@@ -510,10 +549,8 @@ const Graph: React.FC<GraphProps> = ({
         if (touchCount === 2 && cyRef.current) {
           cyRef.current.userPanningEnabled(true);
         }
-      } else {
-        if (touchCount === 1 && cyRef.current) {
-          cyRef.current.userPanningEnabled(true);
-        }
+      } else if (touchCount === 1 && cyRef.current) {
+        cyRef.current.userPanningEnabled(true);
       }
     };
 
@@ -524,10 +561,8 @@ const Graph: React.FC<GraphProps> = ({
         if (touchCount !== 2 && cyRef.current) {
           cyRef.current.userPanningEnabled(false);
         }
-      } else {
-        if (touchCount !== 1 && cyRef.current) {
-          cyRef.current.userPanningEnabled(false);
-        }
+      } else if (touchCount !== 1 && cyRef.current) {
+        cyRef.current.userPanningEnabled(false);
       }
     };
 
@@ -554,11 +589,6 @@ const Graph: React.FC<GraphProps> = ({
     };
   };
 
-  useEffect(() => {
-    if (loadedOnce) {
-      handleLoading(generateAList);
-    }
-  }, [selectedCourses, selectedMajor]);
 
   const generateAList = async () => {
     await handleLoading(async () => {
@@ -576,16 +606,24 @@ const Graph: React.FC<GraphProps> = ({
       setGraphData(data);
     });
   };
+
+  useEffect(() => {
+    if (loadedOnce) {
+      handleLoading(generateAList);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCourses, selectedMajor]);
+
   const graphModalTitleId = "graph-course-modal-title";
 
   return (
     <>
       {graphNodeModal && (
-        <div
-          className="fixed inset-0 z-[2000] flex items-center justify-center p-3 sm:p-6"
-          role="dialog"
+        <dialog
+          className="fixed inset-0 z-[2000] m-0 flex min-h-[100dvh] w-full max-w-none transform-none items-center justify-center border-0 bg-transparent p-3 shadow-none outline-none sm:p-6"
           aria-modal="true"
           aria-labelledby={graphModalTitleId}
+          open
         >
           <button
             type="button"
@@ -595,7 +633,6 @@ const Graph: React.FC<GraphProps> = ({
           />
           <div
             className="relative z-[2001] flex flex-col w-full max-w-lg max-h-[85vh] min-h-0 rounded-xl bg-[#1a1a1a] border border-gray-600 shadow-2xl text-left"
-            onClick={(e) => e.stopPropagation()}
           >
             <div className="shrink-0 flex items-start justify-between gap-3 px-4 py-3 border-b border-gray-600 bg-[#1a1a1a]">
               <div className="min-w-0 flex-1">
@@ -603,16 +640,18 @@ const Graph: React.FC<GraphProps> = ({
                   id={graphModalTitleId}
                   className="text-lg font-bold text-white leading-tight"
                 >
-                  {(modalCourse?.code ?? graphNodeModal).replace(
+                  {(modalCourse?.code ?? graphNodeModal).replaceAll(
                     /([A-Z]+)/g,
                     "$1 "
                   )}
                 </h2>
-                {modalCourseLoading ? (
+                {modalCourseLoading && (
                   <p className="text-sm text-gray-500 mt-1">Loading details…</p>
-                ) : modalCourse ? (
+                )}
+                {!modalCourseLoading && modalCourse && (
                   <p className="text-sm text-gray-300 mt-1">{modalCourse.name}</p>
-                ) : (
+                )}
+                {!modalCourseLoading && !modalCourse && (
                   <p className="text-sm text-gray-500 mt-1">
                     Course title unavailable from catalog search.
                   </p>
@@ -757,7 +796,7 @@ const Graph: React.FC<GraphProps> = ({
               </button>
             </div>
           </div>
-        </div>
+        </dialog>
       )}
 
       {graphTooltip && (
@@ -784,7 +823,8 @@ const Graph: React.FC<GraphProps> = ({
           </div>
         </div>
 
-        <div className="graph-legend" role="group" aria-label="Node colors">
+        <fieldset className="graph-legend">
+          <legend className="graph-legend-caption">Node colors</legend>
           <span className="graph-legend-item">
             <span className="graph-swatch graph-swatch--course" /> Course
           </span>
@@ -792,7 +832,7 @@ const Graph: React.FC<GraphProps> = ({
             <span className="graph-swatch graph-swatch--yours" /> On your list
           </span>
           <span className="graph-legend-hint">Scroll to zoom · drag to pan</span>
-        </div>
+        </fieldset>
 
         <div className="graph-major-wrap">
           <label className="graph-major-label" htmlFor="graph-major-select-input">

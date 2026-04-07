@@ -37,9 +37,9 @@ type AppointmentDataExtras = {
 
 function ScheduleTooltipInstructorBlock({
   instructors,
-}: {
+}: Readonly<{
   instructors: Instructor[];
-}) {
+}>) {
   if (!instructors.length) return null;
   return (
     <div className="schedule-tooltip-row schedule-tooltip-instructors-block">
@@ -56,7 +56,7 @@ function ScheduleTooltipInstructorBlock({
             <span className="schedule-tooltip-instructor-name">{instructor.name}</span>
             {(instructor.avgRating != null || instructor.avgDifficulty != null) && (
               <span className="schedule-tooltip-instructor-metrics">
-                {instructor.avgRating != null ? (
+                {instructor.avgRating ? (
                   <>
                     <span className="schedule-tooltip-metric-label">Rating</span>
                     <a
@@ -74,7 +74,7 @@ function ScheduleTooltipInstructorBlock({
                     ·
                   </span>
                 ) : null}
-                {instructor.avgDifficulty != null ? (
+                {instructor.avgDifficulty ? (
                   <>
                     <span className="schedule-tooltip-metric-label">Difficulty</span>
                     <a

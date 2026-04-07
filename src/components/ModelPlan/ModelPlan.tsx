@@ -74,6 +74,154 @@ function extractCourseCode(...parts: (string | null | undefined)[]): string | nu
   return null;
 }
 
+type PlanRowLayout = {
+  courseText: string | null | undefined;
+  descriptionText: string | null | undefined;
+  creditsText: string | null | undefined;
+  courseSpan: number;
+  descriptionSpan: number;
+  creditsSpan: number;
+  mergedCourseNoCredits: boolean;
+  semesterText: boolean;
+  rowStyle: React.CSSProperties;
+  nextLastRowColor: string;
+};
+
+function resolvePlanRowLayout(
+  course: PlanRow,
+  index: number,
+  lastRowColor: string
+): PlanRowLayout {
+  let courseText = course["Semester One"];
+  let descriptionText = course["Semester One.1"];
+  let creditsText = course["Credits"];
+
+  const stripeColor =
+    index % 2 === 0 ? "var(--mp-row-a)" : "var(--mp-row-b)";
+  const baseRowStyle: React.CSSProperties = {
+    backgroundColor: stripeColor,
+  };
+
+  if (courseText === descriptionText && descriptionText === creditsText) {
+    return {
+      courseText,
+      descriptionText,
+      creditsText,
+      courseSpan: 3,
+      descriptionSpan: 0,
+      creditsSpan: 0,
+      mergedCourseNoCredits: false,
+      semesterText: true,
+      rowStyle: baseRowStyle,
+      nextLastRowColor: stripeColor,
+    };
+  }
+
+  if (courseText === descriptionText) {
+    return {
+      courseText,
+      descriptionText,
+      creditsText,
+      courseSpan: 2,
+      descriptionSpan: 0,
+      creditsSpan: 1,
+      mergedCourseNoCredits: false,
+      semesterText: false,
+      rowStyle: baseRowStyle,
+      nextLastRowColor: stripeColor,
+    };
+  }
+
+  if (descriptionText === creditsText) {
+    return {
+      courseText,
+      descriptionText,
+      creditsText,
+      courseSpan: 1,
+      descriptionSpan: 2,
+      creditsSpan: 0,
+      mergedCourseNoCredits: false,
+      semesterText: false,
+      rowStyle: baseRowStyle,
+      nextLastRowColor: stripeColor,
+    };
+  }
+
+  if (!courseText && descriptionText) {
+    return {
+      courseText: descriptionText,
+      descriptionText,
+      creditsText,
+      courseSpan: 2,
+      descriptionSpan: 0,
+      creditsSpan: 1,
+      mergedCourseNoCredits: false,
+      semesterText: false,
+      rowStyle: baseRowStyle,
+      nextLastRowColor: stripeColor,
+    };
+  }
+
+  if (!creditsText && descriptionText) {
+    const merged =
+      (courseText ?? "") + (courseText ? ": " : "") + descriptionText;
+    return {
+      courseText: merged,
+      descriptionText: "",
+      creditsText: "",
+      courseSpan: 2,
+      descriptionSpan: 0,
+      creditsSpan: 1,
+      mergedCourseNoCredits: true,
+      semesterText: false,
+      rowStyle: { backgroundColor: lastRowColor },
+      nextLastRowColor: lastRowColor,
+    };
+  }
+
+  return {
+    courseText,
+    descriptionText,
+    creditsText,
+    courseSpan: 1,
+    descriptionSpan: 1,
+    creditsSpan: 1,
+    mergedCourseNoCredits: false,
+    semesterText: false,
+    rowStyle: baseRowStyle,
+    nextLastRowColor: lastRowColor,
+  };
+}
+
+function modelPlanRowClassName(
+  resolvedCode: string | null,
+  semesterText: boolean
+): string {
+  if (resolvedCode) return "model-plan-row model-plan-row--clickable";
+  if (semesterText) return "model-plan-row model-plan-row--banner";
+  return "model-plan-row";
+}
+
+function modelPlanRowInteractionProps(
+  resolvedCode: string | null,
+  fetchCourseForPopup: (code: string) => void
+): React.HTMLAttributes<HTMLTableRowElement> {
+  if (!resolvedCode) return {};
+  return {
+    role: "button",
+    tabIndex: 0,
+    onClick: () => {
+      fetchCourseForPopup(resolvedCode);
+    },
+    onKeyDown: (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        fetchCourseForPopup(resolvedCode);
+      }
+    },
+  };
+}
+
 type PlanPopupState = {
   code: string;
   loading: boolean;
@@ -237,60 +385,20 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
       globalLast: boolean,
       rowKey: string
     ): React.ReactNode => {
-      let courseText = course["Semester One"];
-      let descriptionText = course["Semester One.1"];
-      let creditsText = course["Credits"];
+      const layout = resolvePlanRowLayout(course, index, lastRowColor);
+      lastRowColor = layout.nextLastRowColor;
 
-      let courseSpan = 1;
-      let descriptionSpan = 1;
-      let creditsSpan = 1;
-
-      /** Merged code+title in one cell (no per-row credits), e.g. options under "Select one:" */
-      let mergedCourseNoCredits = false;
-
-      let semesterText = false;
-
-      let rowStyle: React.CSSProperties = {
-        backgroundColor: index % 2 === 0 ? "var(--mp-row-a)" : "var(--mp-row-b)",
-      };
-
-      if (
-        courseText === descriptionText &&
-        descriptionText === creditsText
-      ) {
-        courseSpan = 3;
-        descriptionSpan = 0;
-        creditsSpan = 0;
-        semesterText = true;
-        lastRowColor = index % 2 === 0 ? "var(--mp-row-a)" : "var(--mp-row-b)";
-      } else if (courseText === descriptionText) {
-        courseSpan = 2;
-        descriptionSpan = 0;
-        lastRowColor = index % 2 === 0 ? "var(--mp-row-a)" : "var(--mp-row-b)";
-      } else if (descriptionText === creditsText) {
-        descriptionSpan = 2;
-        creditsSpan = 0;
-        lastRowColor = index % 2 === 0 ? "var(--mp-row-a)" : "var(--mp-row-b)";
-      } else if (!courseText && descriptionText) {
-        courseSpan = 2;
-        courseText = descriptionText;
-        descriptionSpan = 0;
-        lastRowColor = index % 2 === 0 ? "var(--mp-row-a)" : "var(--mp-row-b)";
-      } else if (!creditsText && descriptionText) {
-        const merged =
-          (courseText ?? "") +
-          (courseText ? ": " : "") +
-          descriptionText;
-        courseText = merged;
-        descriptionText = "";
-        courseSpan = 2;
-        descriptionSpan = 0;
-        creditsText = "";
-        mergedCourseNoCredits = true;
-        rowStyle = {
-          backgroundColor: lastRowColor,
-        };
-      }
+      const {
+        courseText,
+        descriptionText,
+        creditsText,
+        courseSpan,
+        descriptionSpan,
+        creditsSpan,
+        mergedCourseNoCredits,
+        semesterText,
+        rowStyle,
+      } = layout;
 
       const isCreditsTotalRow =
         !course["Semester One"] && course["Semester One.1"] === "Credits";
@@ -300,16 +408,7 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
           ? null
           : extractCourseCode(courseText, descriptionText);
 
-      let rowClassName: string = "";
-      if (resolvedCode) {
-        rowClassName = "model-plan-row model-plan-row--clickable";
-      } else if (semesterText) {
-        rowClassName = "model-plan-row model-plan-row--banner";
-      } else {
-        rowClassName = "model-plan-row";
-      }
-
-          
+      const rowClassName = modelPlanRowClassName(resolvedCode, semesterText);
       const isLastRow = globalLast;
 
       if (semesterText) {
@@ -327,21 +426,10 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
         );
       }
 
-      const rowProps = resolvedCode
-        ? {
-            role: "button" as const,
-            tabIndex: 0,
-            onClick: () => {
-              void fetchCourseForPopup(resolvedCode);
-            },
-            onKeyDown: (e: React.KeyboardEvent) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                void fetchCourseForPopup(resolvedCode);
-              }
-            },
-          }
-        : {};
+      const rowProps = modelPlanRowInteractionProps(
+        resolvedCode,
+        fetchCourseForPopup
+      );
 
       return (
         <tr

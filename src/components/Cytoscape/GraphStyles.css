@@ -63,15 +63,30 @@
 }
 
 .graph-legend {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem 1rem;
-  margin-bottom: 0.75rem;
+  margin: 0 0 0.75rem;
+  min-width: 0;
   padding: 0.45rem 0.65rem;
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.35);
   border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Native <fieldset>: reset UA chrome; caption is visually hidden (name still exposed to AT). */
+.graph-legend-caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .graph-legend-item {

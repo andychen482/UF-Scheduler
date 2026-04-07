@@ -20,6 +20,38 @@ function matchWhitespaceAndConnector(text: string, i: number): number {
   return j - i;
 }
 
+function pushTrimmedSlice(
+  parts: string[],
+  text: string,
+  start: number,
+  end: number
+): void {
+  const part = text.slice(start, end).trim();
+  if (part) parts.push(part);
+}
+
+/** If at depth 0 and on a split boundary, append the segment and return the next index and start. */
+function tryAdvancePastSplit(
+  text: string,
+  i: number,
+  start: number,
+  parenDepth: number,
+  parts: string[]
+): { nextI: number; nextStart: number } | null {
+  if (parenDepth !== 0) return null;
+  const ch = text[i];
+  if (ch === ";" || ch === ",") {
+    pushTrimmedSlice(parts, text, start, i);
+    const next = i + 1;
+    return { nextI: next, nextStart: next };
+  }
+  const andLen = matchWhitespaceAndConnector(text, i);
+  if (andLen === 0) return null;
+  pushTrimmedSlice(parts, text, start, i);
+  const next = i + andLen;
+  return { nextI: next, nextStart: next };
+}
+
 /**
  * Split common UF-style prerequisite lists into readable chunks without breaking long sentences badly.
  * Does not split on "or" (e.g. "B or higher" stays one segment).
@@ -46,24 +78,13 @@ export const splitPrerequisiteParts = (text: string): string[] => {
       continue;
     }
 
-    if (parenDepth === 0) {
-      if (ch === ";" || ch === ",") {
-        const part = text.slice(start, i).trim();
-        if (part) parts.push(part);
-        i += 1;
-        start = i;
-        continue;
-      }
-      const andLen = matchWhitespaceAndConnector(text, i);
-      if (andLen > 0) {
-        const part = text.slice(start, i).trim();
-        if (part) parts.push(part);
-        i += andLen;
-        start = i;
-        continue;
-      }
+    const split = tryAdvancePastSplit(text, i, start, parenDepth, parts);
+    if (split) {
+      i = split.nextI;
+      start = split.nextStart;
+      continue;
     }
-    i += 1;
+    i++;
   }
   const tail = text.slice(start).trim();
   if (tail) parts.push(tail);
