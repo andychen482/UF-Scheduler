@@ -49,7 +49,7 @@ function groupRowsBySemester(rows: PlanRow[]): { title: string; rows: PlanRow[] 
 }
 
 function normalizeSpaces(s: string): string {
-  return s.replace(/\u00a0/g, " ").trim();
+  return s.replaceAll('\u00a0', " ").trim();
 }
 
 /**
@@ -61,12 +61,12 @@ function extractCourseCode(...parts: (string | null | undefined)[]): string | nu
     if (!p) continue;
     const n = normalizeSpaces(p);
     // Spaced: "COP 3502C" — \b after bare \d{4} fails before the trailing C, so include optional letter.
-    let m = n.match(/\b([A-Z]{2,4})\s+(\d{4})([A-Z])?\b/i);
+    let m = new RegExp(/\b([A-Z]{2,4})\s+(\d{4})([A-Z])?\b/i).exec(n);
     if (m) {
       return `${m[1].toUpperCase()} ${m[2]}${m[3] ?? ""}`;
     }
     // No space: "COP3502C"
-    m = n.match(/\b([A-Z]{2,4})(\d{4})([A-Z])?\b/i);
+    m = new RegExp(/\b([A-Z]{2,4})(\d{4})([A-Z])?\b/i).exec(n);
     if (m) {
       return `${m[1].toUpperCase()} ${m[2]}${m[3] ?? ""}`;
     }
@@ -124,8 +124,8 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setPlanPopup(null);
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    globalThis.addEventListener("keydown", onKey);
+    return () => globalThis.removeEventListener("keydown", onKey);
   }, [planPopup]);
 
   const options = useMemo(
@@ -171,7 +171,7 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
           year,
         });
         const rows: Course[] = response.data ?? [];
-        const norm = (c: string) => c.replace(/\s+/g, " ").toUpperCase();
+        const norm = (c: string) => c.replaceAll(/\s+/g, " ").toUpperCase();
         const target = norm(code);
         const match =
           rows.find((c) => norm(c.code) === target) ?? rows[0];
@@ -275,7 +275,6 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
         courseSpan = 2;
         courseText = descriptionText;
         descriptionSpan = 0;
-        creditsSpan = 1;
         lastRowColor = index % 2 === 0 ? "var(--mp-row-a)" : "var(--mp-row-b)";
       } else if (!creditsText && descriptionText) {
         const merged =
@@ -286,7 +285,6 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
         descriptionText = "";
         courseSpan = 2;
         descriptionSpan = 0;
-        creditsSpan = 1;
         creditsText = "";
         mergedCourseNoCredits = true;
         rowStyle = {
@@ -302,10 +300,17 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
           ? null
           : extractCourseCode(courseText, descriptionText);
 
+      let rowClassName: string = "";
+      if (resolvedCode) {
+        rowClassName = "model-plan-row model-plan-row--clickable";
+      } else if (semesterText) {
+        rowClassName = "model-plan-row model-plan-row--banner";
+      } else {
+        rowClassName = "model-plan-row";
+      }
+
+          
       const isLastRow = globalLast;
-      const rowClassName = semesterText
-        ? "model-plan-row model-plan-row--banner"
-        : `model-plan-row${resolvedCode ? " model-plan-row--clickable" : ""}`;
 
       if (semesterText) {
         return (
@@ -317,7 +322,7 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
             <td colSpan={2} className="model-plan-cell model-plan-cell--banner-text">
               {courseText}
             </td>
-            <td colSpan={1} className="model-plan-cell model-plan-cell--banner-pad" aria-hidden />
+            <td colSpan={1} className="model-plan-cell model-plan-cell--banner-pad" />
           </tr>
         );
       }
@@ -372,7 +377,7 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
     };
 
     return (
-      <div className="model-plan-semesters" role="region" aria-label={`Plan for ${major}`}>
+      <section className="model-plan-semesters" aria-label={`Plan for ${major}`}>
         {groups.map((group, gi) => (
           <section key={`${major}-${group.title}-${gi}`} className="model-plan-semester-card">
             <div className="model-plan-semester-card__head">
@@ -404,7 +409,7 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
             </div>
           </section>
         ))}
-      </div>
+      </section>
     );
   };
 
@@ -418,8 +423,8 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
         ({
           ...base,
           backgroundColor: "rgba(22, 22, 22, 0.95)",
-          borderColor: state.isFocused ? "rgba(250, 70, 22, 0.65)" : "rgba(255, 255, 255, 0.12)",
-          boxShadow: state.isFocused ? "0 0 0 1px rgba(250, 70, 22, 0.35)" : "none",
+          borderColor: state.isFocused ? "rgba(0, 33, 165, 0.65)" : "rgba(255, 255, 255, 0.12)",
+          boxShadow: state.isFocused ? "0 0 0 1px rgba(0, 33, 165, 0.35)" : "none",
           borderRadius: "12px",
           minHeight: "46px",
           paddingLeft: "4px",
@@ -442,18 +447,21 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
       option: (
         base: CSSObjectWithLabel,
         state: { isFocused: boolean; isSelected: boolean }
-      ) =>
-        ({
+      ) => {
+        let backgroundColor = "transparent";
+        if (state.isSelected) {
+          backgroundColor = "rgba(0, 33, 165, 0.22)";
+        } else if (state.isFocused) {
+          backgroundColor = "rgba(255, 255, 255, 0.06)";
+        }
+        return {
           ...base,
-          backgroundColor: state.isSelected
-            ? "rgba(250, 70, 22, 0.22)"
-            : state.isFocused
-              ? "rgba(255, 255, 255, 0.06)"
-              : "transparent",
+          backgroundColor,
           color: "#f3f4f6",
           borderRadius: "8px",
           cursor: "pointer",
-        } as CSSObjectWithLabel),
+        } as CSSObjectWithLabel;
+      },
       singleValue: (base: CSSObjectWithLabel) =>
         ({ ...base, color: "#f3f4f6", fontWeight: 600 } as CSSObjectWithLabel),
       placeholder: (base: CSSObjectWithLabel) =>
@@ -507,14 +515,14 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
       </div>
 
       {!selectedMajor && (
-        <div className="model-plan-empty" role="status">
+        <output className="model-plan-empty">
           <PiGraduationCap className="model-plan-empty__icon" aria-hidden />
           <p className="model-plan-empty__title">Pick a major to view its plan</p>
           <p className="model-plan-empty__hint">
             Type in the box above to filter the list—plans load instantly from UF&apos;s published
             sequences.
           </p>
-        </div>
+        </output>
       )}
 
       {selectedMajor && (
@@ -524,9 +532,9 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
       )}
 
       {planPopup && (
-        <div
+        <dialog
+          open
           className="model-plan-popup-root"
-          role="dialog"
           aria-modal="true"
           aria-labelledby="model-plan-popup-title"
         >
@@ -536,9 +544,9 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
             onClick={() => setPlanPopup(null)}
             aria-label="Close"
           />
-          <div
+          <dialog
+            open
             className="model-plan-popup"
-            onClick={(e) => e.stopPropagation()}
           >
             <div className="model-plan-popup__top">
               <div className="model-plan-popup__titles">
@@ -597,8 +605,8 @@ const ModelPlan: React.FC<ModelPlanProps> = ({
                 View in Scheduler
               </button>
             </div>
-          </div>
-        </div>
+          </dialog>
+        </dialog>
       )}
     </div>
   );

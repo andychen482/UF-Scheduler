@@ -28,9 +28,9 @@ const MajorSelect: React.FC<MajorSearchProps> = ({ selectedMajor, setSelectedMaj
           borderRadius: 8,
           colors: {
             ...theme.colors,
-            primary25: "rgba(250, 70, 22, 0.12)",
-            primary50: "rgba(250, 70, 22, 0.18)",
-            primary: "#fa4616",
+            primary25: "rgba(0, 33, 165, 0.12)",
+            primary50: "rgba(0, 33, 165, 0.18)",
+            primary: "#0021a5",
           },
         })}
         placeholder="Search departments…"
@@ -43,9 +43,11 @@ const MajorSelect: React.FC<MajorSearchProps> = ({ selectedMajor, setSelectedMaj
             ...base,
             minHeight: 42,
             boxShadow: state.isFocused
-              ? "0 0 0 1px rgba(250, 70, 22, 0.45)"
+              ? "0 0 0 1px rgba(0, 33, 165, 0.45)"
               : "none",
-            border: "1px solid rgba(255, 255, 255, 0.14)",
+            border: state.isFocused
+              ? "1px solid rgba(0, 33, 165, 0.55)"
+              : "1px solid rgba(255, 255, 255, 0.14)",
             borderRadius: 8,
             backgroundColor: "#141414",
             cursor: "pointer",

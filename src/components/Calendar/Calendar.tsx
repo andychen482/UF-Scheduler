@@ -1,11 +1,10 @@
 import { Course, Section } from "../CourseUI/CourseTypes";
 import "./CalendarStyle.css";
 import { ViewState } from "@devexpress/dx-react-scheduler";
-import { Paper } from "@mui/material";
+import { Paper , PaletteMode } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { PaletteMode } from "@mui/material";
 import { grey, indigo } from "@mui/material/colors";
-import { useEffect, useState, useMemo, useRef } from "react";
+import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import Select, { CSSObjectWithLabel } from "react-select";
 import { addDays, format, startOfWeek } from "date-fns";
@@ -142,11 +141,12 @@ function areCombinationsEqual(
   a: Section[] | null | undefined,
   b: Section[] | null | undefined
 ): boolean {
-  if (!a || !b || a.length !== b.length) return false;
+  if (a?.length !== b?.length) return false;
+  if (!a || !b) return false;
   const sig = (s: Section) =>
     `${s.courseCode ?? ""}|${s.classNumber ?? ""}|${s.courseName ?? ""}`;
-  const sa = [...a].map(sig).sort();
-  const sb = [...b].map(sig).sort();
+  const sa = [...(a ?? [])].map(sig).sort((x, y) => x.localeCompare(y));
+  const sb = [...(b ?? [])].map(sig).sort((x, y) => x.localeCompare(y));
   return sa.every((v, i) => v === sb[i]);
 }
 
@@ -195,10 +195,8 @@ const getDesignTokens = (mode: PaletteMode) => ({
       },
     }),
     text: {
-      ...{
         primary: "#fff",
         secondary: grey[500],
-      },
     },
   },
 });
@@ -222,15 +220,15 @@ const generateICSContent = (appointments: any[]) => {
     // Create Date objects for first and last day
     // Note: month is 0-indexed in JavaScript Date
     const firstDay = new Date(
-      parseInt(firstDayParts[2]), // year
-      parseInt(firstDayParts[0]) - 1, // month (0-indexed)
-      parseInt(firstDayParts[1]) // day
+      Number.parseInt(firstDayParts[2]), // year
+      Number.parseInt(firstDayParts[0]) - 1, // month (0-indexed)
+      Number.parseInt(firstDayParts[1]) // day
     );
     
     const lastDay = new Date(
-      parseInt(lastDayParts[2]), // year
-      parseInt(lastDayParts[0]) - 1, // month (0-indexed)
-      parseInt(lastDayParts[1]) // day
+      Number.parseInt(lastDayParts[2]), // year
+      Number.parseInt(lastDayParts[0]) - 1, // month (0-indexed)
+      Number.parseInt(lastDayParts[1]) // day
     );
     
     // Get the day of week (0-6) from the startDate
@@ -257,12 +255,12 @@ const generateICSContent = (appointments: any[]) => {
     const eventStartFormatted = eventStartDate.getFullYear().toString() +
       (eventStartDate.getMonth() + 1).toString().padStart(2, '0') +
       eventStartDate.getDate().toString().padStart(2, '0') +
-      'T' + startTimePart.replace(/[:-]/g, '');
+      'T' + startTimePart.replaceAll(/[:-]/g, '');
     
     const eventEndFormatted = eventStartDate.getFullYear().toString() +
       (eventStartDate.getMonth() + 1).toString().padStart(2, '0') +
       eventStartDate.getDate().toString().padStart(2, '0') +
-      'T' + endTimePart.replace(/[:-]/g, '');
+      'T' + endTimePart.replaceAll(/[:-]/g, '');
     
     icsContent += "BEGIN:VEVENT\n";
     icsContent += `DTSTART:${eventStartFormatted}00\n`; // Append "00" for seconds
@@ -304,7 +302,7 @@ const Calendar: React.FC<CalendarProps> = ({
   const [hasMoreItems, setHasMoreItems] = useState(true);
   const [isAppointmentFormVisible, setIsAppointmentFormVisible] =
     useState(false);
-  const [instancesThis, setInstances] = useState<any[]>([]);
+  const [instancesThis] = useState<any[]>([]);
   const [lastIndex, setLastIndex] = useState(0);
   const [selectedSortOption, setSelectedSortOption] = useState<{
     value: string;
@@ -316,7 +314,7 @@ const Calendar: React.FC<CalendarProps> = ({
   } | null>(null);
   selectedSortOptionRef.current = selectedSortOption;
   const [isLoadingSort, setIsLoadingSort] = useState(false);
-  const [locations, setLocations] = useState<any[]>([]);
+  const [locations] = useState<any[]>([]);
   const prevSelectedCoursesRef = useRef<Course[]>();
   const prevCustomAppointmentsRef = useRef<any[]>();
   const [animationKey, setAnimationKey] = useState<string>(
@@ -328,11 +326,11 @@ const Calendar: React.FC<CalendarProps> = ({
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setIsAppointmentFormVisible(false);
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    globalThis.addEventListener("keydown", onKey);
+    return () => globalThis.removeEventListener("keydown", onKey);
   }, [isAppointmentFormVisible]);
 
-  const getCurrentWeekDayDate = (dayIndex: number) => {
+  const getCurrentWeekDayDate = useCallback((dayIndex: number) => {
     const today = new Date();
     const isSaturday = today.getDay() === 6;
     const start = startOfWeek(today, { weekStartsOn: 0 });
@@ -340,9 +338,9 @@ const Calendar: React.FC<CalendarProps> = ({
     // If it's Saturday, adjust the start to the next week
     const adjustedStart = isSaturday ? addDays(start, 7) : start;
     return addDays(adjustedStart, dayIndex);
-  };
+  }, []);
   
-  const adjustAppointmentsToCurrentWeek = (appointments: any[]) => {
+  const adjustAppointmentsToCurrentWeek = useCallback((appointments: any[]) => {
     return appointments.map((appointment) => {
       const dayOfWeek = new Date(appointment.startDate).getDay();
       const currentWeekDate = getCurrentWeekDayDate(dayOfWeek);
@@ -358,7 +356,7 @@ const Calendar: React.FC<CalendarProps> = ({
         endDate: newEndDate,
       };
     });
-  };
+  }, [getCurrentWeekDayDate]);
   
   const [selectedCalendar, setSelectedCalendar] = useState<SelectedCalendarType>(() => {
     const storedValue = localStorage.getItem(`selectedCalendar_${term}_${year}`);
@@ -374,6 +372,7 @@ const Calendar: React.FC<CalendarProps> = ({
           return { appointments: adjustedAppointments, combination: parsedValue.combination };
         }
       } catch (error) {
+        console.error(error);
         return null;
       }
     }
@@ -404,7 +403,7 @@ const Calendar: React.FC<CalendarProps> = ({
     { value: "mostCompact", label: "Most Compact" },
   ];
 
-  /** Dark select — neutral focus (no orange ring) */
+  /** Dark select — UF blue focus ring */
   const calendarSelectStyles = useMemo(
     () => ({
       menuPortal: (base: CSSObjectWithLabel) =>
@@ -414,10 +413,10 @@ const Calendar: React.FC<CalendarProps> = ({
           ...base,
           backgroundColor: "rgba(22, 22, 22, 0.95)",
           borderColor: state.isFocused
-            ? "rgba(255, 255, 255, 0.28)"
+            ? "rgba(0, 33, 165, 0.55)"
             : "rgba(255, 255, 255, 0.12)",
           boxShadow: state.isFocused
-            ? "0 0 0 1px rgba(255, 255, 255, 0.12)"
+            ? "0 0 0 1px rgba(0, 33, 165, 0.35)"
             : "none",
           borderRadius: "12px",
           minHeight: "46px",
@@ -446,9 +445,7 @@ const Calendar: React.FC<CalendarProps> = ({
           ...base,
           backgroundColor: state.isSelected
             ? "rgba(255, 255, 255, 0.1)"
-            : state.isFocused
-              ? "rgba(255, 255, 255, 0.06)"
-              : "transparent",
+            : "transparent",
           color: "#f3f4f6",
           borderRadius: "8px",
           cursor: "pointer",
@@ -497,6 +494,7 @@ const Calendar: React.FC<CalendarProps> = ({
           setSelectedCalendar(null);
         }
       } catch (error) {
+        console.error(error);
         setSelectedCalendar(null);
       }
     } else {
@@ -509,10 +507,10 @@ const Calendar: React.FC<CalendarProps> = ({
     setHasMoreItems(true);
     setSelectedSortOption(null);
     setAnimationKey(Date.now().toString());
-  }, [term, year]);
+  }, [adjustAppointmentsToCurrentWeek, term, year]);
 
   // Step 1: Identify selected sections (omit courses hidden via eye toggle)
-  const getAllSelectedSections = () => {
+  const getAllSelectedSections = useCallback(() => {
     return selectedCourses
       .filter((course) => !course.excludedFromSchedule)
       .map((course) => {
@@ -542,14 +540,14 @@ const Calendar: React.FC<CalendarProps> = ({
         });
       }
     });
-  };
+  }, [selectedCourses]);
 
   // Step 2: Generate all possible combinations
-  const generateAllCombinations = (arrays: Section[][]) => {
+  const generateAllCombinations = useCallback((arrays: Section[][]) => {
     arrays = [...arrays, ...customAppointments.map((item) => [item])];
     for (let sections of arrays) {
       for (let section of sections) {
-        if (section.classNumber !== "") {
+        if (section.classNumber && section.classNumber !== "") {
           instancesThis.push({
             id: `${section.classNumber}`,
             text: `Class # ${section.classNumber}`,
@@ -573,18 +571,26 @@ const Calendar: React.FC<CalendarProps> = ({
         }
       }
     }
-    return arrays.reduce<Section[][]>(
-      (acc, curr) =>
-        acc.flatMap((c: Section[]) =>
-          curr.map((n: Section) => ([] as Section[]).concat(c, [n]))
-        ),
-      [[]]
-    );
-  };
+    // Produces the Cartesian product of 'arrays', where each element is an array of Section[]
+    function cartesianProduct<T>(input: T[][]): T[][] {
+      if (input.length === 0) return [[]];
+      // Start with [[]] and iteratively build up product
+      return input.reduce<T[][]>((prod, curr) => {
+        const newProd: T[][] = [];
+        for (const arr of prod) {
+          for (const item of curr) {
+            newProd.push([...arr, item]);
+          }
+        }
+        return newProd;
+      }, [[]]);
+    }
+    return cartesianProduct(arrays);
+  }, [instancesThis, customAppointments, locations]);
 
   const allSelectedSections = useMemo(
     () => getAllSelectedSections(),
-    [selectedCourses]
+    [getAllSelectedSections]
   );
 
   const [allCombinations, setAllCombinations] = useState<Section[][]>(() =>
@@ -601,7 +607,7 @@ const Calendar: React.FC<CalendarProps> = ({
       setAllCombinations(newCombinations);
     }
     setAnimationKey(Date.now().toString());
-  }, [allSelectedSections, customAppointments]);
+  }, [allSelectedSections, customAppointments, generateAllCombinations]);
 
   // Step 3: Create calendars
   const createCalendars = (startIndex: number, numRequested: number) => {
@@ -644,12 +650,11 @@ const Calendar: React.FC<CalendarProps> = ({
             const endDate = `${date}T${endDateBase}`;
             const id = `${section.courseName}-${startDate}-${date}`;
             let classNumber = null;
-            if (section.classNumber !== "") {
+            if (section.classNumber && section.classNumber !== "") {
               classNumber = `${section.classNumber}`;
             } else {
               classNumber = `${section.courseName}-${section.color}`;
             }
-            // const number = id;
             const startMoment = new Date(startDate);
             const endMoment = new Date(endDate);
 
@@ -792,10 +797,9 @@ const Calendar: React.FC<CalendarProps> = ({
         </div>
 
         {appointments.length > 0 && (
-          <>
-            <div className="calendar-toolbar-actions">
-              {!areAppointmentsEqual(
-                selectedCalendar?.appointments,
+          <div className="calendar-toolbar-actions">
+              {selectedCalendar == null || !areAppointmentsEqual(
+                selectedCalendar.appointments, 
                 appointments
               ) ? (
                 <button
@@ -837,7 +841,6 @@ const Calendar: React.FC<CalendarProps> = ({
                 Download ICS
               </button>
             </div>
-          </>
         )}
       </>
     );
@@ -913,6 +916,7 @@ const Calendar: React.FC<CalendarProps> = ({
   useEffect(() => {
     // Load initial calendars when the component mounts
     loadMoreCalendarsDebounced();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty dependency array means this useEffect runs once when component mounts
 
   return (
@@ -920,17 +924,17 @@ const Calendar: React.FC<CalendarProps> = ({
       {isLoadingSort && <div className="spinner"></div>}
       <div className="calendar-display">
         {isAppointmentFormVisible && (
-          <div
-            className="recurring-event-modal-overlay"
-            role="presentation"
-            onClick={() => setIsAppointmentFormVisible(false)}
-          >
-            <div
+          <div className="recurring-event-modal-overlay">
+            <button
+              type="button"
+              className="recurring-event-modal-backdrop"
+              aria-label="Close dialog"
+              onClick={() => setIsAppointmentFormVisible(false)}
+            />
+            <dialog
               className="recurring-event-modal-panel"
-              role="dialog"
-              aria-modal="true"
+              open
               aria-labelledby="recurring-event-modal-title"
-              onClick={(e) => e.stopPropagation()}
             >
               <CustomAppointmentForm
                 customAppointments={customAppointments}
@@ -939,7 +943,7 @@ const Calendar: React.FC<CalendarProps> = ({
                 term={term}
                 year={year}
               />
-            </div>
+            </dialog>
           </div>
         )}
         <div className="calendar-toolbar">
@@ -980,14 +984,12 @@ const Calendar: React.FC<CalendarProps> = ({
           >
             {/* Step 3: If selectedCalendar is not empty, display it first */}
             {selectedCalendar && (
-              <>
-                <div className="bg-gray-800 pt-4 pb-[1px] rounded-md mx-[20px]">
+              <div className="bg-gray-800 pt-4 pb-[1px] rounded-md mx-[20px]">
                   <p className="text-white text-lg font-bold ml-[30px] mb-[10px]">
                     Selected Calendar
                   </p>
                   <div>{renderCalendar(selectedCalendar, -1)}</div>
                 </div>
-              </>
             )}
             {selectedCalendar && displayedCalendars.length > 0 && (
               <div className="mx-6 mt-5 mb-2 flex items-center gap-3">
@@ -1022,7 +1024,7 @@ const Calendar: React.FC<CalendarProps> = ({
                     <div className="mt-4 text-sm leading-relaxed text-gray-300 text-left">
                       {schedulingConflictDetail.kind === "pairwise" ? (
                         <>
-                          <p className="font-semibold text-amber-200/90 mb-2">
+                          <p className="font-semibold text-[#ffb38a]/90 mb-2">
                             These pairs always clash (no section choice avoids overlap):
                           </p>
                           <ul className="list-disc pl-5 space-y-1.5">

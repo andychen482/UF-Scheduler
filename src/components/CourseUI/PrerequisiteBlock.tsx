@@ -160,11 +160,11 @@ const PrerequisiteBlock: React.FC<PrerequisiteBlockProps> = ({
   if (usePills) {
     return (
       <ul
-        className={`flex flex-wrap gap-2 list-none m-0 p-0 ${variant === "compact" ? "" : ""}`}
+        className={`flex flex-wrap gap-2 list-none m-0 p-0`}
       >
-        {parts.map((part, i) => (
+        {parts.map((part) => (
           <li
-            key={i}
+            key={part}
             className={
               variant === "modal"
                 ? "max-w-full rounded-lg border border-gray-600/60 bg-[#1e1e1e] px-2.5 py-2 text-[13px] text-gray-200 shadow-sm"

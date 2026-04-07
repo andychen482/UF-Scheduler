@@ -3,6 +3,8 @@
   --mp-row-b: #141414;
   --mp-border: rgba(255, 255, 255, 0.08);
   --mp-border-strong: rgba(250, 70, 22, 0.35);
+  /* UF blue — rule under table header (Course / Credits) */
+  --mp-header-rule: rgba(0, 33, 165, 0.5);
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -186,7 +188,7 @@
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.45);
   background: rgba(0, 0, 0, 0.45);
-  border-bottom: 1px solid var(--mp-border-strong);
+  border-bottom: 2px solid var(--mp-header-rule);
 }
 
 .model-plan-th--credits {
@@ -252,6 +254,7 @@
   box-shadow: inset 0 0 0 2px rgba(250, 70, 22, 0.55);
 }
 
+/* Native <dialog> has UA border, padding, background, width — reset to match prior div overlay */
 .model-plan-popup-root {
   position: fixed;
   inset: 0;
@@ -260,6 +263,16 @@
   align-items: center;
   justify-content: center;
   padding: 0.75rem;
+  margin: 0;
+  max-width: none;
+  max-height: none;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border: none;
+  background: transparent;
+  color: inherit;
+  overflow: hidden;
 }
 
 .model-plan-popup-backdrop {

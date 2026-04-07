@@ -498,7 +498,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
             {selectedKeysFromSearch.length > 0 && (
               <>
                 <div className="mx-1 mb-2 mt-1 flex items-center gap-2">
-                  <span className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-200/75">
+                  <span className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#ffb38a]/75">
                     In your schedule
                   </span>
                   <span className="h-px min-w-0 flex-1 bg-gray-700" />
