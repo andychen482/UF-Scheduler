@@ -9,6 +9,8 @@ type TooltipContentProps = React.ComponentProps<
   typeof AppointmentTooltip.Content
 >;
 
+type AppointmentData = NonNullable<TooltipContentProps["appointmentData"]>;
+
 function resourceBorderColor(color: ResourceInstance["color"]): string {
   if (!color) return "rgba(255,255,255,0.35)";
   if (typeof color === "string") return color;
@@ -34,6 +36,67 @@ type AppointmentDataExtras = {
   noWeeklyMeeting?: boolean;
   courseFullName?: string;
 };
+
+function filterTooltipInstructors(
+  instructors: AppointmentData["instructors"]
+): Instructor[] | undefined {
+  const raw = instructors as Instructor[] | undefined;
+  return raw?.filter((i) => i && String(i.name ?? "").trim() !== "");
+}
+
+function tooltipDisplayLocation(raw: unknown): string | undefined {
+  if (raw == null) return undefined;
+  if (typeof raw !== "string") return undefined;
+  const t = raw.trim();
+  return t === "" ? undefined : t;
+}
+
+function shouldShowFinalExam(finalExam: unknown): boolean {
+  if (finalExam == null) return false;
+  if (typeof finalExam === "string") {
+    const s = finalExam.trim();
+    return s !== "" && s.toLowerCase() !== "none";
+  }
+  if (typeof finalExam === "number" || typeof finalExam === "boolean") {
+    const s = String(finalExam).trim();
+    return s !== "" && s.toLowerCase() !== "none";
+  }
+  return false;
+}
+
+function TooltipResourcePills({
+  resources,
+}: Readonly<{
+  resources: TooltipContentProps["appointmentResources"];
+}>) {
+  if (resources.length === 0) return null;
+  return (
+    <div className="schedule-tooltip-resources">
+      {resources.map((r: TooltipContentProps["appointmentResources"][number]) => (
+        <span
+          key={`${r.fieldName}-${String(r.id)}`}
+          className="schedule-tooltip-pill"
+          style={{ borderLeftColor: resourceBorderColor(r.color) }}
+        >
+          {r.text}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function TooltipFinalExamLine({
+  showFinal,
+  finalExam,
+}: Readonly<{
+  showFinal: boolean;
+  finalExam: string | undefined;
+}>) {
+  if (!showFinal) return null;
+  return (
+    <div className="schedule-tooltip-final">Final exam: {finalExam}</div>
+  );
+}
 
 function ScheduleTooltipInstructorBlock({
   instructors,
@@ -98,82 +161,75 @@ function ScheduleTooltipInstructorBlock({
   );
 }
 
-/**
- * Cleaner tooltip when clicking a block on a generated schedule (DevExtreme scheduler).
- * Also supports sections with no weekly meet time (`noWeeklyMeeting`) for the strip above the grid.
- */
-export const ScheduleAppointmentTooltipContent: React.FC<
-  TooltipContentProps
-> = ({
+function NoWeeklyAppointmentTooltip({
+  className,
+  appointmentData,
+  extras,
+  appointmentResources,
+  instructors,
+  showFinal,
+  finalExam,
+  children,
+}: Readonly<{
+  className: string;
+  appointmentData: AppointmentData;
+  extras: AppointmentDataExtras;
+  appointmentResources: TooltipContentProps["appointmentResources"];
+  instructors: Instructor[] | undefined;
+  showFinal: boolean;
+  finalExam: string | undefined;
+  children: React.ReactNode;
+}>) {
+  const courseFullName = extras.courseFullName?.trim();
+  return (
+    <div className={className}>
+      <div className="schedule-tooltip-title-row">
+        <span className="schedule-tooltip-title">{appointmentData.title}</span>
+      </div>
+      {courseFullName ? (
+        <div className="schedule-tooltip-day">{courseFullName}</div>
+      ) : null}
+      <div className="schedule-tooltip-row">
+        <IoTimeOutline className="schedule-tooltip-row-icon" aria-hidden />
+        <span>No weekly meeting time</span>
+      </div>
+      {instructors && instructors.length > 0 ? (
+        <ScheduleTooltipInstructorBlock instructors={instructors} />
+      ) : null}
+      <TooltipResourcePills resources={appointmentResources} />
+      <TooltipFinalExamLine showFinal={showFinal} finalExam={finalExam} />
+      {children}
+    </div>
+  );
+}
+
+function WeeklyAppointmentTooltip({
+  className,
   appointmentData,
   appointmentResources,
-  recurringIconComponent: RecurringIcon,
-  className,
+  instructors,
+  showFinal,
+  finalExam,
+  RecurringIcon,
   children,
-}) => {
-  const extras = appointmentData as typeof appointmentData & AppointmentDataExtras;
-  const isNoWeekly = Boolean(extras?.noWeeklyMeeting);
-
-  if (!appointmentData || (!isNoWeekly && !appointmentData.startDate)) return null;
-
-  const finalExam = appointmentData.finalExam as string | undefined;
-  const showFinal =
-    finalExam &&
-    String(finalExam).trim() !== "" &&
-    String(finalExam).toLowerCase() !== "none";
-
-  const instructors = (appointmentData.instructors as Instructor[] | undefined)?.filter(
-    (i) => i && String(i.name ?? "").trim() !== ""
-  );
-
-  if (isNoWeekly) {
-    const courseFullName = extras.courseFullName?.trim();
-    return (
-      <div className={`schedule-tooltip-content ${className ?? ""}`.trim()}>
-        <div className="schedule-tooltip-title-row">
-          <span className="schedule-tooltip-title">{appointmentData.title}</span>
-        </div>
-        {courseFullName ? (
-          <div className="schedule-tooltip-day">{courseFullName}</div>
-        ) : null}
-        <div className="schedule-tooltip-row">
-          <IoTimeOutline className="schedule-tooltip-row-icon" aria-hidden />
-          <span>No weekly meeting time</span>
-        </div>
-        {instructors && instructors.length > 0 ? (
-          <ScheduleTooltipInstructorBlock instructors={instructors} />
-        ) : null}
-        {appointmentResources.length > 0 ? (
-          <div className="schedule-tooltip-resources">
-            {appointmentResources.map((r: TooltipContentProps["appointmentResources"][number]) => (
-              <span
-                key={`${r.fieldName}-${String(r.id)}`}
-                className="schedule-tooltip-pill"
-                style={{ borderLeftColor: resourceBorderColor(r.color) }}
-              >
-                {r.text}
-              </span>
-            ))}
-          </div>
-        ) : null}
-        {showFinal ? (
-          <div className="schedule-tooltip-final">Final exam: {finalExam}</div>
-        ) : null}
-        {children}
-      </div>
-    );
-  }
-
+}: Readonly<{
+  className: string;
+  appointmentData: AppointmentData;
+  appointmentResources: TooltipContentProps["appointmentResources"];
+  instructors: Instructor[] | undefined;
+  showFinal: boolean;
+  finalExam: string | undefined;
+  RecurringIcon: React.ComponentType;
+  children: React.ReactNode;
+}>) {
   const start = new Date(appointmentData.startDate);
-  const end = appointmentData.endDate
-    ? new Date(appointmentData.endDate)
-    : start;
+  const end = appointmentData.endDate ? new Date(appointmentData.endDate) : start;
   const dayLine = format(start, "EEEE, MMM d");
   const timeLine = `${format(start, "h:mm a")} – ${format(end, "h:mm a")}`;
-  const location = appointmentData.location as string | undefined;
+  const location = tooltipDisplayLocation(appointmentData.location);
 
   return (
-    <div className={`schedule-tooltip-content ${className ?? ""}`.trim()}>
+    <div className={className}>
       <div className="schedule-tooltip-title-row">
         {!!appointmentData.rRule && (
           <span className="schedule-tooltip-recurring-wrap">
@@ -196,23 +252,63 @@ export const ScheduleAppointmentTooltipContent: React.FC<
       {instructors && instructors.length > 0 ? (
         <ScheduleTooltipInstructorBlock instructors={instructors} />
       ) : null}
-      {appointmentResources.length > 0 ? (
-        <div className="schedule-tooltip-resources">
-          {appointmentResources.map((r: TooltipContentProps["appointmentResources"][number]) => (
-            <span
-              key={`${r.fieldName}-${String(r.id)}`}
-              className="schedule-tooltip-pill"
-              style={{ borderLeftColor: resourceBorderColor(r.color) }}
-            >
-              {r.text}
-            </span>
-          ))}
-        </div>
-      ) : null}
-      {showFinal ? (
-        <div className="schedule-tooltip-final">Final exam: {finalExam}</div>
-      ) : null}
+      <TooltipResourcePills resources={appointmentResources} />
+      <TooltipFinalExamLine showFinal={showFinal} finalExam={finalExam} />
       {children}
     </div>
+  );
+}
+
+/**
+ * Cleaner tooltip when clicking a block on a generated schedule (DevExtreme scheduler).
+ * Also supports sections with no weekly meet time (`noWeeklyMeeting`) for the strip above the grid.
+ */
+export const ScheduleAppointmentTooltipContent: React.FC<
+  TooltipContentProps
+> = ({
+  appointmentData,
+  appointmentResources,
+  recurringIconComponent: RecurringIcon,
+  className,
+  children,
+}) => {
+  const extras = appointmentData as typeof appointmentData & AppointmentDataExtras;
+  const isNoWeekly = Boolean(extras?.noWeeklyMeeting);
+
+  if (!appointmentData || (!isNoWeekly && !appointmentData.startDate)) return null;
+
+  const finalExam = appointmentData.finalExam as string | undefined;
+  const showFinal = shouldShowFinalExam(finalExam);
+  const instructors = filterTooltipInstructors(appointmentData.instructors);
+  const contentClass = `schedule-tooltip-content ${className ?? ""}`.trim();
+
+  if (isNoWeekly) {
+    return (
+      <NoWeeklyAppointmentTooltip
+        className={contentClass}
+        appointmentData={appointmentData}
+        extras={extras}
+        appointmentResources={appointmentResources}
+        instructors={instructors}
+        showFinal={showFinal}
+        finalExam={finalExam}
+      >
+        {children}
+      </NoWeeklyAppointmentTooltip>
+    );
+  }
+
+  return (
+    <WeeklyAppointmentTooltip
+      className={contentClass}
+      appointmentData={appointmentData}
+      appointmentResources={appointmentResources}
+      instructors={instructors}
+      showFinal={showFinal}
+      finalExam={finalExam}
+      RecurringIcon={RecurringIcon}
+    >
+      {children}
+    </WeeklyAppointmentTooltip>
   );
 };
