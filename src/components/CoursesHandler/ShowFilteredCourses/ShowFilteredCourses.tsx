@@ -66,6 +66,10 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
 
   const [editingCredits, setEditingCredits] = useState<string | null>(null);
   const [noCoursesFound, setNoCoursesFound] = useState<boolean>(false);
+  /** Shown when "add only in-person sections" has nothing to add (all sections online-only). */
+  const [inPersonOnlyNotice, setInPersonOnlyNotice] = useState<string | null>(
+    null
+  );
 
   const handleCourseCardClick = (event: React.MouseEvent, course: Course) => {
     toggleCourseDropdown(`${course.code}|${course.name}`);
@@ -116,7 +120,7 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
     }
   };
 
-  // New function to add only non-online sections
+  // New function to add only non-online (in-person) sections
   const toggleNonOnlineSections = (course: Course) => {
     setLoaded(true);
 
@@ -124,28 +128,20 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
       (section) => section.meetTimes && section.meetTimes.length > 0
     );
 
+    if (nonOnlineSections.length === 0) {
+      setInPersonOnlyNotice(
+        `${course.code.replace(/([A-Z]+)/g, "$1 ")}: no in-person sections — all offerings are online-only.`
+      );
+      globalThis.setTimeout(() => setInPersonOnlyNotice(null), 5000);
+      return;
+    }
+
     const selectedNonOnline = {
       ...course,
       sections: nonOnlineSections,
       inPerson: true,
     };
-
-    // const isSelected = selectedCourses.some(
-    //   (selectedCourse) =>
-    //     selectedCourse.code === course.code &&
-    //     selectedCourse.name === course.name &&
-    //     selectedCourse.sections.length === selectedNonOnline.sections.length
-    // );
-
-    // if (isSelected) {
-    //   setSelectedCourses((prevSelectedCourses) =>
-    //     prevSelectedCourses.filter(
-    //       (selectedCourse) =>
-    //         selectedCourse.code !== course.code ||
-    //         selectedCourse.name !== course.name
-    //     )
-    //   );
-    // } else {
+    
       setSelectedCourses((prevSelectedCourses) => [
         ...prevSelectedCourses,
         selectedNonOnline,
@@ -487,6 +483,15 @@ const ShowFilteredCourses: React.FC<ShowFilteredCoursesProps> = ({
       ref={containerRef}
       className="filtered-courses-container overflow-y-scroll mt-3"
     >
+      {inPersonOnlyNotice ? (
+        <div
+          className="mx-1 mb-2 rounded border border-amber-600/50 bg-amber-950/40 px-2 py-1.5 text-sm text-amber-100/95"
+          role="status"
+          aria-live="polite"
+        >
+          {inPersonOnlyNotice}
+        </div>
+      ) : null}
       <InfiniteScroll
         pageStart={0}
         loadMore={loadMore}
