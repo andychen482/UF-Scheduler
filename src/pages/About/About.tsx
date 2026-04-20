@@ -62,6 +62,36 @@ const AboutPage: React.FC = () => {
             UF Scheduler is a website that aims to help students plan their
             schedules. It is not affiliated with the University of Florida.
           </p>
+          <h2
+            style={{
+              color: "white",
+              fontSize: "1.75em",
+              marginBottom: "10px",
+              marginTop: "30px",
+            }}
+          >
+            Credits
+          </h2>
+          <p
+            style={{
+              color: "white",
+              lineHeight: "1.6",
+              fontSize: "1.2em",
+              marginBottom: "20px",
+            }}
+          >
+            <a href="https://www.linkedin.com/in/danielurbonas/" target="_blank" rel="noreferrer" style={{ color: "white", textDecoration: "underline" }}>Daniel Urbonas</a> - AI chat assistant
+          </p>
+          <h2
+            style={{
+              color: "white",
+              fontSize: "1.75em",
+              marginBottom: "10px",
+              marginTop: "30px",
+            }}
+          >
+            Contact
+          </h2>
           <div
             style={{
               display: "flex",
@@ -69,32 +99,18 @@ const AboutPage: React.FC = () => {
               alignItems: "start",
             }}
           >
-            <div>
-              <h1
-                style={{
-                  color: "white",
-                  fontSize: "1.75em",
-                  marginBottom: "10px",
-                  marginTop: "20px",
-                }}
-              >
-                Contact
-              </h1>
-              <a
-                href="mailto: andy.chen@ufl.edu"
-                style={{ color: "white", lineHeight: "1.6", fontSize: "1.2em" }}
-              >
-                andy.chen@ufl.edu
-              </a>
-            </div>
-            <div>
-              <LinkedInProfileBadge
-                profileId="andy-chen67"
-                theme="dark"
-                size="large"
-                orientation="horizontal"
-              />
-            </div>
+            <a
+              href="mailto: andy.chen@ufl.edu"
+              style={{ color: "white", lineHeight: "1.6", fontSize: "1.2em" }}
+            >
+              andy.chen@ufl.edu
+            </a>
+            <LinkedInProfileBadge
+              profileId="andy-chen67"
+              theme="dark"
+              size="large"
+              orientation="horizontal"
+            />
           </div>
         </div>
         <Footer />

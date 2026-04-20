@@ -58,16 +58,7 @@ const Footer = () => {
       <p>
         {/* <span id="lastUpdated">{displayLastUpdatedTime()}</span> */}
         {/* {" | By "} */}
-        {"Updated to Fall 2026 | By "}
-        <a
-          href="https://www.linkedin.com/in/andy-chen67/"
-          target="_blank"
-          rel="noreferrer"
-          style={{ color: "inherit", textDecoration: "underline" }}
-        >
-          Andy Chen
-        </a>
-        {" | "}
+        {"Updated to Fall 2026 | "}
         <a
           href="/privacy"
           style={{ color: "inherit", textDecoration: "underline" }}
