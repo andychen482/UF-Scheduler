@@ -27,6 +27,9 @@ export const cognitoConfig = {
   scope: "email openid profile",
   userStore: new WebStorageStateStore({ store: window.localStorage }),
   automaticSilentRenew: true,
+  // Cognito does not support prompt=none (iframe silent renew).
+  // Use the refresh token grant instead so sessions last up to 30 days.
+  useRefreshTokens: true,
   onSigninCallback: () => {
     window.history.replaceState({}, document.title, window.location.pathname);
   },
