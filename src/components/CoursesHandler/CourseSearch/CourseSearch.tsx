@@ -54,6 +54,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({
       );
     } catch (error) {
       // Metrics send failed silently
+      console.error(error);
     }
   };
 

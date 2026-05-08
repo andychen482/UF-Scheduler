@@ -25,13 +25,13 @@ export const cognitoConfig = {
   redirect_uri: process.env.REACT_APP_COGNITO_REDIRECT_URI as string,
   response_type: "code",
   scope: "email openid profile",
-  userStore: new WebStorageStateStore({ store: window.localStorage }),
+  userStore: new WebStorageStateStore({ store: globalThis.localStorage }),
   automaticSilentRenew: true,
   // Cognito does not support prompt=none (iframe silent renew).
   // Use the refresh token grant instead so sessions last up to 30 days.
   useRefreshTokens: true,
   onSigninCallback: () => {
-    window.history.replaceState({}, document.title, window.location.pathname);
+    globalThis.history.replaceState({}, document.title, globalThis.location.pathname);
   },
 };
 
@@ -55,8 +55,8 @@ export const signOutRedirect = () => {
   const clientId = cognitoConfig.client_id;
   const logoutUri = COGNITO_LOGOUT_URI;
   const storeKey = `oidc.user:${cognitoConfig.authority}:${clientId}`;
-  window.localStorage.removeItem(storeKey);
-  window.location.href = `${COGNITO_DOMAIN}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+  globalThis.localStorage.removeItem(storeKey);
+  globalThis.location.href = `${COGNITO_DOMAIN}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
 };
 
 /**
@@ -126,6 +126,7 @@ export const BACKEND_URLS = {
   AI_CHAT_HISTORY: buildBackendUrl(BACKEND_ENDPOINTS.AI_CHAT_HISTORY),
 } as const;
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   API_BASE_URL,
   BACKEND_BASE_URL,

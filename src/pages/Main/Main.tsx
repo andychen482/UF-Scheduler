@@ -439,7 +439,15 @@ const Main = () => {
           {currentView === "plan" && (
             <div className="order-3 plan-container-container-lol">
               <div className="plan-container bg-[rgb(0,0,0)]">
-                <ModelPlan />
+                <ModelPlan
+                  term={term}
+                  year={year}
+                  setSearchTerm={setSearchTerm}
+                  setDebouncedSearchTerm={setDebouncedSearchTerm}
+                  searchTrigger={searchTrigger}
+                  setSearchTrigger={setSearchTrigger}
+                  calendarView={calendarView}
+                />
               </div>
             </div>
           )}

@@ -1,5 +1,4 @@
 import { addDays, startOfWeek } from "date-fns";
-import { SelectedCalendarType } from "./Calendar";
 
 const getCurrentWeekDayDate = (dayIndex: number) => {
   const start = startOfWeek(new Date(), { weekStartsOn: 0 });
@@ -28,30 +27,6 @@ const adjustAppointmentsToCurrentWeek = (appointments: any[]) => {
       endDate: newEndDate,
     };
   });
-};
-
-const calendarMainFunc = (storedValue: any) => {
-  if (storedValue) {
-    try {
-      const parsedValue: SelectedCalendarType = JSON.parse(storedValue);
-      if (
-        parsedValue &&
-        Array.isArray(parsedValue.appointments) &&
-        Array.isArray(parsedValue.combination)
-      ) {
-        const adjustedAppointments = adjustAppointmentsToCurrentWeek(
-          parsedValue.appointments
-        );
-        return {
-          combination: parsedValue.combination,
-          appointments: adjustedAppointments,
-        };
-      }
-    } catch (error) {
-      return null;
-    }
-  }
-  return null;
 };
 
 describe("adjustAppointmentsToCurrentWeek", () => {

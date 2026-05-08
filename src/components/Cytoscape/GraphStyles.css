@@ -1,6 +1,210 @@
-.department-select {
-  margin-top: 16px;
-  width: 90%;
+/* Prerequisite graph view — toolbar + canvas (UF blue / orange node colors match Cytoscape styles in Graph.tsx) */
+
+.graph-view {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+  height: calc(100vh - 108px);
+  background: radial-gradient(
+    ellipse 120% 80% at 50% -20%,
+    rgba(0, 33, 165, 0.14),
+    transparent 55%
+  ),
+  #000;
+}
+
+.graph-toolbar {
+  flex-shrink: 0;
+  padding: 0.85rem 1rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(
+    180deg,
+    rgba(26, 26, 26, 0.95) 0%,
+    rgba(10, 10, 10, 0.4) 100%
+  );
+}
+
+.graph-toolbar-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  margin-bottom: 0.65rem;
+}
+
+.graph-toolbar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 10px;
+  background: linear-gradient(145deg, rgba(0, 33, 165, 0.35), rgba(0, 33, 165, 0.08));
+  border: 1px solid rgba(0, 33, 165, 0.35);
+  color: #93c5fd;
+  flex-shrink: 0;
+}
+
+.graph-toolbar-heading {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fafafa;
+  line-height: 1.25;
+}
+
+.graph-toolbar-sub {
+  margin: 0.35rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: #a8a8a8;
+  max-width: 52ch;
+}
+
+.graph-legend {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin: 0 0 0.75rem;
+  min-width: 0;
+  padding: 0.45rem 0.65rem;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Native <fieldset>: reset UA chrome; caption is visually hidden (name still exposed to AT). */
+.graph-legend-caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.graph-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: #d4d4d4;
+}
+
+.graph-swatch {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.graph-swatch--course {
+  background-color: #0021a5;
+}
+
+.graph-swatch--yours {
+  background-color: #fa4616;
+}
+
+.graph-legend-hint {
   margin-left: auto;
-  margin-right: auto;
+  font-size: 0.7rem;
+  color: #737373;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 600px) {
+  .graph-legend-hint {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+.graph-major-wrap {
+  padding-top: 0.15rem;
+}
+
+.graph-major-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #a3a3a3;
+  margin-bottom: 0.2rem;
+}
+
+.graph-major-hint {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: #737373;
+  max-width: 48ch;
+}
+
+.major-select-root .major-select__control {
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.graph-canvas-host {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  isolation: isolate;
+}
+
+/* Subtle grid + vignette behind the graph (canvas is transparent to the stacking context) */
+.graph-canvas-host::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: #030508;
+  background-image:
+    radial-gradient(
+      ellipse 90% 70% at 50% 20%,
+      rgba(0, 33, 165, 0.14),
+      transparent 55%
+    ),
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.06) 1px, transparent 0);
+  background-size: auto, 24px 24px;
+  box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.65);
+}
+
+.graph-canvas-host #cytoscape-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Let the graph fill the remaining column height (overrides global #cytoscape-container vh rules) */
+#display-write .graph-view #cytoscape-container {
+  width: 100%;
+  height: 100% !important;
+  min-height: 220px;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+@media (max-width: 1000px) {
+  .graph-view {
+    height: auto;
+    min-height: calc(80vh + 140px);
+  }
+
+  #display-write .graph-view .graph-canvas-host {
+    min-height: 65vh;
+  }
+
+  #display-write .graph-view #cytoscape-container {
+    min-height: 55vh;
+  }
 }

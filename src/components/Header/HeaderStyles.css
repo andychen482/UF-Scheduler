@@ -13,10 +13,9 @@
 }
 
 .header {
-  /* position: fixed;
-  top: 0;
-  left: 0; */
   width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
   background-color: rgb(0, 0, 0);
   color: white;
   height: 43px;
@@ -26,12 +25,18 @@
   border-bottom: 0.5px solid #a9a9a9;
   align-items: center;
   display: flex;
-  padding: 0 10px; /* Added padding */
+  padding: 0 8px;
   justify-content: space-between;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.header-nav-cluster {
+  min-width: 0;
+  overflow: hidden;
 }
 
 .credits-container {
-  /* margin-right: auto; */
   display: flex;
   align-items: center;
   white-space: nowrap;
@@ -42,27 +47,44 @@
     display: flex;
     white-space: nowrap;
     overflow: hidden;
-    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 100%;
     justify-content: center;
   }
   .Button {
     background-color: #292929;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    padding: 5px 10px;
-    min-width: 10vw;
+    padding: 5px 6px;
+    min-width: 0;
+    flex: 1 1 0;
     color: white;
-    font-size: 20px;
+    font-size: clamp(14px, 1.2vw, 18px);
     margin-top: 8px;
     cursor: pointer;
     transition: opacity 0.2s ease;
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: clip;
+    text-overflow: ellipsis;
   }
   .label {
-    margin-left: 8px;
+    margin-left: 6px;
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+
+  .button-content {
+    min-width: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+}
+
+.icon-text-container svg {
+  flex-shrink: 0;
 }
 
 @media (max-width: 1000px) {
@@ -95,8 +117,9 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-  flex-shrink: 0;
-  padding: 0 5px;
+  min-width: 0;
+  flex: 1 1 auto;
+  padding: 0 4px;
 }
 
 .Button:first-child {
@@ -131,6 +154,9 @@
 }
 
 .buyButton {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -143,20 +169,107 @@
   letter-spacing: 0.6px;
   box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5);
   font-family: cursive;
-  /* position: fixed;
-  bottom: 25px;
-  left: 0px;
-  z-index: 10001; */
-  /* margin-left: 30px; */
   margin-top: 0.25rem;
+  transition: box-shadow 0.28s ease, background-color 0.28s ease, opacity 0.28s ease;
 }
+
+/* Moving highlight across the fill (not the border) — periodic + hover */
+.buyButton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 5px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  /* Wide strip so background-position moves a visible band left → right */
+  background-image: linear-gradient(
+    100deg,
+    rgba(41, 41, 41, 0) 0%,
+    rgba(41, 41, 41, 0) 38%,
+    rgba(255, 255, 255, 0.14) 44%,
+    rgba(250, 95, 42, 0.55) 50%,
+    rgba(0, 75, 230, 0.42) 54%,
+    rgba(41, 41, 41, 0) 60%,
+    rgba(41, 41, 41, 0) 100%
+  );
+  background-size: 280% 100%;
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
+  mix-blend-mode: screen;
+  animation: donateBackgroundSweep 18s ease-in-out infinite;
+  transition: opacity 0.28s ease, background-position 0.35s ease;
+}
+
+.buyButton .coffeeButtonText {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes donateBackgroundSweep {
+  0%,
+  72% {
+    opacity: 0;
+    background-position: -40% 50%;
+  }
+  74% {
+    opacity: 0.95;
+    background-position: -25% 50%;
+  }
+  78% {
+    opacity: 1;
+    background-position: 35% 50%;
+  }
+  84% {
+    opacity: 1;
+    background-position: 95% 50%;
+  }
+  88% {
+    opacity: 0.45;
+    background-position: 115% 50%;
+  }
+  91%,
+  100% {
+    opacity: 0;
+    background-position: 130% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buyButton,
+  .buyButton::after {
+    animation: none !important;
+  }
+}
+
 .buyButton:hover,
 .buyButton:active,
 .buyButton:focus {
-  /* text-decoration: underline; */
-  box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5);
-  opacity: 0.85;
+  box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.55);
+  border-color: transparent;
+  background-color: #363636;
+  opacity: 1;
   color: #ffffff;
+}
+
+.buyButton:hover::after,
+.buyButton:active::after,
+.buyButton:focus::after {
+  animation-play-state: paused;
+  opacity: 1;
+  background-position: 48% 50%;
+  mix-blend-mode: screen;
+  background-image: linear-gradient(
+    100deg,
+    rgba(41, 41, 41, 0) 0%,
+    rgba(41, 41, 41, 0) 32%,
+    rgba(255, 255, 255, 0.18) 42%,
+    rgba(250, 88, 38, 0.62) 50%,
+    rgba(0, 80, 240, 0.48) 56%,
+    rgba(41, 41, 41, 0) 66%,
+    rgba(41, 41, 41, 0) 100%
+  );
+  background-size: 220% 100%;
 }
 
 .coffeeImage {
@@ -190,6 +303,7 @@
   gap: 8px;
   flex-shrink: 0;
   white-space: nowrap;
+  margin-left: 4px;
 }
 
 .auth-avatar {

@@ -7,6 +7,7 @@ import Fourohfour from './pages/404/404';
 import Privacy from './pages/Privacy Policy/PrivacyPolicy';
 import ReactGA from 'react-ga4';
 import { useAuth } from 'react-oidc-context';
+import { isAnalyticsEnabled } from './analytics';
 
 function CallbackPage() {
   const auth = useAuth();
@@ -20,6 +21,8 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
+    if (!isAnalyticsEnabled()) return;
+
     ReactGA.send({
       hitType: "pageview",
       page: location.pathname,

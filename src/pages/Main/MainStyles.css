@@ -332,8 +332,8 @@
 
 @media (min-width: 1001px) {
   .selected-courses {
-    max-width: 12%;
-    min-width: 12%;
+    max-width: 17%;
+    min-width: 17%;
     border-left: 0.5px solid #a9a9a9;
   }
 
@@ -648,8 +648,8 @@
 
 @media (min-width: 1001px) {
   .flex.flex-col.items-start.basis-full.p-0.dark\:bg-gray-800.transition-colors.duration-500 {
-    max-width: 36%;
-    min-width: 36%;
+    max-width: 31%;
+    min-width: 31%;
   }
 }
 
